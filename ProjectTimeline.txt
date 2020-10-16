@@ -5,6 +5,8 @@ Milestone 1 (Oct 23rd, 15%)
     A text-based playable version of the game (keyboard game)
         Commands:
             Print map state
+                who owns the country
+                # of troups
             attack (from-to)
             pass turn to next player
 
