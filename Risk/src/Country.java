@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Country {
-    ArrayList<Country> neighbor;
-    String name;
-    int troops;
+    private final ArrayList<Country> neighbor;
+    private final String name;
+    private int troops;
 
     public Country(String name) {
         this.name = name;
@@ -15,13 +15,15 @@ public class Country {
         this.neighbor.add(neighbor);
     }
 
+    public ArrayList<Country> getNeighbor() {
+        return neighbor;
+    }
+
     public void addTroop(int num){
         troops =  troops + num;
     }
 
-    public ArrayList<Country> getNeighbor() {
-        return neighbor;
-    }
+
 
     public int getTroops() {
         return troops;
