@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ *
+ * @version 17-10-2020
+ * @author Team Group
+ */
 public class Player {
     public final ArrayList<Country> countries;
     private final String name;

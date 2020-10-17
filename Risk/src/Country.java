@@ -1,9 +1,15 @@
 import java.util.ArrayList;
 
+/**
+ *
+ * @version 17-10-2020
+ * @author Team Group
+ */
 public class Country {
     private final ArrayList<Country> neighbor;
     private final String name;
     private int troops;
+
 
     public Country(String name) {
         this.name = name;
