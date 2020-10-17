@@ -23,8 +23,6 @@ public class Country {
         troops =  troops + num;
     }
 
-
-
     public int getTroops() {
         return troops;
     }

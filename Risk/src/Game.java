@@ -65,8 +65,6 @@ public class Game {
         printState();
     }
 
-
-
     public void addPlayer(Player player){
         players.add(player);
     }
@@ -102,7 +100,6 @@ public class Game {
         return map;
     }
 
-
     public static void  main(String[] args){
         Game test = new Game();
         test.addPlayer(new Player("Player1"));
@@ -110,6 +107,4 @@ public class Game {
         test.generateGame();
 
     }
-
-
 }

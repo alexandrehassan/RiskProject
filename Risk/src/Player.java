@@ -4,7 +4,6 @@ public class Player {
     public final ArrayList<Country> countries;
     private final String name;
 
-
     public Player(String name) {
         this.name = name;
         countries = new ArrayList<>();
