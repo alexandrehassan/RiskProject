@@ -5,11 +5,12 @@ Map creates a new map, and loads it with the countries and sets each country's n
 Baillie Noell
 Version 1: Oct 17 2020
  */
+
 import java.util.ArrayList;
 
 
 public class Map {
-    private ArrayList<Country> countries;
+    private final ArrayList<Country> countries;
 
     //North America
     private Country alaska;
@@ -190,6 +191,25 @@ public class Map {
         countries.add(newGuinea);
         countries.add(westernAustralia);
 
+    }
+
+    public void removeCountry(Country country) {
+        countries.remove(country);
+    }
+
+    public void printMap() {
+        for (Country c : countries) {
+            System.out.println(c.toString());
+        }
+    }
+
+    /**
+     * Test main to create and print map
+     * TODO: Add map and create print method in Game
+     */
+    public static void main(String[] args) {
+       Map map = new Map();
+       map.printMap();
     }
 
 }
