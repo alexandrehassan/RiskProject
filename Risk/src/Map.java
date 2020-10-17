@@ -6,11 +6,65 @@ Baillie Noell
 Version 1: Oct 17 2020
  */
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
-import java.util.zip.CheckedOutputStream;
+
 
 public class Map {
     private ArrayList<Country> countries;
+
+    //North America
+    private Country alaska;
+    private Country alberta;
+    private Country centralAmerica;
+    private Country easternUnitedStates;
+    private Country greenland;
+    private Country northwestTerritory;
+    private Country ontario;
+    private Country quebec;
+    private Country westernUnitedStates;
+
+    //South America
+    private Country argentina;
+    private Country brazil;
+    private Country peru;
+    private Country venezuela;
+
+    //Europe
+    private Country greatBritain;
+    private Country iceland;
+    private Country northernEurope;
+    private Country scandinavia;
+    private Country southernEurope;
+    private Country ukraine;
+    private Country westernEurope;
+
+    //Africa
+    private Country congo;
+    private Country eastAfrica;
+    private Country egypt;
+    private Country madagascar;
+    private Country northAfrica;
+    private Country southAfrica;
+
+    //Asia
+    private Country afghanistan;
+    private Country china;
+    private Country india;
+    private Country irkutsk;
+    private Country japan;
+    private Country kamchatka;
+    private Country middleEast;
+    private Country mongolia;
+    private Country siam;
+    private Country siberia;
+    private Country ural;
+    private Country yakutsk;
+
+    //Australia
+    private Country easternAustralia;
+    private Country indonesia;
+    private Country newGuinea;
+    private Country westernAustralia;
+
 
 
     public Map() {
@@ -22,58 +76,58 @@ public class Map {
 
     public void createCountries() {
         //North America
-        Country alaska = new Country("Alaska");
-        Country alberta = new Country("Alberta");
-        Country centralAmerica = new Country("Central America");
-        Country easternUnitedStates = new Country("Eastern United States");
-        Country greenland = new Country("Greenland");
-        Country northwestTerritory = new Country("Northwest Territory");
-        Country ontario = new Country("Ontario");
-        Country quebec = new Country("Quebec");
-        Country westernUnitedStates = new Country("Western United States");
+        alaska = new Country("Alaska");
+        alberta = new Country("Alberta");
+        centralAmerica = new Country("Central America");
+        easternUnitedStates = new Country("Eastern United States");
+        greenland = new Country("Greenland");
+        northwestTerritory = new Country("Northwest Territory");
+        ontario = new Country("Ontario");
+        quebec = new Country("Quebec");
+        westernUnitedStates = new Country("Western United States");
 
         //South America
-        Country argentina = new Country("Argentina");
-        Country brazil = new Country("Brazil");
-        Country peru = new Country("Peru");
-        Country venezuela = new Country("Venezuela");
+        argentina = new Country("Argentina");
+        brazil = new Country("Brazil");
+        peru = new Country("Peru");
+        venezuela = new Country("Venezuela");
 
         //Europe
-        Country greatBritain = new Country("Great Britain");
-        Country iceland = new Country("Iceland");
-        Country northernEurope = new Country("Northern Europe");
-        Country scandinavia = new Country("Scandinavia");
-        Country southernEurope = new Country("Southern Europe");
-        Country ukraine = new Country("Ukraine");
-        Country westernEurope = new Country("Western Europe");
+        greatBritain = new Country("Great Britain");
+        iceland = new Country("Iceland");
+        northernEurope = new Country("Northern Europe");
+        scandinavia = new Country("Scandinavia");
+        southernEurope = new Country("Southern Europe");
+        ukraine = new Country("Ukraine");
+        westernEurope = new Country("Western Europe");
 
         //Africa
-        Country congo = new Country("Congo");
-        Country eastAfrica = new Country("East Africa");
-        Country egypt = new Country("Egypt");
-        Country madagascar = new Country("Madagascar");
-        Country northAfrica = new Country("North Africa");
-        Country southAfrica = new Country("South Africa");
+        congo = new Country("Congo");
+        eastAfrica = new Country("East Africa");
+        egypt = new Country("Egypt");
+        madagascar = new Country("Madagascar");
+        northAfrica = new Country("North Africa");
+        southAfrica = new Country("South Africa");
 
         //Asia
-        Country afghanistan = new Country("Afghanistan");
-        Country china = new Country("China");
-        Country india = new Country("India");
-        Country irkutsk = new Country("Irkutsk");
-        Country japan = new Country("Japan");
-        Country kamchatka = new Country("Kamchatka");
-        Country middleEast = new Country("Middle East");
-        Country mongolia = new Country("Mongolia");
-        Country siam = new Country("Siam");
-        Country siberia = new Country("Siberia");
-        Country ural = new Country("Ural");
-        Country yakutsk = new Country("Yakutsk");
+        afghanistan = new Country("Afghanistan");
+        china = new Country("China");
+        india = new Country("India");
+        irkutsk = new Country("Irkutsk");
+        japan = new Country("Japan");
+        kamchatka = new Country("Kamchatka");
+        middleEast = new Country("Middle East");
+        mongolia = new Country("Mongolia");
+        siam = new Country("Siam");
+        siberia = new Country("Siberia");
+        ural = new Country("Ural");
+        yakutsk = new Country("Yakutsk");
 
         //Australia
-        Country easternAustralia = new Country("Eastern Australia");
-        Country indonesia = new Country("Indonesia");
-        Country newGuinea = new Country("New Guinea");
-        Country westernAustralia = new Country("Western Australia");
+        easternAustralia = new Country("Eastern Australia");
+        indonesia = new Country("Indonesia");
+        newGuinea = new Country("New Guinea");
+        westernAustralia = new Country("Western Australia");
 
 
     }
@@ -82,6 +136,7 @@ public class Map {
     }
 
     public void loadMap() {
+
 
     }
 
