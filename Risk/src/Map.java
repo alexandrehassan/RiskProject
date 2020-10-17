@@ -136,7 +136,59 @@ public class Map {
     }
 
     public void loadMap() {
+        //North America
+        countries.add(alaska);
+        countries.add(alberta);
+        countries.add(centralAmerica);
+        countries.add(easternUnitedStates);
+        countries.add(greenland);
+        countries.add(northwestTerritory);
+        countries.add(ontario);
+        countries.add(quebec);
+        countries.add(westernUnitedStates);
 
+        //South America
+        countries.add(argentina);
+        countries.add(brazil);
+        countries.add(peru);
+        countries.add(venezuela);
+
+        //Europe
+        countries.add(greatBritain);
+        countries.add(iceland);
+        countries.add(northernEurope);
+        countries.add(scandinavia);
+        countries.add(southernEurope);
+        countries.add(ukraine);
+        countries.add(westernEurope);
+
+        //Africa
+        countries.add(congo);
+        countries.add(eastAfrica);
+        countries.add(egypt);
+        countries.add(madagascar);
+        countries.add(northAfrica);
+        countries.add(southAfrica);
+
+        //Asia
+        countries.add(afghanistan);
+        countries.add(china);
+        countries.add(india);
+        countries.add(irkutsk);
+        countries.add(japan);
+        countries.add(kamchatka);
+        countries.add(middleEast);
+        countries.add(mongolia);
+        countries.add(siam);
+        countries.add(siberia);
+        countries.add(ural);
+        countries.add(yakutsk);
+
+        //Australia
+        countries.add(easternAustralia);
+        countries.add(indonesia);
+        countries.add(newGuinea);
+        countries.add(westernAustralia);
 
     }
 
