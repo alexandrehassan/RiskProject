@@ -75,7 +75,6 @@ public class Game {
         }else{
             currentPlayer = players.get(0);
         }
-
     }
 
 
