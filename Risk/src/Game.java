@@ -1,11 +1,18 @@
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Game {
-    final ArrayList<Player> players;
-    Player currentPlayer;
+/**
+ * Main class for the risk game. Made for the SYSC 3110 Project.
+ *
+ * @version 17-10-2020
+ * @author Team Group
+ */
 
-    private static final int BEGINNING_TROOPS = 20;
+public class Game {
+    private final ArrayList<Player> players;
+    private Player currentPlayer;
+
+    private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
 
     /**
      * Default constructor for game.
@@ -31,7 +38,7 @@ public class Game {
         }
         //Choose a random player to start the game
         currentPlayer = players.get(ThreadLocalRandom.current().nextInt(0, players.size()));
-        ArrayList<Country> map = generateMap();
+        ArrayList<Country> map = new Map().getCountries();
 
         //Randomly Assign countries
         Country randomCountry;
@@ -47,14 +54,13 @@ public class Game {
         }
 
         //Randomly Assign troops to countries
-
         for (Player player:players) {
             ArrayList<Country> countryArrayList= player.countries;
             //To stop to many troops from being assigned to a single country we set a max number of troops on one country
             //The maximum should be at least 4
-            int maxTroops = Math.max(BEGINNING_TROOPS/countryArrayList.size() + 2, 4);
+            int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/countryArrayList.size() + 2, 4);
             int random;
-            for(int assigned = countryArrayList.size(); assigned<BEGINNING_TROOPS; assigned++){
+            for(int assigned = countryArrayList.size(); assigned<BEGINNING_TROOPS[players.size()]; assigned++){
                 random = ThreadLocalRandom.current().nextInt(0,countryArrayList.size());
                 if(countryArrayList.get(random).getTroops()<maxTroops){
                     countryArrayList.get(random).addTroop(1);
@@ -65,8 +71,23 @@ public class Game {
         printState();
     }
 
+    /**
+     * Adds a player to the game, there can be maximum 6 players.
+     * 2 players are needed to start a game
+     *
+     * @param player the player to add to the game
+     * @throws IllegalArgumentException if player is null
+     */
     public void addPlayer(Player player){
-        players.add(player);
+        if(player ==null){
+            throw new IllegalArgumentException("Player can't be Null");
+        }
+        if(players.size()<6){
+            players.add(player);
+        }
+        else {
+            System.out.println("Maximum 6 players.");
+        }
     }
 
     public void nextPlayer(){
@@ -77,26 +98,12 @@ public class Game {
         }
     }
 
-
     public void printState(){
         for(Player player: players){
             player.print();
+            System.out.println();
+            System.out.println();
         }
-    }
-
-    /**
-     * TEST ONLY
-     * Temporary test function
-     * TODO: Replace this with the real map function
-     * @return a list of  countries used for testing ONLY.
-     */
-    private ArrayList<Country> generateMap(){
-        ArrayList<Country> map = new ArrayList<>();
-        map.add(new Country("HELLO"));
-        map.add(new Country("second"));
-        map.add(new Country("third"));
-
-        return map;
     }
 
     public static void  main(String[] args){
@@ -104,6 +111,5 @@ public class Game {
         test.addPlayer(new Player("Player1"));
         test.addPlayer(new Player("Player2"));
         test.generateGame();
-
     }
 }
