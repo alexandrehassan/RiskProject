@@ -1,1 +1,20 @@
-
+A Simplified version of RISK 
+-beginning with a random allocation of armies 
+-number of players range from 2 to 6
+- the corresponding initial number of armies is 50, 35, 30, 25, and 20 respectively, depending on the number of players
+Milestone 1: 
+1. Map which includes all the countries (similar to the Zuul design, we will need to keep track of the neighbouring countries of a country because a player can only
+attack adjacant countries). 
+2. The Game: where we generate a new game, load the map into the constructor, decide how many players, we create a list of players (player1, player2, etc.) we can do this using 
+a loop 
+We assign the players to countries (remember to remove country from the country list once it is assigne to a player). Then, each player will have a list of countries
+The troops are then assigned (maybe include a fail safe here to assure that the number of troops is realistic) 
+Each player has countries, and each country has troops
+For turns, 
+  either attack from current country -> to neighbouring country (check for neighbouring countries) (maybe also make sure you have anough troops from a country to attack (>1) 
+  or skip turn (move to next player in list of players)
+Roll Dice (random number generator) 
+  higher dice-roll wins 
+  If the attacker wins, they get the country, decide how many troops to move ( move # that they attacked with?) 
+  If attacker loses, the troops he attacked with are lost (NOT claimed by opponent)
+Check after every attack if a player has no countries, bc then they will be out. 
