@@ -203,6 +203,10 @@ public class Map {
         }
     }
 
+    public ArrayList<Country> getCountries() {
+        return countries;
+    }
+
     /**
      * Test main to create and print map
      * TODO: Add map and create print method in Game
