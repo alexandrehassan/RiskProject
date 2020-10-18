@@ -18,8 +18,8 @@ public class CommandWords {
 
     public boolean isCommandWord(String aString)
     {
-        for(int i = 0; i < validCommands.length; i++) {
-            if(validCommands[i].equals(aString.toLowerCase()))
+        for (String validCommand : validCommands) {
+            if (validCommand.equals(aString.toLowerCase()))
                 return true;
         }
         return false;
