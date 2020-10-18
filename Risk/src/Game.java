@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Game {
     private final ArrayList<Player> players;
     private Player currentPlayer;
+    private Parser parser;
 
     private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
 
@@ -20,11 +21,13 @@ public class Game {
     public Game() {
         currentPlayer = null;
         players = new ArrayList<>();
+        parser = new Parser ();
     }
 
     public Game(ArrayList<Player> players) {
         currentPlayer = null;
         this.players = players;
+        parser = new Parser ();
     }
 
     /**
@@ -71,6 +74,60 @@ public class Game {
         printState();
     }
 
+    public void playGame () {
+        System.out.println("Number of players: " + players.size());
+        boolean gameFinished = false;
+        while (!gameFinished) {
+            if (!currentPlayer.isEliminated())
+                gameFinished = playTurn();
+            currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % players.size());
+        }
+    }
+
+    private boolean playTurn () {
+        System.out.println(currentPlayer.getName() + "'s turn:");
+        boolean finished = false;
+
+        while (!finished) {
+            Command command = parser.getCommand();
+            finished = processCommand(command);
+        }
+
+        return false; //return (remainingPlayers == 1);
+    }
+
+    private boolean processCommand (Command command) {
+        if(!command.isUnknown()) {
+            System.out.println("I don't know what you mean...");
+            return false;
+        }
+        switch (command.getCommandWord().toLowerCase()) {
+            case "attack" -> playAttack();
+            case "move" -> playMove();
+            case "help" -> printHelp();
+            case "end" -> {
+                System.out.println("Ending turn...");
+                return true; // Turn finished
+            }
+            default -> System.out.println("Command not recognized...?");
+        }
+        return false; // Turn not finished
+    }
+
+    private void playAttack () {
+        System.out.println("Attacking XX with XX, XX, ...");
+        //Check if both players are eliminated after turn is over
+    }
+
+    private void playMove () {
+        System.out.println("Moving XX troops to XX...");
+    }
+
+    private void printHelp () {
+        System.out.println("Possible user commands: ");
+        parser.showCommands();
+    }
+
     /**
      * Adds a player to the game, there can be maximum 6 players.
      * 2 players are needed to start a game
@@ -110,6 +167,9 @@ public class Game {
         Game test = new Game();
         test.addPlayer(new Player("Player1"));
         test.addPlayer(new Player("Player2"));
+        test.addPlayer(new Player("Player3"));
+        test.addPlayer(new Player("Player4"));
         test.generateGame();
+        test.playGame();
     }
 }
