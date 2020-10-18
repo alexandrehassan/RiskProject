@@ -1,7 +1,7 @@
 Milestone 0
     Play Risk to get an idea of the rules.
 
-Milestone 1 (Oct 23rd, 15%)
+Milestone 1 (Oct 25th, 15%)
     A text-based playable version of the game (keyboard game)
         Commands:
             Print map state
