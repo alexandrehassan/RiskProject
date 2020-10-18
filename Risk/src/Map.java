@@ -1,9 +1,9 @@
-/*
+/**
 Map class
 Map creates a new map, and loads it with the countries and sets each country's neighbors
 
-Baillie Noell
-Version 1: Oct 17 2020
+@author Baillie Noell - Team Group
+@version 2: Oct 18 2020
  */
 
 import java.util.ArrayList;
@@ -133,7 +133,106 @@ public class Map {
 
     }
     public void setNeighbors() {
+        alaska.addNeighbor(alberta);
+        alaska.addNeighbor(northwestTerritory);
+        alaska.addNeighbor(kamchatka);
 
+        alberta.addNeighbor(westernUnitedStates);
+        alberta.addNeighbor(alaska);
+        alberta.addNeighbor(northwestTerritory);
+        alberta.addNeighbor(ontario);
+
+        centralAmerica.addNeighbor(westernUnitedStates);
+        centralAmerica.addNeighbor(easternUnitedStates);
+        centralAmerica.addNeighbor(venezuela);
+
+        easternUnitedStates.addNeighbor(ontario);
+        easternUnitedStates.addNeighbor(quebec);
+        easternUnitedStates.addNeighbor(centralAmerica);
+        easternUnitedStates.addNeighbor(westernUnitedStates);
+
+        greenland.addNeighbor(northwestTerritory);
+        greenland.addNeighbor(ontario);
+        greenland.addNeighbor(quebec);
+        greenland.addNeighbor(iceland);
+
+        northwestTerritory.addNeighbor(alaska);
+        northwestTerritory.addNeighbor(alberta);
+        northwestTerritory.addNeighbor(ontario);
+        northwestTerritory.addNeighbor(greatBritain);
+
+        ontario.addNeighbor(northwestTerritory);
+        ontario.addNeighbor(alberta);
+        ontario.addNeighbor(westernUnitedStates);
+        ontario.addNeighbor(easternUnitedStates);
+        ontario.addNeighbor(quebec);
+        ontario.addNeighbor(greenland);
+
+        quebec.addNeighbor(ontario);
+        quebec.addNeighbor(easternUnitedStates);
+        quebec.addNeighbor(greenland);
+
+        westernUnitedStates.addNeighbor(alberta);
+        westernUnitedStates.addNeighbor(ontario);
+        westernUnitedStates.addNeighbor(easternUnitedStates);
+        westernUnitedStates.addNeighbor(centralAmerica);
+
+
+        argentina.addNeighbor(brazil);
+        argentina.addNeighbor(peru);
+
+        brazil.addNeighbor(argentina);
+        brazil.addNeighbor(peru);
+        brazil.addNeighbor(venezuela);
+        brazil.addNeighbor(northAfrica);
+
+        peru.addNeighbor(argentina);
+        peru.addNeighbor(brazil);
+        peru.addNeighbor(venezuela);
+
+        venezuela.addNeighbor(brazil);
+        venezuela.addNeighbor(peru);
+        venezuela.addNeighbor(centralAmerica);
+
+
+        greatBritain.addNeighbor(iceland);
+        greatBritain.addNeighbor(northernEurope);
+        greatBritain.addNeighbor(scandinavia);
+        greatBritain.addNeighbor(westernEurope);
+
+        iceland.addNeighbor(greenland);
+        iceland.addNeighbor(greatBritain);
+        iceland.addNeighbor(scandinavia);
+
+        northernEurope.addNeighbor(greatBritain);
+        northernEurope.addNeighbor(scandinavia);
+        northernEurope.addNeighbor(ukraine);
+        northernEurope.addNeighbor(southernEurope);
+        northernEurope.addNeighbor(westernEurope);
+
+        scandinavia.addNeighbor(iceland);
+        scandinavia.addNeighbor(greatBritain);
+        scandinavia.addNeighbor(northernEurope);
+        scandinavia.addNeighbor(ukraine);
+
+        southernEurope.addNeighbor(westernEurope);
+        southernEurope.addNeighbor(northernEurope);
+        southernEurope.addNeighbor(ukraine);
+        southernEurope.addNeighbor(middleEast);
+        southernEurope.addNeighbor(egypt);
+        southernEurope.addNeighbor(northAfrica);
+
+        ukraine.addNeighbor(scandinavia);
+        ukraine.addNeighbor(northernEurope);
+        ukraine.addNeighbor(southernEurope);
+        ukraine.addNeighbor(afghanistan);
+        ukraine.addNeighbor(middleEast);
+        ukraine.addNeighbor(ural);
+
+        westernEurope.addNeighbor(greatBritain);
+        westernEurope.addNeighbor(northernEurope);
+        westernEurope.addNeighbor(southernEurope);
+        westernEurope.addNeighbor(northAfrica);
     }
 
     public void loadMap() {
@@ -207,14 +306,6 @@ public class Map {
         return countries;
     }
 
-    /**
-     * Test main to create and print map
-     * TODO: Add map and create print method in Game
-     */
-    public static void main(String[] args) {
-       Map map = new Map();
-       map.printMap();
-    }
 
 }
 
