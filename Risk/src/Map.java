@@ -1,14 +1,12 @@
-/**
-Map class
-Map creates a new map, and loads it with the countries and sets each country's neighbors
-
-@author Baillie Noell - Team Group
-@version 2: Oct 18 2020
- */
-
 import java.util.ArrayList;
 
-
+/**
+ * Map class
+ * Map creates a new map, and loads it with the countries and sets each country's neighbors
+ * @author Baillie Noell, Sarah Abdallah - Team Group
+ * @version 3: Oct 18 2020
+ *
+ */
 public class Map {
     private final ArrayList<Country> countries;
 
@@ -133,6 +131,7 @@ public class Map {
 
     }
     public void setNeighbors() {
+        //North America
         alaska.addNeighbor(alberta);
         alaska.addNeighbor(northwestTerritory);
         alaska.addNeighbor(kamchatka);
@@ -177,7 +176,7 @@ public class Map {
         westernUnitedStates.addNeighbor(easternUnitedStates);
         westernUnitedStates.addNeighbor(centralAmerica);
 
-
+        //South America
         argentina.addNeighbor(brazil);
         argentina.addNeighbor(peru);
 
@@ -194,7 +193,7 @@ public class Map {
         venezuela.addNeighbor(peru);
         venezuela.addNeighbor(centralAmerica);
 
-
+        //Europe
         greatBritain.addNeighbor(iceland);
         greatBritain.addNeighbor(northernEurope);
         greatBritain.addNeighbor(scandinavia);
@@ -233,6 +232,115 @@ public class Map {
         westernEurope.addNeighbor(northernEurope);
         westernEurope.addNeighbor(southernEurope);
         westernEurope.addNeighbor(northAfrica);
+
+        //Africa
+        congo.addNeighbor(eastAfrica);
+        congo.addNeighbor(northAfrica);
+        congo.addNeighbor(southAfrica);
+
+        eastAfrica.addNeighbor(congo);
+        eastAfrica.addNeighbor(egypt);
+        eastAfrica.addNeighbor(northAfrica);
+        eastAfrica.addNeighbor(southAfrica);
+        eastAfrica.addNeighbor(madagascar);
+
+        egypt.addNeighbor(eastAfrica);
+        egypt.addNeighbor(northAfrica);
+        egypt.addNeighbor(southernEurope);
+
+        madagascar.addNeighbor(eastAfrica);
+        madagascar.addNeighbor(southAfrica);
+
+        northAfrica.addNeighbor(congo);
+        northAfrica.addNeighbor(eastAfrica);
+        northAfrica.addNeighbor(egypt);
+        northAfrica.addNeighbor(brazil);
+        northAfrica.addNeighbor(southernEurope);
+        northAfrica.addNeighbor(westernEurope);
+
+        southAfrica.addNeighbor(congo);
+        southAfrica.addNeighbor(eastAfrica);
+        southAfrica.addNeighbor(madagascar);
+
+        //Asia
+        afghanistan.addNeighbor(middleEast);
+        afghanistan.addNeighbor(india);
+        afghanistan.addNeighbor(china);
+        afghanistan.addNeighbor(ural);
+        afghanistan.addNeighbor(ukraine);
+
+        china.addNeighbor(afghanistan);
+        china.addNeighbor(india);
+        china.addNeighbor(siam);
+        china.addNeighbor(mongolia);
+        china.addNeighbor(siberia);
+        china.addNeighbor(ural);
+
+        india.addNeighbor(afghanistan);
+        india.addNeighbor(china);
+        india.addNeighbor(middleEast);
+        india.addNeighbor(siam);
+
+        irkutsk.addNeighbor(kamchatka);
+        irkutsk.addNeighbor(mongolia);
+        irkutsk.addNeighbor(siberia);
+        irkutsk.addNeighbor(yakutsk);
+
+        japan.addNeighbor(kamchatka);
+        japan.addNeighbor(mongolia);
+
+        kamchatka.addNeighbor(irkutsk);
+        kamchatka.addNeighbor(japan);
+        kamchatka.addNeighbor(mongolia);
+        kamchatka.addNeighbor(yakutsk);
+
+        middleEast.addNeighbor(eastAfrica);
+        middleEast.addNeighbor(egypt);
+        middleEast.addNeighbor(afghanistan);
+        middleEast.addNeighbor(india);
+        middleEast.addNeighbor(ukraine);
+
+        mongolia.addNeighbor(china);
+        mongolia.addNeighbor(siberia);
+        mongolia.addNeighbor(irkutsk);
+        mongolia.addNeighbor(kamchatka);
+        mongolia.addNeighbor(japan);
+
+        siam.addNeighbor(china);
+        siam.addNeighbor(india);
+        siam.addNeighbor(indonesia);
+
+        siberia.addNeighbor(ural);
+        siberia.addNeighbor(china);
+        siberia.addNeighbor(mongolia);
+        siberia.addNeighbor(irkutsk);
+        siberia.addNeighbor(yakutsk);
+
+        ural.addNeighbor(afghanistan);
+        ural.addNeighbor(china);
+        ural.addNeighbor(siberia);
+        ural.addNeighbor(ukraine);
+
+        yakutsk.addNeighbor(irkutsk);
+        yakutsk.addNeighbor(kamchatka);
+        yakutsk.addNeighbor(siberia);
+
+        //Australia
+        easternAustralia.addNeighbor(newGuinea);
+        easternAustralia.addNeighbor(westernAustralia);
+
+        indonesia.addNeighbor(newGuinea);
+        indonesia.addNeighbor(westernAustralia);
+        indonesia.addNeighbor(siam);
+
+        newGuinea.addNeighbor(easternAustralia);
+        newGuinea.addNeighbor(westernAustralia);
+        newGuinea.addNeighbor(indonesia);
+
+        westernAustralia.addNeighbor(easternAustralia);
+        westernAustralia.addNeighbor(indonesia);
+        westernAustralia.addNeighbor(newGuinea);
+
     }
 
     public void loadMap() {
