@@ -3,6 +3,7 @@ import java.util.ArrayList;
 /**
  * Map class
  * Map creates a new map, and loads it with the countries and sets each country's neighbors
+ * Map creates continents
  * @author Baillie Noell, Sarah Abdallah - Team Group
  * @version 3: Oct 18 2020
  *
