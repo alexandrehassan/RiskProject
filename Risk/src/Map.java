@@ -139,6 +139,7 @@ public class Map {
 
 
     }
+
     public void setNeighbors() {
         //North America
         alaska.addNeighbor(alberta);
@@ -464,6 +465,16 @@ public class Map {
         return countries;
     }
 
+    public Country getCountry(String name){
+        for (Country country: countries) {
+            if(country.getName().equals(name)){
+                return country;
+            }
+        }
+        throw new IllegalArgumentException("This is not a valid country");
+    }
+
     public Continent getContinent(Continent continent) {
         return continent;
     }
+}

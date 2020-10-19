@@ -37,6 +37,10 @@ public class Country {
         troops -= num;
     }
 
+    public String getName(){
+        return name;
+    }
+
     @Override
     public String toString() {
         return name;
