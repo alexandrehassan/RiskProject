@@ -473,7 +473,7 @@ public class Map {
                 return country;
             }
         }
-        throw new IllegalArgumentException("This is not a valid country");
+        throw new IllegalArgumentException(name + " is not a valid country");
     }
 
     public Continent getContinent(Continent continent) {
