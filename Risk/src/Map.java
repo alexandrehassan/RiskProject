@@ -6,9 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * Map class
  * Map creates a new map, and loads it with the countries and sets each country's neighbors
  * @author Baillie Noell, Sarah Abdallah - Team Group
- * @version 3: Oct 18 2020
+ * @version 2: Oct 18 2020
  *
  */
+
 public class Map {
     private final ArrayList<Country> countries;
 
@@ -65,7 +66,6 @@ public class Map {
     private Country indonesia;
     private Country newGuinea;
     private Country westernAustralia;
-
 
 
     public Map() {
