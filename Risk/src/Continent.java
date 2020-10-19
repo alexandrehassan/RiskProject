@@ -3,7 +3,7 @@ import java.util.ArrayList;
  * Continents store a list of countries that they contain
  *
  * @author Baillie Noell - Team Group
- * @version 2: October 18 2020
+ * @version 3: October 18 2020
  */
 public class Continent {
     private String name;
