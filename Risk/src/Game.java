@@ -218,9 +218,12 @@ public class Game {
 
     private void ownerChange(Country defend, Country attack, int minimumMove) {
         for (Player p : players) {
-            p.countries.remove(defend);
+            if (p.countries.contains(defend)) {
+                p.countries.remove(defend);
+                p.checkEliminated();
+            }
         }
-        //int toAdd = -1;
+
         int toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
 
         defend.addTroop(toAdd);
@@ -234,6 +237,20 @@ public class Game {
         System.out.println("Moving ...");
         command.printCommand();
         System.out.println(command.getCommandDetails());
+    }
+
+    private boolean moveTroopsNoNumber(Country origin, Country destination) {
+        return moveTroops(origin, destination, troopSelect(1, origin.getTroops() - 1));
+    }
+
+    private boolean moveTroops(Country origin, Country destination, int toMove) {
+        if (!currentPlayer.pathExists(origin, destination)) {
+            System.out.println("Path does not exist between " + origin.toString() + " " + destination.toString());
+            return false;
+        }
+        origin.removeTroops(toMove);
+        destination.addTroop(toMove);
+        return true;
     }
 
     private void printHelp () {
@@ -293,6 +310,13 @@ public class Game {
         return toSelect;
     }
 
+//    public void testPathExists() {
+//        for (Player p : players) {
+//            System.out.println(p.getName());
+//            p.testPathExists();
+//        }
+//    }
+
     public static void  main(String[] args){
         Game test = new Game();
         test.addPlayer(new Player("Player1"));
@@ -300,6 +324,7 @@ public class Game {
         test.addPlayer(new Player("Player3"));
         test.addPlayer(new Player("Player4"));
         test.generateGame();
+        //test.testPathExists();
         test.playGame();
     }
 }

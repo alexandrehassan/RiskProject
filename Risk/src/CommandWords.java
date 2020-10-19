@@ -1,11 +1,15 @@
 public class CommandWords {
     private static final String[] validCommands = {
-            "attack", "move", "end", "help", "state"
+            "attack",
+            //"move",
+            "end",
+            "help",
+            "state"
     };
 
     private static final String[] commandMethod = {
             "Attack _____ with/from ____",
-            "Move __ troops from _____ to _____",
+            //"Move __ troops from _____ to _____",
             "End turn",
             "Help",
             "State",
