@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.zip.CheckedOutputStream;
 
 /**
  * Main class for the risk game. Made for the SYSC 3110 Project.
@@ -237,6 +238,20 @@ public class Game {
         System.out.println("Moving ...");
         command.printCommand();
         System.out.println(command.getCommandDetails());
+    }
+
+    private boolean moveTroopsNoNumber(Country origin, Country destination) {
+        return moveTroops(origin, destination, troopSelect(1, origin.getTroops() - 1));
+    }
+
+    private boolean moveTroops(Country origin, Country destination, int toMove) {
+        if (!currentPlayer.pathExists(origin, destination)) {
+            System.out.println("Path does not exist between " + origin.toString() + " " + destination.toString());
+            return false;
+        }
+        origin.removeTroops(toMove);
+        destination.addTroop(toMove);
+        return true;
     }
 
     private void printHelp () {
