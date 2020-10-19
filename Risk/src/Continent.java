@@ -1,17 +1,17 @@
+import java.util.ArrayList;
 /**
  * Continents store a list of countries that they contain
  *
  * @author Baillie Noell - Team Group
- * @version 1: October 18 2020
+ * @version 2: October 18 2020
  */
-
-import java.util.ArrayList;
-
 public class Continent {
+    private String name;
     private final ArrayList<Country> countries;
     private int reinforcements;
 
-    public Continent(int reinforcements) {
+    public Continent(String name, int reinforcements) {
+        this.name = name;
         this.reinforcements = reinforcements;
         countries = new ArrayList<>();
     }
@@ -26,6 +26,10 @@ public class Continent {
 
     public int getReinforcements() {
         return reinforcements;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
