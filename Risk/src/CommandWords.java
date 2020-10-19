@@ -1,6 +1,14 @@
 public class CommandWords {
     private static final String[] validCommands = {
-            "attack", "move", "end", "help"
+            "attack", "move", "end", "help", "state"
+    };
+
+    private static final String[] commandMethod = {
+            "Attack _____ with/from ____",
+            "Move __ troops from _____ to _____",
+            "End turn",
+            "Help",
+            "State",
     };
 
     public CommandWords()
@@ -10,10 +18,9 @@ public class CommandWords {
 
     public void showAllCommands()
     {
-        for(String command: validCommands) {
-            System.out.print(command + "  ");
+        for(int i = 0; i < validCommands.length; i++) {
+            System.out.println(validCommands[i] + ":  '" + commandMethod[i] + "'");
         }
-        System.out.println();
     }
 
     public boolean isCommandWord(String aString)

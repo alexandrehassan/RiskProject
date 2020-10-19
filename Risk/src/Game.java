@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -12,6 +13,7 @@ public class Game {
     private final ArrayList<Player> players;
     private Player currentPlayer;
     private Parser parser;
+    private Map map;
 
     private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
 
@@ -22,12 +24,14 @@ public class Game {
         currentPlayer = null;
         players = new ArrayList<>();
         parser = new Parser ();
+        map = null;
     }
 
     public Game(ArrayList<Player> players) {
         currentPlayer = null;
         this.players = players;
         parser = new Parser ();
+        map = null;
     }
 
     /**
@@ -41,33 +45,28 @@ public class Game {
         }
         //Choose a random player to start the game
         currentPlayer = players.get(ThreadLocalRandom.current().nextInt(0, players.size()));
-        ArrayList<Country> map = new Map().getCountries();
 
-        //Randomly Assign countries
-        Country randomCountry;
-        while(map.size()>0){
-            //Find a random Country
-            randomCountry = map.get(ThreadLocalRandom.current().nextInt(0,map.size()));
-            //Give it to a player
-            currentPlayer.addCountry(randomCountry);
-            //Remove it from the available countries
-            map.remove(randomCountry);
-            //Go to the next player
+        //Assign countries to players (shuffle order)
+        this.map = new Map();
+        map.shuffleCountries();
+        for (Country c : map.getCountries()) {
+            currentPlayer.addCountry(c);
             nextPlayer();
+        }
+        for (Player p : players) {
+            p.sortCountries();
         }
 
         //Randomly Assign troops to countries
         for (Player player:players) {
-            ArrayList<Country> countryArrayList= player.countries;
-            //To stop to many troops from being assigned to a single country we set a max number of troops on one country
+            //To stop to0 many troops from being assigned to a single country we set a max number of troops on one country
             //The maximum should be at least 4
-            int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/countryArrayList.size() + 2, 4);
+            int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/player.countries.size() + 2, 4);
             int random;
-            for(int assigned = countryArrayList.size(); assigned<BEGINNING_TROOPS[players.size()]; assigned++){
-                random = ThreadLocalRandom.current().nextInt(0,countryArrayList.size());
-                if(countryArrayList.get(random).getTroops()<maxTroops){
-                    countryArrayList.get(random).addTroop(1);
-                    assigned++;
+            for(int assigned = player.countries.size(); assigned<BEGINNING_TROOPS[players.size()]; assigned++){
+                random = ThreadLocalRandom.current().nextInt(0,player.countries.size());
+                if(player.countries.get(random).getTroops()<maxTroops){
+                    player.countries.get(random).addTroop(1);
                 }
             }
         }
@@ -99,12 +98,15 @@ public class Game {
     private boolean processCommand (Command command) {
         if(!command.isUnknown()) {
             System.out.println("I don't know what you mean...");
-            return false;
+            return false; //Turn not finished
         }
+        System.out.println(command.getCommandWord().toLowerCase());
+
         switch (command.getCommandWord().toLowerCase()) {
-            case "attack" -> playAttack();
-            case "move" -> playMove();
+            case "attack" -> playAttack(command);
+            case "move" -> playMove(command);
             case "help" -> printHelp();
+            case "state" -> printState();
             case "end" -> {
                 System.out.println("Ending turn...");
                 return true; // Turn finished
@@ -114,13 +116,124 @@ public class Game {
         return false; // Turn not finished
     }
 
-    private void playAttack () {
-        System.out.println("Attacking XX with XX, XX, ...");
-        //Check if both players are eliminated after turn is over
+    private void playAttack (Command command) {
+        if (command.getCommandDetails() == null) {
+            System.out.println("Input syntax incorrect");
+            return;
+        }
+
+        System.out.println("Attacking ...");
+        String defendingCountry = "", attackingCountry = "";
+        boolean reachedFrom = false;
+        String[] commandDetails = command.getCommandDetails().split(" ");
+
+        for (String s : commandDetails) {
+            if (s.equals("from") || s.equals("with")) {
+                reachedFrom = true;
+                continue;
+            }
+            if (!reachedFrom)
+                defendingCountry += s + " ";
+            else
+                attackingCountry += s + " ";
+        }
+
+        if (attackingCountry.equals("") || defendingCountry.equals("")) {
+            System.out.println("Input syntax incorrect");
+            return;
+        }
+
+        defendingCountry = defendingCountry.substring(0, defendingCountry.length() - 1);
+        attackingCountry = attackingCountry.substring(0, attackingCountry.length() - 1);
+
+        if (!attackInputValid(attackingCountry, defendingCountry))
+            return;
+
+        performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
     }
 
-    private void playMove () {
-        System.out.println("Moving XX troops to XX...");
+    private boolean attackInputValid (String attacking, String defending) {
+        if (attacking == null || defending == null) {
+            System.out.println("Input syntax incorrect");
+            return false;
+        }
+        if (!map.countryExists(defending)) {
+            System.out.println(defending + " does not exist");
+            return false;
+        }
+        if (!map.countryExists(attacking)) {
+            System.out.println(attacking + " does not exist");
+            return false;
+        }
+        if (!currentPlayer.hasCountry(attacking)) {
+            System.out.println("Current player does not control " + attacking);
+            return false;
+        }
+        if (currentPlayer.hasCountry(defending)) {
+            System.out.println("Current player already controls " + defending);
+            return false;
+        }
+        return true;
+    }
+
+    private void performAttack(Country attack, Country defend) {
+        if (!attack.getNeighbors().contains(defend)) {
+            System.out.println(defend.toString() + " does not border " + attack.toString());
+            return;
+        }
+
+        if (attack.getTroops() <= 1) {
+            System.out.println(attack.toString() + " does not have enough troops to attack (needs more than 1)");
+            return;
+        }
+
+        int attackWith = troopSelect(1, Math.min(3, attack.getTroops()-1));
+
+        ArrayList<Integer> attackerDice = new ArrayList<>();
+        ArrayList<Integer> defenderDice = new ArrayList<>();
+        for (int i = 0; i < attackWith; i++)
+            attackerDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
+        for (int i = 0; i < Math.min(2, defend.getTroops()); i++)
+            defenderDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
+
+        attackerDice.sort(Collections.reverseOrder());
+        defenderDice.sort(Collections.reverseOrder());
+        int lostDefenders = 0, lostAttackers = 0;
+        for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()) ; i++) {
+            if (attackerDice.get(i) > defenderDice.get(i))
+                lostDefenders += 1;
+            else
+                lostAttackers += 1;
+            System.out.println(attackerDice.get(i) + " " + defenderDice.get(i));
+        }
+
+        attack.removeTroops(lostAttackers);
+        defend.removeTroops(lostDefenders);
+        System.out.println(attack.toString() + " lost " + lostAttackers + " troop(s)");
+        System.out.println(defend.toString() + " lost " + lostDefenders + " troop(s)");
+
+        if (defend.getTroops() == 0)
+            ownerChange(defend, attack, attackerDice.size() - lostAttackers);
+    }
+
+    private void ownerChange(Country defend, Country attack, int minimumMove) {
+        for (Player p : players) {
+            p.countries.remove(defend);
+        }
+        //int toAdd = -1;
+        int toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
+
+        defend.addTroop(toAdd);
+        attack.removeTroops(toAdd);
+        System.out.println(currentPlayer.getName() + " took " + defend.toString() + " with " + toAdd + " troops.");
+        currentPlayer.addCountry(defend);
+        currentPlayer.sortCountries();
+    }
+
+    private void playMove (Command command) {
+        System.out.println("Moving ...");
+        command.printCommand();
+        System.out.println(command.getCommandDetails());
     }
 
     private void printHelp () {
@@ -138,6 +251,9 @@ public class Game {
     public void addPlayer(Player player){
         if(player ==null){
             throw new IllegalArgumentException("Player can't be Null");
+        }
+        if (players.size() == 0) {
+            currentPlayer = player;
         }
         if(players.size()<6){
             players.add(player);
@@ -161,6 +277,20 @@ public class Game {
             System.out.println();
             System.out.println();
         }
+        if (currentPlayer != null)
+            System.out.println("Current player is " + currentPlayer.getName());
+    }
+
+    private int troopSelect (int minimum, int maximum) {
+        if (minimum == maximum)
+            return minimum;
+
+        int toSelect = -1;
+        while (toSelect < minimum || toSelect > maximum) {
+            System.out.println("Number of troops to move (between " + minimum + " and " + maximum + ")");
+            toSelect = parser.getNumber();
+        }
+        return toSelect;
     }
 
     public static void  main(String[] args){
