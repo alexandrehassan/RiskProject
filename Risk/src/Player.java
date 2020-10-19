@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -44,6 +45,26 @@ public class Player {
         return false;
     }
 
+    /**
+     * gets the number of reinforcements the player should be able to place at the beginning of the turn
+     *
+     * TODO: Add continent reinforcements.
+     * @return The number of reinforcement allowed.
+     */
+    public int getReinforcements(){
+        return Math.max(3, countries.size()/3) + checkContinents();
+    }
+
+    /**
+     * This will be used to check ownership of the different continents when the continents are added.
+     * TODO: do this method
+     * @return the number of bonus troops earned from the continents
+     */
+    private int checkContinents(){
+        return 0;
+    }
+
+
     public Country getCountry (String name) {
         for (Country c : countries)
             if (c.toString().equals(name))
@@ -59,9 +80,7 @@ public class Player {
     }
 
     public void sortCountries () {
-        Collections.sort(countries, (s1, s2) -> {
-            return (s1.toString().compareTo(s2.toString()));
-        });
+        Collections.sort(countries, Comparator.comparing(Country::toString));
     }
 
 //    public void testPathExists () {

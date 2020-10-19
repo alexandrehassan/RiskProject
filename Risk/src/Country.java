@@ -26,6 +26,11 @@ public class Country {
     }
 
     public void addTroop(int num){
+        if (num == 1) {
+            System.out.println(num + " Troop added to " + name);
+        } else {
+            System.out.println(num + " Troops added to " + name);
+        }
         troops =  troops + num;
     }
 

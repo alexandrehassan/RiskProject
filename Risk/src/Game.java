@@ -59,7 +59,7 @@ public class Game {
 
         //Randomly Assign troops to countries
         for (Player player:players) {
-            //To stop to0 many troops from being assigned to a single country we set a max number of troops on one country
+            //To stop to many troops from being assigned to a single country we set a max number of troops on one country
             //The maximum should be at least 4
             int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/player.countries.size() + 2, 4);
             int random;
@@ -87,6 +87,9 @@ public class Game {
         System.out.println(currentPlayer.getName() + "'s turn:");
         boolean finished = false;
 
+        //TODO: Remove this and make the player set his countries
+        putReinforcements();
+
         while (!finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
@@ -95,6 +98,30 @@ public class Game {
         return false; //return (remainingPlayers == 1);
     }
 
+
+    /**
+     * This is a method that randomly assigns reinforcement troops.
+     * It is used to test the reinforcement turn methods
+     * A version of this will be used for the AI players
+     *
+     * TODO: Add logic so the troops are put on outside countries (countries not in the middle of a players territory)
+     */
+    private void putReinforcements(){
+        System.out.println(currentPlayer.getName() + " has " + currentPlayer.countries.size() + " Countries");
+        System.out.println(currentPlayer.getReinforcements() + " reinforcements to set.");
+        for(int assigned = 0; assigned < currentPlayer.getReinforcements(); assigned++){
+            currentPlayer.countries.get(ThreadLocalRandom.current().nextInt(
+                    0,currentPlayer.countries.size())).addTroop(1);
+        }
+    }
+
+    /**
+     * Method Responsible for reacting to user input and signalling that a turn is finished.
+     *
+     * TODO: Add Phases in (Reinforcement, Attack, Movement)
+     * @param command The command to be executed
+     * @return whether or not the turn is finished.
+     */
     private boolean processCommand (Command command) {
         if(!command.isUnknown()) {
             System.out.println("I don't know what you mean...");
