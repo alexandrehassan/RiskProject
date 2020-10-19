@@ -78,6 +78,10 @@ public class Player {
 //    }
 
     public boolean pathExists (Country start, Country finish) {
+        if (!countries.contains(start) || !countries.contains(finish)) {
+            System.out.println("Player does not own both countries");
+            return false;
+        }
         ArrayList<Country> accessibleCountries = new ArrayList<>();
         accessibleCountries.add(start);
         getAccessibleCountries(start, finish, accessibleCountries);
