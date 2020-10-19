@@ -21,7 +21,7 @@ public class Country {
         this.neighbor.add(neighbor);
     }
 
-    public ArrayList<Country> getNeighbor() {
+    public ArrayList<Country> getNeighbors() {
         return neighbor;
     }
 
@@ -31,6 +31,10 @@ public class Country {
 
     public int getTroops() {
         return troops;
+    }
+
+    public void removeTroops(int num) {
+        troops -= num;
     }
 
     @Override

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -27,10 +28,31 @@ public class Player {
     public boolean isEliminated () {
         return eliminated;
     }
+
+    public boolean hasCountry (String name) {
+        for (Country c : countries)
+            if (c.toString().equals(name))
+                return true;
+        return false;
+    }
+
+    public Country getCountry (String name) {
+        for (Country c : countries)
+            if (c.toString().equals(name))
+                return c;
+        return null;
+    }
+
     public void print(){
         System.out.println("[" + name + "]");
         for (Country country: countries) {
             System.out.println(country.toString() + "  Troops: " + country.getTroops());
         }
+    }
+
+    public void sortCountries () {
+        Collections.sort(countries, (s1, s2) -> {
+            return (s1.toString().compareTo(s2.toString()));
+        });
     }
 }

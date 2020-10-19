@@ -1,17 +1,17 @@
 public class Command {
     String commandWord;
-    String secondWord;
+    String commandDetails;
 
     public Command(String firstWord)
     {
         commandWord = firstWord;
-        secondWord = null;
+        commandDetails = null;
     }
 
-    public Command(String firstWord, String secondWord)
+    public Command(String firstWord, String commandDetails)
     {
         commandWord = firstWord;
-        this.secondWord = secondWord;
+        this.commandDetails = commandDetails;
     }
 
     public boolean isUnknown()
@@ -21,20 +21,20 @@ public class Command {
 
     public boolean hasSecondWord()
     {
-        return (secondWord != null);
+        return (commandDetails != null);
     }
 
     public String getCommandWord () {
         return commandWord;
     }
 
-    public String getSecondWord () {
-        return secondWord;
+    public String getCommandDetails () {
+        return commandDetails;
     }
 
     public void printCommand () {
         if (hasSecondWord()) {
-            System.out.println(commandWord + " " + secondWord);
+            System.out.println(commandWord + " " + commandDetails);
             return;
         }
         System.out.println(commandWord);

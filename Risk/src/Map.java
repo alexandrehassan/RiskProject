@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Map class
@@ -400,9 +402,40 @@ public class Map {
 
     }
 
+    public void shuffleCountries () {
+        for (int i = 0; i < 1000; i++) {
+            Collections.swap(countries, ThreadLocalRandom.current().nextInt(0, countries.size()), ThreadLocalRandom.current().nextInt(0, countries.size()));
+        }
+    }
+
+    public void removeCountry(Country country) {
+        countries.remove(country);
+    }
+
+    public void printMap() {
+        for (Country c : countries) {
+            System.out.println(c.toString());
+        }
+    }
+
     public ArrayList<Country> getCountries() {
         return countries;
     }
 
+    public boolean countryExists (String countryName) {
+        for (Country c : countries) {
+            if (c.toString().equals(countryName))
+                return true;
+        }
+        return false;
+    }
+
+    public Country getCountry (String countryName) {
+        for (Country c : countries) {
+            if (c.toString().equals(countryName))
+                return c;
+        }
+        return null;
+    }
 }
 
