@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * Map class
  * Map creates a new map, and loads it with the countries and sets each country's neighbors
  * @author Baillie Noell, Sarah Abdallah - Team Group
- * @version 3: Oct 18 2020
+ * @version 2: Oct 18 2020
  *
  */
 
@@ -65,20 +65,12 @@ public class Map {
     private Country newGuinea;
     private Country westernAustralia;
 
-    private Continent northAmerica;
-    private Continent southAmerica;
-    private Continent europe;
-    private Continent asia;
-    private Continent africa;
-    private Continent australia;
 
     public Map() {
         countries = new ArrayList<>();
         this.createCountries();
         this.setNeighbors();
         this.loadMap();
-        this.createContinents();
-        this.loadContinents();
     }
 
     public void createCountries() {
@@ -408,63 +400,8 @@ public class Map {
 
     }
 
-    public void createContinents() {
-        northAmerica = new Continent("North America", 5);
-        southAmerica = new Continent("South America", 2);
-        europe = new Continent("Europe", 5);
-        africa = new Continent("Africa", 3);
-        asia = new Continent("Asia", 7);
-        australia = new Continent("Australia", 2);
-    }
-
-    public void loadContinents() {
-        //North America
-        for (int i = 0; i < 9; i++) {
-            northAmerica.addCountry(countries.get(i));
-        }
-
-        //South America
-        for (int i = 9; i < 13; i++) {
-            southAmerica.addCountry(countries.get(i));
-        }
-
-        //Europe
-        for (int i = 13; i < 20; i++) {
-            europe.addCountry(countries.get(i));
-        }
-
-        //Africa
-        for (int i = 20; i < 26; i++) {
-            africa.addCountry(countries.get(i));
-        }
-
-        //Asia
-        for (int i = 26; i < 38; i++) {
-            asia.addCountry(countries.get(i));
-        }
-
-        //Australia
-        for (int i = 38; i < 42; i++) {
-            australia.addCountry(countries.get(i));
-        }
-    }
-
-    public void removeCountry(Country country) {
-        countries.remove(country);
-    }
-
-    public void printMap() {
-        for (Country c : countries) {
-            System.out.println(c.toString());
-        }
-    }
-
     public ArrayList<Country> getCountries() {
         return countries;
-    }
-
-    public Continent getContinent(Continent continent) {
-        return continent;
     }
 
 }
