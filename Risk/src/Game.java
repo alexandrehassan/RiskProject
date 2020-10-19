@@ -88,8 +88,13 @@ public class Game {
         boolean finished = false;
 
         while (!finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
+            try {
+                Command command = parser.getCommand();
+                finished = processCommand(command);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         return false; //return (remainingPlayers == 1);
@@ -100,7 +105,6 @@ public class Game {
             System.out.println("I don't know what you mean...");
             return false; //Turn not finished
         }
-        System.out.println(command.getCommandWord().toLowerCase());
 
         switch (command.getCommandWord().toLowerCase()) {
             case "attack" -> playAttack(command);
@@ -133,61 +137,56 @@ public class Game {
                 continue;
             }
             if (!reachedFrom)
-                defendingCountry += s + " ";
+                defendingCountry = addToString(defendingCountry, s);
             else
-                attackingCountry += s + " ";
+                attackingCountry = addToString(attackingCountry, s);
         }
 
-        if (attackingCountry.equals("") || defendingCountry.equals("")) {
-            System.out.println("Input syntax incorrect");
-            return;
+        try {
+            checkAttackInputValid(attackingCountry, defendingCountry);
+            performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
         }
-
-        defendingCountry = defendingCountry.substring(0, defendingCountry.length() - 1);
-        attackingCountry = attackingCountry.substring(0, attackingCountry.length() - 1);
-
-        if (!attackInputValid(attackingCountry, defendingCountry))
-            return;
-
-        performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    private boolean attackInputValid (String attacking, String defending) {
+    private String addToString (String original, String toAdd) {
+        if (original.equals("") || original == null)
+            return toAdd;
+        return original + " " + toAdd;
+    }
+
+    private void checkAttackInputValid (String attacking, String defending) {
         if (attacking == null || defending == null) {
-            System.out.println("Input syntax incorrect");
-            return false;
+            throw new IllegalArgumentException("Input syntax not read correctly");
         }
-        if (!map.countryExists(defending)) {
-            System.out.println(defending + " does not exist");
-            return false;
+        if (attacking.equals("") || defending.equals("")) {
+            throw new IllegalArgumentException("Input syntax not read correctly");
         }
-        if (!map.countryExists(attacking)) {
-            System.out.println(attacking + " does not exist");
-            return false;
+        map.getCountry(defending);
+        map.getCountry(attacking);
+    }
+
+    private void checkAttackValid (Country attacking, Country defending) {
+        if (!currentPlayer.countries.contains(attacking)) {
+            throw new IllegalArgumentException("Current player does not control " + attacking);
         }
-        if (!currentPlayer.hasCountry(attacking)) {
-            System.out.println("Current player does not control " + attacking);
-            return false;
+        if (currentPlayer.countries.contains(defending)) {
+            throw new IllegalArgumentException("Current player already controls " + defending);
         }
-        if (currentPlayer.hasCountry(defending)) {
-            System.out.println("Current player already controls " + defending);
-            return false;
+        if (!attacking.getNeighbors().contains(defending)) {
+            throw new IllegalArgumentException(defending + " does not border " + attacking);
         }
-        return true;
+        if (attacking.getTroops() <= 1) {
+            throw new IllegalArgumentException(attacking + " does not have enough troops to attack (needs more than 1)");
+        }
     }
 
     private void performAttack(Country attack, Country defend) {
-        if (!attack.getNeighbors().contains(defend)) {
-            System.out.println(defend.toString() + " does not border " + attack.toString());
-            return;
-        }
+        checkAttackValid(attack, defend);
 
-        if (attack.getTroops() <= 1) {
-            System.out.println(attack.toString() + " does not have enough troops to attack (needs more than 1)");
-            return;
-        }
-
-        int attackWith = troopSelect(1, Math.min(3, attack.getTroops()-1));
+        int attackWith = troopSelect(1, Math.min(3, attack.getTroops() - 1));
 
         ArrayList<Integer> attackerDice = new ArrayList<>();
         ArrayList<Integer> defenderDice = new ArrayList<>();
@@ -199,7 +198,7 @@ public class Game {
         attackerDice.sort(Collections.reverseOrder());
         defenderDice.sort(Collections.reverseOrder());
         int lostDefenders = 0, lostAttackers = 0;
-        for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()) ; i++) {
+        for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()); i++) {
             if (attackerDice.get(i) > defenderDice.get(i))
                 lostDefenders += 1;
             else
@@ -212,8 +211,10 @@ public class Game {
         System.out.println(attack.toString() + " lost " + lostAttackers + " troop(s)");
         System.out.println(defend.toString() + " lost " + lostDefenders + " troop(s)");
 
-        if (defend.getTroops() == 0)
+        if (defend.getTroops() == 0) {
+            System.out.println(currentPlayer.getName() + " took " + defend.toString());
             ownerChange(defend, attack, attackerDice.size() - lostAttackers);
+        }
     }
 
     private void ownerChange(Country defend, Country attack, int minimumMove) {
@@ -226,10 +227,9 @@ public class Game {
 
         int toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
 
-        defend.addTroop(toAdd);
-        attack.removeTroops(toAdd);
-        System.out.println(currentPlayer.getName() + " took " + defend.toString() + " with " + toAdd + " troops.");
         currentPlayer.addCountry(defend);
+        moveTroops(attack, defend, toAdd);
+        System.out.println(currentPlayer.getName() + " took " + defend.toString() + " with " + toAdd + " troops.");
         currentPlayer.sortCountries();
     }
 

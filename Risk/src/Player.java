@@ -48,7 +48,7 @@ public class Player {
         for (Country c : countries)
             if (c.toString().equals(name))
                 return c;
-        return null;
+        throw new IllegalArgumentException(name + " is not a valid country");
     }
 
     public void print(){
