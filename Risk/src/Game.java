@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.zip.CheckedOutputStream;
 
 /**
  * Main class for the risk game. Made for the SYSC 3110 Project.
