@@ -293,6 +293,13 @@ public class Game {
         return toSelect;
     }
 
+//    public void testPathExists() {
+//        for (Player p : players) {
+//            System.out.println(p.getName());
+//            p.testPathExists();
+//        }
+//    }
+
     public static void  main(String[] args){
         Game test = new Game();
         test.addPlayer(new Player("Player1"));
@@ -300,6 +307,7 @@ public class Game {
         test.addPlayer(new Player("Player3"));
         test.addPlayer(new Player("Player4"));
         test.generateGame();
+        //test.testPathExists();
         test.playGame();
     }
 }

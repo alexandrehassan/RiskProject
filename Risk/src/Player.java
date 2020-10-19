@@ -55,4 +55,39 @@ public class Player {
             return (s1.toString().compareTo(s2.toString()));
         });
     }
+
+//    public void testPathExists () {
+//        for (Country c : countries)
+//            System.out.println(c.toString());
+//
+//        for (Country c : countries) {
+//            System.out.print("Path between " + countries.get(0) + " and " + c.toString());
+//            if (pathExists(countries.get(0), c))
+//                System.out.println(" exists");
+//            else
+//                System.out.println(" does not exist");
+//        }
+//    }
+
+    public boolean pathExists (Country start, Country finish) {
+        ArrayList<Country> accessibleCountries = new ArrayList<Country> ();
+        accessibleCountries.add(start);
+        getAccessibleCountries(start, finish, accessibleCountries);
+        return accessibleCountries.contains(finish);
+    }
+
+    private void getAccessibleCountries (Country country, Country finish, ArrayList<Country> accessibleCountries) {
+        for (Country n : country.getNeighbors()) {
+            if (!countries.contains(n))
+                continue;
+            if (n.equals(finish)) {
+                accessibleCountries.add(n);
+                return;
+            }
+            if (!accessibleCountries.contains(n)) {
+                accessibleCountries.add(n);
+                getAccessibleCountries(n, finish, accessibleCountries);
+            }
+        }
+    }
 }
