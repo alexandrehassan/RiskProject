@@ -29,6 +29,14 @@ public class Player {
         return eliminated;
     }
 
+    public void checkEliminated () {
+        setEliminated(!(countries.size() > 0));
+    }
+
+    private void setEliminated (boolean isEliminated) {
+        this.eliminated = isEliminated;
+    }
+
     public boolean hasCountry (String name) {
         for (Country c : countries)
             if (c.toString().equals(name))
@@ -70,7 +78,7 @@ public class Player {
 //    }
 
     public boolean pathExists (Country start, Country finish) {
-        ArrayList<Country> accessibleCountries = new ArrayList<Country> ();
+        ArrayList<Country> accessibleCountries = new ArrayList<>();
         accessibleCountries.add(start);
         getAccessibleCountries(start, finish, accessibleCountries);
         return accessibleCountries.contains(finish);

@@ -218,9 +218,12 @@ public class Game {
 
     private void ownerChange(Country defend, Country attack, int minimumMove) {
         for (Player p : players) {
-            p.countries.remove(defend);
+            if (p.countries.contains(defend)) {
+                p.countries.remove(defend);
+                p.checkEliminated();
+            }
         }
-        //int toAdd = -1;
+
         int toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
 
         defend.addTroop(toAdd);
