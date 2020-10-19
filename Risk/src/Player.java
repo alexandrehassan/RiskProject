@@ -48,7 +48,7 @@ public class Player {
     /**
      * gets the number of reinforcements the player should be able to place at the beginning of the turn
      *
-     * TODO: Add continent reinforcements.
+     *
      * @return The number of reinforcement allowed.
      */
     public int getReinforcements(){
@@ -57,11 +57,20 @@ public class Player {
 
     /**
      * This will be used to check ownership of the different continents when the continents are added.
-     * TODO: do this method
+     *
      * @return the number of bonus troops earned from the continents
      */
     private int checkContinents(){
         return 0;
+
+        //TODO: Discuss implementation of this. (how to grab all continents)
+//        int extraTroops = 0;
+//        for(Continent continent: map.continents){
+//            if(countries.containsAll(continent)){
+//                extraTroops += continent.getReinforcements();
+//            }
+//        }
+//        return extraTroops;
     }
 
 
