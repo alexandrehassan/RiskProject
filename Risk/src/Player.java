@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 /**
@@ -48,7 +47,6 @@ public class Player {
     /**
      * gets the number of reinforcements the player should be able to place at the beginning of the turn
      *
-     *
      * @return The number of reinforcement allowed.
      */
     public int getReinforcements(){
@@ -89,7 +87,7 @@ public class Player {
     }
 
     public void sortCountries () {
-        Collections.sort(countries, Comparator.comparing(Country::toString));
+        countries.sort(Comparator.comparing(Country::toString));
     }
 
 //    public void testPathExists () {

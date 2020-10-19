@@ -26,12 +26,10 @@ public class Country {
     }
 
     public void addTroop(int num){
-        if (num == 1) {
-            System.out.println(num + " Troop added to " + name);
-        } else {
-            System.out.println(num + " Troops added to " + name);
-        }
-        troops =  troops + num;
+        if (num == 1) System.out.println(num + " Troop added to " + name);
+        else System.out.println(num + " Troops added to " + name);
+
+        troops += num;
     }
 
     public int getTroops() {
@@ -40,6 +38,10 @@ public class Country {
 
     public void removeTroops(int num) {
         troops -= num;
+    }
+
+    public String getName(){
+        return name;
     }
 
     @Override

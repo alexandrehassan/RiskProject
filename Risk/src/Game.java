@@ -88,7 +88,7 @@ public class Game {
         boolean finished = false;
 
         //TODO: Remove this and make the player set his countries
-        putReinforcements();
+        autoPutReinforcements();
 
         while (!finished) {
             Command command = parser.getCommand();
@@ -106,13 +106,23 @@ public class Game {
      *
      * TODO: Add logic so the troops are put on outside countries (countries not in the middle of a players territory)
      */
-    private void putReinforcements(){
+    private void autoPutReinforcements(){
         System.out.println(currentPlayer.getName() + " has " + currentPlayer.countries.size() + " Countries");
         System.out.println(currentPlayer.getReinforcements() + " reinforcements to set.");
         for(int assigned = 0; assigned < currentPlayer.getReinforcements(); assigned++){
-            currentPlayer.countries.get(ThreadLocalRandom.current().nextInt(
-                    0,currentPlayer.countries.size())).addTroop(1);
+            putReinforcements(currentPlayer.countries.get(ThreadLocalRandom.current().nextInt(0,
+                    currentPlayer.countries.size())), 1);
         }
+    }
+
+    /**
+     * Adds reinforcements to the selected country
+     *
+     * @param country the country to have the troop added to
+     * @param numberOfTroops the number of troops
+     */
+    private void putReinforcements(Country country, int numberOfTroops){
+        country.addTroop(numberOfTroops);
     }
 
     /**
