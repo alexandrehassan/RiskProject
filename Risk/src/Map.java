@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Map class
@@ -476,5 +478,11 @@ public class Map {
 
     public Continent getContinent(Continent continent) {
         return continent;
+    }
+
+    public void shuffleCountries () {
+        for (int i = 0; i < 1000; i++) {
+            Collections.swap(countries, ThreadLocalRandom.current().nextInt(0, countries.size()), ThreadLocalRandom.current().nextInt(0, countries.size()));
+        }
     }
 }
