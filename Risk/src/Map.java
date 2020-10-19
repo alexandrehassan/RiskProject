@@ -1,13 +1,11 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Map class
  * Map creates a new map, and loads it with the countries and sets each country's neighbors
  * Map creates continents
  * @author Baillie Noell, Sarah Abdallah - Team Group
- * @version 2: Oct 18 2020
+ * @version 3: Oct 18 2020
  *
  */
 
@@ -68,12 +66,20 @@ public class Map {
     private Country newGuinea;
     private Country westernAustralia;
 
+    private Continent northAmerica;
+    private Continent southAmerica;
+    private Continent europe;
+    private Continent asia;
+    private Continent africa;
+    private Continent australia;
 
     public Map() {
         countries = new ArrayList<>();
         this.createCountries();
         this.setNeighbors();
         this.loadMap();
+        this.createContinents();
+        this.loadContinents();
     }
 
     public void createCountries() {
@@ -403,9 +409,44 @@ public class Map {
 
     }
 
-    public void shuffleCountries () {
-        for (int i = 0; i < 1000; i++) {
-            Collections.swap(countries, ThreadLocalRandom.current().nextInt(0, countries.size()), ThreadLocalRandom.current().nextInt(0, countries.size()));
+    public void createContinents() {
+        northAmerica = new Continent("North America", 5);
+        southAmerica = new Continent("South America", 2);
+        europe = new Continent("Europe", 5);
+        africa = new Continent("Africa", 3);
+        asia = new Continent("Asia", 7);
+        australia = new Continent("Australia", 2);
+    }
+
+    public void loadContinents() {
+        //North America
+        for (int i = 0; i < 9; i++) {
+            northAmerica.addCountry(countries.get(i));
+        }
+
+        //South America
+        for (int i = 9; i < 13; i++) {
+            southAmerica.addCountry(countries.get(i));
+        }
+
+        //Europe
+        for (int i = 13; i < 20; i++) {
+            europe.addCountry(countries.get(i));
+        }
+
+        //Africa
+        for (int i = 20; i < 26; i++) {
+            africa.addCountry(countries.get(i));
+        }
+
+        //Asia
+        for (int i = 26; i < 38; i++) {
+            asia.addCountry(countries.get(i));
+        }
+
+        //Australia
+        for (int i = 38; i < 42; i++) {
+            australia.addCountry(countries.get(i));
         }
     }
 
@@ -423,20 +464,6 @@ public class Map {
         return countries;
     }
 
-    public boolean countryExists (String countryName) {
-        for (Country c : countries) {
-            if (c.toString().equals(countryName))
-                return true;
-        }
-        return false;
+    public Continent getContinent(Continent continent) {
+        return continent;
     }
-
-    public Country getCountry (String countryName) {
-        for (Country c : countries) {
-            if (c.toString().equals(countryName))
-                return c;
-        }
-        return null;
-    }
-}
-
