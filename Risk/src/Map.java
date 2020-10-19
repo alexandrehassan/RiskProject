@@ -203,9 +203,6 @@ public class Map {
         if (!c1.getNeighbors().contains(c2)) {
             c1.addNeighbor(c2);
         }
-        if (!c2.getNeighbors().contains(c1)) {
-            c2.addNeighbor(c1);
-        }
     }
 
     public void loadMap() {
