@@ -7,7 +7,7 @@ import java.util.Comparator;
  * @author Team Group
  */
 public class Player {
-    public final ArrayList<Country> countries;
+    private final ArrayList<Country> countries;
     private final String name;
     private boolean eliminated;
 
@@ -17,8 +17,16 @@ public class Player {
         eliminated = false;
     }
 
+    public ArrayList<Country> getCountries() {
+        return countries;
+    }
+
     public void addCountry(Country country){
         countries.add(country);
+    }
+
+    public int getCountrySize(){
+        return countries.size();
     }
 
     public String getName () {
@@ -43,34 +51,6 @@ public class Player {
                 return true;
         return false;
     }
-
-    /**
-     * gets the number of reinforcements the player should be able to place at the beginning of the turn
-     *
-     * @return The number of reinforcement allowed.
-     */
-    public int getReinforcements(){
-        return Math.max(3, countries.size()/3) + checkContinents();
-    }
-
-    /**
-     * This will be used to check ownership of the different continents when the continents are added.
-     *
-     * @return the number of bonus troops earned from the continents
-     */
-    private int checkContinents(){
-        return 0;
-
-        //TODO: Discuss implementation of this. (how to grab all continents)
-//        int extraTroops = 0;
-//        for(Continent continent: map.continents){
-//            if(countries.containsAll(continent)){
-//                extraTroops += continent.getReinforcements();
-//            }
-//        }
-//        return extraTroops;
-    }
-
 
     public Country getCountry (String name) {
         for (Country c : countries)

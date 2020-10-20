@@ -61,12 +61,12 @@ public class Game {
         for (Player player:players) {
             //To stop to many troops from being assigned to a single country we set a max number of troops on one country
             //The maximum should be at least 4
-            int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/player.countries.size() + 2, 4);
+            int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/player.getCountrySize() + 2, 4);
             int random;
-            for(int assigned = player.countries.size(); assigned<BEGINNING_TROOPS[players.size()]; assigned++){
-                random = ThreadLocalRandom.current().nextInt(0,player.countries.size());
-                if(player.countries.get(random).getTroops()<maxTroops){
-                    player.countries.get(random).addTroop(1);
+            for(int assigned = player.getCountrySize(); assigned<BEGINNING_TROOPS[players.size()]; assigned++){
+                random = ThreadLocalRandom.current().nextInt(0,player.getCountrySize());
+                if(player.getCountries().get(random).getTroops()<maxTroops){
+                    player.getCountries().get(random).addTroop(1);
                 }
             }
         }
@@ -87,8 +87,17 @@ public class Game {
         System.out.println(currentPlayer.getName() + "'s turn:");
         boolean finished = false;
 
-        //TODO: Remove this and make the player set his countries
-        autoPutReinforcements();
+        //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
+        int extraTroops = 0;
+        for(Continent continent: map.getContinents()) {
+            if (currentPlayer.getCountries().containsAll(continent.getCountries())) {
+                extraTroops += continent.getReinforcements();
+            }
+        }
+        int reinforcements = Math.max(3, currentPlayer.getCountrySize()/3) + extraTroops;
+
+
+        autoPutReinforcements(reinforcements);
 
         while (!finished) {
             Command command = parser.getCommand();
@@ -106,12 +115,12 @@ public class Game {
      *
      * TODO: Add logic so the troops are put on outside countries (countries not in the middle of a players territory)
      */
-    private void autoPutReinforcements(){
-        System.out.println(currentPlayer.getName() + " has " + currentPlayer.countries.size() + " Countries");
-        System.out.println(currentPlayer.getReinforcements() + " reinforcements to set.");
-        for(int assigned = 0; assigned < currentPlayer.getReinforcements(); assigned++){
-            putReinforcements(currentPlayer.countries.get(ThreadLocalRandom.current().nextInt(0,
-                    currentPlayer.countries.size())), 1);
+    private void autoPutReinforcements(int reinforcements){
+        //System.out.println(currentPlayer.getName() + " has " + currentPlayer.getCountrySize() + " Countries");
+        System.out.println(reinforcements + " reinforcements to set.");
+        for(int assigned = 0; assigned < reinforcements; assigned++){
+            putReinforcements(currentPlayer.getCountries().get(ThreadLocalRandom.current().nextInt(0,
+                    currentPlayer.getCountrySize())), 1);
         }
     }
 
@@ -255,8 +264,8 @@ public class Game {
 
     private void ownerChange(Country defend, Country attack, int minimumMove) {
         for (Player p : players) {
-            if (p.countries.contains(defend)) {
-                p.countries.remove(defend);
+            if (p.getCountries().contains(defend)) {
+                p.getCountries().remove(defend);
                 p.checkEliminated();
             }
         }
