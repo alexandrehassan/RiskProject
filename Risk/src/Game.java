@@ -3,10 +3,13 @@ import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Main class for the risk game. Made for the SYSC 3110 Project.
+ * This class is part of the game of RISK, the term
+ * project for SYSC3110 that emulates the original game of RISK
  *
+
  * @version 17-10-2020
- * @author Team Group - Alexandre Hassan
+ * @author Team Group - Alexandre Hassan, Jonah Gaudet
+
  */
 
 public class Game {
@@ -27,6 +30,10 @@ public class Game {
         map = null;
     }
 
+    /**
+     * Contructor for the game with a list of players to participate
+     * @param players the players to participate in the game
+     */
     public Game(ArrayList<Player> players) {
         currentPlayer = null;
         this.players = players;
@@ -35,7 +42,8 @@ public class Game {
     }
 
     /**
-     * Generates a game as long as two players are present.
+     * Generates a game as long as two players are present. Assign countries, picks
+     * a starting players, assigns troops.
      */
     private void generateGame() {
         //GetMap
@@ -73,6 +81,10 @@ public class Game {
         printState();
     }
 
+    /**
+     * Plays a game of RISK. Ends if and only if no players remain. Calls turns for each player
+     * in order and adjust the current player accordingly
+     */
     public void playGame () {
         System.out.println("Number of players: " + players.size());
         boolean gameFinished = false;
@@ -83,6 +95,10 @@ public class Game {
         }
     }
 
+    /**
+     * Plays a turn using currentPlayer. Gets command from the parser and reacts accordingly
+     * @return true if and only if one player remains
+     */
     private boolean playTurn () {
         System.out.println(currentPlayer.getName() + "'s turn:");
         boolean finished = false;
@@ -100,13 +116,17 @@ public class Game {
         autoPutReinforcements(reinforcements);
 
         while (!finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
+            try {
+                Command command = parser.getCommand();
+                finished = processCommand(command);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         return false; //return (remainingPlayers == 1);
     }
-
 
     /**
      * This is a method that randomly assigns reinforcement troops.
@@ -135,18 +155,15 @@ public class Game {
     }
 
     /**
-     * Method Responsible for reacting to user input and signalling that a turn is finished.
-     *
-     * TODO: Add Phases in (Reinforcement, Attack, Movement)
-     * @param command The command to be executed
-     * @return whether or not the turn is finished.
+     * Processess the command from the player using one of the commands words below
+     * @param command from the player via the terminal
+     * @return boolean true if the turn is finished, false if not
      */
     private boolean processCommand (Command command) {
         if(!command.isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false; //Turn not finished
         }
-        System.out.println(command.getCommandWord().toLowerCase());
 
         switch (command.getCommandWord().toLowerCase()) {
             case "attack" -> playAttack(command);
@@ -162,6 +179,10 @@ public class Game {
         return false; // Turn not finished
     }
 
+    /**
+     * Checks to see if the input from the command is valid, if so proceeds with the attack
+     * @param command from the player via the terminal
+     */
     private void playAttack (Command command) {
         if (command.getCommandDetails() == null) {
             System.out.println("Input syntax incorrect");
@@ -179,61 +200,79 @@ public class Game {
                 continue;
             }
             if (!reachedFrom)
-                defendingCountry += s + " ";
+                defendingCountry = addToString(defendingCountry, s);
             else
-                attackingCountry += s + " ";
+                attackingCountry = addToString(attackingCountry, s);
         }
 
-        if (attackingCountry.equals("") || defendingCountry.equals("")) {
-            System.out.println("Input syntax incorrect");
-            return;
+        try {
+            checkAttackInputValid(attackingCountry, defendingCountry);
+            performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
         }
-
-        defendingCountry = defendingCountry.substring(0, defendingCountry.length() - 1);
-        attackingCountry = attackingCountry.substring(0, attackingCountry.length() - 1);
-
-        if (!attackInputValid(attackingCountry, defendingCountry))
-            return;
-
-        performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    private boolean attackInputValid (String attacking, String defending) {
+    /**
+     * Returns a string such that the two input strings are separated by a space and
+     * no leading or trailing spaces exist
+     * @param original String to be added to
+     * @param toAdd String to add to original
+     * @return String the sum to the two inputs
+     */
+    private String addToString (String original, String toAdd) {
+        if (original.equals("") || original == null)
+            return toAdd;
+        return original + " " + toAdd;
+    }
+
+    /**
+     * Check if the attack input is valid, throws as exception otherwise
+     * @param attacking the name of the attacking country
+     * @param defending the name of the defending country
+     */
+    private void checkAttackInputValid (String attacking, String defending) {
         if (attacking == null || defending == null) {
-            System.out.println("Input syntax incorrect");
-            return false;
+            throw new IllegalArgumentException("Input syntax not read correctly");
         }
-        if (!map.countryExists(defending)) {
-            System.out.println(defending + " does not exist");
-            return false;
+        if (attacking.equals("") || defending.equals("")) {
+            throw new IllegalArgumentException("Input syntax not read correctly");
         }
-        if (!map.countryExists(attacking)) {
-            System.out.println(attacking + " does not exist");
-            return false;
-        }
-        if (!currentPlayer.hasCountry(attacking)) {
-            System.out.println("Current player does not control " + attacking);
-            return false;
-        }
-        if (currentPlayer.hasCountry(defending)) {
-            System.out.println("Current player already controls " + defending);
-            return false;
-        }
-        return true;
+        map.getCountry(defending);
+        map.getCountry(attacking);
     }
 
+    /**
+     * Checks that the two countries involved in the attack meet the requirements for
+     * a legal RISK battle
+     * @param attacking the attacking country
+     * @param defending the defending country
+     */
+    private void checkAttackValid (Country attacking, Country defending) {
+        if (!currentPlayer.countries.contains(attacking)) {
+            throw new IllegalArgumentException("Current player does not control " + attacking);
+        }
+        if (currentPlayer.countries.contains(defending)) {
+            throw new IllegalArgumentException("Current player already controls " + defending);
+        }
+        if (!attacking.getNeighbors().contains(defending)) {
+            throw new IllegalArgumentException(defending + " does not border " + attacking);
+        }
+        if (attacking.getTroops() <= 1) {
+            throw new IllegalArgumentException(attacking + " does not have enough troops to attack (needs more than 1)");
+        }
+    }
+
+    /**
+     * Performs the attack given two countries (one attacking / defending)
+     * @param attack the attacking country
+     * @param defend the defending country
+     */
     private void performAttack(Country attack, Country defend) {
-        if (!attack.getNeighbors().contains(defend)) {
-            System.out.println(defend.toString() + " does not border " + attack.toString());
-            return;
-        }
+        checkAttackValid(attack, defend);
 
-        if (attack.getTroops() <= 1) {
-            System.out.println(attack.toString() + " does not have enough troops to attack (needs more than 1)");
-            return;
-        }
-
-        int attackWith = troopSelect(1, Math.min(3, attack.getTroops()-1));
+        int attackWith = troopSelect(1, Math.min(3, attack.getTroops() - 1));
 
         ArrayList<Integer> attackerDice = new ArrayList<>();
         ArrayList<Integer> defenderDice = new ArrayList<>();
@@ -245,7 +284,7 @@ public class Game {
         attackerDice.sort(Collections.reverseOrder());
         defenderDice.sort(Collections.reverseOrder());
         int lostDefenders = 0, lostAttackers = 0;
-        for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()) ; i++) {
+        for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()); i++) {
             if (attackerDice.get(i) > defenderDice.get(i))
                 lostDefenders += 1;
             else
@@ -258,10 +297,18 @@ public class Game {
         System.out.println(attack.toString() + " lost " + lostAttackers + " troop(s)");
         System.out.println(defend.toString() + " lost " + lostDefenders + " troop(s)");
 
-        if (defend.getTroops() == 0)
+        if (defend.getTroops() == 0) {
+            System.out.println(currentPlayer.getName() + " took " + defend.toString());
             ownerChange(defend, attack, attackerDice.size() - lostAttackers);
+        }
     }
 
+    /**
+     * Changes the owner of a country and assigns troops
+     * @param defend the country whose ownership is being transferred
+     * @param attack the country who must provide necessary troops
+     * @param minimumMove the minimum number of troops that can be moved
+     */
     private void ownerChange(Country defend, Country attack, int minimumMove) {
         for (Player p : players) {
             if (p.getCountries().contains(defend)) {
@@ -272,19 +319,52 @@ public class Game {
 
         int toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
 
-        defend.addTroop(toAdd);
-        attack.removeTroops(toAdd);
-        System.out.println(currentPlayer.getName() + " took " + defend.toString() + " with " + toAdd + " troops.");
         currentPlayer.addCountry(defend);
+        moveTroops(attack, defend, toAdd);
+        System.out.println(currentPlayer.getName() + " took " + defend.toString() + " with " + toAdd + " troops.");
         currentPlayer.sortCountries();
     }
 
+    /**
+     * Moves troops based on the command
+     * @param command the commands from the player
+     */
     private void playMove (Command command) {
         System.out.println("Moving ...");
         command.printCommand();
         System.out.println(command.getCommandDetails());
     }
 
+    /**
+     * Moves troops from one country to the other
+     * @param origin where the troops will leave from
+     * @param destination where the troops will go to
+     * @return whether the move was successful
+     */
+    private boolean moveTroopsNoNumber(Country origin, Country destination) {
+        return moveTroops(origin, destination, troopSelect(1, origin.getTroops() - 1));
+    }
+
+    /**
+     * Moves troops from one country to the other
+     * @param origin where the troops will leave from
+     * @param destination where the troops will go to
+     * @param toMove the number of troops to move
+     * @return whether the move was successful
+     */
+    private boolean moveTroops(Country origin, Country destination, int toMove) {
+        if (!currentPlayer.pathExists(origin, destination)) {
+            System.out.println("Path does not exist between " + origin.toString() + " " + destination.toString());
+            return false;
+        }
+        origin.removeTroops(toMove);
+        destination.addTroop(toMove);
+        return true;
+    }
+
+    /**
+     * Prints help / instructions for the players
+     */
     private void printHelp () {
         System.out.println("Possible user commands: ");
         parser.showCommands();
@@ -312,6 +392,9 @@ public class Game {
         }
     }
 
+    /**
+     * Changes current player to the next player in the correct order
+     */
     public void nextPlayer(){
         if(players.indexOf(currentPlayer) != players.size() -1){
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
@@ -320,6 +403,10 @@ public class Game {
         }
     }
 
+    /**
+     * Prints the state of the board.
+     * Includes player names, country names, and number of troops per country
+     */
     public void printState(){
         for(Player player: players){
             player.print();
@@ -330,6 +417,12 @@ public class Game {
             System.out.println("Current player is " + currentPlayer.getName());
     }
 
+    /**
+     * Selects a number between the minimum and maximum using the parser
+     * @param minimum the minimum value
+     * @param maximum the maximum value
+     * @return the value chosen by the user
+     */
     private int troopSelect (int minimum, int maximum) {
         if (minimum == maximum)
             return minimum;
@@ -342,6 +435,9 @@ public class Game {
         return toSelect;
     }
 
+//    /**
+//     * Test for whether path exists between all countries for all players
+//     */
 //    public void testPathExists() {
 //        for (Player p : players) {
 //            System.out.println(p.getName());

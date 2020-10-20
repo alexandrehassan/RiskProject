@@ -1,5 +1,22 @@
 import java.util.Scanner;
 
+/**
+ * This class is part of the game of RISK, the term
+ * project for SYSC3110 that emulates the original game of RISK
+ *
+ * This parser reads user input and tries to interpret it as a command or
+ * as a number. To return a command, it divides the input into a command word
+ * and the command details before returning said command. This command word
+ * must come from a set of known command words. If the command words is not
+ * a part of this list, it returns an unknown command.
+ *
+ * To return a number, the Parser checks that the input is indeed a number
+ * before returning, and a default value otherwise.
+ *
+ * @author  Jonah Gaudet
+ * @version 2020.10.19
+ */
+
 public class Parser
 {
     private CommandWords commands;  // holds all valid command words
@@ -21,7 +38,7 @@ public class Parser
     {
         String inputLine;   // will hold the full input line
         String word1 = null;
-        String word2 = null;
+        String otherWords = null;
 
         System.out.print("> ");     // print prompt
 
@@ -31,9 +48,9 @@ public class Parser
         if(tokenizer.hasNext()) {
             word1 = tokenizer.next();      // get first word
             if (tokenizer.hasNext()) {
-                word2 = tokenizer.next();
+                otherWords = tokenizer.next();
                 while (tokenizer.hasNext()) {
-                    word2 += " " + tokenizer.next();
+                    otherWords += " " + tokenizer.next();
                 }
             }
         }
@@ -41,13 +58,16 @@ public class Parser
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(commands.isCommandWord(word1)) {
-            return new Command(word1, word2);
+            return new Command(word1, otherWords);
         }
         else {
-            return new Command(null, word2);
+            return new Command(null, otherWords);
         }
     }
 
+    /**
+     * @return A number for the user. Returns number if valid, -1 if not
+     */
     public int getNumber () {
         String inputLine;
         System.out.print("> ");

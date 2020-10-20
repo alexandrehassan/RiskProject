@@ -110,7 +110,7 @@ public class Player {
         for (Country c : countries)
             if (c.toString().equals(name))
                 return c;
-        return null;
+        throw new IllegalArgumentException(name + " is not a valid country");
     }
 
     /**
@@ -154,6 +154,10 @@ public class Player {
      * @return true if there is a path that exists between start and finish that is owned by Player
      */
     public boolean pathExists (Country start, Country finish) {
+        if (!countries.contains(start) || !countries.contains(finish)) {
+            System.out.println("Player does not own both countries");
+            return false;
+        }
         ArrayList<Country> accessibleCountries = new ArrayList<>();
         accessibleCountries.add(start);
         getAccessibleCountries(start, finish, accessibleCountries);

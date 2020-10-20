@@ -74,6 +74,7 @@ public class Country {
         troops -= num;
     }
 
+
     /**
      * Gives the name of the country.
      *
