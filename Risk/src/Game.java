@@ -15,7 +15,7 @@ public class Game {
     private Parser parser;
     private Map map;
 
-    private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
+    private static final int[] BEGINNING_TROOPS = {0,0,50,35,30,25,20};
 
     /**
      * Default constructor for game.

@@ -12,6 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Map {
     private final ArrayList<Country> countries;
+    private final ArrayList<Continent> continents;
 
     //North America
     private Country alaska;
@@ -420,6 +421,10 @@ public class Map {
 
     public ArrayList<Country> getCountries() {
         return countries;
+    }
+
+    public ArrayList<Continent> getContinents(){
+        return continents;
     }
 
     public boolean countryExists (String countryName) {
