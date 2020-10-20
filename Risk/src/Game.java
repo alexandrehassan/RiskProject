@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * This class is part of the game of RISK, the term
  * project for SYSC3110 that emulates the original game of RISK
  *
-
  * @version 17-10-2020
  * @author Team Group - Alexandre Hassan, Jonah Gaudet
 
@@ -32,7 +31,7 @@ public class Game {
     }
 
     /**
-     * Contructor for the game with a list of players to participate
+     * Constructor for the game with a list of players to participate
      * @param players the players to participate in the game
      */
     public Game(ArrayList<Player> players) {
@@ -40,6 +39,7 @@ public class Game {
         this.players = players;
         parser = new Parser ();
         map = null;
+
     }
 
     /**
