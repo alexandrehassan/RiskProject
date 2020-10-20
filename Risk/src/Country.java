@@ -70,7 +70,7 @@ public class Country {
      * @param num the number of troops to be added. (ignores positive values.)
      */
     public void removeTroops(int num) {
-        if(num>0) return;
+        if(num<0) return;
         troops -= num;
     }
 

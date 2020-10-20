@@ -286,7 +286,7 @@ public class Game {
 
         int attackWith = troopSelect(1, Math.min(3, attack.getTroops() - 1));
         int defendWith = Math.min(2, defend.getTroops());
-        System.out.println("Rolling dice: " + attackWith + " for " + attack.toString() + ", " + defendWith + " for " + defend.toString());
+        System.out.println("Rolling dice: " + attackWith + " for " + attack.getName() + ", " + defendWith + " for " + defend.getName());
         ArrayList<Integer> attackerDice = new ArrayList<>();
         ArrayList<Integer> defenderDice = new ArrayList<>();
         for (int i = 0; i < attackWith; i++)
@@ -310,8 +310,10 @@ public class Game {
 
         attack.removeTroops(lostAttackers);
         defend.removeTroops(lostDefenders);
-        System.out.println(attack.toString() + " lost " + lostAttackers + " troop(s)");
-        System.out.println(defend.toString() + " lost " + lostDefenders + " troop(s)");
+        System.out.println(attack.getName() + " lost " + lostAttackers + " troop(s)");
+        System.out.println(defend.getName() + " lost " + lostDefenders + " troop(s)");
+
+        System.out.println(defend.getTroops());
 
         if (defend.getTroops() == 0) {
             ownerChange(defend, attack, attackerDice.size() - lostAttackers);
@@ -325,6 +327,7 @@ public class Game {
      * @param minimumMove the minimum number of troops that can be moved
      */
     private void ownerChange(Country defend, Country attack, int minimumMove) {
+        System.out.println("Changing owners:");
         for (Player p : players) {
             if (p.getCountries().contains(defend)) {
                 p.getCountries().remove(defend);
@@ -336,7 +339,7 @@ public class Game {
 
         currentPlayer.addCountry(defend);
         moveTroops(attack, defend, toAdd);
-        System.out.println(currentPlayer.getName() + " took " + defend.toString() + " with " + toAdd + " troops.");
+        System.out.println(currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.");
         currentPlayer.sortCountries();
     }
 
@@ -369,7 +372,7 @@ public class Game {
      */
     private boolean moveTroops(Country origin, Country destination, int toMove) {
         if (!currentPlayer.pathExists(origin, destination)) {
-            System.out.println("Path does not exist between " + origin.toString() + " " + destination.toString());
+            System.out.println("Path does not exist between " + origin.getName() + " " + destination.getName());
             return false;
         }
         origin.removeTroops(toMove);
