@@ -376,8 +376,16 @@ public class Map {
         return countries;
     }
 
-    public ArrayList<Continent> getContinents() {
+
+    public ArrayList<Continent> getContinents(){
         return continents;
+    }
+
+    public boolean countryExists (String countryName) {
+        for (Country c : countries) {
+            if (c.toString().equals(countryName))
+                return true;
+        }
     }
 
     public Country getCountry(String name){
@@ -385,6 +393,7 @@ public class Map {
             if(country.getName().equals(name)){
                 return country;
             }
+
         }
         throw new IllegalArgumentException(name + " is not a valid country");
     }

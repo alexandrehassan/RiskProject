@@ -6,8 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * This class is part of the game of RISK, the term
  * project for SYSC3110 that emulates the original game of RISK
  *
- * @version 19-10-2020
- * @author Team Group
+
+ * @version 17-10-2020
+ * @author Team Group - Alexandre Hassan, Jonah Gaudet
+
  */
 
 public class Game {
@@ -16,7 +18,7 @@ public class Game {
     private Parser parser;
     private Map map;
 
-    private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
+    private static final int[] BEGINNING_TROOPS = {0,0,50,35,30,25,20};
 
     /**
      * Default constructor for game.
@@ -65,14 +67,14 @@ public class Game {
 
         //Randomly Assign troops to countries
         for (Player player:players) {
-            //To stop to0 many troops from being assigned to a single country we set a max number of troops on one country
+            //To stop to many troops from being assigned to a single country we set a max number of troops on one country
             //The maximum should be at least 4
-            int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/player.countries.size() + 2, 4);
+            int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/player.getCountrySize() + 2, 4);
             int random;
-            for(int assigned = player.countries.size(); assigned<BEGINNING_TROOPS[players.size()]; assigned++){
-                random = ThreadLocalRandom.current().nextInt(0,player.countries.size());
-                if(player.countries.get(random).getTroops()<maxTroops){
-                    player.countries.get(random).addTroop(1);
+            for(int assigned = player.getCountrySize(); assigned<BEGINNING_TROOPS[players.size()]; assigned++){
+                random = ThreadLocalRandom.current().nextInt(0,player.getCountrySize());
+                if(player.getCountries().get(random).getTroops()<maxTroops){
+                    player.getCountries().get(random).addTroop(1);
                 }
             }
         }
@@ -101,6 +103,18 @@ public class Game {
         System.out.println(currentPlayer.getName() + "'s turn:");
         boolean finished = false;
 
+        //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
+        int extraTroops = 0;
+        for(Continent continent: map.getContinents()) {
+            if (currentPlayer.getCountries().containsAll(continent.getCountries())) {
+                extraTroops += continent.getReinforcements();
+            }
+        }
+        int reinforcements = Math.max(3, currentPlayer.getCountrySize()/3) + extraTroops;
+
+
+        autoPutReinforcements(reinforcements);
+
         while (!finished) {
             try {
                 Command command = parser.getCommand();
@@ -112,6 +126,32 @@ public class Game {
         }
 
         return false; //return (remainingPlayers == 1);
+    }
+
+    /**
+     * This is a method that randomly assigns reinforcement troops.
+     * It is used to test the reinforcement turn methods
+     * A version of this will be used for the AI players
+     *
+     * TODO: Add logic so the troops are put on outside countries (countries not in the middle of a players territory)
+     */
+    private void autoPutReinforcements(int reinforcements){
+        //System.out.println(currentPlayer.getName() + " has " + currentPlayer.getCountrySize() + " Countries");
+        System.out.println(reinforcements + " reinforcements to set.");
+        for(int assigned = 0; assigned < reinforcements; assigned++){
+            putReinforcements(currentPlayer.getCountries().get(ThreadLocalRandom.current().nextInt(0,
+                    currentPlayer.getCountrySize())), 1);
+        }
+    }
+
+    /**
+     * Adds reinforcements to the selected country
+     *
+     * @param country the country to have the troop added to
+     * @param numberOfTroops the number of troops
+     */
+    private void putReinforcements(Country country, int numberOfTroops){
+        country.addTroop(numberOfTroops);
     }
 
     /**
@@ -271,8 +311,8 @@ public class Game {
      */
     private void ownerChange(Country defend, Country attack, int minimumMove) {
         for (Player p : players) {
-            if (p.countries.contains(defend)) {
-                p.countries.remove(defend);
+            if (p.getCountries().contains(defend)) {
+                p.getCountries().remove(defend);
                 p.checkEliminated();
             }
         }
