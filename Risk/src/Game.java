@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Main class for the risk game. Made for the SYSC 3110 Project.
  *
  * @version 17-10-2020
- * @author Team Group
+ * @author Team Group - Alexandre Hassan
  */
 
 public class Game {
