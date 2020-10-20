@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -125,7 +126,20 @@ public class Game {
             }
         }
 
-        return false; //return (remainingPlayers == 1);
+        return (getRemainingPlayers() == 1);
+    }
+
+    /**
+     * Gets the number of remaining (not eliminated) players
+     * @return int amount of remaining players
+     */
+    private int getRemainingPlayers () {
+        int counter = 0;
+        for (Player p : players)
+            if (!p.isEliminated()) {
+                counter += 1;
+            }
+        return counter;
     }
 
     /**
@@ -161,8 +175,7 @@ public class Game {
      */
     private boolean processCommand (Command command) {
         if(!command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
-            return false; //Turn not finished
+            throw new IllegalArgumentException("Input syntax incorrect - use 'help' for help");
         }
 
         switch (command.getCommandWord().toLowerCase()) {
@@ -185,8 +198,7 @@ public class Game {
      */
     private void playAttack (Command command) {
         if (command.getCommandDetails() == null) {
-            System.out.println("Input syntax incorrect");
-            return;
+            throw new IllegalArgumentException("Input syntax incorrect - use 'help' for help");
         }
 
         System.out.println("Attacking ...");
@@ -234,10 +246,10 @@ public class Game {
      */
     private void checkAttackInputValid (String attacking, String defending) {
         if (attacking == null || defending == null) {
-            throw new IllegalArgumentException("Input syntax not read correctly");
+            throw new IllegalArgumentException("Input syntax not read correctly - use 'help' for help");
         }
         if (attacking.equals("") || defending.equals("")) {
-            throw new IllegalArgumentException("Input syntax not read correctly");
+            throw new IllegalArgumentException("Input syntax not read correctly - use 'help' for help");
         }
         map.getCountry(defending);
         map.getCountry(attacking);
@@ -273,23 +285,27 @@ public class Game {
         checkAttackValid(attack, defend);
 
         int attackWith = troopSelect(1, Math.min(3, attack.getTroops() - 1));
-
+        int defendWith = Math.min(2, defend.getTroops());
+        System.out.println("Rolling dice: " + attackWith + " for " + attack.toString() + ", " + defendWith + " for " + defend.toString());
         ArrayList<Integer> attackerDice = new ArrayList<>();
         ArrayList<Integer> defenderDice = new ArrayList<>();
         for (int i = 0; i < attackWith; i++)
             attackerDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
-        for (int i = 0; i < Math.min(2, defend.getTroops()); i++)
+        for (int i = 0; i < defendWith; i++)
             defenderDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
 
         attackerDice.sort(Collections.reverseOrder());
         defenderDice.sort(Collections.reverseOrder());
+        System.out.println("Attacker rolls: " + Arrays.toString(attackerDice.toArray()));
+        System.out.println("Defender rolls: " + Arrays.toString(defenderDice.toArray()));
         int lostDefenders = 0, lostAttackers = 0;
         for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()); i++) {
-            if (attackerDice.get(i) > defenderDice.get(i))
+            if (attackerDice.get(i) > defenderDice.get(i)) {
                 lostDefenders += 1;
-            else
+            }
+            else {
                 lostAttackers += 1;
-            System.out.println(attackerDice.get(i) + " " + defenderDice.get(i));
+            }
         }
 
         attack.removeTroops(lostAttackers);
@@ -298,7 +314,6 @@ public class Game {
         System.out.println(defend.toString() + " lost " + lostDefenders + " troop(s)");
 
         if (defend.getTroops() == 0) {
-            System.out.println(currentPlayer.getName() + " took " + defend.toString());
             ownerChange(defend, attack, attackerDice.size() - lostAttackers);
         }
     }
