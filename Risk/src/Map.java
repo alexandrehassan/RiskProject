@@ -65,10 +65,10 @@ public class Map {
     private final String YAKUTSK = "Yakutsk";
 
     //Austraila
-    private final String EASTERNAUSTRALIA= "Eastern Australia";
+    private final String EASTERNAUSTRALIA = "Eastern Australia";
     private final String INDONESIA = "Indonesia";
-    private final String NEWGUINEA= "New Guinea";
-    private final String WESTERNAUSTRALIA= "Western Australia";
+    private final String NEWGUINEA = "New Guinea";
+    private final String WESTERNAUSTRALIA = "Western Australia";
 
 
     public Map() {
