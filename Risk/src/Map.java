@@ -386,6 +386,7 @@ public class Map {
             if (c.toString().equals(countryName))
                 return true;
         }
+        return false;
     }
 
     public Country getCountry(String name){
