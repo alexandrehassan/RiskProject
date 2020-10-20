@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
+ * The Player class represents the individual players in the Risk game.
+ * Each player has a name, a list of countries they own and whether or not they have been eliminated.
+ *
+ * The state of the player evolves as they acquire or lose countries.
+ *
  * @version 17-10-2020
  * @author Team Group - Alexandre Hassan, Jonah Gaudet
  */

@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 /**
+ * This class is used to hold information about the different Countries in the game of risk.
+ * Every country is made of its name, troops and its neighbors
  *
  * @version 17-10-2020
  * @author Team Group - Alexandre Hassan
