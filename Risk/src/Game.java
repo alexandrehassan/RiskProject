@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @version 17-10-2020
  * @author Team Group - Alexandre Hassan, Jonah Gaudet
-
  */
 
 public class Game {
@@ -39,7 +38,6 @@ public class Game {
         this.players = players;
         parser = new Parser ();
         map = null;
-
     }
 
     /**
@@ -169,7 +167,7 @@ public class Game {
     }
 
     /**
-     * Processess the command from the player using one of the commands words below
+     * Processes the command from the player using one of the commands words below
      * @param command from the player via the terminal
      * @return boolean true if the turn is finished, false if not
      */

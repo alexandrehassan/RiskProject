@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -12,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 
 public class Map {
-    private final ArrayList<Country> countries;
+    private final LinkedList<Country> countries;
     private final ArrayList<Continent> continents;
 
     //Countries
@@ -72,7 +73,7 @@ public class Map {
 
 
     public Map() {
-        countries = new ArrayList<>();
+        countries = new LinkedList<>();
         continents = new ArrayList<>();
         this.loadMap();
         this.loadContinents();
@@ -368,11 +369,11 @@ public class Map {
 
     public void printMap() {
         for (Country c : countries) {
-            System.out.println(c.toString());
+            System.out.println(c);
         }
     }
 
-    public ArrayList<Country> getCountries() {
+    public LinkedList<Country> getCountries() {
         return countries;
     }
 
@@ -394,7 +395,6 @@ public class Map {
             if(country.getName().equals(name)){
                 return country;
             }
-
         }
         throw new IllegalArgumentException(name + " is not a valid country");
     }
@@ -410,7 +410,8 @@ public class Map {
 
     public void shuffleCountries () {
         for (int i = 0; i < 1000; i++) {
-            Collections.swap(countries, ThreadLocalRandom.current().nextInt(0, countries.size()), ThreadLocalRandom.current().nextInt(0, countries.size()));
+            Collections.swap(countries, ThreadLocalRandom.current().nextInt(0, countries.size()),
+                    ThreadLocalRandom.current().nextInt(0, countries.size()));
         }
     }
 }

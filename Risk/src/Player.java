@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 
 /**
  * The Player class represents the individual players in the Risk game.
@@ -12,7 +13,7 @@ import java.util.Comparator;
  */
 
 public class Player {
-    private final ArrayList<Country> countries;
+    private final LinkedList<Country> countries;
     private final String name;
     private boolean eliminated;
 
@@ -23,7 +24,7 @@ public class Player {
      */
     public Player(String name) {
         this.name = name;
-        countries = new ArrayList<>();
+        countries = new LinkedList<>();
         eliminated = false;
     }
 
@@ -32,7 +33,7 @@ public class Player {
      *
      * @return ArrayList of countries owned by the player
      */
-    public ArrayList<Country> getCountries() {
+    public LinkedList<Country> getCountries() {
         return countries;
     }
 
@@ -106,7 +107,7 @@ public class Player {
      * @param name the name of the country to be found
      * @return the object of the name.
      */
-    public Country getCountry (String name) {
+    public Country getCountry(String name) {
         for (Country c : countries)
             if (c.toString().equals(name))
                 return c;
