@@ -250,10 +250,10 @@ public class Game {
      * @param defending the defending country
      */
     private void checkAttackValid (Country attacking, Country defending) {
-        if (!currentPlayer.countries.contains(attacking)) {
+        if (!currentPlayer.getCountries().contains(attacking)) {
             throw new IllegalArgumentException("Current player does not control " + attacking);
         }
-        if (currentPlayer.countries.contains(defending)) {
+        if (currentPlayer.getCountries().contains(defending)) {
             throw new IllegalArgumentException("Current player already controls " + defending);
         }
         if (!attacking.getNeighbors().contains(defending)) {
