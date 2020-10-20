@@ -193,7 +193,8 @@ public class Game {
     }
 
     /**
-     * Checks to see if the input from the command is valid, if so proceeds with the attack
+     * Checks to see if the input from the command is valid, if so proceeds with the attack.
+     * Command should be of the form 'attack <defender> from/with <attacker>'
      * @param command from the player via the terminal
      */
     private void playAttack (Command command) {
