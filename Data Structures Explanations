@@ -1,0 +1,9 @@
+
+Map:
+    countries: LinkedList<Country>
+        we needed some sort of list in order to be able to hold multiple objects without creating different
+        variables for each country of the map.
+
+        We used a LinkedList because they are faster at addition and deletion than the Array backed Arraylist. Additionally
+        it is only slightly longer to loop over a linkedlist than an arraylist so the methods that look for objects are
+        not affected too much. The countries list is mostly used in the creation of the map where there are a lot of additions.
