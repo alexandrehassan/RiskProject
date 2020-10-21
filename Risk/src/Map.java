@@ -71,7 +71,9 @@ public class Map {
     private final String NEWGUINEA = "New Guinea";
     private final String WESTERNAUSTRALIA = "Western Australia";
 
-
+    /**
+     * Constructor for the default map of Risk.
+     */
     public Map() {
         countries = new LinkedList<>();
         continents = new ArrayList<>();
@@ -80,6 +82,9 @@ public class Map {
         this.setNeighbors();
     }
 
+    /**
+     * Creates and adds all the countries of the standard map of Risk.
+     */
     public void loadMap() {
 
         //North America
@@ -138,6 +143,9 @@ public class Map {
 
     }
 
+    /**
+     * Adds the neighbor relationships to the different countries in the map.
+     */
     public void setNeighbors() {
         //North America
         getCountry(ALASKA).addNeighbor(getCountry(ALBERTA));
@@ -314,6 +322,9 @@ public class Map {
         getCountry(WESTERNAUSTRALIA).addNeighbor(getCountry(NEWGUINEA));
     }
 
+    /**
+     * Creates and sets the different continents.
+     */
     public void loadContinents() {
 
         //Continents
@@ -363,9 +374,6 @@ public class Map {
 
     }
 
-    public void removeCountry(Country country) {
-        countries.remove(country);
-    }
 
     public void printMap() {
         for (Country c : countries) {
