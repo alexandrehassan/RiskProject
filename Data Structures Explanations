@@ -1,4 +1,5 @@
-
+map:
+    countries: LinkedList<Country>
         We used a LinkedList because they are faster at addition and deletion than the Array backed Arraylist. Additionally
         it is only slightly longer to loop over a linkedlist than an arraylist so the methods that look for objects are
         not affected too much. The countries list is mostly used in the creation of the map where there are a lot of additions.
@@ -53,3 +54,27 @@ Game:
 
     map : Map
         not affected too much. The countries list is mostly used in the creation of the map where there are a lot of additions.
+
+Country:
+    neighbor: ArrayList<Country>
+
+    name: String
+        This one is pretty self explanatory.
+
+    troops: int
+        Event though players own troops, countries stores them. The reason we went with this implementation is that
+        countries are always owned by a player and should always have troops on them. It also helps with attacks because
+        we can do most of the attack operations without needing to know what player is attacking which (we only need to
+        know players if the attack is won (if it is lost both players keep their countries the only thing that changes
+        is the number of troops on the countries.)
+
+
+Continent:
+    name:String
+        This one is pretty self explanatory.
+
+    countries: ArrayList<Country>
+
+
+    reinforcements: int
+        this represents the bonus given when a player owns a continent. It should never change and as such is final.
