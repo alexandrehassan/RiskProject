@@ -1,3 +1,4 @@
+Q: detailed description of the choice of data structures and relevant operations
 map:
     countries: LinkedList<Country>
         We used a LinkedList because they are faster at addition and deletion than the Array backed Arraylist. Additionally
