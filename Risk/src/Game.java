@@ -17,7 +17,7 @@ public class Game {
     private Parser parser;
     private Map map;
 
-    private static final int[] BEGINNING_TROOPS = {0,0,50,35,30,25,20};
+    private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
 
     /**
      * Default constructor for game.
@@ -65,15 +65,17 @@ public class Game {
         }
 
         //Randomly Assign troops to countries
+        int beginningTroops =  BEGINNING_TROOPS[players.size()-2];
         for (Player player:players) {
             //To stop to many troops from being assigned to a single country we set a max number of troops on one country
             //The maximum should be at least 4
-            int maxTroops = Math.max(BEGINNING_TROOPS[players.size()]/player.getCountrySize() + 2, 4);
+            int maxTroops = Math.max(beginningTroops/player.getCountrySize() + 2, 4);
             int random;
-            for(int assigned = player.getCountrySize(); assigned<BEGINNING_TROOPS[players.size()]; assigned++){
+            for(int assigned = player.getCountrySize(); assigned<beginningTroops;){
                 random = ThreadLocalRandom.current().nextInt(0,player.getCountrySize());
                 if(player.getCountries().get(random).getTroops()<maxTroops){
                     player.getCountries().get(random).addTroop(1);
+                    assigned++;
                 }
             }
         }
