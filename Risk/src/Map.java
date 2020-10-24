@@ -65,7 +65,7 @@ public class Map {
     private final String URAL = "Ural";
     private final String YAKUTSK = "Yakutsk";
 
-    //Austraila
+    //Australia
     private final String EASTERN_AUSTRALIA = "Eastern Australia";
     private final String INDONESIA = "Indonesia";
     private final String NEW_GUINEA = "New Guinea";
@@ -275,18 +275,13 @@ public class Map {
         getContinent(AUSTRALIA).addCountries(getCountries(AUSTRALIA_COUNTRIES));
     }
 
-    public void removeCountry(Country country) {
-        countries.remove(country);
-    }
-
-    public void printMap() {
-        countries.forEach((k, v) -> {v.print();});
-    }
-
-//    public LinkedList<Country> getCountries() {
-//        return countries;
+//    public void removeCountry(Country country) {
+//        countries.remove(country);
 //    }
 
+    public void printMap() {
+        countries.forEach((k, v) -> v.print());
+    }
 
     public ArrayList<Continent> getContinents(){
         return continents;
