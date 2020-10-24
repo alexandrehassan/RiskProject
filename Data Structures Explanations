@@ -1,3 +1,86 @@
+Q: detailed description of the choice of data structures and relevant operations
+Map:
+    countries: LinkedList<Country>
+        We used a LinkedList because they are faster at addition and deletion than the Array backed Arraylist. Additionally
+        it is only slightly longer to loop over a linkedlist than an arraylist so the methods that look for objects are
+        not affected too much. The countries list is mostly used in the creation of the map where there are a lot of additions.
+
+    continents: ArrayList<Continents>
+        Because most of the continent operations are gets (better in ArrayLists) continent is an arraylist.
+
+    final string: CONSTANTS
+        Instead of creating an object to be stored for each country we decided to use constants to store the Strings representing
+        the names of all the countries. This way we can minimise the number of "useless" variables.
+
+Player:
+    countries: LinkedList<Country>
+        we needed some sort of list in order to be able to hold multiple objects without creating different
+        variables for each country of the map.
+
+        We used a LinkedList because they are faster at addition and deletion than the Array backed Arraylist. Additionally
+        it is only slightly longer to loop over a LinkedList than an arraylist so the methods that look for objects are
+        not affected too much. The countries list is mostly used in the creation of the map where there are a lot of additions.
+
+    name:String
+        This one is pretty self explanatory.
+
+    eliminated:boolean
+        While we could have removed the player from the list of players when he was eliminated we decided to have an
+        eliminated field for 2? reasons.
+
+        1. To make it possible to play multiple games without resetting the players everytime.
+
+        2. When we get a GUI this will make it easier to display stats during the game (such as having the eliminated players
+            be greyed out.)
+
+
+Game:
+    players: ArrayList<Players>
+        we needed some sort of list in order to be able to hold multiple objects without creating different
+        variables for each Player in the game.
+
+        We decided to use an ArrayList here because players will stay the same during the game and would probably not change
+        between games. This means that the list is used mostly for accessing the different players which is better with ArrayLists.
+
+    currentPlayer: Player
+        We need to have a way of storing which player is playing at the moment. There are multiple ways we could have done this
+        (storing the index of the player and storing the player being the most viable)
+
+        We decided to go with storing the player because storing the index of the currentPlayer (the index from players)
+        would have meant that every time we wanted to access one of the methods/property of the current player we would
+        have need to players.get(index) which would add unneccesary code (using player.whatever() shows what is going on
+        in way simpler terms then players.get(index).whatever())
+
+    parser: Parser
+
+    map : Map
+        not affected too much. The countries list is mostly used in the creation of the map where there are a lot of additions.
+
+Country:
+    neighbor: ArrayList<Country>
+
+    name: String
+        This one is pretty self explanatory.
+
+    troops: int
+        Event though players own troops, countries stores them. The reason we went with this implementation is that
+        countries are always owned by a player and should always have troops on them. It also helps with attacks because
+        we can do most of the attack operations without needing to know what player is attacking which (we only need to
+        know players if the attack is won (if it is lost both players keep their countries the only thing that changes
+        is the number of troops on the countries.)
+
+
+Continent:
+    name:String
+        This one is pretty self explanatory.
+
+    countries: ArrayList<Country>
+
+
+    reinforcements: int
+        this represents the bonus given when a player owns a continent. It should never change and as such is final.
+
+
 Parser:
     reader : Scanner
         Imported from 'java.util.Scanner.' Allows parser to read the input from the command line,

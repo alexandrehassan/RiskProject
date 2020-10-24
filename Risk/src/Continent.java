@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Continent {
     private String name;
     private final ArrayList<Country> countries;
-    private int reinforcements;
+    private final int reinforcements;
 
     /**
      * Default constructor for class Continent.
