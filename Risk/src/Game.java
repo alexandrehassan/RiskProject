@@ -104,17 +104,7 @@ public class Game {
         System.out.println(currentPlayer.getName() + "'s turn:");
         boolean finished = false;
 
-        //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
-        int extraTroops = 0;
-        for(Continent continent: map.getContinents()) {
-            if (currentPlayer.getCountries().containsAll(continent.getCountries())) {
-                extraTroops += continent.getReinforcements();
-            }
-        }
-        int reinforcements = Math.max(3, currentPlayer.getCountrySize()/3) + extraTroops;
-
-
-        autoPutReinforcements(reinforcements);
+        getReinforcements();
 
         while (!finished) {
             try {
@@ -127,6 +117,24 @@ public class Game {
         }
 
         return (getRemainingPlayers() == 1);
+    }
+
+    /**
+     * Gets the number of reinforcements to add for the current player and
+     * assigns them randomly to one or more of their countries
+     */
+    private void getReinforcements () {
+        //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
+        int extraTroops = 0;
+        for(Continent continent: map.getContinents()) {
+            if (currentPlayer.getCountries().containsAll(continent.getCountries())) {
+                extraTroops += continent.getReinforcements();
+            }
+        }
+        int reinforcements = Math.max(3, currentPlayer.getCountrySize()/3) + extraTroops;
+
+
+        autoPutReinforcements(reinforcements);
     }
 
     /**
@@ -180,7 +188,6 @@ public class Game {
 
         switch (command.getCommandWord().toLowerCase()) {
             case "attack" -> playAttack(command);
-            case "move" -> playMove(command);
             case "help" -> printHelp();
             case "state" -> printState();
             case "end" -> {
@@ -342,16 +349,6 @@ public class Game {
         moveTroops(attack, defend, toAdd);
         System.out.println(currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.");
         currentPlayer.sortCountries();
-    }
-
-    /**
-     * Moves troops based on the command
-     * @param command the commands from the player
-     */
-    private void playMove (Command command) {
-        System.out.println("Moving ...");
-        command.printCommand();
-        System.out.println(command.getCommandDetails());
     }
 
     /**

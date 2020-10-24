@@ -270,6 +270,7 @@ public class Map {
         getCountry(IRKUTSK).addNeighbor(getCountry(YAKUTSK));
         getCountry(JAPAN).addNeighbor(getCountry(KAMCHATKA));
         getCountry(JAPAN).addNeighbor(getCountry(MONGOLIA));
+        getCountry(KAMCHATKA).addNeighbor(getCountry(ALASKA));
         getCountry(KAMCHATKA).addNeighbor(getCountry(IRKUTSK));
         getCountry(KAMCHATKA).addNeighbor(getCountry(JAPAN));
         getCountry(KAMCHATKA).addNeighbor(getCountry(MONGOLIA));

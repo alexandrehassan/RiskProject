@@ -12,7 +12,6 @@ public class CommandWords {
     //A constant array containing all the commands words
     private static final String[] validCommands = {
             "attack",
-            //"move",
             "end",
             "help",
             "state"
@@ -21,7 +20,6 @@ public class CommandWords {
     //A constant array containing instructions for each command word
     private static final String[] commandMethod = {
             "Attack _____ with/from ____",
-            //"Move __ troops from _____ to _____",
             "End turn",
             "Help",
             "State",
