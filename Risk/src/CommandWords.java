@@ -17,14 +17,6 @@ public class CommandWords {
             "state"
     };
 
-    //A constant array containing instructions for each command word
-    private static final String[] commandMethod = {
-            "Attack _____ with/from ____",
-            "End turn",
-            "Help",
-            "State",
-    };
-
     /**
      * Default constructor for CommandWords
      */
@@ -39,7 +31,7 @@ public class CommandWords {
     public void showAllCommands()
     {
         for(int i = 0; i < validCommands.length; i++) {
-            System.out.println(validCommands[i] + ":  '" + commandMethod[i] + "'");
+            System.out.println("> " + validCommands[i]);
         }
     }
 

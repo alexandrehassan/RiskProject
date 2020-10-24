@@ -47,22 +47,45 @@ public class Parser
         Scanner tokenizer = new Scanner(inputLine);
         if(tokenizer.hasNext()) {
             word1 = tokenizer.next();      // get first word
-            if (tokenizer.hasNext()) {
+            /*if (tokenizer.hasNext()) {
                 otherWords = tokenizer.next();
                 while (tokenizer.hasNext()) {
                     otherWords += " " + tokenizer.next();
                 }
             }
+             */
         }
 
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(commands.isCommandWord(word1)) {
-            return new Command(word1, otherWords);
+            return new Command(word1);
         }
         else {
-            return new Command(null, otherWords);
+            return new Command(null);
         }
+    }
+
+    public String getCountryName()
+    {
+        String inputLine;   // will hold the full input line
+        String countryName = "";
+
+        System.out.print("> ");     // print prompt
+
+        inputLine = reader.nextLine();
+
+        Scanner tokenizer = new Scanner(inputLine);
+        if(tokenizer.hasNext()) {
+            countryName = tokenizer.next();      // get first word
+            while (tokenizer.hasNext()) {
+                countryName += " " + tokenizer.next();
+            }
+        }
+
+        if (countryName.equals(""))
+            throw new IllegalArgumentException("Must provide input");
+        return countryName;
     }
 
     /**
