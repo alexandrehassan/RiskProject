@@ -1,5 +1,5 @@
 Q: detailed description of the choice of data structures and relevant operations
-map:
+Map:
     countries: LinkedList<Country>
         We used a LinkedList because they are faster at addition and deletion than the Array backed Arraylist. Additionally
         it is only slightly longer to loop over a linkedlist than an arraylist so the methods that look for objects are
@@ -79,3 +79,24 @@ Continent:
 
     reinforcements: int
         this represents the bonus given when a player owns a continent. It should never change and as such is final.
+
+
+Parser:
+    reader : Scanner
+        Imported from 'java.util.Scanner.' Allows parser to read the input from the command line,
+        which is then modified and transformed into an interpretable command
+
+    commandWords : CommandWords
+        Class created for this project. Used to check if the first word entered falls under the
+        category of recognized 'command words' and creates a command accordingly
+
+Command:
+    commandWord : String
+        The 'main' word that must match one of the designated words from CommandWords. It is this
+        'main' command word that decides what happens next once the Command is received
+
+CommandWords:
+    validCommands : String[]
+        An array of strings that contains all recognized command words. Stored as a string so it
+        can be checked for equality with other strings, and stored in an array so it can be
+        modified and set prior to the program being run

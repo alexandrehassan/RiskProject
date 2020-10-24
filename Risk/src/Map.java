@@ -20,13 +20,13 @@ public class Map {
     //North America
     private final String ALASKA = "Alaska";
     private final String ALBERTA = "Alberta";
-    private final String CENTRALAMERICA = "Central America";
-    private final String EASTERNUNITEDSTATES = "Eastern United States";
+    private final String CENTRAL_AMERICA = "Central America";
+    private final String EASTERN_UNITED_STATES = "Eastern United States";
     private final String GREENLAND = "Greenland";
-    private final String NORTHWESTTERRITORY = "Northwest Territory";
+    private final String NORTHWEST_TERRITORY = "Northwest Territory";
     private final String ONTARIO = "Ontario";
     private final String QUEBEC = "Quebec";
-    private final String WESTERNUNITEDSTATES = "Western United States";
+    private final String WESTERN_UNITED_STATES = "Western United States";
 
     //South America
     private final String ARGENTINA = "Argentina";
@@ -35,21 +35,21 @@ public class Map {
     private final String VENEZUELA = "Venezuela";
 
     //Europe
-    private final String GREATBRITAIN = "Great Britain";
+    private final String GREAT_BRITAIN = "Great Britain";
     private final String ICELAND = "Iceland";
-    private final String NORTHERNEUROPE = "Northern Europe";
+    private final String NORTHERN_EUROPE = "Northern Europe";
     private final String SCANDINAVIA = "Scandinavia";
-    private final String SOUTHERNEUROPE = "Southern Europe";
+    private final String SOUTHERN_EUROPE = "Southern Europe";
     private final String UKRAINE = "Ukraine";
-    private final String WESTERNEUROPE = "Western Europe";
+    private final String WESTERN_EUROPE = "Western Europe";
 
     //Africa
     private final String CONGO = "Congo";
-    private final String EASTAFRICA = "East Africa";
+    private final String EAST_AFRICA = "East Africa";
     private final String EGYPT = "Egypt";
     private final String MADAGASCAR = "Madagascar";
-    private final String NORTHAFRICA = "North Africa";
-    private final String SOUTHAFRICA = "South Africa";
+    private final String NORTH_AFRICA = "North Africa";
+    private final String SOUTH_AFRICA = "South Africa";
 
     //Asia
     private final String AFGHANISTAN = "Afghanistan";
@@ -58,7 +58,7 @@ public class Map {
     private final String IRKUTSK = "Irkutsk";
     private final String JAPAN = "Japan";
     private final String KAMCHATKA = "Kamchatka";
-    private final String MIDDLEEAST = "Middle East";
+    private final String MIDDLE_EAST = "Middle East";
     private final String MONGOLIA = "Mongolia";
     private final String SIAM = "Siam";
     private final String SIBERIA = "Siberia";
@@ -66,10 +66,10 @@ public class Map {
     private final String YAKUTSK = "Yakutsk";
 
     //Austraila
-    private final String EASTERNAUSTRALIA = "Eastern Australia";
+    private final String EASTERN_AUSTRALIA = "Eastern Australia";
     private final String INDONESIA = "Indonesia";
-    private final String NEWGUINEA = "New Guinea";
-    private final String WESTERNAUSTRALIA = "Western Australia";
+    private final String NEW_GUINEA = "New Guinea";
+    private final String WESTERN_AUSTRALIA = "Western Australia";
 
     /**
      * Constructor for the default map of Risk.
@@ -90,13 +90,13 @@ public class Map {
         //North America
         countries.add(new Country(ALASKA));
         countries.add(new Country(ALBERTA));
-        countries.add(new Country(CENTRALAMERICA));
-        countries.add(new Country(EASTERNUNITEDSTATES));
+        countries.add(new Country(CENTRAL_AMERICA));
+        countries.add(new Country(EASTERN_UNITED_STATES));
         countries.add(new Country(GREENLAND));
-        countries.add(new Country(NORTHWESTTERRITORY));
+        countries.add(new Country(NORTHWEST_TERRITORY));
         countries.add(new Country(ONTARIO));
         countries.add(new Country(QUEBEC));
-        countries.add(new Country(WESTERNUNITEDSTATES));
+        countries.add(new Country(WESTERN_UNITED_STATES));
 
         //South America
         countries.add(new Country(ARGENTINA));
@@ -105,21 +105,21 @@ public class Map {
         countries.add(new Country(VENEZUELA));
 
         //Europe
-        countries.add(new Country(GREATBRITAIN));
+        countries.add(new Country(GREAT_BRITAIN));
         countries.add(new Country(ICELAND));
-        countries.add(new Country(NORTHERNEUROPE));
+        countries.add(new Country(NORTHERN_EUROPE));
         countries.add(new Country(SCANDINAVIA));
-        countries.add(new Country(SOUTHERNEUROPE));
+        countries.add(new Country(SOUTHERN_EUROPE));
         countries.add(new Country(UKRAINE));
-        countries.add(new Country(WESTERNEUROPE));
+        countries.add(new Country(WESTERN_EUROPE));
 
         //Africa
         countries.add(new Country(CONGO));
-        countries.add(new Country(EASTAFRICA));
+        countries.add(new Country(EAST_AFRICA));
         countries.add(new Country(EGYPT));
         countries.add(new Country(MADAGASCAR));
-        countries.add(new Country(NORTHAFRICA));
-        countries.add(new Country(SOUTHAFRICA));
+        countries.add(new Country(NORTH_AFRICA));
+        countries.add(new Country(SOUTH_AFRICA));
 
         //Asia
         countries.add(new Country(AFGHANISTAN));
@@ -128,7 +128,7 @@ public class Map {
         countries.add(new Country(IRKUTSK));
         countries.add(new Country(JAPAN));
         countries.add(new Country(KAMCHATKA));
-        countries.add(new Country(MIDDLEEAST));
+        countries.add(new Country(MIDDLE_EAST));
         countries.add(new Country(MONGOLIA));
         countries.add(new Country(SIAM));
         countries.add(new Country(SIBERIA));
@@ -136,10 +136,10 @@ public class Map {
         countries.add(new Country(YAKUTSK));
 
         //Australia
-        countries.add(new Country(EASTERNAUSTRALIA));
+        countries.add(new Country(EASTERN_AUSTRALIA));
         countries.add(new Country(INDONESIA));
-        countries.add(new Country(NEWGUINEA));
-        countries.add(new Country(WESTERNAUSTRALIA));
+        countries.add(new Country(NEW_GUINEA));
+        countries.add(new Country(WESTERN_AUSTRALIA));
 
     }
 
@@ -149,40 +149,40 @@ public class Map {
     public void setNeighbors() {
         //North America
         getCountry(ALASKA).addNeighbor(getCountry(ALBERTA));
-        getCountry(ALASKA).addNeighbor(getCountry(NORTHWESTTERRITORY));
+        getCountry(ALASKA).addNeighbor(getCountry(NORTHWEST_TERRITORY));
         getCountry(ALASKA).addNeighbor(getCountry(KAMCHATKA));
-        getCountry(ALBERTA).addNeighbor(getCountry(WESTERNUNITEDSTATES));
+        getCountry(ALBERTA).addNeighbor(getCountry(WESTERN_UNITED_STATES));
         getCountry(ALBERTA).addNeighbor(getCountry(ALASKA));
-        getCountry(ALBERTA).addNeighbor(getCountry(NORTHWESTTERRITORY));
+        getCountry(ALBERTA).addNeighbor(getCountry(NORTHWEST_TERRITORY));
         getCountry(ALBERTA).addNeighbor(getCountry(ONTARIO));
-        getCountry(CENTRALAMERICA).addNeighbor(getCountry(WESTERNUNITEDSTATES));
-        getCountry(CENTRALAMERICA).addNeighbor(getCountry(EASTERNUNITEDSTATES));
-        getCountry(CENTRALAMERICA).addNeighbor(getCountry(VENEZUELA));
-        getCountry(EASTERNUNITEDSTATES).addNeighbor(getCountry(ONTARIO));
-        getCountry(EASTERNUNITEDSTATES).addNeighbor(getCountry(QUEBEC));
-        getCountry(EASTERNUNITEDSTATES).addNeighbor(getCountry(CENTRALAMERICA));
-        getCountry(EASTERNUNITEDSTATES).addNeighbor(getCountry(WESTERNUNITEDSTATES));
-        getCountry(GREENLAND).addNeighbor(getCountry(NORTHWESTTERRITORY));
+        getCountry(CENTRAL_AMERICA).addNeighbor(getCountry(WESTERN_UNITED_STATES));
+        getCountry(CENTRAL_AMERICA).addNeighbor(getCountry(EASTERN_UNITED_STATES));
+        getCountry(CENTRAL_AMERICA).addNeighbor(getCountry(VENEZUELA));
+        getCountry(EASTERN_UNITED_STATES).addNeighbor(getCountry(ONTARIO));
+        getCountry(EASTERN_UNITED_STATES).addNeighbor(getCountry(QUEBEC));
+        getCountry(EASTERN_UNITED_STATES).addNeighbor(getCountry(CENTRAL_AMERICA));
+        getCountry(EASTERN_UNITED_STATES).addNeighbor(getCountry(WESTERN_UNITED_STATES));
+        getCountry(GREENLAND).addNeighbor(getCountry(NORTHWEST_TERRITORY));
         getCountry(GREENLAND).addNeighbor(getCountry(ONTARIO));
         getCountry(GREENLAND).addNeighbor(getCountry(QUEBEC));
         getCountry(GREENLAND).addNeighbor(getCountry(ICELAND));
-        getCountry(NORTHWESTTERRITORY).addNeighbor(getCountry(ALASKA));
-        getCountry(NORTHWESTTERRITORY).addNeighbor(getCountry(ALBERTA));
-        getCountry(NORTHWESTTERRITORY).addNeighbor(getCountry(ONTARIO));
-        getCountry(NORTHWESTTERRITORY).addNeighbor(getCountry(GREATBRITAIN));
-        getCountry(ONTARIO).addNeighbor(getCountry(NORTHWESTTERRITORY));
+        getCountry(NORTHWEST_TERRITORY).addNeighbor(getCountry(ALASKA));
+        getCountry(NORTHWEST_TERRITORY).addNeighbor(getCountry(ALBERTA));
+        getCountry(NORTHWEST_TERRITORY).addNeighbor(getCountry(ONTARIO));
+        getCountry(NORTHWEST_TERRITORY).addNeighbor(getCountry(GREAT_BRITAIN));
+        getCountry(ONTARIO).addNeighbor(getCountry(NORTHWEST_TERRITORY));
         getCountry(ONTARIO).addNeighbor(getCountry(ALBERTA));
-        getCountry(ONTARIO).addNeighbor(getCountry(WESTERNUNITEDSTATES));
-        getCountry(ONTARIO).addNeighbor(getCountry(EASTERNUNITEDSTATES));
+        getCountry(ONTARIO).addNeighbor(getCountry(WESTERN_UNITED_STATES));
+        getCountry(ONTARIO).addNeighbor(getCountry(EASTERN_UNITED_STATES));
         getCountry(ONTARIO).addNeighbor(getCountry(QUEBEC));
         getCountry(ONTARIO).addNeighbor(getCountry(GREENLAND));
         getCountry(QUEBEC).addNeighbor(getCountry(ONTARIO));
-        getCountry(QUEBEC).addNeighbor(getCountry(EASTERNUNITEDSTATES));
+        getCountry(QUEBEC).addNeighbor(getCountry(EASTERN_UNITED_STATES));
         getCountry(QUEBEC).addNeighbor(getCountry(GREENLAND));
-        getCountry(WESTERNUNITEDSTATES).addNeighbor(getCountry(ALBERTA));
-        getCountry(WESTERNUNITEDSTATES).addNeighbor(getCountry(ONTARIO));
-        getCountry(WESTERNUNITEDSTATES).addNeighbor(getCountry(EASTERNUNITEDSTATES));
-        getCountry(WESTERNUNITEDSTATES).addNeighbor(getCountry(CENTRALAMERICA));
+        getCountry(WESTERN_UNITED_STATES).addNeighbor(getCountry(ALBERTA));
+        getCountry(WESTERN_UNITED_STATES).addNeighbor(getCountry(ONTARIO));
+        getCountry(WESTERN_UNITED_STATES).addNeighbor(getCountry(EASTERN_UNITED_STATES));
+        getCountry(WESTERN_UNITED_STATES).addNeighbor(getCountry(CENTRAL_AMERICA));
 
         //South America
         getCountry(ARGENTINA).addNeighbor(getCountry(BRAZIL));
@@ -190,74 +190,74 @@ public class Map {
         getCountry(BRAZIL).addNeighbor(getCountry(ARGENTINA));
         getCountry(BRAZIL).addNeighbor(getCountry(PERU));
         getCountry(BRAZIL).addNeighbor(getCountry(VENEZUELA));
-        getCountry(BRAZIL).addNeighbor(getCountry(NORTHAFRICA));
+        getCountry(BRAZIL).addNeighbor(getCountry(NORTH_AFRICA));
         getCountry(PERU).addNeighbor(getCountry(ARGENTINA));
         getCountry(PERU).addNeighbor(getCountry(BRAZIL));
         getCountry(PERU).addNeighbor(getCountry(VENEZUELA));
         getCountry(VENEZUELA).addNeighbor(getCountry(BRAZIL));
         getCountry(VENEZUELA).addNeighbor(getCountry(PERU));
-        getCountry(VENEZUELA).addNeighbor(getCountry(CENTRALAMERICA));
+        getCountry(VENEZUELA).addNeighbor(getCountry(CENTRAL_AMERICA));
 
         //Europe
-        getCountry(GREATBRITAIN).addNeighbor(getCountry(ICELAND));
-        getCountry(GREATBRITAIN).addNeighbor(getCountry(NORTHERNEUROPE));
-        getCountry(GREATBRITAIN).addNeighbor(getCountry(SCANDINAVIA));
-        getCountry(GREATBRITAIN).addNeighbor(getCountry(WESTERNEUROPE));
+        getCountry(GREAT_BRITAIN).addNeighbor(getCountry(ICELAND));
+        getCountry(GREAT_BRITAIN).addNeighbor(getCountry(NORTHERN_EUROPE));
+        getCountry(GREAT_BRITAIN).addNeighbor(getCountry(SCANDINAVIA));
+        getCountry(GREAT_BRITAIN).addNeighbor(getCountry(WESTERN_EUROPE));
         getCountry(ICELAND).addNeighbor(getCountry(GREENLAND));
-        getCountry(ICELAND).addNeighbor(getCountry(GREATBRITAIN));
+        getCountry(ICELAND).addNeighbor(getCountry(GREAT_BRITAIN));
         getCountry(ICELAND).addNeighbor(getCountry(SCANDINAVIA));
-        getCountry(NORTHERNEUROPE).addNeighbor(getCountry(GREATBRITAIN));
-        getCountry(NORTHERNEUROPE).addNeighbor(getCountry(SCANDINAVIA));
-        getCountry(NORTHERNEUROPE).addNeighbor(getCountry(UKRAINE));
-        getCountry(NORTHERNEUROPE).addNeighbor(getCountry(SOUTHERNEUROPE));
-        getCountry(NORTHERNEUROPE).addNeighbor(getCountry(WESTERNEUROPE));
+        getCountry(NORTHERN_EUROPE).addNeighbor(getCountry(GREAT_BRITAIN));
+        getCountry(NORTHERN_EUROPE).addNeighbor(getCountry(SCANDINAVIA));
+        getCountry(NORTHERN_EUROPE).addNeighbor(getCountry(UKRAINE));
+        getCountry(NORTHERN_EUROPE).addNeighbor(getCountry(SOUTHERN_EUROPE));
+        getCountry(NORTHERN_EUROPE).addNeighbor(getCountry(WESTERN_EUROPE));
         getCountry(SCANDINAVIA).addNeighbor(getCountry(ICELAND));
-        getCountry(SCANDINAVIA).addNeighbor(getCountry(GREATBRITAIN));
-        getCountry(SCANDINAVIA).addNeighbor(getCountry(NORTHERNEUROPE));
+        getCountry(SCANDINAVIA).addNeighbor(getCountry(GREAT_BRITAIN));
+        getCountry(SCANDINAVIA).addNeighbor(getCountry(NORTHERN_EUROPE));
         getCountry(SCANDINAVIA).addNeighbor(getCountry(UKRAINE));
-        getCountry(SOUTHERNEUROPE).addNeighbor(getCountry(WESTERNEUROPE));
-        getCountry(SOUTHERNEUROPE).addNeighbor(getCountry(NORTHERNEUROPE));
-        getCountry(SOUTHERNEUROPE).addNeighbor(getCountry(UKRAINE));
-        getCountry(SOUTHERNEUROPE).addNeighbor(getCountry(MIDDLEEAST));
-        getCountry(SOUTHERNEUROPE).addNeighbor(getCountry(EGYPT));
-        getCountry(SOUTHERNEUROPE).addNeighbor(getCountry(NORTHAFRICA));
+        getCountry(SOUTHERN_EUROPE).addNeighbor(getCountry(WESTERN_EUROPE));
+        getCountry(SOUTHERN_EUROPE).addNeighbor(getCountry(NORTHERN_EUROPE));
+        getCountry(SOUTHERN_EUROPE).addNeighbor(getCountry(UKRAINE));
+        getCountry(SOUTHERN_EUROPE).addNeighbor(getCountry(MIDDLE_EAST));
+        getCountry(SOUTHERN_EUROPE).addNeighbor(getCountry(EGYPT));
+        getCountry(SOUTHERN_EUROPE).addNeighbor(getCountry(NORTH_AFRICA));
         getCountry(UKRAINE).addNeighbor(getCountry(SCANDINAVIA));
-        getCountry(UKRAINE).addNeighbor(getCountry(NORTHERNEUROPE));
-        getCountry(UKRAINE).addNeighbor(getCountry(SOUTHERNEUROPE));
+        getCountry(UKRAINE).addNeighbor(getCountry(NORTHERN_EUROPE));
+        getCountry(UKRAINE).addNeighbor(getCountry(SOUTHERN_EUROPE));
         getCountry(UKRAINE).addNeighbor(getCountry(AFGHANISTAN));
-        getCountry(UKRAINE).addNeighbor(getCountry(MIDDLEEAST));
+        getCountry(UKRAINE).addNeighbor(getCountry(MIDDLE_EAST));
         getCountry(UKRAINE).addNeighbor(getCountry(URAL));
-        getCountry(WESTERNEUROPE).addNeighbor(getCountry(GREATBRITAIN));
-        getCountry(WESTERNEUROPE).addNeighbor(getCountry(NORTHERNEUROPE));
-        getCountry(WESTERNEUROPE).addNeighbor(getCountry(SOUTHERNEUROPE));
-        getCountry(WESTERNEUROPE).addNeighbor(getCountry(NORTHAFRICA));
+        getCountry(WESTERN_EUROPE).addNeighbor(getCountry(GREAT_BRITAIN));
+        getCountry(WESTERN_EUROPE).addNeighbor(getCountry(NORTHERN_EUROPE));
+        getCountry(WESTERN_EUROPE).addNeighbor(getCountry(SOUTHERN_EUROPE));
+        getCountry(WESTERN_EUROPE).addNeighbor(getCountry(NORTH_AFRICA));
 
         //Africa
-        getCountry(CONGO).addNeighbor(getCountry(EASTAFRICA));
-        getCountry(CONGO).addNeighbor(getCountry(NORTHAFRICA));
-        getCountry(CONGO).addNeighbor(getCountry(SOUTHAFRICA));
-        getCountry(EASTAFRICA).addNeighbor(getCountry(CONGO));
-        getCountry(EASTAFRICA).addNeighbor(getCountry(EGYPT));
-        getCountry(EASTAFRICA).addNeighbor(getCountry(NORTHAFRICA));
-        getCountry(EASTAFRICA).addNeighbor(getCountry(SOUTHAFRICA));
-        getCountry(EASTAFRICA).addNeighbor(getCountry(MADAGASCAR));
-        getCountry(EGYPT).addNeighbor(getCountry(EASTAFRICA));
-        getCountry(EGYPT).addNeighbor(getCountry(NORTHAFRICA));
-        getCountry(EGYPT).addNeighbor(getCountry(SOUTHERNEUROPE));
-        getCountry(MADAGASCAR).addNeighbor(getCountry(EASTAFRICA));
-        getCountry(MADAGASCAR).addNeighbor(getCountry(SOUTHAFRICA));
-        getCountry(NORTHAFRICA).addNeighbor(getCountry(CONGO));
-        getCountry(NORTHAFRICA).addNeighbor(getCountry(EASTAFRICA));
-        getCountry(NORTHAFRICA).addNeighbor(getCountry(EGYPT));
-        getCountry(NORTHAFRICA).addNeighbor(getCountry(BRAZIL));
-        getCountry(NORTHAFRICA).addNeighbor(getCountry(SOUTHERNEUROPE));
-        getCountry(NORTHAFRICA).addNeighbor(getCountry(WESTERNEUROPE));
-        getCountry(SOUTHAFRICA).addNeighbor(getCountry(CONGO));
-        getCountry(SOUTHAFRICA).addNeighbor(getCountry(EASTAFRICA));
-        getCountry(SOUTHAFRICA).addNeighbor(getCountry(MADAGASCAR));
+        getCountry(CONGO).addNeighbor(getCountry(EAST_AFRICA));
+        getCountry(CONGO).addNeighbor(getCountry(NORTH_AFRICA));
+        getCountry(CONGO).addNeighbor(getCountry(SOUTH_AFRICA));
+        getCountry(EAST_AFRICA).addNeighbor(getCountry(CONGO));
+        getCountry(EAST_AFRICA).addNeighbor(getCountry(EGYPT));
+        getCountry(EAST_AFRICA).addNeighbor(getCountry(NORTH_AFRICA));
+        getCountry(EAST_AFRICA).addNeighbor(getCountry(SOUTH_AFRICA));
+        getCountry(EAST_AFRICA).addNeighbor(getCountry(MADAGASCAR));
+        getCountry(EGYPT).addNeighbor(getCountry(EAST_AFRICA));
+        getCountry(EGYPT).addNeighbor(getCountry(NORTH_AFRICA));
+        getCountry(EGYPT).addNeighbor(getCountry(SOUTHERN_EUROPE));
+        getCountry(MADAGASCAR).addNeighbor(getCountry(EAST_AFRICA));
+        getCountry(MADAGASCAR).addNeighbor(getCountry(SOUTH_AFRICA));
+        getCountry(NORTH_AFRICA).addNeighbor(getCountry(CONGO));
+        getCountry(NORTH_AFRICA).addNeighbor(getCountry(EAST_AFRICA));
+        getCountry(NORTH_AFRICA).addNeighbor(getCountry(EGYPT));
+        getCountry(NORTH_AFRICA).addNeighbor(getCountry(BRAZIL));
+        getCountry(NORTH_AFRICA).addNeighbor(getCountry(SOUTHERN_EUROPE));
+        getCountry(NORTH_AFRICA).addNeighbor(getCountry(WESTERN_EUROPE));
+        getCountry(SOUTH_AFRICA).addNeighbor(getCountry(CONGO));
+        getCountry(SOUTH_AFRICA).addNeighbor(getCountry(EAST_AFRICA));
+        getCountry(SOUTH_AFRICA).addNeighbor(getCountry(MADAGASCAR));
 
         //Asia
-        getCountry(AFGHANISTAN).addNeighbor(getCountry(MIDDLEEAST));
+        getCountry(AFGHANISTAN).addNeighbor(getCountry(MIDDLE_EAST));
         getCountry(AFGHANISTAN).addNeighbor(getCountry(INDIA));
         getCountry(AFGHANISTAN).addNeighbor(getCountry(CHINA));
         getCountry(AFGHANISTAN).addNeighbor(getCountry(URAL));
@@ -270,7 +270,7 @@ public class Map {
         getCountry(CHINA).addNeighbor(getCountry(URAL));
         getCountry(INDIA).addNeighbor(getCountry(AFGHANISTAN));
         getCountry(INDIA).addNeighbor(getCountry(CHINA));
-        getCountry(INDIA).addNeighbor(getCountry(MIDDLEEAST));
+        getCountry(INDIA).addNeighbor(getCountry(MIDDLE_EAST));
         getCountry(INDIA).addNeighbor(getCountry(SIAM));
         getCountry(IRKUTSK).addNeighbor(getCountry(KAMCHATKA));
         getCountry(IRKUTSK).addNeighbor(getCountry(MONGOLIA));
@@ -278,15 +278,16 @@ public class Map {
         getCountry(IRKUTSK).addNeighbor(getCountry(YAKUTSK));
         getCountry(JAPAN).addNeighbor(getCountry(KAMCHATKA));
         getCountry(JAPAN).addNeighbor(getCountry(MONGOLIA));
+        getCountry(KAMCHATKA).addNeighbor(getCountry(ALASKA));
         getCountry(KAMCHATKA).addNeighbor(getCountry(IRKUTSK));
         getCountry(KAMCHATKA).addNeighbor(getCountry(JAPAN));
         getCountry(KAMCHATKA).addNeighbor(getCountry(MONGOLIA));
         getCountry(KAMCHATKA).addNeighbor(getCountry(YAKUTSK));
-        getCountry(MIDDLEEAST).addNeighbor(getCountry(EASTAFRICA));
-        getCountry(MIDDLEEAST).addNeighbor(getCountry(EGYPT));
-        getCountry(MIDDLEEAST).addNeighbor(getCountry(AFGHANISTAN));
-        getCountry(MIDDLEEAST).addNeighbor(getCountry(INDIA));
-        getCountry(MIDDLEEAST).addNeighbor(getCountry(UKRAINE));
+        getCountry(MIDDLE_EAST).addNeighbor(getCountry(EAST_AFRICA));
+        getCountry(MIDDLE_EAST).addNeighbor(getCountry(EGYPT));
+        getCountry(MIDDLE_EAST).addNeighbor(getCountry(AFGHANISTAN));
+        getCountry(MIDDLE_EAST).addNeighbor(getCountry(INDIA));
+        getCountry(MIDDLE_EAST).addNeighbor(getCountry(UKRAINE));
         getCountry(MONGOLIA).addNeighbor(getCountry(CHINA));
         getCountry(MONGOLIA).addNeighbor(getCountry(SIBERIA));
         getCountry(MONGOLIA).addNeighbor(getCountry(IRKUTSK));
@@ -309,17 +310,17 @@ public class Map {
         getCountry(YAKUTSK).addNeighbor(getCountry(SIBERIA));
 
         //Oceania
-        getCountry(EASTERNAUSTRALIA).addNeighbor(getCountry(NEWGUINEA));
-        getCountry(EASTERNAUSTRALIA).addNeighbor(getCountry(WESTERNAUSTRALIA));
-        getCountry(INDONESIA).addNeighbor(getCountry(NEWGUINEA));
-        getCountry(INDONESIA).addNeighbor(getCountry(WESTERNAUSTRALIA));
+        getCountry(EASTERN_AUSTRALIA).addNeighbor(getCountry(NEW_GUINEA));
+        getCountry(EASTERN_AUSTRALIA).addNeighbor(getCountry(WESTERN_AUSTRALIA));
+        getCountry(INDONESIA).addNeighbor(getCountry(NEW_GUINEA));
+        getCountry(INDONESIA).addNeighbor(getCountry(WESTERN_AUSTRALIA));
         getCountry(INDONESIA).addNeighbor(getCountry(SIAM));
-        getCountry(NEWGUINEA).addNeighbor(getCountry(EASTERNAUSTRALIA));
-        getCountry(NEWGUINEA).addNeighbor(getCountry(WESTERNAUSTRALIA));
-        getCountry(NEWGUINEA).addNeighbor(getCountry(INDONESIA));
-        getCountry(WESTERNAUSTRALIA).addNeighbor(getCountry(EASTERNAUSTRALIA));
-        getCountry(WESTERNAUSTRALIA).addNeighbor(getCountry(INDONESIA));
-        getCountry(WESTERNAUSTRALIA).addNeighbor(getCountry(NEWGUINEA));
+        getCountry(NEW_GUINEA).addNeighbor(getCountry(EASTERN_AUSTRALIA));
+        getCountry(NEW_GUINEA).addNeighbor(getCountry(WESTERN_AUSTRALIA));
+        getCountry(NEW_GUINEA).addNeighbor(getCountry(INDONESIA));
+        getCountry(WESTERN_AUSTRALIA).addNeighbor(getCountry(EASTERN_AUSTRALIA));
+        getCountry(WESTERN_AUSTRALIA).addNeighbor(getCountry(INDONESIA));
+        getCountry(WESTERN_AUSTRALIA).addNeighbor(getCountry(NEW_GUINEA));
     }
 
     /**
@@ -328,15 +329,15 @@ public class Map {
     public void loadContinents() {
 
         //Continents
-        String NORTHAMERICA = "North America";
-        String SOUTHAMERICA = "South America";
+        String NORTH_AMERICA = "North America";
+        String SOUTH_AMERICA = "South America";
         String EUROPE = "Europe";
         String AFRICA = "Africa";
         String ASIA = "Asia";
         String AUSTRALIA = "Australia";
 
-        continents.add(new Continent(NORTHAMERICA, 5));
-        continents.add(new Continent(SOUTHAMERICA, 2));
+        continents.add(new Continent(NORTH_AMERICA, 5));
+        continents.add(new Continent(SOUTH_AMERICA, 2));
         continents.add(new Continent(EUROPE, 5));
         continents.add(new Continent(AFRICA, 3));
         continents.add(new Continent(ASIA, 7));
@@ -344,12 +345,12 @@ public class Map {
 
         //North America
         for (int i = 0; i < 9; i++) {
-            getContinent(NORTHAMERICA).addCountry(countries.get(i));
+            getContinent(NORTH_AMERICA).addCountry(countries.get(i));
         }
 
         //South America
         for (int i = 9; i < 13; i++) {
-            getContinent(SOUTHAMERICA).addCountry(countries.get(i));
+            getContinent(SOUTH_AMERICA).addCountry(countries.get(i));
         }
 
         //Europe
