@@ -31,6 +31,7 @@ public class Country {
      */
     public void addNeighbor(Country neighbor){
         this.neighbor.add(neighbor);
+        neighbor.addNeighbor(this);
     }
 
     /**
@@ -87,5 +88,9 @@ public class Country {
     @Override
     public String toString() {
         return name + "  Troops: " + troops;
+    }
+
+    public void print() {
+        System.out.println(this);
     }
 }

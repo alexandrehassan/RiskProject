@@ -1,7 +1,7 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.concurrent.ThreadLocalRandom;
+
+import java.util.HashMap;
+
 
 /**
  * Map class
@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 
 public class Map {
-    private final LinkedList<Country> countries;
+    private final HashMap<String,Country> countries;
     private final ArrayList<Continent> continents;
 
     //Countries
@@ -73,7 +73,7 @@ public class Map {
 
 
     public Map() {
-        countries = new LinkedList<>();
+        countries = new HashMap<>();
         continents = new ArrayList<>();
         this.loadMap();
         this.loadContinents();
@@ -83,58 +83,58 @@ public class Map {
     public void loadMap() {
 
         //North America
-        countries.add(new Country(ALASKA));
-        countries.add(new Country(ALBERTA));
-        countries.add(new Country(CENTRAL_AMERICA));
-        countries.add(new Country(EASTERN_UNITED_STATES));
-        countries.add(new Country(GREENLAND));
-        countries.add(new Country(NORTHWEST_TERRITORY));
-        countries.add(new Country(ONTARIO));
-        countries.add(new Country(QUEBEC));
-        countries.add(new Country(WESTERN_UNITED_STATES));
+        countries.put(ALASKA, new Country(ALASKA));
+        countries.put(ALBERTA, new Country(ALBERTA));
+        countries.put(CENTRAL_AMERICA, new Country(CENTRAL_AMERICA));
+        countries.put(EASTERN_UNITED_STATES, new Country(EASTERN_UNITED_STATES));
+        countries.put(GREENLAND, new Country(GREENLAND));
+        countries.put(NORTHWEST_TERRITORY, new Country(NORTHWEST_TERRITORY));
+        countries.put(ONTARIO, new Country(ONTARIO));
+        countries.put(QUEBEC ,new Country(QUEBEC));
+        countries.put(WESTERN_UNITED_STATES ,new Country(WESTERN_UNITED_STATES));
 
         //South America
-        countries.add(new Country(ARGENTINA));
-        countries.add(new Country(BRAZIL));
-        countries.add(new Country(PERU));
-        countries.add(new Country(VENEZUELA));
+        countries.put(ARGENTINA ,new Country(ARGENTINA));
+        countries.put(BRAZIL, new Country(BRAZIL));
+        countries.put(PERU, new Country(PERU));
+        countries.put(VENEZUELA, new Country(VENEZUELA));
 
         //Europe
-        countries.add(new Country(GREAT_BRITAIN));
-        countries.add(new Country(ICELAND));
-        countries.add(new Country(NORTHERN_EUROPE));
-        countries.add(new Country(SCANDINAVIA));
-        countries.add(new Country(SOUTHERN_EUROPE));
-        countries.add(new Country(UKRAINE));
-        countries.add(new Country(WESTERN_EUROPE));
+        countries.put(GREAT_BRITAIN, new Country(GREAT_BRITAIN));
+        countries.put(ICELAND, new Country(ICELAND));
+        countries.put(NORTHERN_EUROPE, new Country(NORTHERN_EUROPE));
+        countries.put(SCANDINAVIA, new Country(SCANDINAVIA));
+        countries.put(SOUTHERN_EUROPE, new Country(SOUTHERN_EUROPE));
+        countries.put(UKRAINE, new Country(UKRAINE));
+        countries.put(WESTERN_EUROPE, new Country(WESTERN_EUROPE));
 
         //Africa
-        countries.add(new Country(CONGO));
-        countries.add(new Country(EAST_AFRICA));
-        countries.add(new Country(EGYPT));
-        countries.add(new Country(MADAGASCAR));
-        countries.add(new Country(NORTH_AFRICA));
-        countries.add(new Country(SOUTH_AFRICA));
+        countries.put(CONGO, new Country(CONGO));
+        countries.put(EAST_AFRICA, new Country(EAST_AFRICA));
+        countries.put(EGYPT,new Country(EGYPT));
+        countries.put(MADAGASCAR, new Country(MADAGASCAR));
+        countries.put(NORTH_AFRICA, new Country(NORTH_AFRICA));
+        countries.put(SOUTH_AFRICA, new Country(SOUTH_AFRICA));
 
         //Asia
-        countries.add(new Country(AFGHANISTAN));
-        countries.add(new Country(CHINA));
-        countries.add(new Country(INDIA));
-        countries.add(new Country(IRKUTSK));
-        countries.add(new Country(JAPAN));
-        countries.add(new Country(KAMCHATKA));
-        countries.add(new Country(MIDDLE_EAST));
-        countries.add(new Country(MONGOLIA));
-        countries.add(new Country(SIAM));
-        countries.add(new Country(SIBERIA));
-        countries.add(new Country(URAL));
-        countries.add(new Country(YAKUTSK));
+        countries.put(AFGHANISTAN, new Country(AFGHANISTAN));
+        countries.put(CHINA, new Country(CHINA));
+        countries.put(INDIA, new Country(INDIA));
+        countries.put(IRKUTSK, new Country(IRKUTSK));
+        countries.put(JAPAN, new Country(JAPAN));
+        countries.put(KAMCHATKA, new Country(KAMCHATKA));
+        countries.put(MIDDLE_EAST, new Country(MIDDLE_EAST));
+        countries.put(MONGOLIA, new Country(MONGOLIA));
+        countries.put(SIAM, new Country(SIAM));
+        countries.put(SIBERIA, new Country(SIBERIA));
+        countries.put(URAL, new Country(URAL));
+        countries.put(YAKUTSK, new Country(YAKUTSK));
 
         //Australia
-        countries.add(new Country(EASTERN_AUSTRALIA));
-        countries.add(new Country(INDONESIA));
-        countries.add(new Country(NEW_GUINEA));
-        countries.add(new Country(WESTERN_AUSTRALIA));
+        countries.put(EASTERN_AUSTRALIA, new Country(EASTERN_AUSTRALIA));
+        countries.put(INDONESIA, new Country(INDONESIA));
+        countries.put(NEW_GUINEA, new Country(NEW_GUINEA));
+        countries.put(WESTERN_AUSTRALIA, new Country(WESTERN_AUSTRALIA));
 
     }
 
@@ -318,11 +318,24 @@ public class Map {
 
         //Continents
         String NORTH_AMERICA = "North America";
+        String[] NORTH_AMERICA_COUNTRIES = {ALASKA,ALBERTA,CENTRAL_AMERICA,EASTERN_UNITED_STATES,
+                GREENLAND,NORTHWEST_TERRITORY,ONTARIO,QUEBEC,WESTERN_UNITED_STATES};
+
         String SOUTH_AMERICA = "South America";
+        String[] SOUTH_AMERICA_COUNTRIES = {ARGENTINA,BRAZIL,PERU,VENEZUELA};
+
         String EUROPE = "Europe";
+        String[] EUROPE_COUNTRIES ={GREAT_BRITAIN,ICELAND,NORTHERN_EUROPE,SCANDINAVIA,SOUTHERN_EUROPE,UKRAINE,WESTERN_EUROPE};
+
         String AFRICA = "Africa";
+        String[] AFRICA_COUNTRIES = {CONGO,EAST_AFRICA,EGYPT,MADAGASCAR,NORTH_AFRICA,SOUTH_AFRICA};
+
         String ASIA = "Asia";
+        String[] ASIA_COUNTRIES ={AFGHANISTAN,CHINA,INDIA,IRKUTSK,JAPAN,KAMCHATKA,MIDDLE_EAST,MONGOLIA,SIAM,SIBERIA,URAL,YAKUTSK};
+
         String AUSTRALIA = "Australia";
+        String[] AUSTRALIA_COUNTRIES ={EASTERN_AUSTRALIA,INDONESIA,NEW_GUINEA,WESTERN_AUSTRALIA};
+
 
         continents.add(new Continent(NORTH_AMERICA, 5));
         continents.add(new Continent(SOUTH_AMERICA, 2));
@@ -332,35 +345,12 @@ public class Map {
         continents.add(new Continent(AUSTRALIA, 2));
 
         //North America
-        for (int i = 0; i < 9; i++) {
-            getContinent(NORTH_AMERICA).addCountry(countries.get(i));
-        }
-
-        //South America
-        for (int i = 9; i < 13; i++) {
-            getContinent(SOUTH_AMERICA).addCountry(countries.get(i));
-        }
-
-        //Europe
-        for (int i = 13; i < 20; i++) {
-            getContinent(EUROPE).addCountry(countries.get(i));
-        }
-
-        //Africa
-        for (int i = 20; i < 26; i++) {
-            getContinent(AFRICA).addCountry(countries.get(i));
-        }
-
-        //Asia
-        for (int i = 26; i < 38; i++) {
-            getContinent(ASIA).addCountry(countries.get(i));
-        }
-
-        //Australia
-        for (int i = 38; i < 42; i++) {
-            getContinent(AUSTRALIA).addCountry(countries.get(i));
-        }
-
+        getContinent(NORTH_AMERICA).addCountries(getCountries(NORTH_AMERICA_COUNTRIES));
+        getContinent(SOUTH_AMERICA).addCountries(getCountries(SOUTH_AMERICA_COUNTRIES));
+        getContinent(EUROPE).addCountries(getCountries(EUROPE_COUNTRIES));
+        getContinent(AFRICA).addCountries(getCountries(AFRICA_COUNTRIES));
+        getContinent(ASIA).addCountries(getCountries(ASIA_COUNTRIES));
+        getContinent(AUSTRALIA).addCountries(getCountries(AUSTRALIA_COUNTRIES));
     }
 
     public void removeCountry(Country country) {
@@ -368,34 +358,29 @@ public class Map {
     }
 
     public void printMap() {
-        for (Country c : countries) {
-            System.out.println(c);
-        }
+        countries.forEach((k, v) -> {v.print();});
     }
 
-    public LinkedList<Country> getCountries() {
-        return countries;
-    }
+//    public LinkedList<Country> getCountries() {
+//        return countries;
+//    }
 
 
     public ArrayList<Continent> getContinents(){
         return continents;
     }
 
-    public boolean countryExists (String countryName) {
-        for (Country c : countries) {
-            if (c.toString().equals(countryName))
-                return true;
-        }
-        return false;
-    }
+//    public boolean countryExists (String countryName) {
+//        for (Country c : countries) {
+//            if (c.toString().equals(countryName))
+//                return true;
+//        }
+//        return false;
+//    }
 
     public Country getCountry(String name){
-        for (Country country: countries) {
-            if(country.getName().equals(name)){
-                return country;
-            }
-        }
+        Country country =countries.get(name);
+        if (country!=null) return country;
         throw new IllegalArgumentException(name + " is not a valid country");
     }
 
@@ -408,10 +393,18 @@ public class Map {
         throw new IllegalArgumentException(name + " is not a valid continent");
     }
 
-    public void shuffleCountries () {
-        for (int i = 0; i < 1000; i++) {
-            Collections.swap(countries, ThreadLocalRandom.current().nextInt(0, countries.size()),
-                    ThreadLocalRandom.current().nextInt(0, countries.size()));
+    private ArrayList<Country> getCountries(String[] toGet){
+        ArrayList<Country> found = new ArrayList<>();
+        for(String countryString :toGet){
+            found.add(countries.get(countryString));
         }
+        return found;
     }
+
+//    public void shuffleCountries () {
+//        for (int i = 0; i < 1000; i++) {
+//            Collections.swap(countries, ThreadLocalRandom.current().nextInt(0, countries.size()),
+//                    ThreadLocalRandom.current().nextInt(0, countries.size()));
+//        }
+//    }
 }

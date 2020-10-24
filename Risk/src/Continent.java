@@ -58,4 +58,8 @@ public class Continent {
         return name;
     }
 
+    public void addCountries(ArrayList<Country> countries){
+        this.countries.addAll(countries);
+    }
+
 }
