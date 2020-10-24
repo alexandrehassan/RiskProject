@@ -1,0 +1,25 @@
+Parser:
+1. Scanner reader
+Imported from 'java.util.Scanner.' Allows parser to read the input from the command line,
+which is then modified and transformed into an interpretable command
+2. CommandWords commandWords
+Class created for this project. Used to check if the first word entered falls under the
+category of recognized 'command words' and creates a command accordingly
+
+Command:
+1. String commandWord
+The 'main' word that must match one of the designated words from CommandWords. It is this
+'main' command word that decides what happens next once the Command is received
+2. String commandDetails
+Any additional instructions provided by the user. While the commandWord decides what to do
+next, commandDetails offer additional information about what to do next. An example of this
+would be when attacking, commandDetails will contain the country being attacked and the
+country that is doing the attacking.
+
+CommandWords:
+1. String[] validCommands
+An array of strings that contains all recognized command words
+2. String[] commandMethod
+An array of strings that contains the explanations for what to do and what is done for each
+command word. For example, the commandMethod for 'attack' tells the user how to write the
+command, and the commandMethod for 'end' describes how that command 'ends (the) turn'
