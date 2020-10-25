@@ -19,8 +19,8 @@
  */
 
 public class Command {
-    String commandWord;
-    String commandDetails;
+    final String commandWord;
+    final String commandDetails;
 
     /**
      * Constructor for the command

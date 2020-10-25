@@ -280,9 +280,9 @@ public class Map {
 //        countries.remove(country);
 //    }
 
-    public void printMap() {
-        countries.forEach((k, v) -> v.print());
-    }
+//    public void printMap() {
+//        countries.forEach((k, v) -> v.print());
+//    }
 
     public ArrayList<Continent> getContinents(){
         return continents;
@@ -319,8 +319,8 @@ public class Map {
         return found;
     }
 
-    public ArrayList getShuffledKeys () {
-        ArrayList keys = new ArrayList<String>(countries.keySet());
+    public ArrayList<String> getShuffledKeys () {
+        ArrayList<String> keys = new ArrayList<>(countries.keySet());
         Collections.shuffle(keys);
         return keys;
     }

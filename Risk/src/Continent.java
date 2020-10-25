@@ -6,9 +6,9 @@ import java.util.ArrayList;
  * @version 3: October 18 2020
  */
 public class Continent {
-    private String name;
+    private final String name;
     private final ArrayList<Country> countries;
-    private int reinforcements;
+    private final int reinforcements;
 
     /**
      * Default constructor for class Continent.
@@ -20,15 +20,6 @@ public class Continent {
         this.name = name;
         this.reinforcements = reinforcements;
         countries = new ArrayList<>();
-    }
-
-    /**
-     * Adds a country to the continent.
-     *
-     * @param country the country to be added.
-     */
-    public void addCountry(Country country) {
-        countries.add(country);
     }
 
     /**
@@ -58,6 +49,11 @@ public class Continent {
         return name;
     }
 
+    /**
+    * Adds the given countries to the continent.
+    *
+    * @param countries the countries to be added.
+    */
     public void addCountries(ArrayList<Country> countries){
         this.countries.addAll(countries);
     }

@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Game {
     private final ArrayList<Player> players;
     private Player currentPlayer;
-    private Parser parser;
+    private final Parser parser;
     private Map map;
 
     private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
@@ -143,18 +143,19 @@ public class Game {
     }
 
     /**
-     * This is a method that randomly assigns reinforcement troops.
-     * It is used to test the reinforcement turn methods
-     * A version of this will be used for the AI players
+     * Method to add reinforcement to a player's countries automatically,
+     * will always add on countries on the exterior of a player's territory.
      *
-     * TODO: Add logic so the troops are put on outside countries (countries not in the middle of a players territory)
+     * Early version of what will be used for AI players.
+     *
+     * @param reinforcements the number of troops to place.
      */
     private void autoPutReinforcements(int reinforcements){
-        //System.out.println(currentPlayer.getName() + " has " + currentPlayer.getCountrySize() + " Countries");
         System.out.println(reinforcements + " reinforcements to set.");
+        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         for(int assigned = 0; assigned < reinforcements; assigned++){
-            putReinforcements(currentPlayer.getCountry(ThreadLocalRandom.current().nextInt(0,
-                    currentPlayer.NumberOfCountries())), 1);
+            int randomIndex = ThreadLocalRandom.current().nextInt(0, perimeterCountries.size());
+            putReinforcements(perimeterCountries.get(randomIndex),1);
         }
     }
 

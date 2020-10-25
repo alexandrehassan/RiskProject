@@ -67,7 +67,6 @@ public class Country {
      * @return the number of troops posted on this country.
      */
     public int getTroops() {
-
         return troops;
     }
 
@@ -100,7 +99,4 @@ public class Country {
         return name + "  Troops: " + troops;
     }
 
-    public void print() {
-        System.out.println(this);
-    }
 }

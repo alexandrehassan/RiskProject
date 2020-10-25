@@ -65,7 +65,7 @@ public class Player {
     }
 
     /**
-     * Rerturns the country at the index
+     * Returns the country at the index
      * TODO: This going to go.
      * @param index ...
      * @return the Country.
@@ -113,29 +113,13 @@ public class Player {
      * @param countries the countries to be checked
      * @return True if the player owns the countries False otherwise
      */
-    public boolean hasCountries (ArrayList countries) {
+    public boolean hasCountries (ArrayList<Country> countries) {
         return this.countries.containsAll(countries);
     }
 
 
-
-    /**
-     * Gets the country object with the given name
-     *
-     * @param name the name of the country to be found
-     * @return the object of the name.
-     */
-    public Country getCountry(String name) {
-        for (Country c : countries)
-            if (c.toString().equals(name))
-                return c;
-        throw new IllegalArgumentException(name + " is not a valid country");
-    }
-
     /**
      * Prints the current state of the player.
-     *
-     * TODO: Change the toString of countries to output the country name and then the number of troops.
      */
     public void print(){
         System.out.println("[" + name + "]");
@@ -204,5 +188,19 @@ public class Player {
                 getAccessibleCountries(n, finish, accessibleCountries);
             }
         }
+    }
+
+    /**
+     * Gets all of the countries that are on the outer perimeter of a player's territory.
+     * @return an Array Containing all exterior countries.
+     */
+    public ArrayList<Country> getPerimeterCountries(){
+        ArrayList<Country> perimeterCountries = new ArrayList<>();
+        for (Country c: countries) {
+            if (!countries.containsAll(c.getNeighborsArray())){
+                perimeterCountries.add(c);
+            }
+        }
+        return perimeterCountries;
     }
 }
