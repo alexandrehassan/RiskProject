@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -318,10 +319,9 @@ public class Map {
         return found;
     }
 
-//    public void shuffleCountries () {
-//        for (int i = 0; i < 1000; i++) {
-//            Collections.swap(countries, ThreadLocalRandom.current().nextInt(0, countries.size()),
-//                    ThreadLocalRandom.current().nextInt(0, countries.size()));
-//        }
-//    }
+    public ArrayList getShuffledKeys () {
+        ArrayList keys = new ArrayList<String>(countries.keySet());
+        Collections.shuffle(keys);
+        return keys;
+    }
 }

@@ -55,9 +55,9 @@ public class Game {
 
         //Assign countries to players (shuffle order)
         this.map = new Map();
-        map.shuffleCountries();
-        for (Country c : map.getCountries()) {
-            currentPlayer.addCountry(c);
+        ArrayList<String> countryKeysArrayList= map.getShuffledKeys();
+        for (String key : countryKeysArrayList) {
+            currentPlayer.addCountry(map.getCountry(key));
             nextPlayer();
         }
         for (Player p : players) {

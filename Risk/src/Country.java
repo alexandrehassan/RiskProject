@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author Team Group - Alexandre Hassan
  */
 public class Country {
-    private final ArrayList<Country> neighbor;
+    private final ArrayList<Country> neighbors;
     private final String name;
     private int troops;
 
@@ -20,7 +20,7 @@ public class Country {
     public Country(String name) {
         this.name = name;
         troops = 1;
-        neighbor = new ArrayList<>();
+        neighbors = new ArrayList<>();
     }
 
     /**
@@ -30,8 +30,12 @@ public class Country {
      * @param neighbor the country to be added as a neighbor.
      */
     public void addNeighbor(Country neighbor){
-        this.neighbor.add(neighbor);
-        neighbor.addNeighbor(this);
+        this.neighbors.add(neighbor);
+        if(!(neighbor.getNeighbors().contains(this))){
+            neighbor.addNeighbor(this);
+        }
+
+
     }
 
     /**
@@ -40,7 +44,7 @@ public class Country {
      * @return all the countries that are neighbors with this country.
      */
     public ArrayList<Country> getNeighbors() {
-        return neighbor;
+        return neighbors;
     }
 
     /**
