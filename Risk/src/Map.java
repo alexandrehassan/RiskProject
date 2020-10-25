@@ -290,11 +290,16 @@ public class Map {
     }
 
     /**
-     * Gives all the continents of the map.
-     * @return ArrayList of continents.
+     * Gets the country objects for all the contries with the given names.
+     * @param toGet an Array containing the names of every country to return
+     * @return an array of country objects.
      */
-    public ArrayList<Continent> getContinents(){
-        return continents;
+    private ArrayList<Country> getCountries(String[] toGet){
+        ArrayList<Country> found = new ArrayList<>();
+        for(String countryString :toGet){
+            found.add(countries.get(countryString));
+        }
+        return found;
     }
 
     /**
@@ -309,6 +314,14 @@ public class Map {
     }
 
     /**
+     * Gives all the continents of the map.
+     * @return ArrayList of continents.
+     */
+    public ArrayList<Continent> getContinents(){
+        return continents;
+    }
+
+    /**
      * Gives the continent object of the country with the given name.
      * @param name the name of the continent
      * @return the continent object with the correct name.
@@ -320,19 +333,6 @@ public class Map {
             }
         }
         throw new IllegalArgumentException(name + " is not a valid continent");
-    }
-
-    /**
-     * Gets the country objects for all the contries with the given names.
-     * @param toGet an Array containing the names of every country to return
-     * @return an array of country objects.
-     */
-    private ArrayList<Country> getCountries(String[] toGet){
-        ArrayList<Country> found = new ArrayList<>();
-        for(String countryString :toGet){
-            found.add(countries.get(countryString));
-        }
-        return found;
     }
 
     /**
