@@ -29,15 +29,6 @@ public class Player {
     }
 
     /**
-     * Gets the list of countries Player owns.
-     *
-     * @return ArrayList of countries owned by the player
-     */
-    public LinkedList<Country> getCountries() {
-        return countries;
-    }
-
-    /**
      * Adds a country to the ones owned by the Player
      *
      * @param country country to be added to the player's countries.
@@ -51,7 +42,7 @@ public class Player {
      *
      * @return the size of countries.
      */
-    public int getCountrySize(){
+    public int NumberOfCountries(){
         return countries.size();
     }
 
@@ -74,6 +65,24 @@ public class Player {
     }
 
     /**
+     * Rerturns the country at the index
+     * TODO: This going to go.
+     * @param index ...
+     * @return the Country.
+     */
+    public Country getCountry(int index){
+        return countries.get(index);
+    }
+
+    /**
+     * Removes c from the countries player owns.
+     * @param c the country to be removed.
+     */
+    public void lost(Country c){
+        countries.remove(c);
+    }
+
+    /**
      * Triggers the check to see whether of not player is eliminated
      */
     public void checkEliminated () {
@@ -89,17 +98,26 @@ public class Player {
     }
 
     /**
-     * Checks if the player owns the country with the given name
+     * Checks if the player owns the given country
      *
-     * @param name the name of the country to be checked.
+     * @param country the name of the country to be checked.
      * @return True if the player owns the country False otherwise
      */
-    public boolean hasCountry (String name) {
-        for (Country c : countries)
-            if (c.toString().equals(name))
-                return true;
-        return false;
+    public boolean hasCountry (Country country) {
+        return countries.contains(country);
     }
+
+    /**
+     * Checks if the player owns the countries
+     *
+     * @param countries the countries to be checked
+     * @return True if the player owns the countries False otherwise
+     */
+    public boolean hasCountries (ArrayList countries) {
+        return this.countries.containsAll(countries);
+    }
+
+
 
     /**
      * Gets the country object with the given name
@@ -174,7 +192,7 @@ public class Player {
      * @param accessibleCountries every accessible country.
      */
     private void getAccessibleCountries (Country country, Country finish, ArrayList<Country> accessibleCountries) {
-        for (Country n : country.getNeighbors()) {
+        for (Country n : country.getNeighborsArray()) {
             if (!countries.contains(n))
                 continue;
             if (n.equals(finish)) {

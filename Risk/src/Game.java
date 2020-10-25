@@ -69,12 +69,12 @@ public class Game {
         for (Player player:players) {
             //To stop to many troops from being assigned to a single country we set a max number of troops on one country
             //The maximum should be at least 4
-            int maxTroops = Math.max(beginningTroops/player.getCountrySize() + 2, 4);
+            int maxTroops = Math.max(beginningTroops/player.NumberOfCountries() + 2, 4);
             int random;
-            for(int assigned = player.getCountrySize(); assigned<beginningTroops;){
-                random = ThreadLocalRandom.current().nextInt(0,player.getCountrySize());
-                if(player.getCountries().get(random).getTroops()<maxTroops){
-                    player.getCountries().get(random).addTroop(1);
+            for(int assigned = player.NumberOfCountries(); assigned<beginningTroops;){
+                random = ThreadLocalRandom.current().nextInt(0,player.NumberOfCountries());
+                if(player.getCountry(random).getTroops()<maxTroops){
+                    player.getCountry(random).addTroop(1);
                     assigned++;
                 }
             }
@@ -107,11 +107,11 @@ public class Game {
         //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
         int extraTroops = 0;
         for(Continent continent: map.getContinents()) {
-            if (currentPlayer.getCountries().containsAll(continent.getCountries())) {
+            if (currentPlayer.hasCountries(continent.getCountries())) {
                 extraTroops += continent.getReinforcements();
             }
         }
-        int reinforcements = Math.max(3, currentPlayer.getCountrySize()/3) + extraTroops;
+        int reinforcements = Math.max(3, currentPlayer.NumberOfCountries()/3) + extraTroops;
 
 
         autoPutReinforcements(reinforcements);
@@ -153,8 +153,8 @@ public class Game {
         //System.out.println(currentPlayer.getName() + " has " + currentPlayer.getCountrySize() + " Countries");
         System.out.println(reinforcements + " reinforcements to set.");
         for(int assigned = 0; assigned < reinforcements; assigned++){
-            putReinforcements(currentPlayer.getCountries().get(ThreadLocalRandom.current().nextInt(0,
-                    currentPlayer.getCountrySize())), 1);
+            putReinforcements(currentPlayer.getCountry(ThreadLocalRandom.current().nextInt(0,
+                    currentPlayer.NumberOfCountries())), 1);
         }
     }
 
@@ -263,16 +263,16 @@ public class Game {
      * @param defending the defending country
      */
     private void checkAttackValid (Country attacking, Country defending) {
-        if (!currentPlayer.getCountries().contains(attacking)) {
+        if (!currentPlayer.hasCountry(attacking)) {
             throw new IllegalArgumentException("Current player does not control " + attacking);
         }
-        if (currentPlayer.getCountries().contains(defending)) {
+        else if (currentPlayer.hasCountry(defending)) {
             throw new IllegalArgumentException("Current player already controls " + defending);
         }
-        if (!attacking.getNeighbors().contains(defending)) {
+        else if (!attacking.hasNeighbor(defending)) {
             throw new IllegalArgumentException(defending + " does not border " + attacking);
         }
-        if (attacking.getTroops() <= 1) {
+        else if (attacking.getTroops() <= 1) {
             throw new IllegalArgumentException(attacking + " does not have enough troops to attack (needs more than 1)");
         }
     }
@@ -325,13 +325,12 @@ public class Game {
      * Changes the owner of a country and assigns troops
      * @param defend the country whose ownership is being transferred
      * @param attack the country who must provide necessary troops
-     * @param minimumMove the minimum number of troops that can be moved
      */
     private void ownerChange(Country defend, Country attack, int minimumMove) {
         System.out.println("Changing owners:");
         for (Player p : players) {
-            if (p.getCountries().contains(defend)) {
-                p.getCountries().remove(defend);
+            if (p.hasCountry(defend)) {
+                p.lost(defend);
                 p.checkEliminated();
             }
         }

@@ -29,22 +29,24 @@ public class Country {
      *
      * @param neighbor the country to be added as a neighbor.
      */
-    public void addNeighbor(Country neighbor){
+    public void addNeighbor(Country neighbor) {
         this.neighbors.add(neighbor);
-        if(!(neighbor.getNeighbors().contains(this))){
+        if (!(neighbor.hasNeighbor(this))) {
             neighbor.addNeighbor(this);
         }
-
-
     }
 
-    /**
-     * Gives an arraylist containing all of the neighbors of the country.
-     *
-     * @return all the countries that are neighbors with this country.
-     */
-    public ArrayList<Country> getNeighbors() {
-        return neighbors;
+//    /**
+//     * Gives an arraylist containing all of the neighbors of the country.
+//     *
+//     * @return all the countries that are neighbors with this country.
+//     */
+//    public ArrayList<Country> getNeighbors() {
+//        return neighbors;
+//    }
+
+    public boolean hasNeighbor(Country c){
+        return neighbors.contains(c);
     }
 
     /**
@@ -77,6 +79,10 @@ public class Country {
     public void removeTroops(int num) {
         if(num<0) return;
         troops -= num;
+    }
+
+    public ArrayList<Country> getNeighborsArray(){
+        return neighbors;
     }
 
 
