@@ -55,30 +55,20 @@ public class Game {
 
         //Assign countries to players (shuffle order)
         this.map = new Map();
+
+        //Assign countries randomly
         ArrayList<String> countryKeysArrayList= map.getShuffledKeys();
         for (String key : countryKeysArrayList) {
             currentPlayer.addCountry(map.getCountry(key));
             nextPlayer();
         }
-        for (Player p : players) {
-            p.sortCountries();
+
+        //Sort countries and Randomly Assign troops to countries
+        for(Player player: players){
+            player.sortCountries();
+            player.assignBeginningTroops(BEGINNING_TROOPS[players.size()-2]);
         }
 
-        //Randomly Assign troops to countries
-        int beginningTroops =  BEGINNING_TROOPS[players.size()-2];
-        for (Player player:players) {
-            //To stop to many troops from being assigned to a single country we set a max number of troops on one country
-            //The maximum should be at least 4
-            int maxTroops = Math.max(beginningTroops/player.NumberOfCountries() + 2, 4);
-            int random;
-            for(int assigned = player.NumberOfCountries(); assigned<beginningTroops;){
-                random = ThreadLocalRandom.current().nextInt(0,player.NumberOfCountries());
-                if(player.getCountry(random).getTroops()<maxTroops){
-                    player.getCountry(random).addTroop(1);
-                    assigned++;
-                }
-            }
-        }
         printState();
     }
 

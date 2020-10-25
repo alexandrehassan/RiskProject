@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The Player class represents the individual players in the Risk game.
@@ -62,16 +63,6 @@ public class Player {
      */
     public boolean isEliminated () {
         return eliminated;
-    }
-
-    /**
-     * Returns the country at the index
-     * TODO: This going to go.
-     * @param index ...
-     * @return the Country.
-     */
-    public Country getCountry(int index){
-        return countries.get(index);
     }
 
     /**
@@ -202,5 +193,21 @@ public class Player {
             }
         }
         return perimeterCountries;
+    }
+
+    public void assignBeginningTroops(int beginningTroops) {
+        //To stop to many troops from being assigned to a single country we set a max number of troops on one country
+        //The maximum should be at least 4
+        int maxTroops = Math.max(beginningTroops/countries.size() + 2, 4);
+
+        int random;
+        for(int assigned = countries.size(); assigned<beginningTroops;){
+            random = ThreadLocalRandom.current().nextInt(0,countries.size());
+            if(countries.get(random).getTroops() < maxTroops){
+                countries.get(random).addTroop(1);
+                assigned++;
+            }
+        }
+
     }
 }
