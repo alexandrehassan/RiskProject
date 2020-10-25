@@ -20,7 +20,6 @@ public class Player {
 
     /**
      * Default constructor for the class Player.
-     *
      * @param name the name of the player.
      */
     public Player(String name) {
@@ -31,25 +30,30 @@ public class Player {
 
     /**
      * Adds a country to the ones owned by the Player
-     *
      * @param country country to be added to the player's countries.
      */
     public void addCountry(Country country){
         countries.add(country);
     }
 
-    /**
-     * Gives the number of countries owned by Player.
-     *
-     * @return the size of countries.
-     */
-    public int NumberOfCountries(){
-        return countries.size();
+    public void assignBeginningTroops(int beginningTroops) {
+        //To stop to many troops from being assigned to a single country we set a max number of troops on one country
+        //The maximum should be at least 4
+        int maxTroops = Math.max(beginningTroops/countries.size() + 2, 4);
+
+        int random;
+        for(int assigned = countries.size(); assigned<beginningTroops;){
+            random = ThreadLocalRandom.current().nextInt(0,countries.size());
+            if(countries.get(random).getTroops() < maxTroops){
+                countries.get(random).addTroop(1);
+                assigned++;
+            }
+        }
+
     }
 
     /**
      * Gives the name of Player
-     *
      * @return the name of the player.
      */
     public String getName () {
@@ -58,19 +62,10 @@ public class Player {
 
     /**
      * Whether or not the player is eliminated
-     *
      * @return True if Eliminated, False otherwise
      */
     public boolean isEliminated () {
         return eliminated;
-    }
-
-    /**
-     * Removes c from the countries player owns.
-     * @param c the country to be removed.
-     */
-    public void lost(Country c){
-        countries.remove(c);
     }
 
     /**
@@ -86,6 +81,22 @@ public class Player {
      */
     private void setEliminated (boolean isEliminated) {
         this.eliminated = isEliminated;
+    }
+
+    /**
+     * Gives the number of countries owned by Player.
+     * @return the size of countries.
+     */
+    public int NumberOfCountries(){
+        return countries.size();
+    }
+
+    /**
+     * Removes a country from the countries player owns.
+     * @param c the country to be removed.
+     */
+    public void lost(Country c){
+        countries.remove(c);
     }
 
     /**
@@ -167,7 +178,7 @@ public class Player {
      * @param accessibleCountries every accessible country.
      */
     private void getAccessibleCountries (Country country, Country finish, ArrayList<Country> accessibleCountries) {
-        for (Country n : country.getNeighborsArray()) {
+        for (Country n : country.getNeighbors()) {
             if (!countries.contains(n))
                 continue;
             if (n.equals(finish)) {
@@ -188,26 +199,11 @@ public class Player {
     public ArrayList<Country> getPerimeterCountries(){
         ArrayList<Country> perimeterCountries = new ArrayList<>();
         for (Country c: countries) {
-            if (!countries.containsAll(c.getNeighborsArray())){
+            if (!countries.containsAll(c.getNeighbors())){
                 perimeterCountries.add(c);
             }
         }
         return perimeterCountries;
     }
 
-    public void assignBeginningTroops(int beginningTroops) {
-        //To stop to many troops from being assigned to a single country we set a max number of troops on one country
-        //The maximum should be at least 4
-        int maxTroops = Math.max(beginningTroops/countries.size() + 2, 4);
-
-        int random;
-        for(int assigned = countries.size(); assigned<beginningTroops;){
-            random = ThreadLocalRandom.current().nextInt(0,countries.size());
-            if(countries.get(random).getTroops() < maxTroops){
-                countries.get(random).addTroop(1);
-                assigned++;
-            }
-        }
-
-    }
 }

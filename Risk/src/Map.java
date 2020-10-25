@@ -73,6 +73,10 @@ public class Map {
     private static final String WESTERN_AUSTRALIA = "Western Australia";
 
 
+    /**
+     * Constructor for the Map class.
+     * Generates a map of the classic Risk game.
+     */
     public Map() {
         countries = new HashMap<>();
         continents = new ArrayList<>();
@@ -81,7 +85,10 @@ public class Map {
         this.setNeighbors();
     }
 
-    public void loadMap() {
+    /**
+     * Helper method for constructor of map that creates all the country objects.
+     */
+    private void loadMap() {
 
         //North America
         countries.put(ALASKA, new Country(ALASKA));
@@ -139,7 +146,10 @@ public class Map {
 
     }
 
-    public void setNeighbors() {
+    /**
+     * Helper method for constructor of map that sets all neighbor relations.
+     */
+    private void setNeighbors() {
         //North America
         getCountry(ALASKA).addNeighbor(getCountry(ALBERTA));
         getCountry(ALASKA).addNeighbor(getCountry(NORTHWEST_TERRITORY));
@@ -237,7 +247,10 @@ public class Map {
         getCountry(NEW_GUINEA).addNeighbor(getCountry(WESTERN_AUSTRALIA));
     }
 
-    public void loadContinents() {
+    /**
+     * Helper method for constructor of map that makes all of the continents.
+     */
+    private void loadContinents() {
 
         //Continents
         String NORTH_AMERICA = "North America";
@@ -276,32 +289,30 @@ public class Map {
         getContinent(AUSTRALIA).addCountries(getCountries(AUSTRALIA_COUNTRIES));
     }
 
-//    public void removeCountry(Country country) {
-//        countries.remove(country);
-//    }
-
-//    public void printMap() {
-//        countries.forEach((k, v) -> v.print());
-//    }
-
+    /**
+     * Gives all the continents of the map.
+     * @return ArrayList of continents.
+     */
     public ArrayList<Continent> getContinents(){
         return continents;
     }
 
-//    public boolean countryExists (String countryName) {
-//        for (Country c : countries) {
-//            if (c.toString().equals(countryName))
-//                return true;
-//        }
-//        return false;
-//    }
-
+    /**
+     * Gives the country object of the country with the given name.
+     * @param name the name of the country
+     * @return the country object with the correct name.
+     */
     public Country getCountry(String name){
         Country country =countries.get(name);
         if (country!=null) return country;
         throw new IllegalArgumentException(name + " is not a valid country");
     }
 
+    /**
+     * Gives the continent object of the country with the given name.
+     * @param name the name of the continent
+     * @return the continent object with the correct name.
+     */
     public Continent getContinent(String name) {
         for (Continent continent : continents) {
             if(continent.getName().equals(name)){
@@ -311,6 +322,11 @@ public class Map {
         throw new IllegalArgumentException(name + " is not a valid continent");
     }
 
+    /**
+     * Gets the country objects for all the contries with the given names.
+     * @param toGet an Array containing the names of every country to return
+     * @return an array of country objects.
+     */
     private ArrayList<Country> getCountries(String[] toGet){
         ArrayList<Country> found = new ArrayList<>();
         for(String countryString :toGet){
@@ -319,6 +335,10 @@ public class Map {
         return found;
     }
 
+    /**
+     * Shuffles the keys of the countries and returns them as an array.
+     * @return an Array containing all the keys in a random order.
+     */
     public ArrayList<String> getShuffledKeys () {
         ArrayList<String> keys = new ArrayList<>(countries.keySet());
         Collections.shuffle(keys);

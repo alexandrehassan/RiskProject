@@ -94,7 +94,7 @@ public class Game {
         System.out.println(currentPlayer.getName() + "'s turn:");
         boolean finished = false;
 
-        //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
+        //Reinforcement Phase
         int extraTroops = 0;
         for(Continent continent: map.getContinents()) {
             if (currentPlayer.hasCountries(continent.getCountries())) {
@@ -102,10 +102,9 @@ public class Game {
             }
         }
         int reinforcements = Math.max(3, currentPlayer.NumberOfCountries()/3) + extraTroops;
-
-
         autoPutReinforcements(reinforcements);
 
+        //Game loop
         while (!finished) {
             try {
                 Command command = parser.getCommand();

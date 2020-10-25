@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * @author Team Group - Alexandre Hassan
  */
 public class Country {
-    private final ArrayList<Country> neighbors;
     private final String name;
+    private final ArrayList<Country> neighbors;
     private int troops;
 
     /**
@@ -21,6 +21,15 @@ public class Country {
         this.name = name;
         troops = 1;
         neighbors = new ArrayList<>();
+    }
+
+    /**
+     * Gives the name of the country.
+     *
+     * @return name of this country.
+     */
+    public String getName(){
+        return name;
     }
 
     /**
@@ -36,17 +45,16 @@ public class Country {
         }
     }
 
-//    /**
-//     * Gives an arraylist containing all of the neighbors of the country.
-//     *
-//     * @return all the countries that are neighbors with this country.
-//     */
-//    public ArrayList<Country> getNeighbors() {
-//        return neighbors;
-//    }
-
     public boolean hasNeighbor(Country c){
         return neighbors.contains(c);
+    }
+
+    /**
+     * Gets the neighbors of Country
+     * @return an ArrayList of neighbors.
+     */
+    public ArrayList<Country> getNeighbors(){
+        return neighbors;
     }
 
     /**
@@ -80,23 +88,8 @@ public class Country {
         troops -= num;
     }
 
-    public ArrayList<Country> getNeighborsArray(){
-        return neighbors;
-    }
-
-
-    /**
-     * Gives the name of the country.
-     *
-     * @return name of this country.
-     */
-    public String getName(){
-        return name;
-    }
-
     @Override
     public String toString() {
         return name + "  Troops: " + troops;
     }
-
 }

@@ -23,6 +23,15 @@ public class Continent {
     }
 
     /**
+     * Gives the name of the continent.
+     *
+     * @return the name of the continent.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Gives all of the countries contained in the continent.
      *
      * @return the countries that are part of the continent.
@@ -41,15 +50,6 @@ public class Continent {
     }
 
     /**
-     * Gives the name of the continent.
-     *
-     * @return the name of the continent.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
     * Adds the given countries to the continent.
     *
     * @param countries the countries to be added.
@@ -57,5 +57,4 @@ public class Continent {
     public void addCountries(ArrayList<Country> countries){
         this.countries.addAll(countries);
     }
-
 }
