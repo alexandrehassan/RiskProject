@@ -50,6 +50,16 @@ public class Player {
     }
 
     /**
+     * Removes a country from the countries list and returns true if
+     * successful, false if not
+     * @param country, the country to remove
+     * @return boolean, true if object existed in countries, false if not
+     */
+    public boolean removeCountry (Country country) {
+        return countries.remove(country);
+    }
+
+    /**
      * Gives the number of countries owned by Player.
      *
      * @return the size of countries.

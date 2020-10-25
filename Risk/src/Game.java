@@ -40,6 +40,10 @@ public class Game {
         map = null;
     }
 
+    /**
+     * User can add between 2 and 6 players (inclusive) to a game. They can
+     * then generate a full game and begin playing immediately
+     */
     public void userCreateGame () {
         boolean finished = false;
         System.out.println("Add players (input names), input 'done' to continue: ");
@@ -100,7 +104,7 @@ public class Game {
             for(int assigned = player.getCountrySize(); assigned<beginningTroops;){
                 random = ThreadLocalRandom.current().nextInt(0,player.getCountrySize());
                 if(player.getCountries().get(random).getTroops()<maxTroops){
-                    player.getCountries().get(random).addTroop(1);
+                    player.getCountries().get(random).addTroop(1, false);
                     assigned++;
                 }
             }
@@ -198,7 +202,7 @@ public class Game {
      * @param numberOfTroops the number of troops
      */
     private void putReinforcements(Country country, int numberOfTroops){
-        country.addTroop(numberOfTroops);
+        country.addTroop(numberOfTroops, true);
     }
 
     /**
@@ -237,8 +241,6 @@ public class Game {
             System.out.println("Attack with? :");
             attackingCountry = parser.getName();
 
-
-            checkAttackInputValid(attackingCountry, defendingCountry);
             performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
         }
         catch (Exception e) {
@@ -257,20 +259,6 @@ public class Game {
         if (original.equals("") || original == null)
             return toAdd;
         return original + " " + toAdd;
-    }
-
-    /**
-     * Check if the attack input is valid, throws as exception otherwise
-     * @param attacking the name of the attacking country
-     * @param defending the name of the defending country
-     */
-    private void checkAttackInputValid (String attacking, String defending) {
-        if (attacking == null || defending == null) {
-            throw new IllegalArgumentException("Input syntax not read correctly - use 'help' for help");
-        }
-        if (attacking.equals("") || defending.equals("")) {
-            throw new IllegalArgumentException("Input syntax not read correctly - use 'help' for help");
-        }
     }
 
     /**
@@ -302,11 +290,16 @@ public class Game {
     private void performAttack(Country attack, Country defend) {
         checkAttackValid(attack, defend);
 
-        System.out.println(attack.getName() + " has " + attack.getTroops() + " troops");
-        System.out.println(defend.getName() + " has " + defend.getTroops() + " troops");
-        int attackWith = troopSelect(1, Math.min(3, attack.getTroops() - 1));
-        int defendWith = Math.min(2, defend.getTroops());
-        System.out.println("Rolling dice: " + attackWith + " for " + attack.getName() + ", " + defendWith + " for " + defend.getName());
+        String attackerName = attack.getName();
+        String defenderName = defend.getName();
+        int attackTroops = attack.getTroops();
+        int defendTroops = defend.getTroops();
+
+        System.out.println(attackerName + " has " + attackTroops + " troops");
+        System.out.println(defenderName + " has " + defendTroops + " troops");
+        int attackWith = troopSelect(1, Math.min(3, attackTroops - 1));
+        int defendWith = Math.min(2, defendTroops);
+        System.out.println("Rolling dice: " + attackWith + " for " + attackerName + ", " + defendWith + " for " + defenderName);
         ArrayList<Integer> attackerDice = new ArrayList<>();
         ArrayList<Integer> defenderDice = new ArrayList<>();
         for (int i = 0; i < attackWith; i++)
@@ -330,8 +323,8 @@ public class Game {
 
         attack.removeTroops(lostAttackers);
         defend.removeTroops(lostDefenders);
-        System.out.println(attack.getName() + " lost " + lostAttackers + " troop(s), " + attack.getTroops() + " troops remain");
-        System.out.println(defend.getName() + " lost " + lostDefenders + " troop(s), " + defend.getTroops() + " troops remain");
+        System.out.println(attackerName + " lost " + lostAttackers + " troop(s), " + (attackTroops - lostAttackers) + " troops remain");
+        System.out.println(defenderName + " lost " + lostDefenders + " troop(s), " + (defendTroops - lostDefenders) + " troops remain");
 
         if (defend.getTroops() == 0) {
             ownerChange(defend, attack, attackerDice.size() - lostAttackers);
@@ -347,8 +340,7 @@ public class Game {
     private void ownerChange(Country defend, Country attack, int minimumMove) {
         System.out.println("Changing owners:");
         for (Player p : players) {
-            if (p.getCountries().contains(defend)) {
-                p.getCountries().remove(defend);
+            if (p.removeCountry(defend)) {
                 p.checkEliminated();
             }
         }
@@ -384,7 +376,7 @@ public class Game {
             return false;
         }
         origin.removeTroops(toMove);
-        destination.addTroop(toMove);
+        destination.addTroop(toMove, true);
         return true;
     }
 
