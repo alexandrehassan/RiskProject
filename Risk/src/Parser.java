@@ -66,7 +66,7 @@ public class Parser
         }
     }
 
-    public String getCountryName()
+    public String getName()
     {
         String inputLine;   // will hold the full input line
         String countryName = "";

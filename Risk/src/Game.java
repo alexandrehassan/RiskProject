@@ -40,6 +40,32 @@ public class Game {
         map = null;
     }
 
+    public void userCreateGame () {
+        boolean finished = false;
+        System.out.println("Add players (input names), input 'done' to continue: ");
+        while (!finished && players.size() < 6) {
+            System.out.println("Current number of players: " + players.size());
+            try {
+                String newName = parser.getName();
+                if (newName.toLowerCase().equals("done")) {
+                    System.out.println("in here with " + newName);
+                    finished = true;
+                } else {
+                    addPlayer(new Player(newName));
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        if (players.size() < 2) {
+            throw new IllegalArgumentException("Cannot have less than 2 players");
+        }
+
+        generateGame();
+        playGame();
+    }
+
     /**
      * Generates a game as long as two players are present. Assign countries, picks
      * a starting players, assigns troops.
@@ -207,9 +233,9 @@ public class Game {
 
         try {
             System.out.println("Attack who? :");
-            defendingCountry = parser.getCountryName();
+            defendingCountry = parser.getName();
             System.out.println("Attack with? :");
-            attackingCountry = parser.getCountryName();
+            attackingCountry = parser.getName();
 
 
             checkAttackInputValid(attackingCountry, defendingCountry);
@@ -245,8 +271,6 @@ public class Game {
         if (attacking.equals("") || defending.equals("")) {
             throw new IllegalArgumentException("Input syntax not read correctly - use 'help' for help");
         }
-        map.getCountry(defending);
-        map.getCountry(attacking);
     }
 
     /**
@@ -449,12 +473,13 @@ public class Game {
 
     public static void  main(String[] args){
         Game test = new Game();
-        test.addPlayer(new Player("Player1"));
+        test.userCreateGame();
+        /*test.addPlayer(new Player("Player1"));
         test.addPlayer(new Player("Player2"));
         test.addPlayer(new Player("Player3"));
-        test.addPlayer(new Player("Player4"));
-        test.generateGame();
+        test.addPlayer(new Player("Player4"));*/
+        //test.generateGame();
         //test.testPathExists();
-        test.playGame();
+        //test.playGame();
     }
 }

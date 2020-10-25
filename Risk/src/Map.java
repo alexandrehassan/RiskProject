@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Map class
  * Map creates a new map, and loads it with the countries and sets each country's neighbors
  * Map creates continents
- * @author Baillie Noell, Sarah Abdallah - Team Group
+ * @author Baillie Noell, Sarah Abdallah, Jonah Gaudet, Alexandre Hassan - Team Group
  * @version 4: Oct 19 2020
  *
  */

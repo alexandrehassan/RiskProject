@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Every country is made of its name, troops and its neighbors
  *
  * @version 17-10-2020
- * @author Team Group - Alexandre Hassan
+ * @author Team Group - Alexandre Hassan, Jonah Gaudet
  */
 public class Country {
     private final ArrayList<Country> neighbor;

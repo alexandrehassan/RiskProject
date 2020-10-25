@@ -23,6 +23,9 @@ public class Player {
      * @param name the name of the player.
      */
     public Player(String name) {
+        if (name.equals("")) {
+            throw new IllegalArgumentException("Player name cannot be empty");
+        }
         this.name = name;
         countries = new LinkedList<>();
         eliminated = false;
