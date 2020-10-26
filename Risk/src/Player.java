@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -126,10 +127,14 @@ public class Player {
      * Prints the current state of the player.
      */
     public void print(){
-        System.out.println("[" + name + "]");
+        String s = "[" + name + "]\n";
         for (Country country: countries) {
-            System.out.println(country.toString());
+            s += country.toString() + "\n";
         }
+        JOptionPane.showMessageDialog(
+                null,
+                s);
+        System.out.println(s);
     }
 
     /**
@@ -138,19 +143,6 @@ public class Player {
     public void sortCountries () {
         countries.sort(Comparator.comparing(Country::getName));
     }
-
-//    public void testPathExists () {
-//        for (Country c : countries)
-//            System.out.println(c.toString());
-//
-//        for (Country c : countries) {
-//            System.out.print("Path between " + countries.get(0) + " and " + c.toString());
-//            if (pathExists(countries.get(0), c))
-//                System.out.println(" exists");
-//            else
-//                System.out.println(" does not exist");
-//        }
-//    }
 
     /**
      * Checks if a path is owned by this player between the two countries (i.e. if it is possible to move troops from
