@@ -12,32 +12,38 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Team Group - Alexandre Hassan, Jonah Gaudet
  */
 
-public class Game {
+public class GameModel {
     private final ArrayList<Player> players;
     private Player currentPlayer;
     private Map map;
+    private ArrayList<GameView> gameViews;
 
     private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
 
     /**
      * Default constructor for game.
      */
-    public Game() {
-        currentPlayer = null;
-        players = new ArrayList<>();
-        map = null;
+    public GameModel() {
+        this.currentPlayer = null;
+        this.players = new ArrayList<>();
+        this.map = null;
+        this.gameViews = new ArrayList<GameView> ();
     }
 
     /**
      * Constructor for the game with a list of players to participate
      * @param players the players to participate in the game
      */
-    public Game(ArrayList<Player> players) {
-        currentPlayer = null;
+    public GameModel(ArrayList<Player> players) {
+        this.currentPlayer = null;
         this.players = players;
-        map = null;
+        this.map = null;
+        this.gameViews = new ArrayList<GameView> ();
     }
 
+    public void addGameView (GameView gameView) {
+        gameViews.add(gameView);
+    }
     /**
      * User can add between 2 and 6 players (inclusive) to a game. They can
      * then generate a full game and begin playing immediately
@@ -70,7 +76,6 @@ public class Game {
         }
 
         generateGame();
-        playGame();
     }
 
     /**
@@ -492,15 +497,17 @@ public class Game {
         return toSelect;
     }
 
+    /*
     public static void  main(String[] args){
-        Game test = new Game();
+        GameModel test = new GameModel();
         test.userCreateGame();
         /*test.addPlayer(new Player("Player1"));
         test.addPlayer(new Player("Player2"));
         test.addPlayer(new Player("Player3"));
-        test.addPlayer(new Player("Player4"));
-        test.generateGame();
-        test.testPathExists();
-        test.playGame();*/
+        test.addPlayer(new Player("Player4")); //Should be a * + /
+        //test.generateGame();
+        //test.testPathExists();
+        //test.playGame();
     }
+    */
 }
