@@ -32,11 +32,14 @@ Note: If the user enters in the wrong country at any point of their attack, they
 - If the user **"state"**, the state of the map will be printed. 
 - If the user types **"help"**, they will receive assistance and information regarding the different command words. 
 
+-To end the game, close the command prompt. There is no end game command. 
+
 ####Known Issues 
 
-Within the current version of the game, the reinforcements are assigned randomly at the beginning of each player's turn based 
+- Within the current version of the game, the reinforcements are assigned randomly at the beginning of each player's turn based 
 on the number of countries that each player holds. This means that the game *can* be won, but this will take a long time because players
 are not yet able to strategically choose where to place their reinforcements at the beginning of their turns. 
+- The game does not have an end game commnad, the command prompt must be closed to end the game.
 
 #### Improvements to be implemented  
 In reference to the Map class, the planned improvements include changing the countries from the form of a LinkedList of Country Objects to a Hashmap, using the name of the 
@@ -45,7 +48,8 @@ The number of method calls for adding neighbors will also be reduced due to the 
 eachother's neighbors simultaneously (instead of having separate calls for each country). 
 For example, CHINA.add(MONGOLIA) will add MONGOLIA as one of CHINA's neighbors and CHINA as one of MONGOLIA's neighbors in a single line. 
 The countries will no longer be added to continents individually using for loops, but will instead be stored in arrays via their 
-variable names. All countries will be simultaneously added to their respective continents by passing an array of strings to each continent. 
+variable names. All countries will be simultaneously added to their respective continents by passing an array of strings to each continent.
+An end game button will be added, so the program does not need to be force closed.
 Finally, all final fields will also be made static, if not already defined in this way.
 In reference to the Player class, an improvement to include is hiding the internal ArrayList from the other classes (and thus reducing the chaining of the method calls). 
   
