@@ -151,7 +151,7 @@ public class Game {
                 extraTroops += continent.getReinforcements();
             }
         }
-        int reinforcements = Math.max(3, currentPlayer.getCountrySize()/3) + extraTroops;
+        int reinforcements = Math.max(3, currentPlayer.NumberOfCountries()/3) + extraTroops;
 
 
         autoPutReinforcements(reinforcements);

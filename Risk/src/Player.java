@@ -48,7 +48,7 @@ public class Player {
         for(int assigned = countries.size(); assigned<beginningTroops;){
             random = ThreadLocalRandom.current().nextInt(0,countries.size());
             if(countries.get(random).getTroops() < maxTroops){
-                countries.get(random).addTroop(1);
+                countries.get(random).addTroop(1,true);
                 assigned++;
             }
         }
