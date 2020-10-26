@@ -41,6 +41,36 @@ public class Game {
     }
 
     /**
+     * User can add between 2 and 6 players (inclusive) to a game. They can
+     * then generate a full game and begin playing immediately
+     */
+    public void userCreateGame () {
+        boolean finished = false;
+        System.out.println("Add players (input names), input 'done' to continue: ");
+        while (!finished && players.size() < 6) {
+            System.out.println("Current number of players: " + players.size());
+            try {
+                String newName = parser.getName();
+                if (newName.toLowerCase().equals("done")) {
+                    System.out.println("in here with " + newName);
+                    finished = true;
+                } else {
+                    addPlayer(new Player(newName));
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        if (players.size() < 2) {
+            throw new IllegalArgumentException("Cannot have less than 2 players");
+        }
+
+        generateGame();
+        playGame();
+    }
+
+    /**
      * Generates a game as long as two players are present. Assign countries, picks
      * a starting players, assigns troops.
      */
@@ -68,7 +98,6 @@ public class Game {
             player.sortCountries();
             player.assignBeginningTroops(BEGINNING_TROOPS[players.size()-2]);
         }
-
         printState();
     }
 
@@ -94,15 +123,7 @@ public class Game {
         System.out.println(currentPlayer.getName() + "'s turn:");
         boolean finished = false;
 
-        //Reinforcement Phase
-        int extraTroops = 0;
-        for(Continent continent: map.getContinents()) {
-            if (currentPlayer.hasCountries(continent.getCountries())) {
-                extraTroops += continent.getReinforcements();
-            }
-        }
-        int reinforcements = Math.max(3, currentPlayer.NumberOfCountries()/3) + extraTroops;
-        autoPutReinforcements(reinforcements);
+        getReinforcements();
 
         //Game loop
         while (!finished) {
@@ -116,6 +137,24 @@ public class Game {
         }
 
         return (getRemainingPlayers() == 1);
+    }
+
+    /**
+     * Gets the number of reinforcements to add for the current player and
+     * assigns them randomly to one or more of their countries
+     */
+    private void getReinforcements () {
+        //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
+        int extraTroops = 0;
+        for(Continent continent: map.getContinents()) {
+            if (currentPlayer.hasCountries(continent.getCountries())) {
+                extraTroops += continent.getReinforcements();
+            }
+        }
+        int reinforcements = Math.max(3, currentPlayer.getCountrySize()/3) + extraTroops;
+
+
+        autoPutReinforcements(reinforcements);
     }
 
     /**
@@ -155,7 +194,7 @@ public class Game {
      * @param numberOfTroops the number of troops
      */
     private void putReinforcements(Country country, int numberOfTroops){
-        country.addTroop(numberOfTroops);
+        country.addTroop(numberOfTroops, true);
     }
 
     /**
@@ -169,8 +208,7 @@ public class Game {
         }
 
         switch (command.getCommandWord().toLowerCase()) {
-            case "attack" -> playAttack(command);
-            case "move" -> playMove(command);
+            case "attack" -> playAttack();
             case "help" -> printHelp();
             case "state" -> printState();
             case "end" -> {
@@ -185,31 +223,16 @@ public class Game {
     /**
      * Checks to see if the input from the command is valid, if so proceeds with the attack.
      * Command should be of the form 'attack <defender> from/with <attacker>'
-     * @param command from the player via the terminal
      */
-    private void playAttack (Command command) {
-        if (command.getCommandDetails() == null) {
-            throw new IllegalArgumentException("Input syntax incorrect - use 'help' for help");
-        }
-
-        System.out.println("Attacking ...");
-        String defendingCountry = "", attackingCountry = "";
-        boolean reachedFrom = false;
-        String[] commandDetails = command.getCommandDetails().split(" ");
-
-        for (String s : commandDetails) {
-            if (s.equals("from") || s.equals("with")) {
-                reachedFrom = true;
-                continue;
-            }
-            if (!reachedFrom)
-                defendingCountry = addToString(defendingCountry, s);
-            else
-                attackingCountry = addToString(attackingCountry, s);
-        }
+    private void playAttack () {
+        String attackingCountry, defendingCountry;
 
         try {
-            checkAttackInputValid(attackingCountry, defendingCountry);
+            System.out.println("Attack who? :");
+            defendingCountry = parser.getName();
+            System.out.println("Attack with? :");
+            attackingCountry = parser.getName();
+
             performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
         }
         catch (Exception e) {
@@ -228,22 +251,6 @@ public class Game {
         if (original.equals("") || original == null)
             return toAdd;
         return original + " " + toAdd;
-    }
-
-    /**
-     * Check if the attack input is valid, throws as exception otherwise
-     * @param attacking the name of the attacking country
-     * @param defending the name of the defending country
-     */
-    private void checkAttackInputValid (String attacking, String defending) {
-        if (attacking == null || defending == null) {
-            throw new IllegalArgumentException("Input syntax not read correctly - use 'help' for help");
-        }
-        if (attacking.equals("") || defending.equals("")) {
-            throw new IllegalArgumentException("Input syntax not read correctly - use 'help' for help");
-        }
-        map.getCountry(defending);
-        map.getCountry(attacking);
     }
 
     /**
@@ -275,9 +282,16 @@ public class Game {
     private void performAttack(Country attack, Country defend) {
         checkAttackValid(attack, defend);
 
-        int attackWith = troopSelect(1, Math.min(3, attack.getTroops() - 1));
-        int defendWith = Math.min(2, defend.getTroops());
-        System.out.println("Rolling dice: " + attackWith + " for " + attack.getName() + ", " + defendWith + " for " + defend.getName());
+        String attackerName = attack.getName();
+        String defenderName = defend.getName();
+        int attackTroops = attack.getTroops();
+        int defendTroops = defend.getTroops();
+
+        System.out.println(attackerName + " has " + attackTroops + " troops");
+        System.out.println(defenderName + " has " + defendTroops + " troops");
+        int attackWith = troopSelect(1, Math.min(3, attackTroops - 1));
+        int defendWith = Math.min(2, defendTroops);
+        System.out.println("Rolling dice: " + attackWith + " for " + attackerName + ", " + defendWith + " for " + defenderName);
         ArrayList<Integer> attackerDice = new ArrayList<>();
         ArrayList<Integer> defenderDice = new ArrayList<>();
         for (int i = 0; i < attackWith; i++)
@@ -301,10 +315,8 @@ public class Game {
 
         attack.removeTroops(lostAttackers);
         defend.removeTroops(lostDefenders);
-        System.out.println(attack.getName() + " lost " + lostAttackers + " troop(s)");
-        System.out.println(defend.getName() + " lost " + lostDefenders + " troop(s)");
-
-        System.out.println(defend.getTroops());
+        System.out.println(attackerName + " lost " + lostAttackers + " troop(s), " + (attackTroops - lostAttackers) + " troops remain");
+        System.out.println(defenderName + " lost " + lostDefenders + " troop(s), " + (defendTroops - lostDefenders) + " troops remain");
 
         if (defend.getTroops() == 0) {
             ownerChange(defend, attack, attackerDice.size() - lostAttackers);
@@ -334,16 +346,6 @@ public class Game {
     }
 
     /**
-     * Moves troops based on the command
-     * @param command the commands from the player
-     */
-    private void playMove (Command command) {
-        System.out.println("Moving ...");
-        command.printCommand();
-        System.out.println(command.getCommandDetails());
-    }
-
-    /**
      * Moves troops from one country to the other
      * @param origin where the troops will leave from
      * @param destination where the troops will go to
@@ -366,7 +368,7 @@ public class Game {
             return false;
         }
         origin.removeTroops(toMove);
-        destination.addTroop(toMove);
+        destination.addTroop(toMove, true);
         return true;
     }
 
@@ -455,12 +457,13 @@ public class Game {
 
     public static void  main(String[] args){
         Game test = new Game();
-        test.addPlayer(new Player("Player1"));
+        test.userCreateGame();
+        /*test.addPlayer(new Player("Player1"));
         test.addPlayer(new Player("Player2"));
         test.addPlayer(new Player("Player3"));
-        test.addPlayer(new Player("Player4"));
-        test.generateGame();
+        test.addPlayer(new Player("Player4"));*/
+        //test.generateGame();
         //test.testPathExists();
-        test.playGame();
+        //test.playGame();
     }
 }

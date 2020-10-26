@@ -19,18 +19,16 @@
  */
 
 public class Command {
-    final String commandWord;
-    final String commandDetails;
+    String commandWord;
+
 
     /**
      * Constructor for the command
      * @param firstWord commandWord for the command
-     * @param commandDetails command details for the command
      */
-    public Command(String firstWord, String commandDetails)
+    public Command(String firstWord)
     {
         commandWord = firstWord;
-        this.commandDetails = commandDetails;
     }
 
     /**
@@ -43,15 +41,6 @@ public class Command {
     }
 
     /**
-     * Returns if the command has command details
-     * @return true if command details exist, false if not
-     */
-    public boolean hasCommandDetails()
-    {
-        return (commandDetails != null);
-    }
-
-    /**
      * Gets the command's command word
      * @return the command word
      */
@@ -60,21 +49,9 @@ public class Command {
     }
 
     /**
-     * Gets the command's command details
-     * @return the command details
-     */
-    public String getCommandDetails () {
-        return commandDetails;
-    }
-
-    /**
      * Prints the command and it's details (if available)
      */
     public void printCommand () {
-        if (hasCommandDetails()) {
-            System.out.println(commandWord + " " + commandDetails);
-            return;
-        }
         System.out.println(commandWord);
     }
 }

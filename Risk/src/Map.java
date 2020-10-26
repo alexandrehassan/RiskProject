@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Map class
  * Map creates a new map, and loads it with the countries and sets each country's neighbors
  * Map creates continents
- * @author Baillie Noell, Sarah Abdallah - Team Group
+ * @author Baillie Noell, Sarah Abdallah, Jonah Gaudet, Alexandre Hassan - Team Group
  * @version 4: Oct 19 2020
  *
  */
@@ -72,7 +72,6 @@ public class Map {
     private static final String NEW_GUINEA = "New Guinea";
     private static final String WESTERN_AUSTRALIA = "Western Australia";
 
-
     /**
      * Constructor for the Map class.
      * Generates a map of the classic Risk game.
@@ -89,7 +88,6 @@ public class Map {
      * Helper method for constructor of map that creates all the country objects.
      */
     private void loadMap() {
-
         //North America
         countries.put(ALASKA, new Country(ALASKA));
         countries.put(ALBERTA, new Country(ALBERTA));
@@ -251,7 +249,6 @@ public class Map {
      * Helper method for constructor of map that makes all of the continents.
      */
     private void loadContinents() {
-
         //Continents
         String NORTH_AMERICA = "North America";
         String[] NORTH_AMERICA_COUNTRIES = {ALASKA,ALBERTA,CENTRAL_AMERICA,EASTERN_UNITED_STATES,
