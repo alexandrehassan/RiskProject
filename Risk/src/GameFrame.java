@@ -13,7 +13,7 @@ public class GameFrame extends JFrame implements GameView{
 
         JPanel panel1 = (JPanel) this.getContentPane();
 
-        panel1.add(new JLabel("This is where the game would go:"), BorderLayout.PAGE_START);
+        panel1.add(new JLabel("This is where the game's GUI would go:"), BorderLayout.PAGE_START);
 
         JLabel label1 = new JLabel();
         ImageIcon image = new ImageIcon("Risk/images/ifihadone.jpg");
