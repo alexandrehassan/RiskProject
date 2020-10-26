@@ -21,6 +21,7 @@
 public class Command {
     String commandWord;
 
+
     /**
      * Constructor for the command
      * @param firstWord commandWord for the command

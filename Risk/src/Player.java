@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The Player class represents the individual players in the Risk game.
@@ -19,7 +20,6 @@ public class Player {
 
     /**
      * Default constructor for the class Player.
-     *
      * @param name the name of the player.
      */
     public Player(String name) {
@@ -32,45 +32,30 @@ public class Player {
     }
 
     /**
-     * Gets the list of countries Player owns.
-     *
-     * @return ArrayList of countries owned by the player
-     */
-    public LinkedList<Country> getCountries() {
-        return countries;
-    }
-
-    /**
      * Adds a country to the ones owned by the Player
-     *
      * @param country country to be added to the player's countries.
      */
     public void addCountry(Country country){
         countries.add(country);
     }
 
-    /**
-     * Removes a country from the countries list and returns true if
-     * successful, false if not
-     * @param country, the country to remove
-     * @return boolean, true if object existed in countries, false if not
-     */
-    public boolean removeCountry (Country country) {
-        return countries.remove(country);
-    }
+    public void assignBeginningTroops(int beginningTroops) {
+        //To stop to many troops from being assigned to a single country we set a max number of troops on one country
+        //The maximum should be at least 4
+        int maxTroops = Math.max(beginningTroops/countries.size() + 2, 4);
 
-    /**
-     * Gives the number of countries owned by Player.
-     *
-     * @return the size of countries.
-     */
-    public int getCountrySize(){
-        return countries.size();
+        int random;
+        for(int assigned = countries.size(); assigned<beginningTroops;){
+            random = ThreadLocalRandom.current().nextInt(0,countries.size());
+            if(countries.get(random).getTroops() < maxTroops){
+                countries.get(random).addTroop(1);
+                assigned++;
+            }
+        }
     }
 
     /**
      * Gives the name of Player
-     *
      * @return the name of the player.
      */
     public String getName () {
@@ -79,7 +64,6 @@ public class Player {
 
     /**
      * Whether or not the player is eliminated
-     *
      * @return True if Eliminated, False otherwise
      */
     public boolean isEliminated () {
@@ -102,35 +86,44 @@ public class Player {
     }
 
     /**
-     * Checks if the player owns the country with the given name
-     *
-     * @param name the name of the country to be checked.
-     * @return True if the player owns the country False otherwise
+     * Gives the number of countries owned by Player.
+     * @return the size of countries.
      */
-    public boolean hasCountry (String name) {
-        for (Country c : countries)
-            if (c.toString().equals(name))
-                return true;
-        return false;
+    public int NumberOfCountries(){
+        return countries.size();
     }
 
     /**
-     * Gets the country object with the given name
-     *
-     * @param name the name of the country to be found
-     * @return the object of the name.
+     * Removes a country from the countries player owns.
+     * @param c the country to be removed.
      */
-    public Country getCountry(String name) {
-        for (Country c : countries)
-            if (c.toString().equals(name))
-                return c;
-        throw new IllegalArgumentException(name + " is not a valid country");
+    public void lost(Country c){
+        countries.remove(c);
     }
+
+    /**
+     * Checks if the player owns the given country
+     *
+     * @param country the name of the country to be checked.
+     * @return True if the player owns the country False otherwise
+     */
+    public boolean hasCountry (Country country) {
+        return countries.contains(country);
+    }
+
+    /**
+     * Checks if the player owns the countries
+     *
+     * @param countries the countries to be checked
+     * @return True if the player owns the countries False otherwise
+     */
+    public boolean hasCountries (ArrayList<Country> countries) {
+        return this.countries.containsAll(countries);
+    }
+
 
     /**
      * Prints the current state of the player.
-     *
-     * TODO: Change the toString of countries to output the country name and then the number of troops.
      */
     public void print(){
         System.out.println("[" + name + "]");
@@ -200,4 +193,19 @@ public class Player {
             }
         }
     }
+
+    /**
+     * Gets all of the countries that are on the outer perimeter of a player's territory.
+     * @return an Array Containing all exterior countries.
+     */
+    public ArrayList<Country> getPerimeterCountries(){
+        ArrayList<Country> perimeterCountries = new ArrayList<>();
+        for (Country c: countries) {
+            if (!countries.containsAll(c.getNeighbors())){
+                perimeterCountries.add(c);
+            }
+        }
+        return perimeterCountries;
+    }
+
 }

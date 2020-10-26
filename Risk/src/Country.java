@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * @author Team Group - Alexandre Hassan, Jonah Gaudet
  */
 public class Country {
-    private final ArrayList<Country> neighbor;
     private final String name;
+    private final ArrayList<Country> neighbors;
     private int troops;
 
     /**
@@ -20,7 +20,16 @@ public class Country {
     public Country(String name) {
         this.name = name;
         troops = 1;
-        neighbor = new ArrayList<>();
+        neighbors = new ArrayList<>();
+    }
+
+    /**
+     * Gives the name of the country.
+     *
+     * @return name of this country.
+     */
+    public String getName(){
+        return name;
     }
 
     /**
@@ -29,17 +38,23 @@ public class Country {
      *
      * @param neighbor the country to be added as a neighbor.
      */
-    public void addNeighbor(Country neighbor){
-        this.neighbor.add(neighbor);
+    public void addNeighbor(Country neighbor) {
+        this.neighbors.add(neighbor);
+        if (!(neighbor.hasNeighbor(this))) {
+            neighbor.addNeighbor(this);
+        }
+    }
+
+    public boolean hasNeighbor(Country c){
+        return neighbors.contains(c);
     }
 
     /**
-     * Gives an arraylist containing all of the neighbors of the country.
-     *
-     * @return all the countries that are neighbors with this country.
+     * Gets the neighbors of Country
+     * @return an ArrayList of neighbors.
      */
-    public ArrayList<Country> getNeighbors() {
-        return neighbor;
+    public ArrayList<Country> getNeighbors(){
+        return neighbors;
     }
 
     /**
@@ -62,7 +77,6 @@ public class Country {
      * @return the number of troops posted on this country.
      */
     public int getTroops() {
-
         return troops;
     }
 
@@ -74,16 +88,6 @@ public class Country {
     public void removeTroops(int num) {
         if(num<0) return;
         troops -= num;
-    }
-
-
-    /**
-     * Gives the name of the country.
-     *
-     * @return name of this country.
-     */
-    public String getName(){
-        return name;
     }
 
     @Override

@@ -4,7 +4,7 @@ A Simplified version of RISK
 - the corresponding initial number of armies is 50, 35, 30, 25, and 20 respectively, depending on the number of players
 Milestone 1: 
 1. Map which includes all the countries (similar to the Zuul design, we will need to keep track of the neighbouring countries of a country because a player can only
-attack adjacant countries). 
+attack adjacent countries).
 2. The Game: where we generate a new game, load the map into the constructor, decide how many players, we create a list of players (player1, player2, etc.) we can do this using 
 a loop 
 We assign the players to countries (remember to remove country from the country list once it is assigne to a player). Then, each player will have a list of countries

@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Game {
     private final ArrayList<Player> players;
     private Player currentPlayer;
-    private Parser parser;
+    private final Parser parser;
     private Map map;
 
     private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
@@ -85,29 +85,18 @@ public class Game {
 
         //Assign countries to players (shuffle order)
         this.map = new Map();
-        map.shuffleCountries();
-        for (Country c : map.getCountries()) {
-            currentPlayer.addCountry(c);
+
+        //Assign countries randomly
+        ArrayList<String> countryKeysArrayList= map.getShuffledKeys();
+        for (String key : countryKeysArrayList) {
+            currentPlayer.addCountry(map.getCountry(key));
             nextPlayer();
         }
-        for (Player p : players) {
-            p.sortCountries();
-        }
 
-        //Randomly Assign troops to countries
-        int beginningTroops =  BEGINNING_TROOPS[players.size()-2];
-        for (Player player:players) {
-            //To stop to many troops from being assigned to a single country we set a max number of troops on one country
-            //The maximum should be at least 4
-            int maxTroops = Math.max(beginningTroops/player.getCountrySize() + 2, 4);
-            int random;
-            for(int assigned = player.getCountrySize(); assigned<beginningTroops;){
-                random = ThreadLocalRandom.current().nextInt(0,player.getCountrySize());
-                if(player.getCountries().get(random).getTroops()<maxTroops){
-                    player.getCountries().get(random).addTroop(1, false);
-                    assigned++;
-                }
-            }
+        //Sort countries and Randomly Assign troops to countries
+        for(Player player: players){
+            player.sortCountries();
+            player.assignBeginningTroops(BEGINNING_TROOPS[players.size()-2]);
         }
         printState();
     }
@@ -136,6 +125,7 @@ public class Game {
 
         getReinforcements();
 
+        //Game loop
         while (!finished) {
             try {
                 Command command = parser.getCommand();
@@ -157,7 +147,7 @@ public class Game {
         //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
         int extraTroops = 0;
         for(Continent continent: map.getContinents()) {
-            if (currentPlayer.getCountries().containsAll(continent.getCountries())) {
+            if (currentPlayer.hasCountries(continent.getCountries())) {
                 extraTroops += continent.getReinforcements();
             }
         }
@@ -181,17 +171,19 @@ public class Game {
     }
 
     /**
-     * This is a method that randomly assigns reinforcement troops.
-     * It is used to test the reinforcement turn methods
-     * A version of this will be used for the AI players
+     * Method to add reinforcement to a player's countries automatically,
+     * will always add on countries on the exterior of a player's territory.
      *
-     * TODO: Add logic so the troops are put on outside countries (countries not in the middle of a players territory)
+     * Early version of what will be used for AI players.
+     *
+     * @param reinforcements the number of troops to place.
      */
     private void autoPutReinforcements(int reinforcements){
         System.out.println(reinforcements + " reinforcements to set.");
+        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         for(int assigned = 0; assigned < reinforcements; assigned++){
-            putReinforcements(currentPlayer.getCountries().get(ThreadLocalRandom.current().nextInt(0,
-                    currentPlayer.getCountrySize())), 1);
+            int randomIndex = ThreadLocalRandom.current().nextInt(0, perimeterCountries.size());
+            putReinforcements(perimeterCountries.get(randomIndex),1);
         }
     }
 
@@ -268,16 +260,16 @@ public class Game {
      * @param defending the defending country
      */
     private void checkAttackValid (Country attacking, Country defending) {
-        if (!currentPlayer.getCountries().contains(attacking)) {
+        if (!currentPlayer.hasCountry(attacking)) {
             throw new IllegalArgumentException("Current player does not control " + attacking);
         }
-        if (currentPlayer.getCountries().contains(defending)) {
+        else if (currentPlayer.hasCountry(defending)) {
             throw new IllegalArgumentException("Current player already controls " + defending);
         }
-        if (!attacking.getNeighbors().contains(defending)) {
+        else if (!attacking.hasNeighbor(defending)) {
             throw new IllegalArgumentException(defending + " does not border " + attacking);
         }
-        if (attacking.getTroops() <= 1) {
+        else if (attacking.getTroops() <= 1) {
             throw new IllegalArgumentException(attacking + " does not have enough troops to attack (needs more than 1)");
         }
     }
@@ -335,12 +327,12 @@ public class Game {
      * Changes the owner of a country and assigns troops
      * @param defend the country whose ownership is being transferred
      * @param attack the country who must provide necessary troops
-     * @param minimumMove the minimum number of troops that can be moved
      */
     private void ownerChange(Country defend, Country attack, int minimumMove) {
         System.out.println("Changing owners:");
         for (Player p : players) {
-            if (p.removeCountry(defend)) {
+            if (p.hasCountry(defend)) {
+                p.lost(defend);
                 p.checkEliminated();
             }
         }

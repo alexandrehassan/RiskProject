@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @version 3: October 18 2020
  */
 public class Continent {
-    private String name;
+    private final String name;
     private final ArrayList<Country> countries;
     private final int reinforcements;
 
@@ -23,12 +23,12 @@ public class Continent {
     }
 
     /**
-     * Adds a country to the continent.
+     * Gives the name of the continent.
      *
-     * @param country the country to be added.
+     * @return the name of the continent.
      */
-    public void addCountry(Country country) {
-        countries.add(country);
+    public String getName() {
+        return name;
     }
 
     /**
@@ -50,12 +50,11 @@ public class Continent {
     }
 
     /**
-     * Gives the name of the continent.
-     *
-     * @return the name of the continent.
-     */
-    public String getName() {
-        return name;
+    * Adds the given countries to the continent.
+    *
+    * @param countries the countries to be added.
+    */
+    public void addCountries(ArrayList<Country> countries){
+        this.countries.addAll(countries);
     }
-
 }

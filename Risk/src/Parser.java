@@ -19,8 +19,8 @@ import java.util.Scanner;
 
 public class Parser
 {
-    private CommandWords commands;  // holds all valid command words
-    private Scanner reader;         // source of command input
+    private final CommandWords commands;  // holds all valid command words
+    private final Scanner reader;         // source of command input
 
     /**
      * Create a parser to read from the terminal window.
@@ -38,7 +38,7 @@ public class Parser
     {
         String inputLine;   // will hold the full input line
         String word1 = null;
-        String otherWords = null;
+        StringBuilder otherWords = null;
 
         System.out.print("> ");     // print prompt
 
@@ -47,10 +47,11 @@ public class Parser
         Scanner tokenizer = new Scanner(inputLine);
         if(tokenizer.hasNext()) {
             word1 = tokenizer.next();      // get first word
+
             /*if (tokenizer.hasNext()) {
                 otherWords = tokenizer.next();
                 while (tokenizer.hasNext()) {
-                    otherWords += " " + tokenizer.next();
+                    otherWords.append(" ").append(tokenizer.next());
                 }
             }
              */
