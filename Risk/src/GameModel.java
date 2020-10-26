@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,54 +12,62 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Team Group - Alexandre Hassan, Jonah Gaudet
  */
 
-public class Game {
+public class GameModel {
     private final ArrayList<Player> players;
     private Player currentPlayer;
-    private final Parser parser;
     private Map map;
+    private ArrayList<GameView> gameViews;
 
     private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
 
     /**
      * Default constructor for game.
      */
-    public Game() {
-        currentPlayer = null;
-        players = new ArrayList<>();
-        parser = new Parser ();
-        map = null;
+    public GameModel() {
+        this.currentPlayer = null;
+        this.players = new ArrayList<>();
+        this.map = null;
+        this.gameViews = new ArrayList<GameView> ();
     }
 
     /**
      * Constructor for the game with a list of players to participate
      * @param players the players to participate in the game
      */
-    public Game(ArrayList<Player> players) {
-        currentPlayer = null;
+    public GameModel(ArrayList<Player> players) {
+        this.currentPlayer = null;
         this.players = players;
-        parser = new Parser ();
-        map = null;
+        this.map = null;
+        this.gameViews = new ArrayList<GameView> ();
     }
 
+    public void addGameView (GameView gameView) {
+        gameViews.add(gameView);
+    }
     /**
      * User can add between 2 and 6 players (inclusive) to a game. They can
      * then generate a full game and begin playing immediately
      */
     public void userCreateGame () {
         boolean finished = false;
-        System.out.println("Add players (input names), input 'done' to continue: ");
         while (!finished && players.size() < 6) {
-            System.out.println("Current number of players: " + players.size());
             try {
-                String newName = parser.getName();
+                String newName = (String) JOptionPane.showInputDialog(
+                        null,
+                        "New player name (input 'done' to continue): ",
+                        "Player name: ",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "");
                 if (newName.toLowerCase().equals("done")) {
-                    System.out.println("in here with " + newName);
                     finished = true;
                 } else {
                     addPlayer(new Player(newName));
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
 
@@ -67,7 +76,6 @@ public class Game {
         }
 
         generateGame();
-        playGame();
     }
 
     /**
@@ -121,6 +129,7 @@ public class Game {
      */
     private boolean playTurn () {
         System.out.println(currentPlayer.getName() + "'s turn:");
+        JOptionPane.showMessageDialog(null, currentPlayer.getName() + "'s turn:");
         boolean finished = false;
 
         getReinforcements();
@@ -128,14 +137,33 @@ public class Game {
         //Game loop
         while (!finished) {
             try {
-                Command command = parser.getCommand();
+                String command = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Insert command (attack, state, end, help): ",
+                        currentPlayer.getName() + "'s turn. Command please: ",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "");
                 finished = processCommand(command);
             }
             catch (Exception e) {
                 System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
 
+        String endGame = (String) JOptionPane.showInputDialog(
+                null,
+                "End game ? ('Y' to end): ",
+                "Eng game question",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "");
+
+        if (endGame.equals("Y"))
+            return true;
         return (getRemainingPlayers() == 1);
     }
 
@@ -197,17 +225,14 @@ public class Game {
         country.addTroop(numberOfTroops, true);
     }
 
+
     /**
      * Processes the command from the player using one of the commands words below
      * @param command from the player via the terminal
      * @return boolean true if the turn is finished, false if not
      */
-    private boolean processCommand (Command command) {
-        if(!command.isUnknown()) {
-            throw new IllegalArgumentException("Input syntax incorrect - use 'help' for help");
-        }
-
-        switch (command.getCommandWord().toLowerCase()) {
+    private boolean processCommand (String command) {
+        switch (command.split(" ")[0].toLowerCase()) {
             case "attack" -> playAttack();
             case "help" -> printHelp();
             case "state" -> printState();
@@ -215,7 +240,10 @@ public class Game {
                 System.out.println("Ending turn...");
                 return true; // Turn finished
             }
-            default -> System.out.println("Command not recognized...?");
+            default ->  {
+                System.out.println("Command not recognized...?");
+                JOptionPane.showMessageDialog(null, "Command not recognized...?");
+            }
         }
         return false; // Turn not finished
     }
@@ -225,21 +253,31 @@ public class Game {
      * Command should be of the form 'attack <defender> from/with <attacker>'
      */
     private void playAttack () {
-        String attackingCountry, defendingCountry;
-
         try {
-            System.out.println("Attack who? :");
-            defendingCountry = parser.getName();
-            System.out.println("Attack with? :");
-            attackingCountry = parser.getName();
+            String defendingCountry = (String) JOptionPane.showInputDialog(
+                    null,
+                    "Defending country: ",
+                    "Country name: ",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    "");
+            String attackingCountry = (String) JOptionPane.showInputDialog(
+                    null,
+                    "Attacking country: ",
+                    "Country name: ",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    "");
 
             performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-
     /**
      * Returns a string such that the two input strings are separated by a space and
      * no leading or trailing spaces exist
@@ -267,10 +305,10 @@ public class Game {
             throw new IllegalArgumentException("Current player already controls " + defending);
         }
         else if (!attacking.hasNeighbor(defending)) {
-            throw new IllegalArgumentException(defending + " does not border " + attacking);
+            throw new IllegalArgumentException(defending.getName() + " does not border " + attacking.getName());
         }
         else if (attacking.getTroops() <= 1) {
-            throw new IllegalArgumentException(attacking + " does not have enough troops to attack (needs more than 1)");
+            throw new IllegalArgumentException(attacking.getName() + " does not have enough troops to attack (needs more than 1)");
         }
     }
 
@@ -287,11 +325,12 @@ public class Game {
         int attackTroops = attack.getTroops();
         int defendTroops = defend.getTroops();
 
-        System.out.println(attackerName + " has " + attackTroops + " troops");
-        System.out.println(defenderName + " has " + defendTroops + " troops");
+        String message = attackerName + " has " + attackTroops + " troops\n" + defenderName + " has " + defendTroops + " troops";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+
         int attackWith = troopSelect(1, Math.min(3, attackTroops - 1));
         int defendWith = Math.min(2, defendTroops);
-        System.out.println("Rolling dice: " + attackWith + " for " + attackerName + ", " + defendWith + " for " + defenderName);
         ArrayList<Integer> attackerDice = new ArrayList<>();
         ArrayList<Integer> defenderDice = new ArrayList<>();
         for (int i = 0; i < attackWith; i++)
@@ -301,8 +340,9 @@ public class Game {
 
         attackerDice.sort(Collections.reverseOrder());
         defenderDice.sort(Collections.reverseOrder());
-        System.out.println("Attacker rolls: " + Arrays.toString(attackerDice.toArray()));
-        System.out.println("Defender rolls: " + Arrays.toString(defenderDice.toArray()));
+        message = "Attacker rolls: " + Arrays.toString(attackerDice.toArray()) + "\nDefender rolls: " + Arrays.toString(defenderDice.toArray());
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
         int lostDefenders = 0, lostAttackers = 0;
         for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()); i++) {
             if (attackerDice.get(i) > defenderDice.get(i)) {
@@ -315,8 +355,9 @@ public class Game {
 
         attack.removeTroops(lostAttackers);
         defend.removeTroops(lostDefenders);
-        System.out.println(attackerName + " lost " + lostAttackers + " troop(s), " + (attackTroops - lostAttackers) + " troops remain");
-        System.out.println(defenderName + " lost " + lostDefenders + " troop(s), " + (defendTroops - lostDefenders) + " troops remain");
+        message = attackerName + " lost " + lostAttackers + " troop(s), " + (attackTroops - lostAttackers) + " troops remain\n" + defenderName + " lost " + lostDefenders + " troop(s), " + (defendTroops - lostDefenders) + " troops remain";
+        JOptionPane.showMessageDialog(null, message);
+        System.out.println(message);
 
         if (defend.getTroops() == 0) {
             ownerChange(defend, attack, attackerDice.size() - lostAttackers);
@@ -329,7 +370,6 @@ public class Game {
      * @param attack the country who must provide necessary troops
      */
     private void ownerChange(Country defend, Country attack, int minimumMove) {
-        System.out.println("Changing owners:");
         for (Player p : players) {
             if (p.hasCountry(defend)) {
                 p.lost(defend);
@@ -341,7 +381,9 @@ public class Game {
 
         currentPlayer.addCountry(defend);
         moveTroops(attack, defend, toAdd);
-        System.out.println(currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.");
+        String message = currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
         currentPlayer.sortCountries();
     }
 
@@ -376,8 +418,9 @@ public class Game {
      * Prints help / instructions for the players
      */
     private void printHelp () {
-        System.out.println("Possible user commands: ");
-        parser.showCommands();
+        JOptionPane.showMessageDialog(
+                null,
+                "Commands: attack, state, end, help: ");
     }
 
     /**
@@ -424,46 +467,47 @@ public class Game {
             System.out.println();
         }
         if (currentPlayer != null)
-            System.out.println("Current player is " + currentPlayer.getName());
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Current player is " + currentPlayer.getName()  );
     }
+
 
     /**
      * Selects a number between the minimum and maximum using the parser
      * @param minimum the minimum value
      * @param maximum the maximum value
      * @return the value chosen by the user
-     */
+    */
     private int troopSelect (int minimum, int maximum) {
         if (minimum == maximum)
             return minimum;
 
         int toSelect = -1;
         while (toSelect < minimum || toSelect > maximum) {
-            System.out.println("Number of troops to move (between " + minimum + " and " + maximum + ")");
-            toSelect = parser.getNumber();
+            toSelect = Integer.parseInt ((String) JOptionPane.showInputDialog(
+                    null,
+                    "Number of troops (between " + minimum + " and " + maximum + "): ",
+                    "Get troops",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    "") );
         }
         return toSelect;
     }
 
-//    /**
-//     * Test for whether path exists between all countries for all players
-//     */
-//    public void testPathExists() {
-//        for (Player p : players) {
-//            System.out.println(p.getName());
-//            p.testPathExists();
-//        }
-//    }
-
+    /*
     public static void  main(String[] args){
-        Game test = new Game();
+        GameModel test = new GameModel();
         test.userCreateGame();
         /*test.addPlayer(new Player("Player1"));
         test.addPlayer(new Player("Player2"));
         test.addPlayer(new Player("Player3"));
-        test.addPlayer(new Player("Player4"));*/
+        test.addPlayer(new Player("Player4")); //Should be a * + /
         //test.generateGame();
         //test.testPathExists();
         //test.playGame();
     }
+    */
 }
