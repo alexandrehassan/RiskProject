@@ -1,6 +1,6 @@
 # SYSC 3110 FALL 2020: RiskProject
-###Team: Group
-######Authors: Baillie Noell, Sarah Abdallah 
+### Team: Group
+###### Authors: Baillie Noell, Sarah Abdallah 
 **THE JAR FILE IS COMPILED AND MUST BE RUN IN JAVA 15**
 
 The deliverables for Milestone 1 include an executable JAR file with source files included, a UML class diagram, 
@@ -9,7 +9,7 @@ of this Milestone and this READMe. The UML class diagram shows the relationships
 important events such as; how the program processes commands, an attack turn, how troops are moved, 
 how a new turn begins, and how the state of the game is printed. 
 
-####User Manual
+#### User Manual
 To play this text-based implementation of RISK, the user must run the JAR file from the command line. When prompted, the 
 user must enter the name of each player and enter the word "done" when all players have been added. 
 Otherwise, the game will auto-begin when 6 players have been added. 
@@ -34,7 +34,7 @@ Note: If the user enters in the wrong country at any point of their attack, they
 
 - To end the game, close the command prompt. There is no end game command. 
 
-####Known Issues 
+#### Known Issues 
 
 - Within the current version of the game, the reinforcements are assigned randomly at the beginning of each player's turn based 
 on the number of countries that each player holds. This means that the game *can* be won, but this will take a long time because players
@@ -53,7 +53,7 @@ An end game button will be added, so the program does not need to be force close
 Finally, all final fields will also be made static, if not already defined in this way.
 In reference to the Player class, an improvement to include is hiding the internal ArrayList from the other classes (and thus reducing the chaining of the method calls). 
   
-####Roadmap Ahead:
+#### Roadmap Ahead:
 For Milestone 2, the noted improvements will be implemented, as well as the GUI-based version of the current game. 
 The display will be in a JFrame, and user input will be in the form of mouse clicks. 
 Our current plan is to use a graph and make each country a node, and when the node is clicked, the country information is displayed. 
