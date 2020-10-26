@@ -32,7 +32,7 @@ Note: If the user enters in the wrong country at any point of their attack, they
 - If the user **"state"**, the state of the map will be printed. 
 - If the user types **"help"**, they will receive assistance and information regarding the different command words. 
 
--To end the game, close the command prompt. There is no end game command. 
+- To end the game, close the command prompt. There is no end game command. 
 
 ####Known Issues 
 
