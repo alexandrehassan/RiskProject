@@ -69,6 +69,11 @@ public class GameModel {
         }
     }
 
+    public void updatePlayerTurn (String playerName) {
+        for (GameView v : gameViews) {
+            v.handlePlayerTurnUpdate(new PlayerTurnEvent(this, playerName));
+        }
+    }
 
     /**
      * User can add between 2 and 6 players (inclusive) to a game. They can
@@ -288,6 +293,7 @@ public class GameModel {
         if (defend.getTroops() == 0) {
             ownerChange(defend, attack, attackerDice.size() - lostAttackers);
         }
+        updateState();
     }
 
     /**
@@ -310,7 +316,6 @@ public class GameModel {
         String message = currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.";
         JOptionPane.showMessageDialog(null, message);
         currentPlayer.sortCountries();
-        updateState();
     }
 
     /**
@@ -387,6 +392,14 @@ public class GameModel {
             currentPlayer = players.get(0);
         }
         updateGameViews();
+        updatePlayerTurn(currentPlayer.getName());
+    }
+
+    /**
+     * Displays a message showing that it is the current player's turn
+     */
+    public void showCurrentPlayer () {
+        JOptionPane.showMessageDialog(null, "It is " + currentPlayer.getName() + "'s turn");
     }
 
     /**

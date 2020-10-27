@@ -68,7 +68,7 @@ public class GameFrame extends JFrame implements GameView{
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("JList Example");
-        this.setSize(1400,550);
+        this.setSize(1400,575);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
@@ -81,8 +81,12 @@ public class GameFrame extends JFrame implements GameView{
 
     }
 
-    public void handleStateUpdate(PlayerStateEvent gameModel) {
-        playersInfo.get(gameModel.getOrder()).setText(gameModel.getInfo());
+    public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
+        updateLine.setText("It is " + playerTurn.getName() + "'s turn: ");
+    }
+
+    public void handleStateUpdate(PlayerStateEvent playerState) {
+        playersInfo.get(playerState.getOrder()).setText(playerState.getInfo());
     }
 
     public static void  main(String[] args){

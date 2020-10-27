@@ -59,6 +59,7 @@ public class GameController implements ActionListener {
             case "end": {
                 System.out.println("Get next player");
                 gameModel.nextPlayer();
+                gameModel.showCurrentPlayer();
                 break;
             }
         }
