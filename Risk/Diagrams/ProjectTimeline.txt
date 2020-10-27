@@ -1,0 +1,84 @@
+Milestone 0
+    Play Risk to get an idea of the rules.
+
+Milestone 1 (Oct 25th, 15%)
+    A text-based playable version of the game (keyboard game)
+        Commands:
+            Print map state
+                who owns the country
+                # of troups
+            attack (from-to)
+            pass turn to next player
+
+        Console should print 
+            Outcome of event (attack, elimination of a team)
+            whose turn it is
+
+    UML model (class diagramswith complete variable and method signatures, 
+        and sequence diagramsfor important scenarios)
+        detailed description of the choice of data structures and relevant operations: 
+        you are providing an initial design and implementation for the Model part of the MVC.
+    
+    Deliverables (all in a ZIP)
+        readme file
+        code(source + executable in jar)
+        UML diagrams
+        Documentation
+
+
+
+Milestone 2 (Nov 9th, 20%)
+    GUI based version
+        View and Controller of the game
+        Display in a JFrame
+        user input via mouse
+        Also need Unit Tests
+
+    Deliverables (all in a ZIP)
+        readme file
+        design
+        Corresponding tests
+        code(source + executable in jar)
+        UML diagrams (Document changes from Milestone 1)
+        Documentation
+
+Milestone 3 (Nov 23rd, 30%)
+    New features
+        Bonus army placement
+        troupe movement phase
+        AI player
+        Reinforcement armies at the begining of the turn
+            territories *3 with a min of 3
+            Bonus if control of the continent
+        The player must place these reinforcement armies before moving on to the attack phase. 
+        Troupe movement happens after attack.
+        Can move any number of armies to another connected country
+    AI  
+        Any number of players can bhe assigned to AI
+        we get to choose how it plays
+
+
+    Deliverables (all in a ZIP)
+        readme file
+        refined design
+        Corresponding tests
+        code(source + executable in jar)
+        Documentation (Document changes from Milestone 2)
+        smell free code
+
+Milestone 4 (Dev 7, 35%)
+    New features
+        Save/load
+            Java serialization can be used
+        Custom maps1
+            The custom map may be defined in XML or JSON format
+            Upon loading of a custom map, the program should be able to reject invalid maps, 
+                e.g. maps where certain countries or groups of countries are unreachable.
+
+    Deliverables (all in a ZIP)
+        readme file
+        design
+        Corresponding tests
+        code(source + executable in jar)
+        UML diagrams (Document changes from Milestone 1)
+        Documentation
