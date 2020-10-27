@@ -25,9 +25,10 @@ public class GameFrame extends JFrame implements GameView{
 
     public ArrayList<JTextArea> playersInfo;
     public JLabel updateLine;
+    public ArrayList<JButton> buttons;
     public GameFrame (String name) {
         super(name);
-
+        this.buttons = new ArrayList<JButton>();
         this.playersInfo = new ArrayList<JTextArea>();
 
         GameModel abm = new GameModel();
@@ -62,7 +63,7 @@ public class GameFrame extends JFrame implements GameView{
         //playerInfo.setBorder(BorderFactory.createLineBorder(Color.black));
         for (int i = 0; i < 6; i++) {
             JTextArea textArea = new JTextArea(5, 20);
-            textArea.setText("This is for player " + Integer.toString(i));
+            textArea.setText("Reserved for player " + Integer.toString(i+1));
             JScrollPane scrollPane = new JScrollPane(textArea);
             playerInfo.add(scrollPane);
             textArea.setEditable(false);
@@ -80,6 +81,8 @@ public class GameFrame extends JFrame implements GameView{
             JButton b = new JButton(validCommands[i]);
             b.addActionListener(gameController);
             b.setActionCommand(b.getText());
+            b.setEnabled(false);
+            buttons.add(b);
             buttonOptions.add(b);
         }
 
@@ -129,7 +132,16 @@ public class GameFrame extends JFrame implements GameView{
     private void createBoard () {
         //get the board
     }
-    public void handleGameUpdate(GameEvent gameModel) {
+    public void handleGameUpdate(GameStartEvent gameModel) {
+        for (int i = gameModel.getNumPlayers(); i < playersInfo.size(); i++) {
+            JTextArea temp = playersInfo.get(i);
+            temp.setEnabled(false);
+            temp.setBackground(Color.LIGHT_GRAY);
+        }
+
+        for (JButton b : buttons) {
+            b.setEnabled(true);
+        }
 
     }
 

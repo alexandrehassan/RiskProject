@@ -10,7 +10,7 @@
 
 public interface GameView {
 
-    void handleGameUpdate(GameEvent gameModel);
+    void handleGameUpdate(GameStartEvent gameModel);
 
     void handleStateUpdate(PlayerStateEvent playerState);
 

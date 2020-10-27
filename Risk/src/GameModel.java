@@ -54,7 +54,7 @@ public class GameModel {
      */
     public void updateGameViews () {
         for (GameView v : gameViews) {
-            v.handleGameUpdate(new GameEvent(this, "name"));
+            v.handleGameUpdate(new GameStartEvent(this, "name", players.size()));
         }
     }
 
@@ -109,6 +109,7 @@ public class GameModel {
             throw new IllegalArgumentException("Cannot have less than 2 players");
         }
 
+        updateGameViews();
         generateGame();
     }
 

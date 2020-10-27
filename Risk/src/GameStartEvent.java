@@ -12,16 +12,19 @@ import java.util.EventObject;
  * @author Team Group - Jonah Gaudet
  */
 
-public class GameEvent extends EventObject {
+public class GameStartEvent extends EventObject {
 
     private String name;
-
-    public GameEvent (GameModel gameModel, String name) {
+    private int numPlayers;
+    public GameStartEvent (GameModel gameModel, String name, int players) {
         super(gameModel);
         this.name = name;
+        this.numPlayers = players;
     }
 
     public String getName () {
         return name;
     }
+
+    public int getNumPlayers () { return numPlayers; }
 }
