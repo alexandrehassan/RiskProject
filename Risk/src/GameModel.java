@@ -162,7 +162,7 @@ public class GameModel {
                 null,
                 "");
 
-        if (endGame.equals("Y"))
+        if (endGame.toLowerCase().equals("y"))
             return true;
         return (getRemainingPlayers() == 1);
     }
@@ -271,12 +271,32 @@ public class GameModel {
                     null,
                     "");
 
+            attackingCountry = makeProperCountryName(attackingCountry);
+            defendingCountry = makeProperCountryName(defendingCountry);
+
             performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+    }
+
+    /**
+     * Fixes the capitalization of countries (can input all lowercase, uppercase,
+     * whatever the user feels like)
+     * @param name name of country whose capitalization is potentially off
+     * @return String the name of the same country with proper capitalization
+     */
+    private String makeProperCountryName (String name) {
+       name = name.toLowerCase();
+        String countryName = "";
+        countryName += Character.toUpperCase(name.charAt(0));
+        for (int i = 1; i < name.length(); i++) {
+            countryName += (name.charAt(i-1) == ' ') ? Character.toUpperCase(name.charAt(i)) : name.charAt(i);
+        }
+        System.out.println(countryName);
+        return countryName;
     }
     /**
      * Returns a string such that the two input strings are separated by a space and
@@ -299,10 +319,10 @@ public class GameModel {
      */
     private void checkAttackValid (Country attacking, Country defending) {
         if (!currentPlayer.hasCountry(attacking)) {
-            throw new IllegalArgumentException("Current player does not control " + attacking);
+            throw new IllegalArgumentException("Current player does not control " + attacking.getName());
         }
         else if (currentPlayer.hasCountry(defending)) {
-            throw new IllegalArgumentException("Current player already controls " + defending);
+            throw new IllegalArgumentException("Current player already controls " + defending.getName());
         }
         else if (!attacking.hasNeighbor(defending)) {
             throw new IllegalArgumentException(defending.getName() + " does not border " + attacking.getName());
