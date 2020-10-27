@@ -40,7 +40,6 @@ public class GameFrame extends JFrame implements GameView{
 
         JPanel middlePane = new JPanel();
         middlePane.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
 
         //Put the board in this panel (feel free to get rid of the image, just a placeholder)
         JPanel board = new JPanel();
@@ -90,26 +89,11 @@ public class GameFrame extends JFrame implements GameView{
         startButton.addActionListener(gameController);
         startButton.setActionCommand("new");
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 2;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.insets = new Insets(5,5,5,5);
-        middlePane.add(buttonOptions, c);
+        middlePane.add(buttonOptions, getConstraints(0, 0, 2, 1, GridBagConstraints.HORIZONTAL));
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 2;
-        c.gridheight = 2;
-        c.gridx = 0;
-        c.gridy = 1;
-        middlePane.add(board, c);
+        middlePane.add(board, getConstraints(0, 1, 2, 2, GridBagConstraints.HORIZONTAL));
 
-        c.fill = GridBagConstraints.VERTICAL;
-        c.gridwidth = 1;
-        c.gridheight = 3;
-        c.gridx = 2;
-        c.gridy = 0;
-        middlePane.add(playerInfo, c);
+        middlePane.add(playerInfo, getConstraints(2, 0, 1, 3, GridBagConstraints.VERTICAL));
 
         mainPanel.add(updateLine, BorderLayout.PAGE_START);
         //mainPanel.add(label1, BorderLayout.LINE_START);
@@ -141,9 +125,17 @@ public class GameFrame extends JFrame implements GameView{
         for (JButton b : buttons) {
             b.setEnabled(true);
         }
-
     }
 
+    public GridBagConstraints getConstraints (int gridx, int gridy, int gridwidth, int gridheight, int fill) {
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = gridx;
+        c.gridy = gridy;
+        c.gridwidth = gridwidth;
+        c.gridheight = gridheight;
+        c.fill = fill;
+        return c;
+    }
     public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
         updateLine.setText("It is " + playerTurn.getName() + "'s turn: ");
     }
