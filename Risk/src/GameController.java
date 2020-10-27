@@ -29,6 +29,9 @@ public class GameController implements ActionListener {
     public void actionPerformed (ActionEvent e) {
         if (e.getActionCommand() == null)
             return;
+
+        JOptionPane.showMessageDialog(null, "Action detected, action command is: " + e.getActionCommand());
+
         String command = e.getActionCommand().split(" ")[0];
         switch (command) {
             case "new": {
