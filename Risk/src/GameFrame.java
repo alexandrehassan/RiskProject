@@ -62,9 +62,8 @@ public class GameFrame extends JFrame implements GameView{
         //playerInfo.setBorder(BorderFactory.createLineBorder(Color.black));
         for (int i = 0; i < 6; i++) {
             JTextArea textArea = new JTextArea(5, 20);
-            textArea.setText("This is box " + Integer.toString(i));
+            textArea.setText("This is for player " + Integer.toString(i));
             JScrollPane scrollPane = new JScrollPane(textArea);
-            //scrollPane.setSize(new Dimension(200,200));
             playerInfo.add(scrollPane);
             textArea.setEditable(false);
             playersInfo.add(textArea);
@@ -81,7 +80,6 @@ public class GameFrame extends JFrame implements GameView{
             JButton b = new JButton(validCommands[i]);
             b.addActionListener(gameController);
             b.setActionCommand(b.getText());
-            //b.setMaximumSize(new Dimension(75,75));
             buttonOptions.add(b);
         }
 
