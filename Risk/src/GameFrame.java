@@ -3,6 +3,23 @@ import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * This class is part of the game of RISK, the term
+ * project for SYSC3110 that emulates the original game of RISK
+ *
+ * This class contains all the elements of the board's GUI, such as
+ * the board itself, buttons, etc. It implements GameView, and can be
+ * updated accordingly using the latter's abstract methods called from
+ * the Game Model.
+ *
+ * To add: a board that we can interact with (each country has a node) and
+ * whose action command is simply the country's name. Also need to clean up
+ * the layout, because right now it looks bAD.
+ *
+ * @version 27-10-2020
+ * @author Team Group - Jonah Gaudet
+ */
+
 public class GameFrame extends JFrame implements GameView{
 
     public ArrayList<JTextArea> playersInfo;
@@ -71,10 +88,6 @@ public class GameFrame extends JFrame implements GameView{
         this.setSize(1400,575);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
-        //Actually start the game:
-        //abm.userCreateGame();
-        //abm.playGame();
     }
 
     public void handleGameUpdate(GameEvent gameModel) {
