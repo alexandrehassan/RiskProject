@@ -69,6 +69,10 @@ public class GameModel {
         }
     }
 
+    /**
+     * Updates all game view as to whose turn it is
+     * @param playerName the player whose turn it is
+     */
     public void updatePlayerTurn (String playerName) {
         for (GameView v : gameViews) {
             v.handlePlayerTurnUpdate(new PlayerTurnEvent(this, playerName));
@@ -355,7 +359,8 @@ public class GameModel {
                 "To attack, select the attack button and choose a defending and attacking country\n" +
                 "To end your turn, select the 'end' button\n" +
                 "To manually update the charts on the right, select the 'state' button\n" +
-                "To get help, select the 'help' button\n" );
+                "To get help, select the 'help' button\n" +
+                "The current player is shown in the top left corner");
     }
 
     /**
@@ -410,12 +415,7 @@ public class GameModel {
         for (int i = 0; i < players.size(); i++) {
             updateGameViewsState(players.get(i).getInfo(), i);
         }
-        if (currentPlayer != null)
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Current player is " + currentPlayer.getName()  );
     }
-
 
     /**
      * Selects a number between the minimum and maximum using the parser
@@ -440,18 +440,4 @@ public class GameModel {
         }
         return toSelect;
     }
-
-    /*
-    public static void  main(String[] args){
-        GameModel test = new GameModel();
-        test.userCreateGame();
-        /*test.addPlayer(new Player("Player1"));
-        test.addPlayer(new Player("Player2"));
-        test.addPlayer(new Player("Player3"));
-        test.addPlayer(new Player("Player4")); //Should be a * + /
-        //test.generateGame();
-        //test.testPathExists();
-        //test.playGame();
-    }
-    */
 }

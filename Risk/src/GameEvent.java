@@ -1,4 +1,4 @@
-import javax.swing.*;
+import java.util.EventObject;
 
 /**
  * This class is part of the game of RISK, the term
@@ -11,7 +11,6 @@ import javax.swing.*;
  * @version 27-10-2020
  * @author Team Group - Jonah Gaudet
  */
-import java.util.EventObject;
 
 public class GameEvent extends EventObject {
 

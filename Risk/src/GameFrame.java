@@ -35,10 +35,10 @@ public class GameFrame extends JFrame implements GameView{
 
         JPanel panel1 = (JPanel) this.getContentPane();
 
-        panel1.add(new JLabel("RISK: a multi-player game of world domination"), BorderLayout.PAGE_START);
-        this.updateLine = new JLabel("This is the update line");
+        this.updateLine = new JLabel("RISK: a multi-player game of world domination");
         panel1.add(updateLine, BorderLayout.PAGE_START);
 
+        //Adds the image of the risk map
         JLabel label1 = new JLabel();
         ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
         Image newImage = image.getImage().getScaledInstance(750, 500,  java.awt.Image.SCALE_SMOOTH);
@@ -46,8 +46,8 @@ public class GameFrame extends JFrame implements GameView{
         label1.setBounds(0, 0, 1100, 600);
         panel1.add(label1, BorderLayout.LINE_START);
 
+        //Adds the boxes with the owned countries in them (right side)
         JPanel playerInfo = new JPanel();
-
         GridLayout layout1 = new GridLayout(3,2);
         layout1.setVgap(5);
         layout1.setHgap(5);
@@ -63,6 +63,7 @@ public class GameFrame extends JFrame implements GameView{
         }
         panel1.add(playerInfo, BorderLayout.LINE_END);
 
+        //Add the command buttons
         JPanel buttonOptions = new JPanel();
         GridLayout layout2 = new GridLayout(4,1);
         layout2.setVgap(25);
@@ -103,7 +104,7 @@ public class GameFrame extends JFrame implements GameView{
     }
 
     public static void  main(String[] args){
-        File f = new File("Risk/images/ifihadone.jpg");
+        File f = new File("Risk/images/images.jpg");
         System.out.println(f.exists());
         GameFrame gFrame = new GameFrame("The game of RISK");
     }

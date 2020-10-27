@@ -64,7 +64,7 @@ public class GameController implements ActionListener {
                 break;
             }
             case "state": {
-                System.out.println("Print State");
+                System.out.println("Manually update state");
                 gameModel.updateState();
                 break;
             }
