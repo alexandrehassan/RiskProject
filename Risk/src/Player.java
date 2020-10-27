@@ -49,7 +49,7 @@ public class Player {
         for(int assigned = countries.size(); assigned<beginningTroops;){
             random = ThreadLocalRandom.current().nextInt(0,countries.size());
             if(countries.get(random).getTroops() < maxTroops){
-                countries.get(random).addTroop(1,true);
+                countries.get(random).addTroop(1,false);
                 assigned++;
             }
         }
@@ -126,15 +126,12 @@ public class Player {
     /**
      * Prints the current state of the player.
      */
-    public void print(){
+    public String getInfo(){
         String s = "[" + name + "]\n";
         for (Country country: countries) {
             s += country.toString() + "\n";
         }
-        JOptionPane.showMessageDialog(
-                null,
-                s);
-        System.out.println(s);
+        return s;
     }
 
     /**

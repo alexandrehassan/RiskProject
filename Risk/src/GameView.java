@@ -1,4 +1,6 @@
 public interface GameView {
 
-    void handleAddressBookUpdate(GameEvent gameModel);
+    void handleGameUpdate(GameEvent gameModel);
+
+    void handleStateUpdate(PlayerStateEvent gameModel);
 }

@@ -18,7 +18,48 @@ public class GameController implements ActionListener {
         switch (command) {
             case "new": {
                 gameModel.userCreateGame();
-                gameModel.playGame();
+                break;
+            }
+            case "attack": {
+                System.out.println("Attacking");
+                String defendingCountry = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Defending country: ",
+                        "Country name: ",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "");
+                String attackingCountry = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Attacking country: ",
+                        "Country name: ",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "");
+                try {
+                    gameModel.playAttack(attackingCountry, defendingCountry);
+                }
+                catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
+                }
+                break;
+            }
+            case "state": {
+                System.out.println("Print State");
+                gameModel.updateState();
+                break;
+            }
+            case "help": {
+                System.out.println("Get help");
+                gameModel.printHelp();
+                break;
+            }
+            case "end": {
+                System.out.println("Get next player");
+                gameModel.nextPlayer();
+                break;
             }
         }
     }
