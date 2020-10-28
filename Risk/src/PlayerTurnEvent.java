@@ -16,10 +16,14 @@ import java.util.EventObject;
 public class PlayerTurnEvent extends EventObject {
 
     private String playerName;
-    public PlayerTurnEvent (GameModel gameModel, String name) {
+    private int order;
+    public PlayerTurnEvent (GameModel gameModel, String name, int order) {
         super(gameModel);
         this.playerName = name;
+        this.order = order;
     }
 
     public String getName () { return playerName; }
+
+    public int getOrder () { return order; }
 }

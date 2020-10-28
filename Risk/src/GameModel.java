@@ -75,7 +75,7 @@ public class GameModel {
      */
     public void updatePlayerTurn (String playerName) {
         for (GameView v : gameViews) {
-            v.handlePlayerTurnUpdate(new PlayerTurnEvent(this, playerName));
+            v.handlePlayerTurnUpdate(new PlayerTurnEvent(this, playerName, players.indexOf(currentPlayer)));
         }
     }
 

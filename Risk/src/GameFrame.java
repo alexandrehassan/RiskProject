@@ -119,7 +119,8 @@ public class GameFrame extends JFrame implements GameView{
         for (int i = gameModel.getNumPlayers(); i < playersInfo.size(); i++) {
             JTextArea temp = playersInfo.get(i);
             temp.setEnabled(false);
-            temp.setBackground(Color.LIGHT_GRAY);
+            temp.setBackground(Color.black);
+            temp.setSelectedTextColor(Color.white);
         }
 
         for (JButton b : buttons) {
@@ -136,8 +137,19 @@ public class GameFrame extends JFrame implements GameView{
         c.fill = fill;
         return c;
     }
+
     public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
         updateLine.setText("It is " + playerTurn.getName() + "'s turn: ");
+        for (int i = 0; i < playersInfo.size(); i++) {
+            if (i == playerTurn.getOrder()) {
+                playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.green));
+                playersInfo.get(i).setBackground(Color.white);
+            }
+            else if (playersInfo.get(i).isEnabled()){
+                playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.black));
+                playersInfo.get(i).setBackground(Color.lightGray);
+            }
+        }
     }
 
     public void handleStateUpdate(PlayerStateEvent playerState) {
