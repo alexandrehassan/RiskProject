@@ -397,7 +397,6 @@ public class GameModel {
         }else{
             currentPlayer = players.get(0);
         }
-        updateGameViews();
         updatePlayerTurn(currentPlayer.getName());
     }
 

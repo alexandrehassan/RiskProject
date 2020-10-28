@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public class GameFrame extends JFrame implements GameView{
     public ArrayList<JTextArea> playersInfo;
     public JLabel updateLine;
     public ArrayList<JButton> buttons;
+    public JPanel boardPanel;
     public GameFrame (String name) {
         super(name);
         this.buttons = new ArrayList<JButton>();
@@ -42,15 +45,15 @@ public class GameFrame extends JFrame implements GameView{
         middlePane.setLayout(new GridBagLayout());
 
         //Put the board in this panel (feel free to get rid of the image, just a placeholder)
-        JPanel board = new JPanel();
-        //board.add(createBoard());
+        this.boardPanel = new JPanel();
+
         //Adds the image of the risk map
         JLabel placeholderBoard = new JLabel();
         ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
         Image newImage = image.getImage().getScaledInstance(750, 500,  java.awt.Image.SCALE_SMOOTH);
         placeholderBoard.setIcon(new ImageIcon(newImage));
         placeholderBoard.setBounds(0, 0, 1100, 600);
-        board.add(placeholderBoard);
+        boardPanel.add(placeholderBoard);
 
         //Adds the boxes with the owned countries in them (right side)
         JPanel playerInfo = new JPanel();
@@ -90,9 +93,7 @@ public class GameFrame extends JFrame implements GameView{
         startButton.setActionCommand("new");
 
         middlePane.add(buttonOptions, getConstraints(0, 0, 2, 1, GridBagConstraints.HORIZONTAL));
-
-        middlePane.add(board, getConstraints(0, 1, 2, 2, GridBagConstraints.HORIZONTAL));
-
+        middlePane.add(boardPanel, getConstraints(0, 1, 2, 2, GridBagConstraints.HORIZONTAL));
         middlePane.add(playerInfo, getConstraints(2, 0, 1, 3, GridBagConstraints.VERTICAL));
 
         mainPanel.add(updateLine, BorderLayout.PAGE_START);
@@ -115,6 +116,7 @@ public class GameFrame extends JFrame implements GameView{
     private void createBoard () {
         //get the board
     }
+
     public void handleGameUpdate(GameStartEvent gameModel) {
         for (int i = gameModel.getNumPlayers(); i < playersInfo.size(); i++) {
             JTextArea temp = playersInfo.get(i);
@@ -126,6 +128,8 @@ public class GameFrame extends JFrame implements GameView{
         for (JButton b : buttons) {
             b.setEnabled(true);
         }
+
+        createBoard();
     }
 
     public GridBagConstraints getConstraints (int gridx, int gridy, int gridwidth, int gridheight, int fill) {
