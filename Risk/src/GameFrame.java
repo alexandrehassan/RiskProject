@@ -61,8 +61,7 @@ public class GameFrame extends JFrame implements GameView{
         layout1.setVgap(5);
         layout1.setHgap(5);
         playerInfo.setLayout(layout1);
-        //playerInfo.setBorder(BorderFactory.createLineBorder(Color.black));
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < layout1.getRows() * layout1.getColumns(); i++) {
             JTextArea textArea = new JTextArea(5, 20);
             textArea.setText("Reserved for player " + Integer.toString(i+1));
             JScrollPane scrollPane = new JScrollPane(textArea);
@@ -97,9 +96,7 @@ public class GameFrame extends JFrame implements GameView{
         middlePane.add(playerInfo, getConstraints(2, 0, 1, 3, GridBagConstraints.VERTICAL));
 
         mainPanel.add(updateLine, BorderLayout.PAGE_START);
-        //mainPanel.add(label1, BorderLayout.LINE_START);
         mainPanel.add(middlePane, BorderLayout.CENTER);
-        //mainPanel.add(playerInfo, BorderLayout.LINE_END);
         mainPanel.add(startButton, BorderLayout.PAGE_END);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,14 +108,18 @@ public class GameFrame extends JFrame implements GameView{
     }
 
     /**
-     * Should return the board, created in this method:
+     * Should return the board (just voided now so no errors), created
+     * in this method:
      */
-    private void createBoard () {
+    private void createBoard (Map map, ArrayList<Player> players) {
         //get the board
     }
 
-    public void handleGameUpdate(GameStartEvent gameModel) {
-        for (int i = gameModel.getNumPlayers(); i < playersInfo.size(); i++) {
+    public void handleGameStart(GameStartEvent gameModel) {
+        ArrayList<Player> players = gameModel.getPlayers();
+        Map map = gameModel.getMap();
+
+        for (int i = players.size(); i < playersInfo.size(); i++) {
             JTextArea temp = playersInfo.get(i);
             temp.setEnabled(false);
             temp.setBackground(Color.black);
@@ -129,7 +130,7 @@ public class GameFrame extends JFrame implements GameView{
             b.setEnabled(true);
         }
 
-        createBoard();
+        createBoard(map, players);
     }
 
     public GridBagConstraints getConstraints (int gridx, int gridy, int gridwidth, int gridheight, int fill) {
@@ -139,6 +140,7 @@ public class GameFrame extends JFrame implements GameView{
         c.gridwidth = gridwidth;
         c.gridheight = gridheight;
         c.fill = fill;
+        c.insets = new Insets(5,5,5,5);
         return c;
     }
 

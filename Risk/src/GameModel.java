@@ -52,9 +52,9 @@ public class GameModel {
     /**
      * Updates all game views
      */
-    public void updateGameViews () {
+    private void updateGameViewsStart () {
         for (GameView v : gameViews) {
-            v.handleGameUpdate(new GameStartEvent(this, "name", players.size()));
+            v.handleGameStart(new GameStartEvent(this, map, players));
         }
     }
 
@@ -63,7 +63,7 @@ public class GameModel {
      * @param stateInfo the info to update the view with
      * @param playerOrder the order of the player to update
      */
-    public void updateGameViewsState (String stateInfo, int playerOrder) {
+    private void updateGameViewsState (String stateInfo, int playerOrder) {
         for (GameView v : gameViews) {
             v.handleStateUpdate(new PlayerStateEvent(this, stateInfo, playerOrder));
         }
@@ -109,8 +109,8 @@ public class GameModel {
             throw new IllegalArgumentException("Cannot have less than 2 players");
         }
 
-        updateGameViews();
         generateGame();
+        updateGameViewsStart();
     }
 
     /**
@@ -202,6 +202,12 @@ public class GameModel {
         country.addTroop(numberOfTroops, true);
     }
 
+    /**
+     * Begins the attacking process by ensuring the country names are capitalized
+     * correctly, then getting the right countries and performing the attack
+     * @param attackingCountry the name of the attacking country
+     * @param defendingCountry the name of the defending country
+     */
     public void playAttack(String attackingCountry, String defendingCountry) {
         try {
             attackingCountry = makeProperCountryName(attackingCountry);

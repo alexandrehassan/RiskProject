@@ -1,3 +1,4 @@
+import java.util.*;
 import java.util.EventObject;
 
 /**
@@ -14,17 +15,17 @@ import java.util.EventObject;
 
 public class GameStartEvent extends EventObject {
 
-    private String name;
-    private int numPlayers;
-    public GameStartEvent (GameModel gameModel, String name, int players) {
+    private Map map;
+    private ArrayList<Player> players;
+    public GameStartEvent (GameModel gameModel, Map map, ArrayList<Player> players) {
         super(gameModel);
-        this.name = name;
-        this.numPlayers = players;
+        this.map = map;
+        this.players = players;
     }
 
-    public String getName () {
-        return name;
+    public ArrayList<Player> getPlayers () {
+        return players;
     }
 
-    public int getNumPlayers () { return numPlayers; }
+    public Map getMap () { return map; }
 }

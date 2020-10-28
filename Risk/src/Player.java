@@ -121,7 +121,6 @@ public class Player {
         return this.countries.containsAll(countries);
     }
 
-
     /**
      * Prints the current state of the player.
      */
