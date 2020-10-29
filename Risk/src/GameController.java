@@ -34,23 +34,21 @@ public class GameController implements ActionListener {
 
         String command = e.getActionCommand().split(" ")[0];
         switch (command) {
-            case "new": {
-                gameModel.userCreateGame();
-                break;
-            }
-            case "attack": {
+            case "new" -> gameModel.userCreateGame();
+            case "attack" -> {
+                //TODO: add error handling (make country keys lower case? so we could just .lower everything)
                 System.out.println("Attacking");
-                String defendingCountry = (String) JOptionPane.showInputDialog(
+                String attackingCountry = (String) JOptionPane.showInputDialog(
                         null,
-                        "Defending country: ",
+                        "Attacking country: \n" + gameModel.currentPlayerCountryString(),
                         "Country name: ",
                         JOptionPane.PLAIN_MESSAGE,
                         null,
                         null,
                         "");
-                String attackingCountry = (String) JOptionPane.showInputDialog(
+                String defendingCountry = (String) JOptionPane.showInputDialog(
                         null,
-                        "Attacking country: ",
+                        "Defending country: \n" + gameModel.neighborString(attackingCountry),
                         "Country name: ",
                         JOptionPane.PLAIN_MESSAGE,
                         null,
@@ -60,27 +58,22 @@ public class GameController implements ActionListener {
                     if (attackingCountry == null || defendingCountry == null)
                         return;
                     gameModel.playAttack(attackingCountry, defendingCountry);
-                }
-                catch (Exception exception) {
+                } catch (Exception exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
-                break;
             }
-            case "state": {
+            case "state" -> {
                 System.out.println("Manually update state");
                 gameModel.updateState();
-                break;
             }
-            case "help": {
+            case "help" -> {
                 System.out.println("Get help");
                 gameModel.printHelp();
-                break;
             }
-            case "end": {
+            case "end" -> {
                 System.out.println("Get next player");
                 gameModel.nextPlayer();
                 gameModel.showCurrentPlayer();
-                break;
             }
         }
     }
