@@ -27,7 +27,7 @@ public class GameModel {
         this.currentPlayer = null;
         this.players = new ArrayList<>();
         this.map = null;
-        this.gameViews = new ArrayList<GameView> ();
+        this.gameViews = new ArrayList<> ();
     }
 
     /**
@@ -38,7 +38,7 @@ public class GameModel {
         this.currentPlayer = null;
         this.players = players;
         this.map = null;
-        this.gameViews = new ArrayList<GameView> ();
+        this.gameViews = new ArrayList<> ();
     }
 
     /**
@@ -362,12 +362,13 @@ public class GameModel {
     public void printHelp () {
         JOptionPane.showMessageDialog(
                 null,
-                "Game instructions:\n" +
-                "To attack, select the attack button and choose a defending and attacking country\n" +
-                "To end your turn, select the 'end' button\n" +
-                "To manually update the charts on the right, select the 'state' button\n" +
-                "To get help, select the 'help' button\n" +
-                "The current player is shown in the top left corner");
+                """
+                        Game instructions:
+                        To attack, select the attack button and choose a defending and attacking country
+                        To end your turn, select the 'end' button
+                        To manually update the charts on the right, select the 'state' button
+                        To get help, select the 'help' button
+                        The current player is shown in the top left corner""");
     }
 
     /**
@@ -445,5 +446,29 @@ public class GameModel {
                     "") );
         }
         return toSelect;
+    }
+
+    /**
+     * Gives all of the currents player's countries in one string with each country being on a new line.
+     * @return a String with all the countries a player owns.
+     */
+    public String currentPlayerCountryString() {
+        return currentPlayer.getCountriesString();
+    }
+
+    /**
+     * Gives all the neighbors to the country passed in.
+     * @param country the country to get the neighbors of.
+     * @return a String with all neighbors.
+     */
+    public String neighborString(String country) {
+        StringBuilder stringBuilder = new StringBuilder();
+        ArrayList<Country> neighbors = map.getCountry(country).getNeighbors();
+        for(Country neighbor: neighbors){
+            if(!currentPlayer.hasCountry(neighbor)){
+                stringBuilder.append(neighbor).append("\n");
+            }
+        }
+        return stringBuilder.toString();
     }
 }
