@@ -61,14 +61,9 @@ public class Country {
      * Adds troops to the country.
      * @param num the number of troops to be added. (ignores negative values.)
      */
-    public void addTroop(int num, boolean printResult){
+    public void addTroop(int num){
         if(num<1) return;
         troops += num;
-
-        if (printResult) {
-            if (num == 1) System.out.println(num + " Troop added to " + name);
-            else System.out.println(num + " Troops added to " + name);
-        }
     }
 
     /**
