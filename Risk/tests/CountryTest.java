@@ -1,6 +1,3 @@
-import static org.junit.jupiter.api.Assertions.*;
-import Country;
-
 class CountryTest {
 
     @org.junit.jupiter.api.BeforeEach

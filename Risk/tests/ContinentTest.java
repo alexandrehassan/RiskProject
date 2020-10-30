@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ContinentTest {
@@ -48,26 +49,28 @@ class ContinentTest {
     }
 
     @Test
-    void getCountries() {
+    void getCountriesEmpty() {
+        assertTrue(CONTINENT.getCountries().equals(new ArrayList<>()));
+    }
 
+    @Test
+    void getCountriesNotEmpty() {
+        CONTINENT.addCountries(countries);
+        assertTrue(CONTINENT.getCountries().containsAll(countries));
     }
 
     @Test
     void getReinforcements() {
+        assertEquals(CONTINENT.getReinforcements(), TROOPS);
     }
 
     @Test
-    void addCountries(){
+    void addCountriesNoDuplicates(){
         CONTINENT.addCountries(countries);
         ArrayList<Country> expected = (ArrayList<Country>) CONTINENT.getCountries().clone();
 
         CONTINENT.addCountries(countries);
 
         assert(expected.equals(CONTINENT.getCountries()));
-
-        for(Country country: CONTINENT.getCountries()){
-            System.out.println(country);
-        }
-
     }
 }
