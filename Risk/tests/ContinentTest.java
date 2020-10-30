@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,10 +25,6 @@ class ContinentTest {
         countries.add(new Country("country2"));
         countries.add(new Country("country3"));
         countries.add(new Country("country4"));
-    }
-
-    @AfterEach
-    void tearDown() {
     }
 
     @Test
@@ -71,9 +66,7 @@ class ContinentTest {
     void addCountriesNoDuplicates(){
         CONTINENT.addCountries(countries);
         ArrayList<Country> expected = (ArrayList<Country>) CONTINENT.getCountries().clone();
-
         CONTINENT.addCountries(countries);
-
         assert(expected.equals(CONTINENT.getCountries()));
     }
 }

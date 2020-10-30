@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,10 +26,6 @@ class CountryTest {
         neighbors.add(new Country("country2"));
         neighbors.add(new Country("country3"));
         neighbors.add(new Country("country4"));
-    }
-
-    @AfterEach
-    void tearDown() {
     }
 
     @Test
