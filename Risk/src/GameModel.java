@@ -199,7 +199,7 @@ public class GameModel {
      * @param numberOfTroops the number of troops
      */
     private void putReinforcements(Country country, int numberOfTroops){
-        country.addTroop(numberOfTroops, true);
+        country.addTroop(numberOfTroops);
     }
 
     /**
@@ -352,7 +352,7 @@ public class GameModel {
             return false;
         }
         origin.removeTroops(toMove);
-        destination.addTroop(toMove, true);
+        destination.addTroop(toMove);
         return true;
     }
 
