@@ -16,7 +16,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Player {
     private final LinkedList<Country> countries;
     private final String name;
-    private boolean eliminated;
 
     /**
      * Default constructor for the class Player.
@@ -28,7 +27,6 @@ public class Player {
         }
         this.name = name;
         countries = new LinkedList<>();
-        eliminated = false;
     }
 
     /**
@@ -67,23 +65,9 @@ public class Player {
      * @return True if Eliminated, False otherwise
      */
     public boolean isEliminated () {
-        return eliminated;
+        return countries.size() ==0;
     }
 
-    /**
-     * Triggers the check to see whether of not player is eliminated
-     */
-    public void checkEliminated () {
-        setEliminated(!(countries.size() > 0));
-    }
-
-    /**
-     * Method used to set the value of eliminated.
-     * @param isEliminated the value to set
-     */
-    private void setEliminated (boolean isEliminated) {
-        this.eliminated = isEliminated;
-    }
 
     /**
      * Gives the number of countries owned by Player.
