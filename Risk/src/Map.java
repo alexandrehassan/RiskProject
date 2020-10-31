@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class Map {
     private final HashMap<String,Country> countries;
-    private final ArrayList<Continent> continents;
+    private final HashMap<String,Continent> continents;
 
     //Countries
     //North America
@@ -85,7 +85,7 @@ public class Map {
      */
     public Map() {
         countries = new HashMap<>();
-        continents = new ArrayList<>();
+        continents = new HashMap<>();
         this.loadMap();
         this.loadContinents();
         this.setNeighbors();
@@ -148,7 +148,6 @@ public class Map {
         countries.put(INDONESIA, new Country(INDONESIA));
         countries.put(NEW_GUINEA, new Country(NEW_GUINEA));
         countries.put(WESTERN_AUSTRALIA, new Country(WESTERN_AUSTRALIA));
-
     }
 
     /**
@@ -270,12 +269,12 @@ public class Map {
 
         String[] AUSTRALIA_COUNTRIES ={EASTERN_AUSTRALIA,INDONESIA,NEW_GUINEA,WESTERN_AUSTRALIA};
 
-        continents.add(new Continent(NORTH_AMERICA, 5));
-        continents.add(new Continent(SOUTH_AMERICA, 2));
-        continents.add(new Continent(EUROPE, 5));
-        continents.add(new Continent(AFRICA, 3));
-        continents.add(new Continent(ASIA, 7));
-        continents.add(new Continent(AUSTRALIA, 2));
+        continents.put(NORTH_AMERICA,new Continent(NORTH_AMERICA, 5));
+        continents.put(SOUTH_AMERICA,new Continent(SOUTH_AMERICA, 2));
+        continents.put(EUROPE, new Continent(EUROPE, 5));
+        continents.put(AFRICA, new Continent(AFRICA, 3));
+        continents.put(ASIA, new Continent(ASIA, 7));
+        continents.put(AUSTRALIA, new Continent(AUSTRALIA, 2));
 
         //North America
         getContinent(NORTH_AMERICA).addCountries(getCountries(NORTH_AMERICA_COUNTRIES));
@@ -303,6 +302,7 @@ public class Map {
      * Gives the country object of the country with the given name.
      * @param name the name of the country
      * @return the country object with the correct name.
+     * @throws IllegalArgumentException if there is no country with name name.
      */
     public Country getCountry(String name){
         Country country =countries.get(name);
@@ -315,20 +315,22 @@ public class Map {
      * @return ArrayList of continents.
      */
     public ArrayList<Continent> getContinents(){
-        return continents;
+        ArrayList<Continent> continentArrayList = new ArrayList<>();
+        for (String key : continents.keySet()) {
+            continentArrayList.add(continents.get(key));
+        }
+        return continentArrayList;
     }
 
     /**
      * Gives the continent object of the country with the given name.
      * @param name the name of the continent
      * @return the continent object with the correct name.
+     * @throws IllegalArgumentException if there is no continent with name name.
      */
     public Continent getContinent(String name) {
-        for (Continent continent : continents) {
-            if(continent.getName().equals(name)){
-                return continent;
-            }
-        }
+        Continent continent = continents.get(name);
+        if(continent!=null) return continent;
         throw new IllegalArgumentException(name + " is not a valid continent");
     }
 
