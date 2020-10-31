@@ -49,10 +49,17 @@ public class GraphTest extends JFrame{
             graph.insertEdge(parent, "e15", "", easternUnitedStates, westernUnitedStates, "endArrow=false");
 
             //South America
-            Object argentina = graph.insertVertex(parent, Map.ARGENTINA, Map.ARGENTINA, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object brazil = graph.insertVertex(parent, Map.BRAZIL, Map.BRAZIL, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object peru = graph.insertVertex(parent, Map.PERU, Map.PERU, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object venezuela = graph.insertVertex(parent, Map.VENEZUELA, Map.VENEZUELA, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object argentina = graph.insertVertex(parent, Map.ARGENTINA, Map.ARGENTINA, 145, 520, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object brazil = graph.insertVertex(parent, Map.BRAZIL, Map.BRAZIL, 190, 450, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object peru = graph.insertVertex(parent, Map.PERU, Map.PERU, 100, 450, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object venezuela = graph.insertVertex(parent, Map.VENEZUELA, Map.VENEZUELA, 145, 380, 65, 65, "shape=ellipse;whiteSpace=wrap");
+
+            graph.insertEdge(parent, "","",venezuela, centralAmerica, "endArrow=false");
+            graph.insertEdge(parent, "","",venezuela, brazil, "endArrow=false");
+            graph.insertEdge(parent, "","",venezuela, peru, "endArrow=false");
+            graph.insertEdge(parent, "","",argentina, peru, "endArrow=false");
+            graph.insertEdge(parent, "","",argentina, brazil, "endArrow=false");
+            graph.insertEdge(parent, "","",brazil, peru, "endArrow=false");
 
         }
         finally
