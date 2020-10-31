@@ -21,38 +21,38 @@ public class GraphTest extends JFrame{
         try
         {
             //North America
-            Object alaska = graph.insertVertex(parent, Map.ALASKA, Map.ALASKA, 20, 20, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object alberta = graph.insertVertex(parent, Map.ALBERTA, Map.ALBERTA, 45, 105, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object centralAmerica = graph.insertVertex(parent, Map.CENTRAL_AMERICA, Map.CENTRAL_AMERICA, 125, 260, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object easternUnitedStates = graph.insertVertex(parent, Map.EASTERN_UNITED_STATES, Map.EASTERN_UNITED_STATES, 175, 185, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object greenland = graph.insertVertex(parent, Map.GREENLAND, Map.GREENLAND, 250, 10, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object northwestTerritory = graph.insertVertex(parent, Map.NORTHWEST_TERRITORY, Map.NORTHWEST_TERRITORY, 120, 25, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object ontario = graph.insertVertex(parent, Map.ONTARIO, Map.ONTARIO, 125, 110, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object quebec = graph.insertVertex(parent, Map.QUEBEC, Map.QUEBEC, 210, 100, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object westernUnitedStates = graph.insertVertex(parent, Map.WESTERN_UNITED_STATES, Map.WESTERN_UNITED_STATES, 75, 185, 72, 72, "shape=ellipse;whiteSpace=wrap");
+            Object alaska = graph.insertVertex(parent, Map.ALASKA, Map.ALASKA, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object alberta = graph.insertVertex(parent, Map.ALBERTA, Map.ALBERTA, 45, 105, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object centralAmerica = graph.insertVertex(parent, Map.CENTRAL_AMERICA, Map.CENTRAL_AMERICA, 125, 260, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object easternUnitedStates = graph.insertVertex(parent, Map.EASTERN_UNITED_STATES, Map.EASTERN_UNITED_STATES, 175, 185, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object greenland = graph.insertVertex(parent, Map.GREENLAND, Map.GREENLAND, 250, 10, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object northwestTerritory = graph.insertVertex(parent, Map.NORTHWEST_TERRITORY, Map.NORTHWEST_TERRITORY, 120, 25, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object ontario = graph.insertVertex(parent, Map.ONTARIO, Map.ONTARIO, 125, 110, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object quebec = graph.insertVertex(parent, Map.QUEBEC, Map.QUEBEC, 210, 100, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object westernUnitedStates = graph.insertVertex(parent, Map.WESTERN_UNITED_STATES, Map.WESTERN_UNITED_STATES, 75, 185, 65, 65, "shape=ellipse;whiteSpace=wrap");
 
-            graph.insertEdge(parent, "e0", "", alaska, northwestTerritory, "endArrow=false");
-            graph.insertEdge(parent, "e1", "", alaska, alberta, "endArrow=false");
-            graph.insertEdge(parent, "e2", "", alberta, ontario, "endArrow=false");
-            graph.insertEdge(parent, "e3", "", alberta, westernUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "e4", "", ontario, northwestTerritory, "endArrow=false");
-            graph.insertEdge(parent, "e5", "", greenland, northwestTerritory, "endArrow=false");
-            graph.insertEdge(parent, "e6", "", northwestTerritory, alberta, "endArrow=false");
-            graph.insertEdge(parent, "e7", "", greenland, ontario, "endArrow=false");
-            graph.insertEdge(parent, "e8", "", greenland, quebec, "endArrow=false");
-            graph.insertEdge(parent, "e9", "", ontario, easternUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "e10", "", ontario, westernUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "e11", "", ontario, quebec, "endArrow=false");
-            graph.insertEdge(parent, "e12", "", quebec, easternUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "e13", "", centralAmerica, easternUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "e14", "", centralAmerica, westernUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "e15", "", easternUnitedStates, westernUnitedStates, "endArrow=false");
+            graph.insertEdge(parent, "", "", alaska, northwestTerritory, "endArrow=false");
+            graph.insertEdge(parent, "", "", alaska, alberta, "endArrow=false");
+            graph.insertEdge(parent, "", "", alberta, ontario, "endArrow=false");
+            graph.insertEdge(parent, "", "", alberta, westernUnitedStates, "endArrow=false");
+            graph.insertEdge(parent, "", "", ontario, northwestTerritory, "endArrow=false");
+            graph.insertEdge(parent, "", "", greenland, northwestTerritory, "endArrow=false");
+            graph.insertEdge(parent, "", "", northwestTerritory, alberta, "endArrow=false");
+            graph.insertEdge(parent, "", "", greenland, ontario, "endArrow=false");
+            graph.insertEdge(parent, "", "", greenland, quebec, "endArrow=false");
+            graph.insertEdge(parent, "", "", ontario, easternUnitedStates, "endArrow=false");
+            graph.insertEdge(parent, "", "", ontario, westernUnitedStates, "endArrow=false");
+            graph.insertEdge(parent, "", "", ontario, quebec, "endArrow=false");
+            graph.insertEdge(parent, "", "", quebec, easternUnitedStates, "endArrow=false");
+            graph.insertEdge(parent, "", "", centralAmerica, easternUnitedStates, "endArrow=false");
+            graph.insertEdge(parent, "", "", centralAmerica, westernUnitedStates, "endArrow=false");
+            graph.insertEdge(parent, "", "", easternUnitedStates, westernUnitedStates, "endArrow=false");
 
             //South America
-            Object argentina = graph.insertVertex(parent, Map.ARGENTINA, Map.ARGENTINA, 145, 540, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object brazil = graph.insertVertex(parent, Map.BRAZIL, Map.BRAZIL, 200, 460, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object peru = graph.insertVertex(parent, Map.PERU, Map.PERU, 90, 460, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object venezuela = graph.insertVertex(parent, Map.VENEZUELA, Map.VENEZUELA, 145, 380, 72, 72, "shape=ellipse;whiteSpace=wrap");
+            Object argentina = graph.insertVertex(parent, Map.ARGENTINA, Map.ARGENTINA, 145, 540, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object brazil = graph.insertVertex(parent, Map.BRAZIL, Map.BRAZIL, 200, 460, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object peru = graph.insertVertex(parent, Map.PERU, Map.PERU, 90, 460, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object venezuela = graph.insertVertex(parent, Map.VENEZUELA, Map.VENEZUELA, 145, 380, 65, 65, "shape=ellipse;whiteSpace=wrap");
 
             graph.insertEdge(parent, "","",venezuela, centralAmerica, "endArrow=false");
             graph.insertEdge(parent, "","",venezuela, brazil, "endArrow=false");
@@ -62,13 +62,13 @@ public class GraphTest extends JFrame{
             graph.insertEdge(parent, "","",brazil, peru, "endArrow=false");
 
             //Europe
-            Object greatBritain = graph.insertVertex(parent, Map.GREAT_BRITAIN, Map.GREAT_BRITAIN, 340, 120, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object iceland = graph.insertVertex(parent, Map.ICELAND, Map.ICELAND, 360, 35, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object northernEurope = graph.insertVertex(parent, Map.NORTHERN_EUROPE, Map.NORTHERN_EUROPE, 430, 135, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object scandinavia = graph.insertVertex(parent, Map.SCANDINAVIA, Map.SCANDINAVIA, 450, 55, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object southernEurope = graph.insertVertex(parent, Map.SOUTHERN_EUROPE, Map.SOUTHERN_EUROPE, 430, 225, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object ukraine = graph.insertVertex(parent, Map.UKRAINE, Map.UKRAINE, 520, 130, 72, 72, "shape=ellipse;whiteSpace=wrap");
-            Object westernEurope = graph.insertVertex(parent, Map.WESTERN_EUROPE, Map.WESTERN_EUROPE, 345, 205, 72, 72, "shape=ellipse;whiteSpace=wrap");
+            Object greatBritain = graph.insertVertex(parent, Map.GREAT_BRITAIN, Map.GREAT_BRITAIN, 340, 120, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object iceland = graph.insertVertex(parent, Map.ICELAND, Map.ICELAND, 360, 35, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object northernEurope = graph.insertVertex(parent, Map.NORTHERN_EUROPE, Map.NORTHERN_EUROPE, 430, 135, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object scandinavia = graph.insertVertex(parent, Map.SCANDINAVIA, Map.SCANDINAVIA, 450, 55, 65, 65, "shape=ellipse");
+            Object southernEurope = graph.insertVertex(parent, Map.SOUTHERN_EUROPE, Map.SOUTHERN_EUROPE, 430, 225, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object ukraine = graph.insertVertex(parent, Map.UKRAINE, Map.UKRAINE, 520, 130, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object westernEurope = graph.insertVertex(parent, Map.WESTERN_EUROPE, Map.WESTERN_EUROPE, 345, 205, 65, 65, "shape=ellipse;whiteSpace=wrap");
 
             graph.insertEdge(parent, "","",iceland, greenland, "endArrow=false");
             graph.insertEdge(parent, "","",iceland, greatBritain, "endArrow=false");
@@ -85,8 +85,26 @@ public class GraphTest extends JFrame{
             graph.insertEdge(parent, "","",westernEurope, southernEurope, "endArrow=false");
             graph.insertEdge(parent, "","",ukraine, southernEurope, "endArrow=false");
 
+            //Africa
+            Object congo = graph.insertVertex(parent, Map.CONGO, Map.CONGO, 380, 405, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object eastAfrica = graph.insertVertex(parent, Map.EAST_AFRICA, Map.EAST_AFRICA, 460, 415, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object egypt = graph.insertVertex(parent, Map.EGYPT, Map.EGYPT, 430, 340, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object madagascar = graph.insertVertex(parent, Map.MADAGASCAR, Map.MADAGASCAR, 490, 490, 65, 65, "shape=ellipse");
+            Object northAfrica = graph.insertVertex(parent, Map.NORTH_AFRICA, Map.NORTH_AFRICA, 350, 330, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object southAfrica = graph.insertVertex(parent, Map.SOUTH_AFRICA, Map.SOUTH_AFRICA, 410, 490, 65, 65, "shape=ellipse;whiteSpace=wrap");
 
-
+            graph.insertEdge(parent, "","",northAfrica, westernEurope, "endArrow=false");
+            graph.insertEdge(parent, "","",northAfrica, brazil, "endArrow=false");
+            graph.insertEdge(parent, "","",northAfrica, egypt, "endArrow=false");
+            graph.insertEdge(parent, "","",northAfrica, eastAfrica, "endArrow=false");
+            graph.insertEdge(parent, "","",northAfrica, congo, "endArrow=false");
+            graph.insertEdge(parent, "","",egypt, southernEurope, "endArrow=false");
+            graph.insertEdge(parent, "","",egypt, eastAfrica, "endArrow=false");
+            graph.insertEdge(parent, "","",eastAfrica, congo, "endArrow=false");
+            graph.insertEdge(parent, "","",eastAfrica, madagascar, "endArrow=false");
+            graph.insertEdge(parent, "","",congo, southAfrica, "endArrow=false");
+            graph.insertEdge(parent, "","",southAfrica, madagascar, "endArrow=false");
+            graph.insertEdge(parent, "","",southAfrica, eastAfrica, "endArrow=false");
         }
         finally
         {
