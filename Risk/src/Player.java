@@ -22,6 +22,7 @@ public class Player {
      * @param name the name of the player.
      */
     public Player(String name) {
+        if(name == null) throw new IllegalArgumentException("Player name cannot be null");
         if (name.trim().equals("")) {
             throw new IllegalArgumentException("Player name cannot be empty");
         }
