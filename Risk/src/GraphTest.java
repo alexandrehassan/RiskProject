@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URI;
 
 public class GraphTest extends JFrame{
     public GraphTest() {
@@ -105,6 +106,49 @@ public class GraphTest extends JFrame{
             graph.insertEdge(parent, "","",congo, southAfrica, "endArrow=false");
             graph.insertEdge(parent, "","",southAfrica, madagascar, "endArrow=false");
             graph.insertEdge(parent, "","",southAfrica, eastAfrica, "endArrow=false");
+
+            //Asia
+            Object afghanistan = graph.insertVertex(parent, Map.AFGHANISTAN, Map.AFGHANISTAN, 630, 110, 65, 65, "shape=ellipse");
+            Object china = graph.insertVertex(parent, Map.CHINA, Map.CHINA, 715, 120, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object india = graph.insertVertex(parent, Map.INDIA, Map.INDIA, 680, 200, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object irkutsk = graph.insertVertex(parent, Map.IRKUTSK, Map.IRKUTSK, 820, 100, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object japan = graph.insertVertex(parent, Map.JAPAN, Map.JAPAN, 910, 120, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object kamchatka = graph.insertVertex(parent, Map.KAMCHATKA, Map.KAMCHATKA, 890, 30, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object middleEast = graph.insertVertex(parent, Map.MIDDLE_EAST, Map.MIDDLE_EAST, 600, 180, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object mongolia = graph.insertVertex(parent, Map.MONGOLIA, Map.MONGOLIA, 860, 200, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object siam = graph.insertVertex(parent, Map.SIAM, Map.SIAM, 770, 220, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object siberia = graph.insertVertex(parent, Map.SIBERIA, Map.SIBERIA, 715, 40, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object ural = graph.insertVertex(parent, Map.URAL, Map.URAL, 630, 30, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object yakutsk = graph.insertVertex(parent, Map.YAKUTSK, Map.YAKUTSK, 800, 30, 65, 65, "shape=ellipse;whiteSpace=wrap");
+
+            graph.insertEdge(parent, "","",afghanistan, middleEast, "endArrow=false");
+            graph.insertEdge(parent, "","",afghanistan, china, "endArrow=false");
+            graph.insertEdge(parent, "","",afghanistan, india, "endArrow=false");
+            graph.insertEdge(parent, "","",afghanistan, ural, "endArrow=false");
+            graph.insertEdge(parent, "","",afghanistan, ukraine, "endArrow=false");
+            graph.insertEdge(parent, "","",china, india, "endArrow=false");
+            graph.insertEdge(parent, "","",china, siam, "endArrow=false");
+            graph.insertEdge(parent, "","",china, mongolia, "endArrow=false");
+            graph.insertEdge(parent, "","",china, siberia, "endArrow=false");
+            graph.insertEdge(parent, "","",china, ural, "endArrow=false");
+            graph.insertEdge(parent, "","",india, middleEast, "endArrow=false");
+            graph.insertEdge(parent, "","",india, siam, "endArrow=false");
+            graph.insertEdge(parent, "","",irkutsk, kamchatka, "endArrow=false");
+            graph.insertEdge(parent, "","",irkutsk, mongolia, "endArrow=false");
+            graph.insertEdge(parent, "","",irkutsk, siberia, "endArrow=false");
+            graph.insertEdge(parent, "","",irkutsk, yakutsk, "endArrow=false");
+            graph.insertEdge(parent, "","",japan, kamchatka, "endArrow=false");
+            graph.insertEdge(parent, "","",japan, mongolia, "endArrow=false");
+            graph.insertEdge(parent, "","",kamchatka, yakutsk, "endArrow=false");
+            graph.insertEdge(parent, "","",kamchatka, mongolia, "endArrow=false");
+            graph.insertEdge(parent, "","",middleEast, ukraine, "endArrow=false");
+            graph.insertEdge(parent, "","",middleEast, southernEurope, "endArrow=false");
+            graph.insertEdge(parent, "","",middleEast, egypt, "endArrow=false");
+            graph.insertEdge(parent, "","",middleEast, eastAfrica, "endArrow=false");
+            graph.insertEdge(parent, "","",mongolia, siberia, "endArrow=false");
+            graph.insertEdge(parent, "","",siberia, ural, "endArrow=false");
+            graph.insertEdge(parent, "","",siberia, yakutsk, "endArrow=false");
+
         }
         finally
         {
@@ -119,7 +163,7 @@ public class GraphTest extends JFrame{
     {
         GraphTest frame = new GraphTest();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 1000);
+        frame.setSize(1000, 650);
         frame.setVisible(true);
     }
 
