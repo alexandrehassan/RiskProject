@@ -74,7 +74,7 @@ public class Player {
      * Gives the number of countries owned by Player.
      * @return the size of countries.
      */
-    public int NumberOfCountries(){
+    public int numberOfCountries(){
         return countries.size();
     }
 
