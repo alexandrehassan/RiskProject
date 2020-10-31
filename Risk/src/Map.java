@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -19,58 +18,66 @@ public class Map {
 
     //Countries
     //North America
-    private static final String ALASKA = "Alaska";
-    private static final String ALBERTA = "Alberta";
-    private static final String CENTRAL_AMERICA = "Central America";
-    private static final String EASTERN_UNITED_STATES = "Eastern United States";
-    private static final String GREENLAND = "Greenland";
-    private static final String NORTHWEST_TERRITORY = "Northwest Territory";
-    private static final String ONTARIO = "Ontario";
-    private static final String QUEBEC = "Quebec";
-    private static final String WESTERN_UNITED_STATES = "Western United States";
+    public static final String ALASKA = "Alaska";
+    public static final String ALBERTA = "Alberta";
+    public static final String CENTRAL_AMERICA = "Central America";
+    public static final String EASTERN_UNITED_STATES = "Eastern United States";
+    public static final String GREENLAND = "Greenland";
+    public static final String NORTHWEST_TERRITORY = "Northwest Territory";
+    public static final String ONTARIO = "Ontario";
+    public static final String QUEBEC = "Quebec";
+    public static final String WESTERN_UNITED_STATES = "Western United States";
 
     //South America
-    private static final String ARGENTINA = "Argentina";
-    private static final String BRAZIL = "Brazil";
-    private static final String PERU = "Peru";
-    private static final String VENEZUELA = "Venezuela";
+    public static final String ARGENTINA = "Argentina";
+    public static final String BRAZIL = "Brazil";
+    public static final String PERU = "Peru";
+    public static final String VENEZUELA = "Venezuela";
 
     //Europe
-    private static final String GREAT_BRITAIN = "Great Britain";
-    private static final String ICELAND = "Iceland";
-    private static final String NORTHERN_EUROPE = "Northern Europe";
-    private static final String SCANDINAVIA = "Scandinavia";
-    private static final String SOUTHERN_EUROPE = "Southern Europe";
-    private static final String UKRAINE = "Ukraine";
-    private static final String WESTERN_EUROPE = "Western Europe";
+    public static final String GREAT_BRITAIN = "Great Britain";
+    public static final String ICELAND = "Iceland";
+    public static final String NORTHERN_EUROPE = "Northern Europe";
+    public static final String SCANDINAVIA = "Scandinavia";
+    public static final String SOUTHERN_EUROPE = "Southern Europe";
+    public static final String UKRAINE = "Ukraine";
+    public static final String WESTERN_EUROPE = "Western Europe";
 
     //Africa
-    private static final String CONGO = "Congo";
-    private static final String EAST_AFRICA = "East Africa";
-    private static final String EGYPT = "Egypt";
-    private static final String MADAGASCAR = "Madagascar";
-    private static final String NORTH_AFRICA = "North Africa";
-    private static final String SOUTH_AFRICA = "South Africa";
+    public static final String CONGO = "Congo";
+    public static final String EAST_AFRICA = "East Africa";
+    public static final String EGYPT = "Egypt";
+    public static final String MADAGASCAR = "Madagascar";
+    public static final String NORTH_AFRICA = "North Africa";
+    public static final String SOUTH_AFRICA = "South Africa";
 
     //Asia
-    private static final String AFGHANISTAN = "Afghanistan";
-    private static final String CHINA = "China";
-    private static final String INDIA = "India";
-    private static final String IRKUTSK = "Irkutsk";
-    private static final String JAPAN = "Japan";
-    private static final String KAMCHATKA = "Kamchatka";
-    private static final String MIDDLE_EAST = "Middle East";
-    private static final String MONGOLIA = "Mongolia";
-    private static final String SIAM = "Siam";
-    private static final String SIBERIA = "Siberia";
-    private static final String URAL = "Ural";
-    private static final String YAKUTSK = "Yakutsk";
+    public static final String AFGHANISTAN = "Afghanistan";
+    public static final String CHINA = "China";
+    public static final String INDIA = "India";
+    public static final String IRKUTSK = "Irkutsk";
+    public static final String JAPAN = "Japan";
+    public static final String KAMCHATKA = "Kamchatka";
+    public static final String MIDDLE_EAST = "Middle East";
+    public static final String MONGOLIA = "Mongolia";
+    public static final String SIAM = "Siam";
+    public static final String SIBERIA = "Siberia";
+    public static final String URAL = "Ural";
+    public static final String YAKUTSK = "Yakutsk";
 
     //Australia
-    private static final String EASTERN_AUSTRALIA = "Eastern Australia";
-    private static final String INDONESIA = "Indonesia";
-    private static final String NEW_GUINEA = "New Guinea";
-    private static final String WESTERN_AUSTRALIA = "Western Australia";
+    public static final String EASTERN_AUSTRALIA = "Eastern Australia";
+    public static final String INDONESIA = "Indonesia";
+    public static final String NEW_GUINEA = "New Guinea";
+    public static final String WESTERN_AUSTRALIA = "Western Australia";
+
+    //Continents
+    public static final String NORTH_AMERICA = "North America";
+    public static final String SOUTH_AMERICA = "South America";
+    public static final String EUROPE = "Europe";
+    public static final String AFRICA = "Africa";
+    public static final String ASIA = "Asia";
+    public static final String AUSTRALIA = "Australia";
 
     /**
      * Constructor for the Map class.
@@ -250,25 +257,18 @@ public class Map {
      */
     private void loadContinents() {
         //Continents
-        String NORTH_AMERICA = "North America";
         String[] NORTH_AMERICA_COUNTRIES = {ALASKA,ALBERTA,CENTRAL_AMERICA,EASTERN_UNITED_STATES,
                 GREENLAND,NORTHWEST_TERRITORY,ONTARIO,QUEBEC,WESTERN_UNITED_STATES};
 
-        String SOUTH_AMERICA = "South America";
         String[] SOUTH_AMERICA_COUNTRIES = {ARGENTINA,BRAZIL,PERU,VENEZUELA};
 
-        String EUROPE = "Europe";
         String[] EUROPE_COUNTRIES ={GREAT_BRITAIN,ICELAND,NORTHERN_EUROPE,SCANDINAVIA,SOUTHERN_EUROPE,UKRAINE,WESTERN_EUROPE};
 
-        String AFRICA = "Africa";
         String[] AFRICA_COUNTRIES = {CONGO,EAST_AFRICA,EGYPT,MADAGASCAR,NORTH_AFRICA,SOUTH_AFRICA};
 
-        String ASIA = "Asia";
         String[] ASIA_COUNTRIES ={AFGHANISTAN,CHINA,INDIA,IRKUTSK,JAPAN,KAMCHATKA,MIDDLE_EAST,MONGOLIA,SIAM,SIBERIA,URAL,YAKUTSK};
 
-        String AUSTRALIA = "Australia";
         String[] AUSTRALIA_COUNTRIES ={EASTERN_AUSTRALIA,INDONESIA,NEW_GUINEA,WESTERN_AUSTRALIA};
-
 
         continents.add(new Continent(NORTH_AMERICA, 5));
         continents.add(new Continent(SOUTH_AMERICA, 2));
@@ -287,7 +287,7 @@ public class Map {
     }
 
     /**
-     * Gets the country objects for all the contries with the given names.
+     * Gets the country objects for all the countries with the given names.
      * @param toGet an Array containing the names of every country to return
      * @return an array of country objects.
      */

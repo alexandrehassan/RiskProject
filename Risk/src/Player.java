@@ -16,19 +16,18 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Player {
     private final LinkedList<Country> countries;
     private final String name;
-    private boolean eliminated;
 
     /**
      * Default constructor for the class Player.
      * @param name the name of the player.
      */
     public Player(String name) {
-        if (name.equals("")) {
+        if(name == null) throw new IllegalArgumentException("Player name cannot be null");
+        if (name.trim().equals("")) {
             throw new IllegalArgumentException("Player name cannot be empty");
         }
         this.name = name;
         countries = new LinkedList<>();
-        eliminated = false;
     }
 
     /**
@@ -40,7 +39,7 @@ public class Player {
     }
 
     public void assignBeginningTroops(int beginningTroops) {
-        //To stop to many troops from being assigned to a single country we set a max number of troops on one country
+        //To stop too many troops from being assigned to a single country we set a max number of troops on one country
         //The maximum should be at least 4
         int maxTroops = Math.max(beginningTroops/countries.size() + 2, 4);
 
@@ -48,7 +47,7 @@ public class Player {
         for(int assigned = countries.size(); assigned<beginningTroops;){
             random = ThreadLocalRandom.current().nextInt(0,countries.size());
             if(countries.get(random).getTroops() < maxTroops){
-                countries.get(random).addTroop(1,false);
+                countries.get(random).addTroop(1);
                 assigned++;
             }
         }
@@ -67,29 +66,15 @@ public class Player {
      * @return True if Eliminated, False otherwise
      */
     public boolean isEliminated () {
-        return eliminated;
+        return countries.size() ==0;
     }
 
-    /**
-     * Triggers the check to see whether of not player is eliminated
-     */
-    public void checkEliminated () {
-        setEliminated(!(countries.size() > 0));
-    }
-
-    /**
-     * Method used to set the value of eliminated.
-     * @param isEliminated the value to set
-     */
-    private void setEliminated (boolean isEliminated) {
-        this.eliminated = isEliminated;
-    }
 
     /**
      * Gives the number of countries owned by Player.
      * @return the size of countries.
      */
-    public int NumberOfCountries(){
+    public int numberOfCountries(){
         return countries.size();
     }
 

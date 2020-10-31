@@ -156,7 +156,7 @@ public class GameModel {
                 extraTroops += continent.getReinforcements();
             }
         }
-        int reinforcements = Math.max(3, currentPlayer.NumberOfCountries()/3) + extraTroops;
+        int reinforcements = Math.max(3, currentPlayer.numberOfCountries()/3) + extraTroops;
 
 
         autoPutReinforcements(reinforcements);
@@ -199,7 +199,7 @@ public class GameModel {
      * @param numberOfTroops the number of troops
      */
     private void putReinforcements(Country country, int numberOfTroops){
-        country.addTroop(numberOfTroops, true);
+        country.addTroop(numberOfTroops);
     }
 
     /**
@@ -316,7 +316,6 @@ public class GameModel {
         for (Player p : players) {
             if (p.hasCountry(defend)) {
                 p.lost(defend);
-                p.checkEliminated();
             }
         }
 
@@ -352,7 +351,7 @@ public class GameModel {
             return false;
         }
         origin.removeTroops(toMove);
-        destination.addTroop(toMove, true);
+        destination.addTroop(toMove);
         return true;
     }
 
