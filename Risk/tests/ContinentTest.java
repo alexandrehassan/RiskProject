@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Series of Tests for class Continent.
- * @author Alexandre Hassan
+ * @author Team Group - Alexandre Hassan
  * @version 2020-10-30
  */
 class ContinentTest {

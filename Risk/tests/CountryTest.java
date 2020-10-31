@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Series of Tests for class Country.
- * @author Alexandre Hassan
+ * @author Team Group - Alexandre Hassan
  * @Version 2020-10-30
  */
 class CountryTest {
