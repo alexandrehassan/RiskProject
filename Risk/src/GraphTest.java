@@ -20,15 +20,16 @@ public class GraphTest extends JFrame{
 
         try
         {
-            Object alaska = graph.insertVertex(parent, "Alaska", "Alaska", 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object alberta = graph.insertVertex(parent, "Alberta", "Alberta", 45, 105, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object centralAmerica = graph.insertVertex(parent, "Central America", "Central America", 125, 260, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object easternUnitedStates = graph.insertVertex(parent, "Eastern United States", "Eastern United States", 175, 185, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object greenland = graph.insertVertex(parent, "Greenland", "Greenland", 250, 10, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object northwestTerritory = graph.insertVertex(parent, "Northwest Territory", "Northwest Territory", 120, 25, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object ontario = graph.insertVertex(parent, "Ontario", "Ontario", 125, 110, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object quebec = graph.insertVertex(parent, "Quebec", "Quebec", 210, 100, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object westernUnitedStates = graph.insertVertex(parent, "Western United States", "Western United States", 75, 185, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            //North America
+            Object alaska = graph.insertVertex(parent, Map.ALASKA, Map.ALASKA, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object alberta = graph.insertVertex(parent, Map.ALBERTA, Map.ALBERTA, 45, 105, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object centralAmerica = graph.insertVertex(parent, Map.CENTRAL_AMERICA, Map.CENTRAL_AMERICA, 125, 260, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object easternUnitedStates = graph.insertVertex(parent, Map.EASTERN_UNITED_STATES, Map.EASTERN_UNITED_STATES, 175, 185, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object greenland = graph.insertVertex(parent, Map.GREENLAND, Map.GREENLAND, 250, 10, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object northwestTerritory = graph.insertVertex(parent, Map.NORTHWEST_TERRITORY, Map.NORTHWEST_TERRITORY, 120, 25, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object ontario = graph.insertVertex(parent, Map.ONTARIO, Map.ONTARIO, 125, 110, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object quebec = graph.insertVertex(parent, Map.QUEBEC, Map.QUEBEC, 210, 100, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object westernUnitedStates = graph.insertVertex(parent, Map.WESTERN_UNITED_STATES, Map.WESTERN_UNITED_STATES, 75, 185, 65, 65, "shape=ellipse;whiteSpace=wrap");
 
             graph.insertEdge(parent, "e0", "", alaska, northwestTerritory, "endArrow=false");
             graph.insertEdge(parent, "e1", "", alaska, alberta, "endArrow=false");
@@ -46,6 +47,13 @@ public class GraphTest extends JFrame{
             graph.insertEdge(parent, "e13", "", centralAmerica, easternUnitedStates, "endArrow=false");
             graph.insertEdge(parent, "e14", "", centralAmerica, westernUnitedStates, "endArrow=false");
             graph.insertEdge(parent, "e15", "", easternUnitedStates, westernUnitedStates, "endArrow=false");
+
+            //South America
+            Object argentina = graph.insertVertex(parent, Map.ARGENTINA, Map.ARGENTINA, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object brazil = graph.insertVertex(parent, Map.BRAZIL, Map.BRAZIL, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object peru = graph.insertVertex(parent, Map.PERU, Map.PERU, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object venezuela = graph.insertVertex(parent, Map.VENEZUELA, Map.VENEZUELA, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
+
         }
         finally
         {

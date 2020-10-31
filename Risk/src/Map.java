@@ -19,58 +19,58 @@ public class Map {
 
     //Countries
     //North America
-    private static final String ALASKA = "Alaska";
-    private static final String ALBERTA = "Alberta";
-    private static final String CENTRAL_AMERICA = "Central America";
-    private static final String EASTERN_UNITED_STATES = "Eastern United States";
-    private static final String GREENLAND = "Greenland";
-    private static final String NORTHWEST_TERRITORY = "Northwest Territory";
-    private static final String ONTARIO = "Ontario";
-    private static final String QUEBEC = "Quebec";
-    private static final String WESTERN_UNITED_STATES = "Western United States";
+    public static final String ALASKA = "Alaska";
+    public static final String ALBERTA = "Alberta";
+    public static final String CENTRAL_AMERICA = "Central America";
+    public static final String EASTERN_UNITED_STATES = "Eastern United States";
+    public static final String GREENLAND = "Greenland";
+    public static final String NORTHWEST_TERRITORY = "Northwest Territory";
+    public static final String ONTARIO = "Ontario";
+    public static final String QUEBEC = "Quebec";
+    public static final String WESTERN_UNITED_STATES = "Western United States";
 
     //South America
-    private static final String ARGENTINA = "Argentina";
-    private static final String BRAZIL = "Brazil";
-    private static final String PERU = "Peru";
-    private static final String VENEZUELA = "Venezuela";
+    public static final String ARGENTINA = "Argentina";
+    public static final String BRAZIL = "Brazil";
+    public static final String PERU = "Peru";
+    public static final String VENEZUELA = "Venezuela";
 
     //Europe
-    private static final String GREAT_BRITAIN = "Great Britain";
-    private static final String ICELAND = "Iceland";
-    private static final String NORTHERN_EUROPE = "Northern Europe";
-    private static final String SCANDINAVIA = "Scandinavia";
-    private static final String SOUTHERN_EUROPE = "Southern Europe";
-    private static final String UKRAINE = "Ukraine";
-    private static final String WESTERN_EUROPE = "Western Europe";
+    public static final String GREAT_BRITAIN = "Great Britain";
+    public static final String ICELAND = "Iceland";
+    public static final String NORTHERN_EUROPE = "Northern Europe";
+    public static final String SCANDINAVIA = "Scandinavia";
+    public static final String SOUTHERN_EUROPE = "Southern Europe";
+    public static final String UKRAINE = "Ukraine";
+    public static final String WESTERN_EUROPE = "Western Europe";
 
     //Africa
-    private static final String CONGO = "Congo";
-    private static final String EAST_AFRICA = "East Africa";
-    private static final String EGYPT = "Egypt";
-    private static final String MADAGASCAR = "Madagascar";
-    private static final String NORTH_AFRICA = "North Africa";
-    private static final String SOUTH_AFRICA = "South Africa";
+    public static final String CONGO = "Congo";
+    public static final String EAST_AFRICA = "East Africa";
+    public static final String EGYPT = "Egypt";
+    public static final String MADAGASCAR = "Madagascar";
+    public static final String NORTH_AFRICA = "North Africa";
+    public static final String SOUTH_AFRICA = "South Africa";
 
     //Asia
-    private static final String AFGHANISTAN = "Afghanistan";
-    private static final String CHINA = "China";
-    private static final String INDIA = "India";
-    private static final String IRKUTSK = "Irkutsk";
-    private static final String JAPAN = "Japan";
-    private static final String KAMCHATKA = "Kamchatka";
-    private static final String MIDDLE_EAST = "Middle East";
-    private static final String MONGOLIA = "Mongolia";
-    private static final String SIAM = "Siam";
-    private static final String SIBERIA = "Siberia";
-    private static final String URAL = "Ural";
-    private static final String YAKUTSK = "Yakutsk";
+    public static final String AFGHANISTAN = "Afghanistan";
+    public static final String CHINA = "China";
+    public static final String INDIA = "India";
+    public static final String IRKUTSK = "Irkutsk";
+    public static final String JAPAN = "Japan";
+    public static final String KAMCHATKA = "Kamchatka";
+    public static final String MIDDLE_EAST = "Middle East";
+    public static final String MONGOLIA = "Mongolia";
+    public static final String SIAM = "Siam";
+    public static final String SIBERIA = "Siberia";
+    public static final String URAL = "Ural";
+    public static final String YAKUTSK = "Yakutsk";
 
     //Australia
-    private static final String EASTERN_AUSTRALIA = "Eastern Australia";
-    private static final String INDONESIA = "Indonesia";
-    private static final String NEW_GUINEA = "New Guinea";
-    private static final String WESTERN_AUSTRALIA = "Western Australia";
+    public static final String EASTERN_AUSTRALIA = "Eastern Australia";
+    public static final String INDONESIA = "Indonesia";
+    public static final String NEW_GUINEA = "New Guinea";
+    public static final String WESTERN_AUSTRALIA = "Western Australia";
 
     /**
      * Constructor for the Map class.
