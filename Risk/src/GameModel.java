@@ -316,7 +316,6 @@ public class GameModel {
         for (Player p : players) {
             if (p.hasCountry(defend)) {
                 p.lost(defend);
-                p.checkEliminated();
             }
         }
 
