@@ -39,7 +39,7 @@ public class Player {
     }
 
     public void assignBeginningTroops(int beginningTroops) {
-        //To stop to many troops from being assigned to a single country we set a max number of troops on one country
+        //To stop too many troops from being assigned to a single country we set a max number of troops on one country
         //The maximum should be at least 4
         int maxTroops = Math.max(beginningTroops/countries.size() + 2, 4);
 
