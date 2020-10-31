@@ -110,6 +110,9 @@ public class GameFrame extends JFrame implements GameView{
     /**
      * Should return the board (just voided now so no errors), created
      * in this method:
+     * @param map the map to generate the map with
+     * @param players the players in the game, used to get the countries
+     *                they control and set country colours accordingly
      */
     private void createBoard (Map map, ArrayList<Player> players) {
         //get the board

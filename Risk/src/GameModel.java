@@ -361,13 +361,12 @@ public class GameModel {
     public void printHelp () {
         JOptionPane.showMessageDialog(
                 null,
-                """
-                        Game instructions:
-                        To attack, select the attack button and choose a defending and attacking country
-                        To end your turn, select the 'end' button
-                        To manually update the charts on the right, select the 'state' button
-                        To get help, select the 'help' button
-                        The current player is shown in the top left corner""");
+                "Game instructions: " +
+                        "\nTo attack, select the attack button and choose a defending and attacking country" +
+                        "\nTo end your turn, select the 'end' button" +
+                        "\nTo manually update the charts on the right, select the 'state' button" +
+                        "\nTo get help, select the 'help' button" +
+                        "\nThe current player is shown in the top left corner");
     }
 
     /**
