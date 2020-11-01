@@ -70,6 +70,17 @@ public class GameModel {
     }
 
     /**
+     * Updates all game view
+     * @param countryName the country to update the view for
+     * @param playerOrder the order of the player to update
+     */
+    private void updateGameViewsOwnerChange(String countryName, int playerOrder) {
+        for (GameView v : gameViews) {
+            v.handleOwnerChange(new OwnerChangeEvent(this, countryName, playerOrder));
+        }
+    }
+
+    /**
      * Updates all game view as to whose turn it is
      * @param playerName the player whose turn it is
      */
@@ -315,6 +326,7 @@ public class GameModel {
         moveTroops(attack, defend, toAdd);
         String message = currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.";
         JOptionPane.showMessageDialog(null, message);
+        updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         currentPlayer.sortCountries();
     }
 
@@ -452,12 +464,16 @@ public class GameModel {
      */
     public String neighborString(String country) {
         StringBuilder stringBuilder = new StringBuilder();
-        ArrayList<Country> neighbors = map.getCountry(country).getNeighbors();
+        ArrayList<Country> neighbors = map.getCountry(makeProperCountryName(country)).getNeighbors();
         for(Country neighbor: neighbors){
             if(!currentPlayer.hasCountry(neighbor)){
                 stringBuilder.append(neighbor).append("\n");
             }
         }
         return stringBuilder.toString();
+    }
+
+    public void getCountryInfo (String country) {
+        JOptionPane.showMessageDialog(null, map.getCountry(makeProperCountryName(country)));
     }
 }

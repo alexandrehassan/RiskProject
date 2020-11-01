@@ -16,4 +16,5 @@ public interface GameView {
 
     void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn);
 
+    void handleOwnerChange(OwnerChangeEvent ownerChange);
 }

@@ -98,6 +98,22 @@ public class Player {
     }
 
     /**
+     * Checks if the player owns the given country
+     *
+     * @param country the name of the country to be checked.
+     * @return True if the player owns the country False otherwise
+     */
+    public boolean hasCountry (String country) {
+
+        for (Country c : countries) {
+            if (c.getName() == country) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks if the player owns the countries
      *
      * @param countries the countries to be checked
@@ -185,6 +201,14 @@ public class Player {
             stringBuilder.append(country).append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    /**
+     * Returns a linked list of all the countries
+     * @return all the countries in a linked list
+     */
+    public LinkedList<Country> getCountries () {
+        return countries;
     }
 
 }

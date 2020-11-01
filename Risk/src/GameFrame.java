@@ -1,11 +1,18 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 
 /**
@@ -27,10 +34,35 @@ import com.mxgraph.view.mxGraph;
 
 public class GameFrame extends JFrame implements GameView{
 
-    public ArrayList<JTextArea> playersInfo;
-    public JLabel updateLine;
-    public ArrayList<JButton> buttons;
-    public JPanel boardPanel;
+    private ArrayList<JTextArea> playersInfo;
+    private JLabel updateLine;
+    private ArrayList<JButton> buttons;
+    private mxGraphComponent board;
+    private GameController gameController;
+    private JPanel boardPanel;
+    private mxGraph graph;
+    private JButton startButton;
+
+    public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
+    public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
+    public static final String NA_COLOR = "strokeColor=#ff9000";
+    public static final String SA_COLOR = "strokeColor=#ffd000";
+    public static final String EU_COLOR = "strokeColor=#ff6500";
+    public static final String AF_COLOR = "strokeColor=#ffa500";
+    public static final String AS_COLOR = "strokeColor=#ffba00";
+    public static final String AU_COLOR = "strokeColor=#ff7b00";
+    public static final String BLACK = "strokeColor=#000000";
+    public static final int WIDTH = 65;
+    public static final int HEIGHT = 65;
+    public static final String EDGE_STYLE = "endArrow=false;";
+
+    public static final String PLAYER1 = "#FF3333"; //red
+    public static final String PLAYER2 = "#4AFF33"; //green
+    public static final String PLAYER3 = "#336DFF"; //blue
+    public static final String PLAYER4 = "#FFF533"; //yellow
+    public static final String PLAYER5 = "#FF33EF"; //pink
+    public static final String PLAYER6 = "#A633FF"; //purple
+
     public GameFrame (String name) {
         super(name);
         this.buttons = new ArrayList<JButton>();
@@ -38,7 +70,7 @@ public class GameFrame extends JFrame implements GameView{
 
         GameModel abm = new GameModel();
         abm.addGameView(this);
-        GameController gameController = new GameController(abm);
+        this.gameController = new GameController(abm);
 
         JPanel mainPanel = (JPanel) this.getContentPane();
 
@@ -47,14 +79,11 @@ public class GameFrame extends JFrame implements GameView{
         JPanel middlePane = new JPanel();
         middlePane.setLayout(new GridBagLayout());
 
-        //Put the board in this panel (feel free to get rid of the image, just a placeholder)
+        //Put the board in this panel. For now, just a copy of the risk image
         this.boardPanel = new JPanel();
-
-
-        //Adds the image of the risk map
         JLabel placeholderBoard = new JLabel();
         ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
-        Image newImage = image.getImage().getScaledInstance(750, 500,  java.awt.Image.SCALE_SMOOTH);
+        Image newImage = image.getImage().getScaledInstance(1000, 650,  java.awt.Image.SCALE_SMOOTH);
         placeholderBoard.setIcon(new ImageIcon(newImage));
         placeholderBoard.setBounds(0, 0, 1000, 650);
         boardPanel.add(placeholderBoard);
@@ -73,6 +102,7 @@ public class GameFrame extends JFrame implements GameView{
             textArea.setEditable(false);
             playersInfo.add(textArea);
         }
+        playerInfo.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         //Add the command buttons
         JPanel buttonOptions = new JPanel();
@@ -91,21 +121,21 @@ public class GameFrame extends JFrame implements GameView{
         }
 
         //Button to start the game
-        JButton startButton = new JButton("Start Game");
+        this.startButton = new JButton("Start Game");
         startButton.addActionListener(gameController);
         startButton.setActionCommand("new");
 
-        middlePane.add(buttonOptions, getConstraints(0, 0, 2, 1, GridBagConstraints.HORIZONTAL));
-        middlePane.add(boardPanel, getConstraints(0, 1, 2, 2, GridBagConstraints.HORIZONTAL));
-        middlePane.add(playerInfo, getConstraints(2, 0, 1, 3, GridBagConstraints.VERTICAL));
+        middlePane.add(buttonOptions, getConstraints(0, 0, 3, 1, GridBagConstraints.HORIZONTAL));
+        middlePane.add(boardPanel, getConstraints(0, 1, 3, 2, GridBagConstraints.HORIZONTAL));
 
         mainPanel.add(updateLine, BorderLayout.PAGE_START);
-        mainPanel.add(middlePane, BorderLayout.CENTER);
+        mainPanel.add(middlePane, BorderLayout.LINE_START);
+        mainPanel.add(playerInfo, BorderLayout.LINE_END);
         mainPanel.add(startButton, BorderLayout.PAGE_END);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("JList Example");
-        this.setSize(1300,650);
+        this.setSize(1500,800);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -114,12 +144,9 @@ public class GameFrame extends JFrame implements GameView{
     /**
      * Should return the board (just voided now so no errors), created
      * in this method:
-     * @param map the map to generate the map with
-     * @param players the players in the game, used to get the countries
-     *                they control and set country colours accordingly
      */
-    private mxGraphComponent createBoard () {
-        mxGraph graph = new mxGraph();
+    private mxGraphComponent createBoard (Map map, ArrayList<Player> players) {
+        this.graph = new mxGraph();
         Object parent = graph.getDefaultParent();
 
         graph.getModel().beginUpdate();
@@ -127,151 +154,155 @@ public class GameFrame extends JFrame implements GameView{
         try
         {
             //North America
-            Object alaska = graph.insertVertex(parent, Map.ALASKA, Map.ALASKA, 20, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object alberta = graph.insertVertex(parent, Map.ALBERTA, Map.ALBERTA, 45, 105, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object centralAmerica = graph.insertVertex(parent, Map.CENTRAL_AMERICA, Map.CENTRAL_AMERICA, 125, 260, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object easternUnitedStates = graph.insertVertex(parent, Map.EASTERN_UNITED_STATES, Map.EASTERN_UNITED_STATES, 175, 185, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object greenland = graph.insertVertex(parent, Map.GREENLAND, Map.GREENLAND, 250, 10, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object northwestTerritory = graph.insertVertex(parent, Map.NORTHWEST_TERRITORY, Map.NORTHWEST_TERRITORY, 120, 25, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object ontario = graph.insertVertex(parent, Map.ONTARIO, Map.ONTARIO, 125, 110, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object quebec = graph.insertVertex(parent, Map.QUEBEC, Map.QUEBEC, 210, 100, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object westernUnitedStates = graph.insertVertex(parent, Map.WESTERN_UNITED_STATES, Map.WESTERN_UNITED_STATES, 75, 185, 65, 65, "shape=ellipse;whiteSpace=wrap");
-
-            graph.insertEdge(parent, "", "", alaska, northwestTerritory, "endArrow=false");
-            graph.insertEdge(parent, "", "", alaska, alberta, "endArrow=false");
-            graph.insertEdge(parent, "", "", alberta, ontario, "endArrow=false");
-            graph.insertEdge(parent, "", "", alberta, westernUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "", "", ontario, northwestTerritory, "endArrow=false");
-            graph.insertEdge(parent, "", "", greenland, northwestTerritory, "endArrow=false");
-            graph.insertEdge(parent, "", "", northwestTerritory, alberta, "endArrow=false");
-            graph.insertEdge(parent, "", "", greenland, ontario, "endArrow=false");
-            graph.insertEdge(parent, "", "", greenland, quebec, "endArrow=false");
-            graph.insertEdge(parent, "", "", ontario, easternUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "", "", ontario, westernUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "", "", ontario, quebec, "endArrow=false");
-            graph.insertEdge(parent, "", "", quebec, easternUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "", "", centralAmerica, easternUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "", "", centralAmerica, westernUnitedStates, "endArrow=false");
-            graph.insertEdge(parent, "", "", easternUnitedStates, westernUnitedStates, "endArrow=false");
+            Object alaska = insertVertex(Map.ALASKA,20,20, VERTEX_STYLE, NA_COLOR);
+            Object alberta = insertVertex(Map.ALBERTA,45,105, VERTEX_STYLE, NA_COLOR);
+            Object centralAmerica = insertVertex(Map.CENTRAL_AMERICA,125,260, VERTEX_STYLE, NA_COLOR);
+            Object easternUnitedStates = insertVertex(Map.EASTERN_UNITED_STATES,175,185, VERTEX_STYLE, NA_COLOR);
+            Object greenland = insertVertex(Map.GREENLAND,250,10, VERTEX_STYLE, NA_COLOR);
+            Object northwestTerritory = insertVertex(Map.NORTHWEST_TERRITORY,120,25, VERTEX_STYLE, NA_COLOR);
+            Object ontario = insertVertex(Map.ONTARIO,125,110, VERTEX_STYLE, NA_COLOR);
+            Object quebec = insertVertex(Map.QUEBEC,210,100, VERTEX_STYLE, NA_COLOR);
+            Object westernUnitedStates = insertVertex(Map.WESTERN_UNITED_STATES,75,185, VERTEX_STYLE, NA_COLOR);
 
             //South America
-            Object argentina = graph.insertVertex(parent, Map.ARGENTINA, Map.ARGENTINA, 145, 540, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object brazil = graph.insertVertex(parent, Map.BRAZIL, Map.BRAZIL, 200, 460, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object peru = graph.insertVertex(parent, Map.PERU, Map.PERU, 90, 460, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object venezuela = graph.insertVertex(parent, Map.VENEZUELA, Map.VENEZUELA, 145, 380, 65, 65, "shape=ellipse;whiteSpace=wrap");
-
-            graph.insertEdge(parent, "","",venezuela, centralAmerica, "endArrow=false");
-            graph.insertEdge(parent, "","",venezuela, brazil, "endArrow=false");
-            graph.insertEdge(parent, "","",venezuela, peru, "endArrow=false");
-            graph.insertEdge(parent, "","",argentina, peru, "endArrow=false");
-            graph.insertEdge(parent, "","",argentina, brazil, "endArrow=false");
-            graph.insertEdge(parent, "","",brazil, peru, "endArrow=false");
+            Object argentina = insertVertex(Map.ARGENTINA,145,540, VERTEX_STYLE, SA_COLOR);
+            Object brazil = insertVertex(Map.BRAZIL,200,460, VERTEX_STYLE, SA_COLOR);
+            Object peru = insertVertex(Map.PERU,90,460, VERTEX_STYLE, SA_COLOR);
+            Object venezuela = insertVertex(Map.VENEZUELA,145,380, VERTEX_STYLE, SA_COLOR);
 
             //Europe
-            Object greatBritain = graph.insertVertex(parent, Map.GREAT_BRITAIN, Map.GREAT_BRITAIN, 340, 120, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object iceland = graph.insertVertex(parent, Map.ICELAND, Map.ICELAND, 360, 35, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object northernEurope = graph.insertVertex(parent, Map.NORTHERN_EUROPE, Map.NORTHERN_EUROPE, 430, 135, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object scandinavia = graph.insertVertex(parent, Map.SCANDINAVIA, Map.SCANDINAVIA, 450, 55, 65, 65, "shape=ellipse");
-            Object southernEurope = graph.insertVertex(parent, Map.SOUTHERN_EUROPE, Map.SOUTHERN_EUROPE, 430, 225, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object ukraine = graph.insertVertex(parent, Map.UKRAINE, Map.UKRAINE, 520, 130, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object westernEurope = graph.insertVertex(parent, Map.WESTERN_EUROPE, Map.WESTERN_EUROPE, 345, 205, 65, 65, "shape=ellipse;whiteSpace=wrap");
-
-            graph.insertEdge(parent, "","",iceland, greenland, "endArrow=false");
-            graph.insertEdge(parent, "","",iceland, greatBritain, "endArrow=false");
-            graph.insertEdge(parent, "","",iceland, scandinavia, "endArrow=false");
-            graph.insertEdge(parent, "","",greatBritain, scandinavia, "endArrow=false");
-            graph.insertEdge(parent, "","",greatBritain, northernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",scandinavia, northernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",scandinavia, ukraine, "endArrow=false");
-            graph.insertEdge(parent, "","",northernEurope, ukraine, "endArrow=false");
-            graph.insertEdge(parent, "","",northernEurope, southernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",northernEurope, westernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",westernEurope, greatBritain, "endArrow=false");
-            graph.insertEdge(parent, "","",westernEurope,northernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",westernEurope, southernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",ukraine, southernEurope, "endArrow=false");
+            Object greatBritain = insertVertex(Map.GREAT_BRITAIN,340,120, VERTEX_STYLE, EU_COLOR);
+            Object iceland = insertVertex(Map.ICELAND,360,35, VERTEX_STYLE, EU_COLOR);
+            Object northernEurope = insertVertex(Map.NORTHERN_EUROPE,430,135, VERTEX_STYLE, EU_COLOR);
+            Object scandinavia = insertVertex(Map.SCANDINAVIA,450,55, VERTEX_STYLE_ONE_WORD, EU_COLOR);
+            Object southernEurope = insertVertex(Map.SOUTHERN_EUROPE,430,225, VERTEX_STYLE, EU_COLOR);
+            Object ukraine = insertVertex(Map.UKRAINE,520,130, VERTEX_STYLE, EU_COLOR);
+            Object westernEurope = insertVertex(Map.WESTERN_EUROPE,345,205, VERTEX_STYLE, EU_COLOR);
 
             //Africa
-            Object congo = graph.insertVertex(parent, Map.CONGO, Map.CONGO, 380, 405, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object eastAfrica = graph.insertVertex(parent, Map.EAST_AFRICA, Map.EAST_AFRICA, 460, 415, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object egypt = graph.insertVertex(parent, Map.EGYPT, Map.EGYPT, 430, 340, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object madagascar = graph.insertVertex(parent, Map.MADAGASCAR, Map.MADAGASCAR, 490, 490, 65, 65, "shape=ellipse");
-            Object northAfrica = graph.insertVertex(parent, Map.NORTH_AFRICA, Map.NORTH_AFRICA, 350, 330, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object southAfrica = graph.insertVertex(parent, Map.SOUTH_AFRICA, Map.SOUTH_AFRICA, 410, 490, 65, 65, "shape=ellipse;whiteSpace=wrap");
-
-            graph.insertEdge(parent, "","",northAfrica, westernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",northAfrica, brazil, "endArrow=false");
-            graph.insertEdge(parent, "","",northAfrica, egypt, "endArrow=false");
-            graph.insertEdge(parent, "","",northAfrica, eastAfrica, "endArrow=false");
-            graph.insertEdge(parent, "","",northAfrica, congo, "endArrow=false");
-            graph.insertEdge(parent, "","",egypt, southernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",egypt, eastAfrica, "endArrow=false");
-            graph.insertEdge(parent, "","",eastAfrica, congo, "endArrow=false");
-            graph.insertEdge(parent, "","",eastAfrica, madagascar, "endArrow=false");
-            graph.insertEdge(parent, "","",congo, southAfrica, "endArrow=false");
-            graph.insertEdge(parent, "","",southAfrica, madagascar, "endArrow=false");
-            graph.insertEdge(parent, "","",southAfrica, eastAfrica, "endArrow=false");
+            Object congo = insertVertex(Map.CONGO,380,405, VERTEX_STYLE, AF_COLOR);
+            Object eastAfrica = insertVertex(Map.EAST_AFRICA,460,415, VERTEX_STYLE, AF_COLOR);
+            Object egypt = insertVertex(Map.EGYPT,430,340, VERTEX_STYLE, AF_COLOR);
+            Object madagascar = insertVertex(Map.MADAGASCAR,490,490, VERTEX_STYLE_ONE_WORD, AF_COLOR);
+            Object northAfrica = insertVertex(Map.NORTH_AFRICA,350,330, VERTEX_STYLE, AF_COLOR);
+            Object southAfrica = insertVertex(Map.SOUTH_AFRICA,410,490, VERTEX_STYLE, AF_COLOR);
 
             //Asia
-            Object afghanistan = graph.insertVertex(parent, Map.AFGHANISTAN, Map.AFGHANISTAN, 630, 110, 65, 65, "shape=ellipse");
-            Object china = graph.insertVertex(parent, Map.CHINA, Map.CHINA, 715, 120, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object india = graph.insertVertex(parent, Map.INDIA, Map.INDIA, 680, 200, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object irkutsk = graph.insertVertex(parent, Map.IRKUTSK, Map.IRKUTSK, 820, 100, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object japan = graph.insertVertex(parent, Map.JAPAN, Map.JAPAN, 910, 120, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object kamchatka = graph.insertVertex(parent, Map.KAMCHATKA, Map.KAMCHATKA, 890, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object middleEast = graph.insertVertex(parent, Map.MIDDLE_EAST, Map.MIDDLE_EAST, 600, 180, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object mongolia = graph.insertVertex(parent, Map.MONGOLIA, Map.MONGOLIA, 860, 200, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object siam = graph.insertVertex(parent, Map.SIAM, Map.SIAM, 770, 220, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object siberia = graph.insertVertex(parent, Map.SIBERIA, Map.SIBERIA, 715, 40, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object ural = graph.insertVertex(parent, Map.URAL, Map.URAL, 630, 30, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object yakutsk = graph.insertVertex(parent, Map.YAKUTSK, Map.YAKUTSK, 800, 30, 65, 65, "shape=ellipse;whiteSpace=wrap");
-
-            graph.insertEdge(parent, "","",afghanistan, middleEast, "endArrow=false");
-            graph.insertEdge(parent, "","",afghanistan, china, "endArrow=false");
-            graph.insertEdge(parent, "","",afghanistan, india, "endArrow=false");
-            graph.insertEdge(parent, "","",afghanistan, ural, "endArrow=false");
-            graph.insertEdge(parent, "","",afghanistan, ukraine, "endArrow=false");
-            graph.insertEdge(parent, "","",china, india, "endArrow=false");
-            graph.insertEdge(parent, "","",china, siam, "endArrow=false");
-            graph.insertEdge(parent, "","",china, mongolia, "endArrow=false");
-            graph.insertEdge(parent, "","",china, siberia, "endArrow=false");
-            graph.insertEdge(parent, "","",china, ural, "endArrow=false");
-            graph.insertEdge(parent, "","",india, middleEast, "endArrow=false");
-            graph.insertEdge(parent, "","",india, siam, "endArrow=false");
-            graph.insertEdge(parent, "","",irkutsk, kamchatka, "endArrow=false");
-            graph.insertEdge(parent, "","",irkutsk, mongolia, "endArrow=false");
-            graph.insertEdge(parent, "","",irkutsk, siberia, "endArrow=false");
-            graph.insertEdge(parent, "","",irkutsk, yakutsk, "endArrow=false");
-            graph.insertEdge(parent, "","",japan, kamchatka, "endArrow=false");
-            graph.insertEdge(parent, "","",japan, mongolia, "endArrow=false");
-            graph.insertEdge(parent, "","",kamchatka, yakutsk, "endArrow=false");
-            graph.insertEdge(parent, "","",kamchatka, mongolia, "endArrow=false");
-            graph.insertEdge(parent, "","",middleEast, ukraine, "endArrow=false");
-            graph.insertEdge(parent, "","",middleEast, southernEurope, "endArrow=false");
-            graph.insertEdge(parent, "","",middleEast, egypt, "endArrow=false");
-            graph.insertEdge(parent, "","",middleEast, eastAfrica, "endArrow=false");
-            graph.insertEdge(parent, "","",mongolia, siberia, "endArrow=false");
-            graph.insertEdge(parent, "","",siberia, ural, "endArrow=false");
-            graph.insertEdge(parent, "","",siberia, yakutsk, "endArrow=false");
+            Object afghanistan = insertVertex(Map.AFGHANISTAN,630,110, VERTEX_STYLE_ONE_WORD, AS_COLOR);
+            Object china = insertVertex(Map.CHINA,715,120, VERTEX_STYLE, AS_COLOR);
+            Object india = insertVertex(Map.INDIA,680,200, VERTEX_STYLE, AS_COLOR);
+            Object irkutsk = insertVertex(Map.IRKUTSK,820,100, VERTEX_STYLE, AS_COLOR);
+            Object japan = insertVertex(Map.JAPAN,910,120, VERTEX_STYLE, AS_COLOR);
+            Object kamchatka = insertVertex(Map.KAMCHATKA,890,20, VERTEX_STYLE, AS_COLOR);
+            Object middleEast = insertVertex(Map.MIDDLE_EAST,600,180, VERTEX_STYLE, AS_COLOR);
+            Object mongolia = insertVertex(Map.MONGOLIA,860,200, VERTEX_STYLE, AS_COLOR);
+            Object siam = insertVertex(Map.SIAM,770,220, VERTEX_STYLE, AS_COLOR);
+            Object siberia = insertVertex(Map.SIBERIA,715,40, VERTEX_STYLE, AS_COLOR);
+            Object ural = insertVertex(Map.URAL,630,30, VERTEX_STYLE, AS_COLOR);
+            Object yakutsk = insertVertex(Map.YAKUTSK,800,30, VERTEX_STYLE, AS_COLOR);
 
             //Australia
-            Object easternAustralia = graph.insertVertex(parent, Map.EASTERN_AUSTRALIA, Map.EASTERN_AUSTRALIA, 850, 480, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object indonesia = graph.insertVertex(parent, Map.INDONESIA, Map.INDONESIA, 780, 360, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object newGuinea = graph.insertVertex(parent, Map.NEW_GUINEA, Map.NEW_GUINEA, 870, 390, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object westernAustralia = graph.insertVertex(parent, Map.WESTERN_AUSTRALIA, Map.WESTERN_AUSTRALIA, 760, 450, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object easternAustralia = insertVertex(Map.EASTERN_AUSTRALIA,850,480, VERTEX_STYLE, AU_COLOR);
+            Object indonesia = insertVertex(Map.INDONESIA,780,360, VERTEX_STYLE, AU_COLOR);
+            Object newGuinea = insertVertex(Map.NEW_GUINEA,870,390, VERTEX_STYLE, AU_COLOR);
+            Object westernAustralia = insertVertex(Map.WESTERN_AUSTRALIA,760,450, VERTEX_STYLE, AU_COLOR);
 
-            graph.insertEdge(parent, "","",easternAustralia, westernAustralia, "endArrow=false");
-            graph.insertEdge(parent, "","",easternAustralia, newGuinea, "endArrow=false");
-            graph.insertEdge(parent, "","",indonesia, siam, "endArrow=false");
-            graph.insertEdge(parent, "","",indonesia, newGuinea, "endArrow=false");
-            graph.insertEdge(parent, "","",indonesia, westernAustralia, "endArrow=false");
-            graph.insertEdge(parent, "","",westernAustralia, newGuinea, "endArrow=false");
+            insertEdge(alaska, northwestTerritory,NA_COLOR);
+            insertEdge(alaska, alberta, NA_COLOR);
+            insertEdge(alberta, ontario, NA_COLOR);
+            insertEdge(alberta, westernUnitedStates,NA_COLOR);
+            insertEdge(ontario, northwestTerritory,NA_COLOR);
+            insertEdge(greenland, northwestTerritory, NA_COLOR);
+            insertEdge(northwestTerritory, alberta,NA_COLOR);
+            insertEdge(greenland, ontario,NA_COLOR);
+            insertEdge(greenland, quebec,NA_COLOR);
+            insertEdge(ontario, easternUnitedStates,NA_COLOR);
+            insertEdge(ontario, westernUnitedStates,NA_COLOR);
+            insertEdge(ontario, quebec,NA_COLOR);
+            insertEdge(quebec, easternUnitedStates,NA_COLOR);
+            insertEdge(centralAmerica, easternUnitedStates,NA_COLOR);
+            insertEdge(centralAmerica, westernUnitedStates,NA_COLOR);
+            insertEdge(easternUnitedStates, westernUnitedStates, NA_COLOR);
+
+            insertEdge(venezuela, centralAmerica,BLACK);
+            insertEdge(venezuela, brazil,SA_COLOR);
+            insertEdge(venezuela, peru,SA_COLOR);
+            insertEdge(argentina, peru,SA_COLOR);
+            insertEdge(argentina, brazil,SA_COLOR);
+            insertEdge(brazil, peru,SA_COLOR);
+
+            insertEdge(iceland, greenland,BLACK);
+            insertEdge(iceland, greatBritain,EU_COLOR);
+            insertEdge(iceland, scandinavia,EU_COLOR);
+            insertEdge(greatBritain, scandinavia,EU_COLOR);
+            insertEdge(greatBritain, northernEurope,EU_COLOR);
+            insertEdge(scandinavia, northernEurope,EU_COLOR);
+            insertEdge(scandinavia, ukraine,EU_COLOR);
+            insertEdge(northernEurope, ukraine,EU_COLOR);
+            insertEdge(northernEurope, southernEurope,EU_COLOR);
+            insertEdge(northernEurope, westernEurope,EU_COLOR);
+            insertEdge(westernEurope, greatBritain,EU_COLOR);
+            insertEdge(westernEurope,northernEurope,EU_COLOR);
+            insertEdge(westernEurope, southernEurope,EU_COLOR);
+            insertEdge(ukraine, southernEurope,EU_COLOR);
+
+
+            insertEdge(northAfrica, westernEurope,BLACK);
+            insertEdge(northAfrica, brazil,BLACK);
+            insertEdge(northAfrica, egypt,AF_COLOR);
+            insertEdge(northAfrica, eastAfrica,AF_COLOR);
+            insertEdge(northAfrica, congo,AF_COLOR);
+            insertEdge(egypt, southernEurope,BLACK);
+            insertEdge(egypt, eastAfrica,AF_COLOR);
+            insertEdge(eastAfrica, congo,AF_COLOR);
+            insertEdge(eastAfrica, madagascar,AF_COLOR);
+            insertEdge(congo, southAfrica,AF_COLOR);
+            insertEdge(southAfrica, madagascar,AF_COLOR);
+            insertEdge(southAfrica, eastAfrica,AF_COLOR);
+
+
+            insertEdge(afghanistan, middleEast,AS_COLOR);
+            insertEdge(afghanistan, china,AS_COLOR);
+            insertEdge(afghanistan, india,AS_COLOR);
+            insertEdge(afghanistan, ural,AS_COLOR);
+            insertEdge(afghanistan, ukraine,BLACK);
+            insertEdge(china, india,AS_COLOR);
+            insertEdge(china, siam,AS_COLOR);
+            insertEdge(china, mongolia,AS_COLOR);
+            insertEdge(china, siberia,AS_COLOR);
+            insertEdge(china, ural,AS_COLOR);
+            insertEdge(india, middleEast,AS_COLOR);
+            insertEdge(india, siam,AS_COLOR);
+            insertEdge(irkutsk, kamchatka,AS_COLOR);
+            insertEdge(irkutsk, mongolia,AS_COLOR);
+            insertEdge(irkutsk, siberia,AS_COLOR);
+            insertEdge(irkutsk, yakutsk,AS_COLOR);
+            insertEdge(japan, kamchatka,AS_COLOR);
+            insertEdge(japan, mongolia,AS_COLOR);
+            insertEdge(kamchatka, yakutsk,AS_COLOR);
+            insertEdge(kamchatka, mongolia,AS_COLOR);
+            insertEdge(middleEast, ukraine,BLACK);
+            insertEdge(middleEast, southernEurope,BLACK);
+            insertEdge(middleEast, egypt,BLACK);
+            insertEdge(middleEast, eastAfrica,BLACK);
+            insertEdge(mongolia, siberia,AS_COLOR);
+            insertEdge(siberia, ural,AS_COLOR);
+            insertEdge(siberia, yakutsk,AS_COLOR);
+            insertEdge(ural,ukraine,BLACK);
+
+
+            insertEdge(easternAustralia, westernAustralia,AU_COLOR);
+            insertEdge(easternAustralia, newGuinea,AU_COLOR);
+            insertEdge(indonesia, siam,BLACK);
+            insertEdge(indonesia, newGuinea,AU_COLOR);
+            insertEdge(indonesia, westernAustralia,AU_COLOR);
+            insertEdge(westernAustralia, newGuinea,AU_COLOR);
 
             //placeholders
-            Object placeholder1 = graph.insertVertex(parent, "", "", -20, 50, 1, 1, "shape=ellipse;whiteSpace=wrap");
-            Object placeholder2 = graph.insertVertex(parent, "", "", 970, 45, 1, 1, "shape=ellipse;whiteSpace=wrap");
-            graph.insertEdge(parent, "","",alaska, placeholder1, "endArrow=false");
-            graph.insertEdge(parent, "","",kamchatka, placeholder2, "endArrow=false");
+            Object placeholder1 = graph.insertVertex(parent, "placeholder1", "", -20, 50, 1, 1, VERTEX_STYLE);
+            Object placeholder2 = graph.insertVertex(parent, "placeholder2", "", 970, 45, 1, 1, VERTEX_STYLE);
+            insertEdge(alaska, placeholder1,BLACK);
+            insertEdge(kamchatka, placeholder2,BLACK);
         }
         finally
         {
@@ -283,9 +314,47 @@ public class GameFrame extends JFrame implements GameView{
         return graphComponent;
     }
 
+    /**
+     * Helper function for the creation of the insertion of vertices.
+     * @param name the name of the vertex
+     * @param xPosition .
+     * @param yPosition .
+     * @param style  .
+     * @param color .
+     * @return the new vertex.
+     */
+    private Object insertVertex(String name,int xPosition, int yPosition, String style, String color){
+        return graph.insertVertex(graph.getDefaultParent(), name, name, xPosition, yPosition, WIDTH, HEIGHT, style + ";" + color);
+    }
+
+    /**
+     *  Creates an edge between two vertices.
+     * @param vertex1 the first vertex
+     * @param vertex2 the second vertex
+     * @param color the color of the edge.
+     */
+    private void insertEdge(Object vertex1, Object vertex2, String color){
+        graph.insertEdge(graph.getDefaultParent(), "","",vertex1, vertex2, EDGE_STYLE + color);
+    }
+
+    private String getColorForPlayerIndex (int playerIndex) {
+        switch (playerIndex) {
+            case 0 : return PLAYER1;
+            case 1 : return PLAYER2;
+            case 2 : return PLAYER3;
+            case 3 : return PLAYER4;
+            case 4 : return PLAYER5;
+            case 5 : return PLAYER6;
+            default : return PLAYER1;
+        }
+    }
     public void handleGameStart(GameStartEvent gameModel) {
         ArrayList<Player> players = gameModel.getPlayers();
         Map map = gameModel.getMap();
+
+        for (int i = 0; i < players.size(); i++) {
+            playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.decode(getColorForPlayerIndex(i))));
+        }
 
         for (int i = players.size(); i < playersInfo.size(); i++) {
             JTextArea temp = playersInfo.get(i);
@@ -298,7 +367,41 @@ public class GameFrame extends JFrame implements GameView{
             b.setEnabled(true);
         }
 
-        createBoard();
+        startButton.setEnabled(false);
+
+        this.board = createBoard(gameModel.getMap(), gameModel.getPlayers());
+        boardPanel.removeAll();
+        boardPanel.add(board);
+        gameController.addGameBoard(board);
+        updateColors(gameModel.getPlayers());
+
+    }
+
+    public void updateColors (ArrayList<Player> players) {
+        mxGraph graph = board.getGraph();
+        Object[] cells = graph.getChildVertices(graph.getDefaultParent());
+        for (Object c : cells)
+        {
+            mxCell cell = (mxCell) c;
+            String countryName = cell.getId();
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).hasCountry(countryName)) {
+                    String newColor;
+                    switch (i) {
+                        case 0 : newColor = PLAYER1; break;
+                        case 1 : newColor = PLAYER2; break;
+                        case 2 : newColor = PLAYER3; break;
+                        case 3 : newColor = PLAYER4; break;
+                        case 4 : newColor = PLAYER5; break;
+                        case 5 : newColor = PLAYER6; break;
+                        default : newColor = PLAYER1; break;
+                    }
+                    System.out.println("Successfully found " + countryName + ", player ID = " + i + " with color " + newColor);
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, newColor, new Object[]{cell});
+                    //cell.setStyle(cell.getStyle() + ";fillColor=" + newColor);
+                }
+            }
+        }
     }
 
     public GridBagConstraints getConstraints (int gridx, int gridy, int gridwidth, int gridheight, int fill) {
@@ -328,6 +431,18 @@ public class GameFrame extends JFrame implements GameView{
 
     public void handleStateUpdate(PlayerStateEvent playerState) {
         playersInfo.get(playerState.getOrder()).setText(playerState.getInfo());
+    }
+
+    public void handleOwnerChange(OwnerChangeEvent ownerChange) {
+        mxGraph graph = board.getGraph();
+        Object[] cells = graph.getChildVertices(graph.getDefaultParent());
+        for (Object c : cells)
+        {
+            mxCell cell = (mxCell) c;
+            if (cell.getId().equals(ownerChange.getCountryName())) {
+                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, getColorForPlayerIndex(ownerChange.getOrder()), new Object[]{cell});
+            }
+        }
     }
 
     public static void  main(String[] args){
