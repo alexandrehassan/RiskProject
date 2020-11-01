@@ -177,7 +177,7 @@ public class GameModel {
      * Gets the number of reinforcements to add for the current player and
      * assigns them randomly to one or more of their countries
      */
-    private void getReinforcements () {
+    public int getReinforcements () {
         //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
         int extraTroops = 0;
         for(Continent continent: map.getContinents()) {
@@ -185,9 +185,9 @@ public class GameModel {
                 extraTroops += continent.getReinforcements();
             }
         }
-        int reinforcements = Math.max(3, currentPlayer.numberOfCountries()/3) + extraTroops;
+        return Math.max(3, currentPlayer.numberOfCountries()/3) + extraTroops;
 
-        autoPutReinforcements(reinforcements);
+        //autoPutReinforcements(reinforcements);
     }
 
     /**
@@ -219,11 +219,17 @@ public class GameModel {
     /**
      * Adds reinforcements to the selected country
      *
-     * @param country the country to have the troop added to
-     * @param numberOfTroops the number of troops
+     * @param country the country to have the troop added to.
+     * @throws IllegalArgumentException if the player does not own the country.
      */
-    private void putReinforcements(Country country, int numberOfTroops){
-        country.addTroop(numberOfTroops);
+    public void putReinforcements(String country){
+        if(currentPlayer.hasCountry(map.getCountry(country))){
+            map.getCountry(country).addTroop(1);
+            updateState();
+        }
+        else{
+            throw new IllegalArgumentException("The player does not own this country");
+        }
     }
 
     /**
@@ -354,24 +360,35 @@ public class GameModel {
      * @param destination where the troops will go to
      * @return whether the move was successful
      */
-    private boolean moveTroopsNoNumber(Country origin, Country destination) {
-        return moveTroops(origin, destination, troopSelect(1, origin.getTroops() - 1));
+    public boolean moveTroops(Country origin, Country destination, int toMove) {
+        if (!currentPlayer.pathExists(origin, destination )) {
+            System.out.println("Path does not exist between " + origin.getName() + " " + destination.getName());
+            return false;
+        }
+
+        origin.removeTroops(toMove);
+        destination.addTroop(toMove);
+        return true;
     }
 
     /**
      * Moves troops from one country to the other
      * @param origin where the troops will leave from
      * @param destination where the troops will go to
-     * @param toMove the number of troops to move
      * @return whether the move was successful
      */
-    private boolean moveTroops(Country origin, Country destination, int toMove) {
-        if (!currentPlayer.pathExists(origin, destination)) {
-            System.out.println("Path does not exist between " + origin.getName() + " " + destination.getName());
+    public boolean moveTroops(String origin, String destination) {
+        Country originCountry = map.getCountry(origin);
+        Country destinationCountry = map.getCountry(destination);
+        if (!currentPlayer.pathExists(originCountry, destinationCountry )) {
+            System.out.println("Path does not exist between " + originCountry.getName() + " " + destinationCountry.getName());
             return false;
         }
-        origin.removeTroops(toMove);
-        destination.addTroop(toMove);
+
+        int toMove= troopSelect(1, Math.min(3, originCountry.getTroops() - 1));
+
+        originCountry.removeTroops(toMove);
+        destinationCountry.addTroop(toMove);
         return true;
     }
 

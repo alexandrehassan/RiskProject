@@ -7,17 +7,17 @@ import java.awt.event.*;
 /**
  * This class is part of the game of RISK, the term
  * project for SYSC3110 that emulates the original game of RISK.
- *
+ * <p>
  * This class acts as the controller for the game's frame and the model.
  * It implements ActionListener and receives action commands from the
  * frame when that is interacted with before decoding them and calling the
  * correct method in the model accordingly.
- *
+ * <p>
  * To add: should be able to receive countries instead of prompting the
  * user to input them, will add later
  *
- * @version 27-10-2020
  * @author Team Group - Jonah Gaudet
+ * @version 27-10-2020
  */
 public class GameController implements ActionListener {
 
@@ -28,39 +28,36 @@ public class GameController implements ActionListener {
     private String defender;
     private boolean attackMode;
 
-    public GameController (GameModel gm) {
+    public GameController(GameModel gm) {
         this.gameModel = gm;
         this.attackMode = false;
     }
 
-    public void addGameBoard (mxGraphComponent gameBoard) {
+    public void addGameBoard(mxGraphComponent gameBoard) {
         this.gameBoard = gameBoard;
-        gameBoard.getGraphControl().addMouseListener(new MouseAdapter()
-        {
+        gameBoard.getGraphControl().addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e)
-            {
+            public void mousePressed(MouseEvent e) {
                 System.out.println("Click received");
                 Object cell = gameBoard.getCellAt(e.getX(), e.getY());
-                if (!(cell instanceof mxCell))
-                {
+                if (!(cell instanceof mxCell)) {
                     System.out.println("Not a cell");
                     return;
                 }
 
+                String clickedCountry = (String) ((mxCell) cell).getValue();
+
                 if (attackMode) {
                     if (attacker.equals("")) {
-                        attacker = (String) ((mxCell) cell).getValue();
+                        attacker = clickedCountry;
                         JOptionPane.showMessageDialog(null, "Attacking with " + attacker);
-                    }
-                    else if (defender.equals("")) {
-                        defender = (String) ((mxCell) cell).getValue();
+                    } else if (defender.equals("")) {
+                        defender = clickedCountry;
                         JOptionPane.showMessageDialog(null, "Attacking " + defender);
                         gameModel.playAttack(attacker, defender);
                         attackMode = false;
                     }
-                }
-                else {
+                } else {
                     gameModel.getCountryInfo((String) ((mxCell) cell).getValue());
                 }
             }
@@ -68,7 +65,7 @@ public class GameController implements ActionListener {
     }
 
     @Override
-    public void actionPerformed (ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == null)
             return;
 
@@ -92,12 +89,12 @@ public class GameController implements ActionListener {
                 gameModel.nextPlayer();
                 gameModel.showCurrentPlayer();
             }
-            case "newGame"->{
-                // FIXME: 2020-11-01
-            }
-            case "RestartGame" ->{
-                // FIXME: 2020-11-01
-            }
+//            case "newGame"->{
+//                // FIXME: 2020-11-01
+//            }
+//            case "RestartGame" ->{
+//                // FIXME: 2020-11-01
+//            }
         }
     }
 }

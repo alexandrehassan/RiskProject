@@ -31,7 +31,7 @@ public class GameFrame extends JFrame implements GameView{
     private final JLabel updateLine;
     private final ArrayList<JButton> buttons;
     private mxGraphComponent board;
-    private final GameController gameController;
+    private final GameController2 gameController;
     private final JPanel boardPanel;
     private mxGraph graph;
     private final JButton startButton;
@@ -64,7 +64,7 @@ public class GameFrame extends JFrame implements GameView{
 
         GameModel abm = new GameModel();
         abm.addGameView(this);
-        this.gameController = new GameController(abm);
+        this.gameController = new GameController2(abm);
 
         JPanel mainPanel = (JPanel) this.getContentPane();
 
