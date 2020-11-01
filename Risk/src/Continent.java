@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Continents store a list of countries that they contain
  *
@@ -7,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Continent {
     private final String name;
-    private final ArrayList<Country> countries;
+    private ArrayList<Country> countries;
     private final int reinforcements;
 
     /**
@@ -55,6 +58,8 @@ public class Continent {
     * @param countries the countries to be added.
     */
     public void addCountries(ArrayList<Country> countries){
-        this.countries.addAll(countries);
+        Set<Country> countryHashSet = new HashSet<>(this.countries);
+        countryHashSet.addAll(countries);
+        this.countries = new ArrayList<>(countryHashSet);
     }
 }
