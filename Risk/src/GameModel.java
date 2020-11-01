@@ -16,7 +16,7 @@ public class GameModel {
     private final ArrayList<Player> players;
     private Player currentPlayer;
     private Map map;
-    private ArrayList<GameView> gameViews;
+    private final ArrayList<GameView> gameViews;
 
     private static final int[] BEGINNING_TROOPS = {50,35,30,25,20};
 
@@ -27,7 +27,7 @@ public class GameModel {
         this.currentPlayer = null;
         this.players = new ArrayList<>();
         this.map = null;
-        this.gameViews = new ArrayList<GameView> ();
+        this.gameViews = new ArrayList<> ();
     }
 
     /**
@@ -38,7 +38,7 @@ public class GameModel {
         this.currentPlayer = null;
         this.players = players;
         this.map = null;
-        this.gameViews = new ArrayList<GameView> ();
+        this.gameViews = new ArrayList<> ();
     }
 
     /**
@@ -156,8 +156,7 @@ public class GameModel {
                 extraTroops += continent.getReinforcements();
             }
         }
-        int reinforcements = Math.max(3, currentPlayer.NumberOfCountries()/3) + extraTroops;
-
+        int reinforcements = Math.max(3, currentPlayer.numberOfCountries()/3) + extraTroops;
 
         autoPutReinforcements(reinforcements);
     }
@@ -169,9 +168,7 @@ public class GameModel {
     private int getRemainingPlayers () {
         int counter = 0;
         for (Player p : players)
-            if (!p.isEliminated()) {
-                counter += 1;
-            }
+            if (!p.isEliminated()) counter ++;
         return counter;
     }
 
@@ -184,11 +181,9 @@ public class GameModel {
      * @param reinforcements the number of troops to place.
      */
     private void autoPutReinforcements(int reinforcements){
-        System.out.println(reinforcements + " reinforcements to set.");
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         for(int assigned = 0; assigned < reinforcements; assigned++){
-            int randomIndex = ThreadLocalRandom.current().nextInt(0, perimeterCountries.size());
-            putReinforcements(perimeterCountries.get(randomIndex),1);
+            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
         }
     }
 
@@ -199,7 +194,7 @@ public class GameModel {
      * @param numberOfTroops the number of troops
      */
     private void putReinforcements(Country country, int numberOfTroops){
-        country.addTroop(numberOfTroops, true);
+        country.addTroop(numberOfTroops);
     }
 
     /**
@@ -228,12 +223,11 @@ public class GameModel {
      */
     private String makeProperCountryName (String name) {
         name = name.toLowerCase();
-        String countryName = "";
-        countryName += Character.toUpperCase(name.charAt(0));
+        StringBuilder countryName = new StringBuilder(Character.toString(Character.toUpperCase(name.charAt(0))));
         for (int i = 1; i < name.length(); i++) {
-            countryName += (name.charAt(i-1) == ' ') ? Character.toUpperCase(name.charAt(i)) : name.charAt(i);
+            countryName.append((name.charAt(i-1) == ' ') ? Character.toUpperCase(name.charAt(i)) : name.charAt(i));
         }
-        return countryName;
+        return countryName.toString();
     }
 
     /**
@@ -241,20 +235,17 @@ public class GameModel {
      * a legal RISK battle
      * @param attacking the attacking country
      * @param defending the defending country
+     * @throws IllegalArgumentException if the attack is not valid.
      */
     private void checkAttackValid (Country attacking, Country defending) {
-        if (!currentPlayer.hasCountry(attacking)) {
+        if (!currentPlayer.hasCountry(attacking))
             throw new IllegalArgumentException("Current player does not control " + attacking.getName());
-        }
-        else if (currentPlayer.hasCountry(defending)) {
+        if (currentPlayer.hasCountry(defending))
             throw new IllegalArgumentException("Current player already controls " + defending.getName());
-        }
-        else if (!attacking.hasNeighbor(defending)) {
+        if (!attacking.hasNeighbor(defending))
             throw new IllegalArgumentException(defending.getName() + " does not border " + attacking.getName());
-        }
-        else if (attacking.getTroops() <= 1) {
+        if (attacking.getTroops() <= 1)
             throw new IllegalArgumentException(attacking.getName() + " does not have enough troops to attack (needs more than 1)");
-        }
     }
 
     /**
@@ -286,6 +277,7 @@ public class GameModel {
         defenderDice.sort(Collections.reverseOrder());
         message = "Attacker rolls: " + Arrays.toString(attackerDice.toArray()) + "\nDefender rolls: " + Arrays.toString(defenderDice.toArray());
         JOptionPane.showMessageDialog(null, message);
+
         int lostDefenders = 0, lostAttackers = 0;
         for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()); i++) {
             if (attackerDice.get(i) > defenderDice.get(i)) {
@@ -301,9 +293,7 @@ public class GameModel {
         message = attackerName + " lost " + lostAttackers + " troop(s), " + (attackTroops - lostAttackers) + " troops remain\n" + defenderName + " lost " + lostDefenders + " troop(s), " + (defendTroops - lostDefenders) + " troops remain";
         JOptionPane.showMessageDialog(null, message);
 
-        if (defend.getTroops() == 0) {
-            ownerChange(defend, attack, attackerDice.size() - lostAttackers);
-        }
+        if (defend.getTroops() == 0) ownerChange(defend, attack, attackerDice.size() - lostAttackers);
         updateState();
     }
 
@@ -316,7 +306,6 @@ public class GameModel {
         for (Player p : players) {
             if (p.hasCountry(defend)) {
                 p.lost(defend);
-                p.checkEliminated();
             }
         }
 
@@ -352,7 +341,7 @@ public class GameModel {
             return false;
         }
         origin.removeTroops(toMove);
-        destination.addTroop(toMove, true);
+        destination.addTroop(toMove);
         return true;
     }
 
@@ -362,12 +351,12 @@ public class GameModel {
     public void printHelp () {
         JOptionPane.showMessageDialog(
                 null,
-                "Game instructions:\n" +
-                "To attack, select the attack button and choose a defending and attacking country\n" +
-                "To end your turn, select the 'end' button\n" +
-                "To manually update the charts on the right, select the 'state' button\n" +
-                "To get help, select the 'help' button\n" +
-                "The current player is shown in the top left corner");
+                "Game instructions: \n" +
+                        "To attack, select the attack button and choose a defending and attacking country\n" +
+                        "To end your turn, select the 'end' button\n" +
+                        "To manually update the charts on the right, select the 'state' button\n" +
+                        "To get help, select the 'help' button\n" +
+                        "The current player is shown in the top left corner");
     }
 
     /**
@@ -376,6 +365,7 @@ public class GameModel {
      *
      * @param player the player to add to the game
      * @throws IllegalArgumentException if player is null
+     * @throws IllegalArgumentException if there are already 6 players.
      */
     public void addPlayer(Player player){
         if(player ==null){
@@ -445,5 +435,29 @@ public class GameModel {
                     "") );
         }
         return toSelect;
+    }
+
+    /**
+     * Gives all of the currents player's countries in one string with each country being on a new line.
+     * @return a String with all the countries a player owns.
+     */
+    public String currentPlayerCountryString() {
+        return currentPlayer.getCountriesString();
+    }
+
+    /**
+     * Gives all the neighbors to the country passed in.
+     * @param country the country to get the neighbors of.
+     * @return a String with all neighbors.
+     */
+    public String neighborString(String country) {
+        StringBuilder stringBuilder = new StringBuilder();
+        ArrayList<Country> neighbors = map.getCountry(country).getNeighbors();
+        for(Country neighbor: neighbors){
+            if(!currentPlayer.hasCountry(neighbor)){
+                stringBuilder.append(neighbor).append("\n");
+            }
+        }
+        return stringBuilder.toString();
     }
 }

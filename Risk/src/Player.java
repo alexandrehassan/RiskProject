@@ -16,19 +16,18 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Player {
     private final LinkedList<Country> countries;
     private final String name;
-    private boolean eliminated;
 
     /**
      * Default constructor for the class Player.
      * @param name the name of the player.
      */
     public Player(String name) {
-        if (name.equals("")) {
+        if(name == null) throw new IllegalArgumentException("Player name cannot be null");
+        if (name.trim().equals("")) {
             throw new IllegalArgumentException("Player name cannot be empty");
         }
         this.name = name;
         countries = new LinkedList<>();
-        eliminated = false;
     }
 
     /**
@@ -40,15 +39,16 @@ public class Player {
     }
 
     public void assignBeginningTroops(int beginningTroops) {
-        //To stop to many troops from being assigned to a single country we set a max number of troops on one country
+        //To stop too many troops from being assigned to a single country we set a max number of troops on one country
         //The maximum should be at least 4
         int maxTroops = Math.max(beginningTroops/countries.size() + 2, 4);
 
         int random;
-        for(int assigned = countries.size(); assigned<beginningTroops;){
+        int assigned = countries.size();
+        while (assigned<beginningTroops) {
             random = ThreadLocalRandom.current().nextInt(0,countries.size());
             if(countries.get(random).getTroops() < maxTroops){
-                countries.get(random).addTroop(1,false);
+                countries.get(random).addTroop(1);
                 assigned++;
             }
         }
@@ -67,29 +67,15 @@ public class Player {
      * @return True if Eliminated, False otherwise
      */
     public boolean isEliminated () {
-        return eliminated;
+        return countries.size() ==0;
     }
 
-    /**
-     * Triggers the check to see whether of not player is eliminated
-     */
-    public void checkEliminated () {
-        setEliminated(!(countries.size() > 0));
-    }
-
-    /**
-     * Method used to set the value of eliminated.
-     * @param isEliminated the value to set
-     */
-    private void setEliminated (boolean isEliminated) {
-        this.eliminated = isEliminated;
-    }
 
     /**
      * Gives the number of countries owned by Player.
      * @return the size of countries.
      */
-    public int NumberOfCountries(){
+    public int numberOfCountries(){
         return countries.size();
     }
 
@@ -122,14 +108,14 @@ public class Player {
     }
 
     /**
-     * Prints the current state of the player.
+     * Returns the current state of the player.
+     * @return a string with the current state of the player.
      */
     public String getInfo(){
-        String s = "[" + name + "]\n";
-        for (Country country: countries) {
-            s += country.toString() + "\n";
-        }
-        return s;
+        StringBuilder stringBuilder = new StringBuilder("[" + name + "]\n");
+
+        for (Country country: countries) stringBuilder.append(country.toString()).append("\n");
+        return stringBuilder.toString();
     }
 
     /**
@@ -148,10 +134,7 @@ public class Player {
      * @return true if there is a path that exists between start and finish that is owned by Player
      */
     public boolean pathExists (Country start, Country finish) {
-        if (!countries.contains(start) || !countries.contains(finish)) {
-            System.out.println("Player does not own both countries");
-            return false;
-        }
+        if (!(countries.contains(start) && countries.contains(finish))) return false;
         ArrayList<Country> accessibleCountries = new ArrayList<>();
         accessibleCountries.add(start);
         getAccessibleCountries(start, finish, accessibleCountries);
@@ -163,20 +146,19 @@ public class Player {
      * Helper method that gets the accessible countries iteratively
      *
      * @param country the starting country
-     * @param finish the destination
+     * @param goal the destination
      * @param accessibleCountries every accessible country.
      */
-    private void getAccessibleCountries (Country country, Country finish, ArrayList<Country> accessibleCountries) {
-        for (Country n : country.getNeighbors()) {
-            if (!countries.contains(n))
-                continue;
-            if (n.equals(finish)) {
-                accessibleCountries.add(n);
+    private void getAccessibleCountries (Country country, Country goal, ArrayList<Country> accessibleCountries) {
+        for (Country neighbor : country.getNeighbors()) {
+            if (!countries.contains(neighbor)) continue;
+            if (neighbor.equals(goal)) {
+                accessibleCountries.add(neighbor);
                 return;
             }
-            if (!accessibleCountries.contains(n)) {
-                accessibleCountries.add(n);
-                getAccessibleCountries(n, finish, accessibleCountries);
+            if (!accessibleCountries.contains(neighbor)) {
+                accessibleCountries.add(neighbor);
+                getAccessibleCountries(neighbor, goal, accessibleCountries);
             }
         }
     }
@@ -188,11 +170,21 @@ public class Player {
     public ArrayList<Country> getPerimeterCountries(){
         ArrayList<Country> perimeterCountries = new ArrayList<>();
         for (Country c: countries) {
-            if (!countries.containsAll(c.getNeighbors())){
-                perimeterCountries.add(c);
-            }
+            if (!countries.containsAll(c.getNeighbors())) perimeterCountries.add(c);
         }
         return perimeterCountries;
+    }
+
+    /**
+     * Gives all of the player's countries in one string with each country being on a new line.
+     * @return all the countries as a string.
+     */
+    public String getCountriesString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Country country: countries){
+            stringBuilder.append(country).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
 }
