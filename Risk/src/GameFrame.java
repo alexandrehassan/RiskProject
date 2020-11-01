@@ -104,11 +104,11 @@ public class GameFrame extends JFrame implements GameView{
         layout2.setVgap(25);
         layout2.setHgap(25);
         buttonOptions.setLayout(layout2);
-        String[] validCommands = {"attack",  "help",  "end"};
+        String[] validCommands = {"Reinforcement", "Attack",  "Move",  "End"};
         for (int i = 0; i < validCommands.length; i++) {
             JButton b = new JButton(validCommands[i]);
             b.addActionListener(gameController);
-            b.setActionCommand(b.getText());
+            b.setActionCommand(b.getText().toLowerCase());
             b.setEnabled(false);
             buttons.add(b);
             buttonOptions.add(b);
@@ -361,6 +361,7 @@ public class GameFrame extends JFrame implements GameView{
             default -> PLAYER1;
         };
     }
+
     public void handleGameStart(GameStartEvent gameModel) {
         ArrayList<Player> players = gameModel.getPlayers();
 
@@ -422,12 +423,37 @@ public class GameFrame extends JFrame implements GameView{
         updateLine.setText("It is " + playerTurn.getName() + "'s turn: ");
         for (int i = 0; i < playersInfo.size(); i++) {
             if (i == playerTurn.getOrder()) {
-                playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.green));
                 playersInfo.get(i).setBackground(Color.white);
             }
             else if (playersInfo.get(i).isEnabled()){
-                playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.black));
                 playersInfo.get(i).setBackground(Color.lightGray);
+            }
+        }
+    }
+
+    public void handleTurnStateChange (TurnStateEvent turnState) {
+        for (JButton b : buttons) {
+            b.setEnabled(false);
+            b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+        }
+
+        switch (turnState.getNewState().toLowerCase()) {
+            case "reinforcement" : {
+                buttons.get(0).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
+                JOptionPane.showMessageDialog(null,
+                        "Can place " + gameController.getCurrentReinforcements() + " reinforcements");
+                break;
+            }
+            case "attack" : {
+                buttons.get(1).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
+                buttons.get(2).setEnabled(true);
+                buttons.get(3).setEnabled(true);
+                break;
+            }
+            case "move" : {
+                buttons.get(2).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
+                buttons.get(3).setEnabled(true);
+                break;
             }
         }
     }
