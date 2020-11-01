@@ -113,7 +113,7 @@ public class GraphTest extends JFrame{
             Object india = graph.insertVertex(parent, Map.INDIA, Map.INDIA, 680, 200, 65, 65, "shape=ellipse;whiteSpace=wrap");
             Object irkutsk = graph.insertVertex(parent, Map.IRKUTSK, Map.IRKUTSK, 820, 100, 65, 65, "shape=ellipse;whiteSpace=wrap");
             Object japan = graph.insertVertex(parent, Map.JAPAN, Map.JAPAN, 910, 120, 65, 65, "shape=ellipse;whiteSpace=wrap");
-            Object kamchatka = graph.insertVertex(parent, Map.KAMCHATKA, Map.KAMCHATKA, 890, 30, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object kamchatka = graph.insertVertex(parent, Map.KAMCHATKA, Map.KAMCHATKA, 890, 20, 65, 65, "shape=ellipse;whiteSpace=wrap");
             Object middleEast = graph.insertVertex(parent, Map.MIDDLE_EAST, Map.MIDDLE_EAST, 600, 180, 65, 65, "shape=ellipse;whiteSpace=wrap");
             Object mongolia = graph.insertVertex(parent, Map.MONGOLIA, Map.MONGOLIA, 860, 200, 65, 65, "shape=ellipse;whiteSpace=wrap");
             Object siam = graph.insertVertex(parent, Map.SIAM, Map.SIAM, 770, 220, 65, 65, "shape=ellipse;whiteSpace=wrap");
@@ -161,6 +161,12 @@ public class GraphTest extends JFrame{
             graph.insertEdge(parent, "","",indonesia, newGuinea, "endArrow=false");
             graph.insertEdge(parent, "","",indonesia, westernAustralia, "endArrow=false");
             graph.insertEdge(parent, "","",westernAustralia, newGuinea, "endArrow=false");
+
+            //placeholders
+            Object placeholder1 = graph.insertVertex(parent, "", "", -20, 50, 1, 1, "shape=ellipse;whiteSpace=wrap");
+            Object placeholder2 = graph.insertVertex(parent, "", "", 2000, 20, 1, 1, "shape=ellipse;whiteSpace=wrap");
+            graph.insertEdge(parent, "","",alaska, placeholder1, "endArrow=false");
+            graph.insertEdge(parent, "","",kamchatka, placeholder2, "endArrow=false");
         }
         finally
         {
