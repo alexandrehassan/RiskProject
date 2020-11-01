@@ -106,7 +106,7 @@ public class Player {
     public boolean hasCountry (String country) {
 
         for (Country c : countries) {
-            if (c.getName() == country) {
+            if (c.getName().equals(country)) {
                 return true;
             }
         }
