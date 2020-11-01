@@ -149,6 +149,18 @@ public class GraphTest extends JFrame{
             graph.insertEdge(parent, "","",siberia, ural, "endArrow=false");
             graph.insertEdge(parent, "","",siberia, yakutsk, "endArrow=false");
 
+            //Australia
+            Object easternAustralia = graph.insertVertex(parent, Map.EASTERN_AUSTRALIA, Map.EASTERN_AUSTRALIA, 850, 480, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object indonesia = graph.insertVertex(parent, Map.INDONESIA, Map.INDONESIA, 780, 360, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object newGuinea = graph.insertVertex(parent, Map.NEW_GUINEA, Map.NEW_GUINEA, 870, 390, 65, 65, "shape=ellipse;whiteSpace=wrap");
+            Object westernAustralia = graph.insertVertex(parent, Map.WESTERN_AUSTRALIA, Map.WESTERN_AUSTRALIA, 760, 450, 65, 65, "shape=ellipse;whiteSpace=wrap");
+
+            graph.insertEdge(parent, "","",easternAustralia, westernAustralia, "endArrow=false");
+            graph.insertEdge(parent, "","",easternAustralia, newGuinea, "endArrow=false");
+            graph.insertEdge(parent, "","",indonesia, siam, "endArrow=false");
+            graph.insertEdge(parent, "","",indonesia, newGuinea, "endArrow=false");
+            graph.insertEdge(parent, "","",indonesia, westernAustralia, "endArrow=false");
+            graph.insertEdge(parent, "","",westernAustralia, newGuinea, "endArrow=false");
         }
         finally
         {
