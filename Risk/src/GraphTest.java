@@ -164,7 +164,7 @@ public class GraphTest extends JFrame{
 
             //placeholders
             Object placeholder1 = graph.insertVertex(parent, "", "", -20, 50, 1, 1, "shape=ellipse;whiteSpace=wrap");
-            Object placeholder2 = graph.insertVertex(parent, "", "", 2000, 20, 1, 1, "shape=ellipse;whiteSpace=wrap");
+            Object placeholder2 = graph.insertVertex(parent, "", "", 970, 45, 1, 1, "shape=ellipse;whiteSpace=wrap");
             graph.insertEdge(parent, "","",alaska, placeholder1, "endArrow=false");
             graph.insertEdge(parent, "","",kamchatka, placeholder2, "endArrow=false");
         }
