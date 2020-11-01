@@ -1,6 +1,8 @@
+import com.mxgraph.model.mxCell;
+import com.mxgraph.swing.mxGraphComponent;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * This class is part of the game of RISK, the term
@@ -20,9 +22,49 @@ import java.awt.event.ActionListener;
 public class GameController implements ActionListener {
 
     private GameModel gameModel;
+    private mxGraphComponent gameBoard;
+
+    private String attacker;
+    private String defender;
+    private boolean attackMode;
 
     public GameController (GameModel gm) {
         this.gameModel = gm;
+        this.attackMode = false;
+    }
+
+    public void addGameBoard (mxGraphComponent gameBoard) {
+        this.gameBoard = gameBoard;
+        gameBoard.getGraphControl().addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+                System.out.println("Click received");
+                Object cell = gameBoard.getCellAt(e.getX(), e.getY());
+                if (!(cell instanceof mxCell))
+                {
+                    System.out.println("Not a cell");
+                    return;
+                }
+
+                if (attackMode) {
+                    if (attacker.equals("")) {
+                        attacker = (String) ((mxCell) cell).getValue();
+                        JOptionPane.showMessageDialog(null, "Attacking with " + attacker);
+                    }
+                    else if (defender.equals("")) {
+                        defender = (String) ((mxCell) cell).getValue();
+                        JOptionPane.showMessageDialog(null, "Attacking " + defender);
+                        gameModel.playAttack(attacker, defender);
+                        attackMode = false;
+                    }
+                }
+                else {
+                    gameModel.getCountryInfo((String) ((mxCell) cell).getValue());
+                }
+            }
+        });
     }
 
     @Override
@@ -30,37 +72,16 @@ public class GameController implements ActionListener {
         if (e.getActionCommand() == null)
             return;
 
-        JOptionPane.showMessageDialog(null, "Action detected, action command is: " + e.getActionCommand());
-
         String command = e.getActionCommand().split(" ")[0];
         switch (command) {
             case "new" -> gameModel.userCreateGame();
             case "attack" -> {
-                //TODO: add error handling (make country keys lower case? so we could just .lower everything)
                 System.out.println("Attacking");
-                String attackingCountry = (String) JOptionPane.showInputDialog(
-                        null,
-                        "Attacking country: \n" + gameModel.currentPlayerCountryString(),
-                        "Country name: ",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        "");
-                String defendingCountry = (String) JOptionPane.showInputDialog(
-                        null,
-                        "Defending country: \n" + gameModel.neighborString(attackingCountry),
-                        "Country name: ",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        "");
-                try {
-                    if (attackingCountry == null || defendingCountry == null)
-                        return;
-                    gameModel.playAttack(attackingCountry, defendingCountry);
-                } catch (Exception exception) {
-                    JOptionPane.showMessageDialog(null, exception.getMessage());
-                }
+                attackMode = true;
+                attacker = "";
+                defender = "";
+                JOptionPane.showMessageDialog(null,
+                        "Select a country to attack with, then a country to attack");
             }
             case "state" -> {
                 System.out.println("Manually update state");
