@@ -96,6 +96,12 @@ public class GameController implements ActionListener {
                 gameModel.nextPlayer();
                 gameModel.showCurrentPlayer();
             }
+            case "newGame"->{
+                // FIXME: 2020-11-01
+            }
+            case "RestartGame" ->{
+                // FIXME: 2020-11-01
+            }
         }
     }
 }

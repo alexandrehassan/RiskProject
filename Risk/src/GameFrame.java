@@ -60,6 +60,7 @@ public class GameFrame extends JFrame implements GameView{
         super(name);
         this.buttons = new ArrayList<>();
         this.playersInfo = new ArrayList<>();
+        //makeMenuBar();
 
         GameModel abm = new GameModel();
         abm.addGameView(this);
@@ -132,6 +133,26 @@ public class GameFrame extends JFrame implements GameView{
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    private void makeMenuBar(){
+        JMenuBar menuBar = new JMenuBar();
+        JMenu gameMenu = new JMenu("Game");
+
+        // TODO: 2020-11-01 Is newGame feasible?
+        JMenuItem newGame = new JMenuItem("New Game");
+        newGame.addActionListener(gameController);
+        newGame.setActionCommand("newGame");
+        gameMenu.add(newGame);
+
+        // TODO: 2020-11-01 Is restart game feasible?
+        JMenuItem restartGame = new JMenuItem("Restart Game");
+        restartGame.addActionListener(gameController);
+        restartGame.setActionCommand("RestartGame");
+        gameMenu.add(restartGame);
+
+        menuBar.add(gameMenu);
+        this.setJMenuBar(menuBar);
     }
 
     /**
