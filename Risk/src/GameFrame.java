@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * the layout, because right now it looks bad.
  *
  * @version 27-10-2020
- * @author Team Group - Jonah Gaudet, Baillie Noell
+ * @author Team Group - Jonah Gaudet, Baillie Noell, Alexandre Hassan
  */
 
 public class GameFrame extends JFrame implements GameView{
