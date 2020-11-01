@@ -104,8 +104,8 @@ public class GameFrame extends JFrame implements GameView{
         layout2.setVgap(25);
         layout2.setHgap(25);
         buttonOptions.setLayout(layout2);
-        String[] validCommands = {"attack", "state",  "help",  "end"};
-        for (int i = 0; i < 4; i++) {
+        String[] validCommands = {"attack",  "help",  "end"};
+        for (int i = 0; i < validCommands.length; i++) {
             JButton b = new JButton(validCommands[i]);
             b.addActionListener(gameController);
             b.setActionCommand(b.getText());

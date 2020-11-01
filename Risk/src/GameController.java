@@ -83,10 +83,6 @@ public class GameController implements ActionListener {
                 JOptionPane.showMessageDialog(null,
                         "Select a country to attack with, then a country to attack");
             }
-            case "state" -> {
-                System.out.println("Manually update state");
-                gameModel.updateState();
-            }
             case "help" -> {
                 System.out.println("Get help");
                 gameModel.printHelp();
