@@ -130,7 +130,6 @@ public class GameController implements ActionListener {
             case "move" -> {
                 state=MOVEMENT_STATE;
                 gameModel.updateGameViewsTurnState("move");
-                gameModel.printHelp();
             }
             case "help" -> {
                 gameModel.printHelp();
