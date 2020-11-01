@@ -59,6 +59,12 @@ public class GameModel {
         }
     }
 
+    public void updateGameViewsTurnState (String newState) {
+        for (GameView v : gameViews) {
+            v.handleTurnStateChange(new TurnStateEvent(this, newState));
+        }
+    }
+
     /**
      * Updates all game view
      * @param stateInfo the info to update the view with
@@ -222,9 +228,19 @@ public class GameModel {
      * @param country the country to have the troop added to.
      * @throws IllegalArgumentException if the player does not own the country.
      */
-    public void putReinforcements(String country){
+    public void putSingleReinforcement(String country){
         if(currentPlayer.hasCountry(map.getCountry(country))){
             map.getCountry(country).addTroop(1);
+            updateState();
+        }
+        else{
+            throw new IllegalArgumentException("The player does not own this country");
+        }
+    }
+
+    public void putReinforcements (String country, int toAdd){
+        if(currentPlayer.hasCountry(map.getCountry(country))){
+            map.getCountry(country).addTroop(toAdd);
             updateState();
         }
         else{
@@ -466,7 +482,7 @@ public class GameModel {
      * @param maximum the maximum value
      * @return the value chosen by the user
     */
-    private int troopSelect (int minimum, int maximum) {
+    public int troopSelect (int minimum, int maximum) {
         if (minimum == maximum)
             return minimum;
 

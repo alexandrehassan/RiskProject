@@ -42,7 +42,6 @@ public class GameController implements ActionListener {
             @Override
             public void mousePressed(MouseEvent e)
             {
-                System.out.println("Click received");
                 Object cell = gameBoard.getCellAt(e.getX(), e.getY());
                 if (!(cell instanceof mxCell))
                 {
@@ -54,13 +53,17 @@ public class GameController implements ActionListener {
                 switch (state) {
                     case REINFORCEMENT_STATE -> {
                         try {
-                            System.out.println("Reinforcements before: " + reinforcements);
-                            gameModel.putReinforcements(clickedCountry);
-                            reinforcements--;
-                            System.out.println("Reinforcements after: " + reinforcements);
+                            if (reinforcements <= 0) {
+                                JOptionPane.showMessageDialog(null,
+                                        "No more reinforcements to place");
+                                return;
+                            }
+                            int toPut = gameModel.troopSelect(1, reinforcements);
+                            gameModel.putReinforcements(clickedCountry, toPut);
+                            reinforcements -= toPut;
                             if (reinforcements == 0) {
+                                gameModel.updateGameViewsTurnState("attack");
                                 state++;
-                                System.out.println("Attacking phase \n ");
                             }
                         } catch (Exception exception) {
                             System.out.println(exception.getMessage());
@@ -89,19 +92,16 @@ public class GameController implements ActionListener {
                             if (successfulMove) {
                                 gameModel.updateState();
                                 state = REINFORCEMENT_STATE;
-                                System.out.println("Get next player");
                                 gameModel.nextPlayer();
                                 gameModel.showCurrentPlayer();
+                                reinforcements = gameModel.getReinforcements();
+                                gameModel.updateGameViewsTurnState("reinforcement");
                             }
                             from = "";
                             to = "";
                         }
                     }
                 }
-
-//                else {
-//                    gameModel.getCountryInfo((String) ((mxCell) cell).getValue());
-//                }
             }
         });
     }
@@ -119,26 +119,33 @@ public class GameController implements ActionListener {
                 from ="";
                 to ="";
                 reinforcements = gameModel.getReinforcements();
+                gameModel.updateGameViewsTurnState("reinforcement");
             }
             case "attack" -> {
-                System.out.println("Attacking");
+                state=ATTACK_STATE;
                 JOptionPane.showMessageDialog(null,
                         "Select a country to attack with, then a country to attack");
+                gameModel.updateGameViewsTurnState("attack");
+            }
+            case "move" -> {
+                state=MOVEMENT_STATE;
+                gameModel.updateGameViewsTurnState("move");
+                gameModel.printHelp();
             }
             case "help" -> {
-                System.out.println("Get help");
                 gameModel.printHelp();
             }
             case "end" -> {
-                state++;
-                if(state==3){
-                    state=REINFORCEMENT_STATE;
-                    System.out.println("Get next player");
-                    gameModel.nextPlayer();
-                    gameModel.showCurrentPlayer();
-                }
+                state=REINFORCEMENT_STATE;
+                gameModel.nextPlayer();
+                gameModel.showCurrentPlayer();
+                reinforcements = gameModel.getReinforcements();
+                gameModel.updateGameViewsTurnState("reinforcement");
             }
-
         }
+    }
+
+    public int getCurrentReinforcements () {
+        return reinforcements;
     }
 }
