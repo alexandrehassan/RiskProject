@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -95,33 +96,50 @@ public class GameModel {
      * then generate a full game and begin playing immediately
      */
     public void userCreateGame () {
-        boolean finished = false;
-        while (!finished && players.size() < 6) {
-            try {
-                String newName = (String) JOptionPane.showInputDialog(
-                        null,
-                        "New player name (input 'done' to continue): ",
-                        "Player name: ",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        "");
-                if (newName.toLowerCase().equals("done")) {
-                    finished = true;
-                } else {
-                    addPlayer(new Player(newName));
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
+
+        try {
+            ArrayList<JTextField> playerInput = new ArrayList<>();
+            for(int i = 0; i<6; i++){
+                playerInput.add(new JTextField());
             }
-        }
 
-        if (players.size() < 2) {
-            throw new IllegalArgumentException("Cannot have less than 2 players");
-        }
+            Object[] message = {
+                    "Player 1", playerInput.get(0),
+                    "Player 2", playerInput.get(1),
+                    "Player 3", playerInput.get(2),
+                    "Player 4", playerInput.get(3),
+                    "Player 5", playerInput.get(4),
+                    "Player 6", playerInput.get(5),
+            };
+            int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
+            if (option == JOptionPane.OK_OPTION) {
+                LinkedList<Player> currentPlayers = new LinkedList<>();
+                String playerName;
+                for (JTextField jTextField : playerInput) {
+                    playerName = jTextField.getText().trim();
+                    if(!playerName.equals("")){
+                        currentPlayers.add(new Player(playerName));
+                    }
+                }
 
-        generateGame();
-        updateGameViewsStart();
+                if (currentPlayers.size() < 2) {
+                    throw new IllegalArgumentException("Cannot have less than 2 players");
+                }
+                else{
+                    for (Player player : currentPlayers) {
+                        addPlayer(player);
+                    }
+                }
+                generateGame();
+                updateGameViewsStart();
+
+            } else {
+                System.out.println("Buddy creation failed");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
     /**
