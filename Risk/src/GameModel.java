@@ -400,14 +400,25 @@ public class GameModel {
             System.out.println("Path does not exist between " + originCountry.getName() + " " + destinationCountry.getName());
             return false;
         }
+        if (originCountry.getTroops() == 1) {
+            System.out.println(origin + " does not have enough troops to spare");
+            return false;
+        }
 
-        int toMove= troopSelect(1, Math.min(3, originCountry.getTroops() - 1));
+        int toMove= troopSelect(1, originCountry.getTroops() - 1);
 
         originCountry.removeTroops(toMove);
         destinationCountry.addTroop(toMove);
         return true;
     }
 
+    /**
+     * Returns true if the players owns a country, false if not
+     * @return if the current player owns the country
+     */
+    public boolean playerOwns (String country) {
+        return currentPlayer.hasCountry(country);
+    }
     /**
      * Prints help / instructions for the players
      */

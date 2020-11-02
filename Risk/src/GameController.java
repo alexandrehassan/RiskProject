@@ -50,6 +50,11 @@ public class GameController implements ActionListener {
                 }
 
                 String clickedCountry = (String) ((mxCell) cell).getValue();
+                if (!gameModel.playerOwns(clickedCountry) && state != ATTACK_STATE) {
+                    JOptionPane.showMessageDialog(null, "Current player does not own " + clickedCountry);
+                    return;
+                }
+
                 switch (state) {
                     case REINFORCEMENT_STATE -> {
                         try {
@@ -87,6 +92,12 @@ public class GameController implements ActionListener {
                             JOptionPane.showMessageDialog(null, "Moving from " + from);
                         } else if (to.equals("")) {
                             to = clickedCountry;
+                            if (to.equals(from)) {
+                                JOptionPane.showMessageDialog(null, "Cannot move to the same country");
+                                to = "";
+                                from = "";
+                                return;
+                            }
                             JOptionPane.showMessageDialog(null, "Moving troops from  " + from + " to " + to);
                             boolean successfulMove = gameModel.moveTroops(from, to);
                             if (successfulMove) {
