@@ -36,7 +36,6 @@ public class GameFrame extends JFrame implements GameView{
     private final GameController gameController;
     private final JPanel boardPanel;
     private mxGraph graph;
-//    private final JButton startButton;
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
     public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
@@ -142,17 +141,10 @@ public class GameFrame extends JFrame implements GameView{
         JMenuBar menuBar = new JMenuBar();
         JMenu gameMenu = new JMenu("Game");
 
-        // TODO: 2020-11-01 Is newGame feasible?
         JMenuItem startGame = new JMenuItem("Start Game");
         startGame.addActionListener(gameController);
         startGame.setActionCommand("new");
         gameMenu.add(startGame);
-
-//        // TODO: 2020-11-01 Is restart game feasible?
-//        JMenuItem restartGame = new JMenuItem("Restart Game");
-//        restartGame.addActionListener(gameController);
-//        restartGame.setActionCommand("RestartGame");
-//        gameMenu.add(restartGame);
 
         menuBar.add(gameMenu);
         this.setJMenuBar(menuBar);
@@ -161,6 +153,7 @@ public class GameFrame extends JFrame implements GameView{
     /**
      * Should return the board (just voided now so no errors), created
      * in this method:
+     * //TODO: Automation
      */
     private mxGraphComponent createBoard () {
         this.graph = new mxGraph();
