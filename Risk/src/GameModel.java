@@ -255,12 +255,17 @@ public class GameModel {
      * @param attackingCountry the name of the attacking country
      * @param defendingCountry the name of the defending country
      */
-    public void playAttack(String attackingCountry, String defendingCountry) {
+    public void playAttack(String attackingCountry, String defendingCountry, boolean blitzAttack) {
         try {
             attackingCountry = makeProperCountryName(attackingCountry);
             defendingCountry = makeProperCountryName(defendingCountry);
 
-            performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+            if (!blitzAttack) {
+                performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+            }
+            else {
+                performBlitzAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+            }
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -298,6 +303,39 @@ public class GameModel {
             throw new IllegalArgumentException(defending.getName() + " does not border " + attacking.getName());
         if (attacking.getTroops() <= 1)
             throw new IllegalArgumentException(attacking.getName() + " does not have enough troops to attack (needs more than 1)");
+    }
+
+    public void performBlitzAttack (Country attack, Country defend) {
+        checkAttackValid(attack, defend);
+        int lostAttackers = 0;
+        int lostDefenders = 0;
+        while (attack.getTroops() > 1 && defend.getTroops() > 0) {
+            ArrayList<Integer> attackerDice = new ArrayList<>();
+            ArrayList<Integer> defenderDice = new ArrayList<>();
+            for (int i = 0; i < Math.min(3, attack.getTroops() - 1); i++)
+                attackerDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
+            for (int i = 0; i < Math.min(2, defend.getTroops()); i++)
+                defenderDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
+
+            attackerDice.sort(Collections.reverseOrder());
+            defenderDice.sort(Collections.reverseOrder());
+
+            for (int i = 0; i < defenderDice.size(); i++) {
+                if (attackerDice.get(i) > defenderDice.get(i))
+                    lostAttackers += 1;
+                else
+                    lostDefenders += 1;
+            }
+        }
+        JOptionPane.showMessageDialog(null,
+                "Attacker lost " + lostAttackers + " troop(s), " +
+                        "defender lost " + lostDefenders + " troop(s).");
+        if (defend.getTroops() == 0) {
+            JOptionPane.showMessageDialog(null,
+                        attack.getName() + " takes " + defend.getName());
+            ownerChange(defend, attack, troopSelect(1, attack.getTroops()-1));
+        }
+        updateState();
     }
 
     /**

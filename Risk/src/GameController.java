@@ -79,7 +79,10 @@ public class GameController implements ActionListener {
                         } else if (to.equals("")) {
                             to = clickedCountry;
                             JOptionPane.showMessageDialog(null, "Attacking " + to);
-                            gameModel.playAttack(from, to);
+                            int reply = JOptionPane.showConfirmDialog(null,
+                                    "Attacking " + to + " with " + from + ". Blitz attack?",
+                                    "Select attack type", JOptionPane.YES_NO_OPTION);
+                            gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
                             from = "";
                             to = "";
                         }
