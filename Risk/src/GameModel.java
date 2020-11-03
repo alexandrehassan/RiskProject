@@ -60,6 +60,12 @@ public class GameModel {
         }
     }
 
+    private void resetView(){
+        for (GameView v : gameViews) {
+            v.handleResetView();
+        }
+    }
+
     public void updateGameViewsTurnState (String newState) {
         for (GameView v : gameViews) {
             v.handleTurnStateChange(new TurnStateEvent(this, newState));
@@ -105,6 +111,7 @@ public class GameModel {
     public void userCreateGame () {
 
         try {
+
             ArrayList<JTextField> playerInput = new ArrayList<>();
             for(int i = 0; i<6; i++){
                 playerInput.add(new JTextField());
@@ -133,12 +140,15 @@ public class GameModel {
                     throw new IllegalArgumentException("Cannot have less than 2 players");
                 }
                 else{
+                    players.clear();
                     for (Player player : currentPlayers) {
                         addPlayer(player);
                     }
                 }
+                resetView();
                 generateGame();
                 updateGameViewsStart();
+                updateState();
 
             } else {
                 System.out.println("Buddy creation failed");
@@ -177,7 +187,6 @@ public class GameModel {
             player.sortCountries();
             player.assignBeginningTroops(BEGINNING_TROOPS[players.size()-2]);
         }
-        updateState();
     }
 
     /**

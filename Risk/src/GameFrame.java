@@ -371,6 +371,8 @@ public class GameFrame extends JFrame implements GameView{
 
         for (int i = 0; i < players.size(); i++) {
             playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.decode(getColorForPlayerIndex(i))));
+            playersInfo.get(i).setBackground(Color.white);
+            playersInfo.get(i).setSelectedTextColor(Color.black);
         }
 
         for (int i = players.size(); i < playersInfo.size(); i++) {
@@ -384,15 +386,14 @@ public class GameFrame extends JFrame implements GameView{
             b.setEnabled(true);
         }
 
-//        startButton.setEnabled(false);
-
         this.board = createBoard();
         boardPanel.removeAll();
         boardPanel.add(board);
         gameController.addGameBoard(board);
         updateColors(gameModel.getPlayers());
-
     }
+
+
 
     public void updateColors (ArrayList<Player> players) {
         mxGraph graph = board.getGraph();
@@ -443,26 +444,33 @@ public class GameFrame extends JFrame implements GameView{
         }
 
         switch (turnState.getNewState().toLowerCase()) {
-            case "reinforcement" : {
+            case "reinforcement" -> {
                 buttons.get(0).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 updateLine.setText(playerTurnInfo + " Click on a country to add reinforcements. " +
                         gameController.getCurrentReinforcements() + " remain.");
-                break;
             }
-            case "attack" : {
+            case "attack" -> {
                 buttons.get(1).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 buttons.get(2).setEnabled(true);
                 buttons.get(3).setEnabled(true);
                 updateLine.setText(playerTurnInfo + " Select a country to attack with, then the country to attack");
-                break;
             }
-            case "move" : {
+            case "move" -> {
                 buttons.get(2).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 buttons.get(3).setEnabled(true);
                 updateLine.setText(playerTurnInfo + " Select a country to move troops from, and " +
                         "a country to move troops to (1 allowed)");
-                break;
             }
+        }
+    }
+
+    @Override
+    public void handleResetView(){
+        for(int i = 0; i < playersInfo.size(); i++){
+            playersInfo.get(i).setText("Reserved for player " + (i + 1));
+            playersInfo.get(i).setEnabled(false);
+            playersInfo.get(i).setBackground(Color.red);
+            playersInfo.get(i).setSelectedTextColor(Color.white);
         }
     }
 

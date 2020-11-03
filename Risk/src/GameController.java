@@ -32,7 +32,6 @@ public class GameController implements ActionListener {
 
     public GameController (GameModel gm) {
         this.gameModel = gm;
-
     }
 
     public void addGameBoard (mxGraphComponent gameBoard) {

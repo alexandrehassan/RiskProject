@@ -19,4 +19,6 @@ public interface GameView {
     void handleOwnerChange(OwnerChangeEvent ownerChange);
 
     void handleTurnStateChange (TurnStateEvent turnState);
+
+    void handleResetView();
 }
