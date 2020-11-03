@@ -1,6 +1,7 @@
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.mxRectangle;
 import com.mxgraph.view.mxGraph;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -35,7 +36,7 @@ public class GameFrame extends JFrame implements GameView{
     private final GameController gameController;
     private final JPanel boardPanel;
     private mxGraph graph;
-    private final JButton startButton;
+//    private final JButton startButton;
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
     public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
@@ -61,11 +62,11 @@ public class GameFrame extends JFrame implements GameView{
         super(name);
         this.buttons = new ArrayList<>();
         this.playersInfo = new ArrayList<>();
-        //makeMenuBar();
 
         GameModel abm = new GameModel();
         abm.addGameView(this);
         this.gameController = new GameController(abm);
+        makeMenuBar();
 
         JPanel mainPanel = (JPanel) this.getContentPane();
 
@@ -81,7 +82,7 @@ public class GameFrame extends JFrame implements GameView{
         ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
         Image newImage = image.getImage().getScaledInstance(1000, 650,  java.awt.Image.SCALE_SMOOTH);
         placeholderBoard.setIcon(new ImageIcon(newImage));
-        placeholderBoard.setBounds(0, 0, 1000, 650);
+        placeholderBoard.setBounds(0, 0, 1100, 650);
         boardPanel.add(placeholderBoard);
 
         //Adds the boxes with the owned countries in them (right side)
@@ -107,8 +108,8 @@ public class GameFrame extends JFrame implements GameView{
         layout2.setHgap(25);
         buttonOptions.setLayout(layout2);
         String[] validCommands = {"Reinforcement", "Attack",  "Move",  "End"};
-        for (int i = 0; i < validCommands.length; i++) {
-            JButton b = new JButton(validCommands[i]);
+        for (String validCommand : validCommands) {
+            JButton b = new JButton(validCommand);
             b.addActionListener(gameController);
             b.setActionCommand(b.getText().toLowerCase());
             b.setEnabled(false);
@@ -117,9 +118,9 @@ public class GameFrame extends JFrame implements GameView{
         }
 
         //Button to start the game
-        this.startButton = new JButton("Start Game");
-        startButton.addActionListener(gameController);
-        startButton.setActionCommand("new");
+//        this.startButton = new JButton("Start Game");
+//        startButton.addActionListener(gameController);
+//        startButton.setActionCommand("new");
 
         middlePane.add(buttonOptions, getConstraints(0, 0, 3, 1, GridBagConstraints.HORIZONTAL));
         middlePane.add(boardPanel, getConstraints(0, 1, 3, 2, GridBagConstraints.HORIZONTAL));
@@ -127,11 +128,11 @@ public class GameFrame extends JFrame implements GameView{
         mainPanel.add(updateLine, BorderLayout.PAGE_START);
         mainPanel.add(middlePane, BorderLayout.LINE_START);
         mainPanel.add(playerInfo, BorderLayout.LINE_END);
-        mainPanel.add(startButton, BorderLayout.PAGE_END);
+//        mainPanel.add(startButton, BorderLayout.PAGE_END);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("JList Example");
-        this.setSize(1500,800);
+        this.setSize(1550,800);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -142,16 +143,16 @@ public class GameFrame extends JFrame implements GameView{
         JMenu gameMenu = new JMenu("Game");
 
         // TODO: 2020-11-01 Is newGame feasible?
-        JMenuItem newGame = new JMenuItem("New Game");
-        newGame.addActionListener(gameController);
-        newGame.setActionCommand("newGame");
-        gameMenu.add(newGame);
+        JMenuItem startGame = new JMenuItem("Start Game");
+        startGame.addActionListener(gameController);
+        startGame.setActionCommand("new");
+        gameMenu.add(startGame);
 
-        // TODO: 2020-11-01 Is restart game feasible?
-        JMenuItem restartGame = new JMenuItem("Restart Game");
-        restartGame.addActionListener(gameController);
-        restartGame.setActionCommand("RestartGame");
-        gameMenu.add(restartGame);
+//        // TODO: 2020-11-01 Is restart game feasible?
+//        JMenuItem restartGame = new JMenuItem("Restart Game");
+//        restartGame.addActionListener(gameController);
+//        restartGame.setActionCommand("RestartGame");
+//        gameMenu.add(restartGame);
 
         menuBar.add(gameMenu);
         this.setJMenuBar(menuBar);
@@ -164,6 +165,7 @@ public class GameFrame extends JFrame implements GameView{
     private mxGraphComponent createBoard () {
         this.graph = new mxGraph();
         Object parent = graph.getDefaultParent();
+        graph.setMaximumGraphBounds(new mxRectangle(0,0,1000, 600));
 
         graph.getModel().beginUpdate();
 
@@ -382,7 +384,7 @@ public class GameFrame extends JFrame implements GameView{
             b.setEnabled(true);
         }
 
-        startButton.setEnabled(false);
+//        startButton.setEnabled(false);
 
         this.board = createBoard();
         boardPanel.removeAll();
