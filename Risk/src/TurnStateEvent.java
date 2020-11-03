@@ -15,7 +15,7 @@ import java.util.EventObject;
 
 public class TurnStateEvent extends EventObject {
 
-    private String newState;
+    private final String newState;
     public TurnStateEvent (GameModel gameModel, String newState) {
         super(gameModel);
         this.newState = newState;

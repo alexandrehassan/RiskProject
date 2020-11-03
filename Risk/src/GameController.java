@@ -133,6 +133,7 @@ public class GameController implements ActionListener {
 
         String command = e.getActionCommand().split(" ")[0];
         switch (command) {
+            case "help" -> gameModel.printHelp();
             case "new" -> {
                 gameModel.userCreateGame();
                 this.state = REINFORCEMENT_STATE;
@@ -149,9 +150,6 @@ public class GameController implements ActionListener {
             case "move" -> {
                 state=MOVEMENT_STATE;
                 gameModel.updateGameViewsTurnState("move");
-            }
-            case "help" -> {
-                gameModel.printHelp();
             }
             case "end" -> {
                 state=REINFORCEMENT_STATE;

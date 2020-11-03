@@ -33,17 +33,6 @@ public class GameModel {
     }
 
     /**
-     * Constructor for the game with a list of players to participate
-     * @param players the players to participate in the game
-     */
-    public GameModel(ArrayList<Player> players) {
-        this.currentPlayer = null;
-        this.players = players;
-        this.map = null;
-        this.gameViews = new ArrayList<> ();
-    }
-
-    /**
      * Adds a game view to the model
      * @param gameView GameView to add
      */
@@ -229,22 +218,6 @@ public class GameModel {
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         for(int assigned = 0; assigned < reinforcements; assigned++){
             perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
-        }
-    }
-
-    /**
-     * Adds reinforcements to the selected country
-     *
-     * @param country the country to have the troop added to.
-     * @throws IllegalArgumentException if the player does not own the country.
-     */
-    public void putSingleReinforcement(String country){
-        if(currentPlayer.hasCountry(map.getCountry(country))){
-            map.getCountry(country).addTroop(1);
-            updateState();
-        }
-        else{
-            throw new IllegalArgumentException("The player does not own this country");
         }
     }
 
@@ -574,31 +547,4 @@ public class GameModel {
         return toSelect;
     }
 
-    /**
-     * Gives all of the currents player's countries in one string with each country being on a new line.
-     * @return a String with all the countries a player owns.
-     */
-    public String currentPlayerCountryString() {
-        return currentPlayer.getCountriesString();
-    }
-
-    /**
-     * Gives all the neighbors to the country passed in.
-     * @param country the country to get the neighbors of.
-     * @return a String with all neighbors.
-     */
-    public String neighborString(String country) {
-        StringBuilder stringBuilder = new StringBuilder();
-        ArrayList<Country> neighbors = map.getCountry(makeProperCountryName(country)).getNeighbors();
-        for(Country neighbor: neighbors){
-            if(!currentPlayer.hasCountry(neighbor)){
-                stringBuilder.append(neighbor).append("\n");
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    public void getCountryInfo (String country) {
-        JOptionPane.showMessageDialog(null, map.getCountry(makeProperCountryName(country)));
-    }
 }

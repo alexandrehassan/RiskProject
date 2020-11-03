@@ -15,8 +15,8 @@ import java.util.EventObject;
 
 public class OwnerChangeEvent extends EventObject {
 
-    private String countryName;
-    private int playerOrder;
+    private final String countryName;
+    private final int playerOrder;
     public OwnerChangeEvent (GameModel gameModel, String countryName, int playerOrder) {
         super(gameModel);
         this.countryName = countryName;
