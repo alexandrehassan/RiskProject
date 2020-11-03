@@ -23,7 +23,6 @@ public class GameController implements ActionListener {
     private final static int REINFORCEMENT_STATE = 0;
     private final static int ATTACK_STATE = 1;
     private final static int MOVEMENT_STATE = 2;
-    private int reinforcements;
 
     private final GameModel gameModel;
 
@@ -58,17 +57,16 @@ public class GameController implements ActionListener {
                 switch (state) {
                     case REINFORCEMENT_STATE -> {
                         try {
+                            int reinforcements = gameModel.getCurrentPlayerReinforcements();
                             if (reinforcements <= 0) {
-                                JOptionPane.showMessageDialog(null,
-                                        "No more reinforcements to place");
-                                return;
+                                toAttackPhase();
                             }
+
                             int toPut = gameModel.troopSelect(1, reinforcements);
+                            gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
                             gameModel.putReinforcements(clickedCountry, toPut);
-                            reinforcements -= toPut;
-                            if (reinforcements == 0) {
-                                gameModel.updateGameViewsTurnState("attack");
-                                state++;
+                            if (gameModel.getCurrentPlayerReinforcements() == 0) {
+                                toAttackPhase();
                             }
                         } catch (Exception exception) {
                             System.out.println(exception.getMessage());
@@ -93,7 +91,7 @@ public class GameController implements ActionListener {
                         } else if (to.equals("")) {
                             to = clickedCountry;
                             if (to.equals(from)) {
-                                JOptionPane.showMessageDialog(null, "Cannot move to the same country");
+                                JOptionPane.showMessageDialog(null, "Cannot move to the same country. Input cleared");
                                 to = "";
                                 from = "";
                                 return;
@@ -105,7 +103,6 @@ public class GameController implements ActionListener {
                                 state = REINFORCEMENT_STATE;
                                 gameModel.nextPlayer();
                                 gameModel.showCurrentPlayer();
-                                reinforcements = gameModel.getReinforcements();
                                 gameModel.updateGameViewsTurnState("reinforcement");
                             }
                             from = "";
@@ -115,6 +112,16 @@ public class GameController implements ActionListener {
                 }
             }
         });
+    }
+
+    /**
+     * Moves on to the attack phase (removes duplicate code)
+     */
+    private void toAttackPhase () {
+        state = ATTACK_STATE;
+        JOptionPane.showMessageDialog(null,
+                "Done placing reinforcements (none left)");
+        gameModel.updateGameViewsTurnState("attack");
     }
 
     @Override
@@ -129,7 +136,6 @@ public class GameController implements ActionListener {
                 this.state = REINFORCEMENT_STATE;
                 from ="";
                 to ="";
-                reinforcements = gameModel.getReinforcements();
                 gameModel.updateGameViewsTurnState("reinforcement");
             }
             case "attack" -> {
@@ -149,13 +155,12 @@ public class GameController implements ActionListener {
                 state=REINFORCEMENT_STATE;
                 gameModel.nextPlayer();
                 gameModel.showCurrentPlayer();
-                reinforcements = gameModel.getReinforcements();
                 gameModel.updateGameViewsTurnState("reinforcement");
             }
         }
     }
 
     public int getCurrentReinforcements () {
-        return reinforcements;
+        return gameModel.getCurrentPlayerReinforcements();
     }
 }

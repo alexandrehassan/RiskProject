@@ -16,6 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GameModel {
     private final ArrayList<Player> players;
     private Player currentPlayer;
+    private int currentPlayerReinforcements;
     private Map map;
     private final ArrayList<GameView> gameViews;
 
@@ -467,7 +468,22 @@ public class GameModel {
         }else{
             currentPlayer = players.get(0);
         }
+        currentPlayerReinforcements = getReinforcements();
         updatePlayerTurn(currentPlayer.getName());
+    }
+
+    public int getCurrentPlayerReinforcements () {
+        return currentPlayerReinforcements;
+    }
+
+    public void placeCurrentPlayerReinforcements (String clickedCountry, int toRemove) {
+        if (toRemove > currentPlayerReinforcements) {
+            currentPlayerReinforcements = 0;
+            System.out.println("Cannot remove more reinforcements than you currently have");
+        }
+        currentPlayerReinforcements -= toRemove;
+        putReinforcements(clickedCountry, toRemove);
+        updateGameViewsTurnState("reinforcement");
     }
 
     /**

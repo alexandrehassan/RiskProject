@@ -29,6 +29,7 @@ public class GameFrame extends JFrame implements GameView{
 
     private final ArrayList<JTextArea> playersInfo;
     private final JLabel updateLine;
+    private String playerTurnInfo;
     private final ArrayList<JButton> buttons;
     private mxGraphComponent board;
     private final GameController gameController;
@@ -68,7 +69,8 @@ public class GameFrame extends JFrame implements GameView{
 
         JPanel mainPanel = (JPanel) this.getContentPane();
 
-        this.updateLine = new JLabel("RISK: a multi-player game of world domination");
+        this.updateLine = new JLabel("RISK: a multi-player game of world domination", SwingConstants.CENTER);
+        updateLine.setFont(new Font(updateLine.getFont().getName(), Font.PLAIN, 20));
 
         JPanel middlePane = new JPanel();
         middlePane.setLayout(new GridBagLayout());
@@ -420,7 +422,8 @@ public class GameFrame extends JFrame implements GameView{
     }
 
     public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
-        updateLine.setText("It is " + playerTurn.getName() + "'s turn: ");
+        playerTurnInfo = "It is " + playerTurn.getName() + "'s turn. ";
+        updateLine.setText(playerTurnInfo);
         for (int i = 0; i < playersInfo.size(); i++) {
             if (i == playerTurn.getOrder()) {
                 playersInfo.get(i).setBackground(Color.white);
@@ -440,19 +443,22 @@ public class GameFrame extends JFrame implements GameView{
         switch (turnState.getNewState().toLowerCase()) {
             case "reinforcement" : {
                 buttons.get(0).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
-                JOptionPane.showMessageDialog(null,
-                        "Can place " + gameController.getCurrentReinforcements() + " reinforcements");
+                updateLine.setText(playerTurnInfo + " Click on a country to add reinforcements. " +
+                        gameController.getCurrentReinforcements() + " remain.");
                 break;
             }
             case "attack" : {
                 buttons.get(1).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 buttons.get(2).setEnabled(true);
                 buttons.get(3).setEnabled(true);
+                updateLine.setText(playerTurnInfo + " Select a country to attack with, then the country to attack");
                 break;
             }
             case "move" : {
                 buttons.get(2).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 buttons.get(3).setEnabled(true);
+                updateLine.setText(playerTurnInfo + " Select a country to move troops from, and " +
+                        "a country to move troops to (1 allowed)");
                 break;
             }
         }
