@@ -13,19 +13,15 @@ import java.util.EventObject;
  * @author Team Group - Jonah Gaudet
  */
 
-public class PlayerStateEvent extends EventObject {
+public class TurnStateEvent extends EventObject {
 
-    private final String info;
-    private final int playerOrder;
-    public PlayerStateEvent (GameModel gameModel, String info, int order) {
+    private final String newState;
+    public TurnStateEvent (GameModel gameModel, String newState) {
         super(gameModel);
-        this.info = info;
-        this.playerOrder = order;
+        this.newState = newState;
     }
 
-    public String getInfo () {
-        return info;
+    public String getNewState () {
+        return newState;
     }
-
-    public int getOrder () { return playerOrder; }
 }

@@ -15,8 +15,8 @@ import java.util.EventObject;
 
 public class PlayerTurnEvent extends EventObject {
 
-    private String playerName;
-    private int order;
+    private final String playerName;
+    private final int order;
     public PlayerTurnEvent (GameModel gameModel, String name, int order) {
         super(gameModel);
         this.playerName = name;

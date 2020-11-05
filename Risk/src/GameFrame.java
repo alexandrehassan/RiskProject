@@ -1,19 +1,13 @@
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.mxRectangle;
 import com.mxgraph.view.mxGraph;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * This class is part of the game of RISK, the term
@@ -26,7 +20,7 @@ import com.mxgraph.view.mxGraph;
  *
  * To add: a board that we can interact with (each country has a node) and
  * whose action command is simply the country's name. Also need to clean up
- * the layout, because right now it looks bAD.
+ * the layout, because right now it looks bad.
  *
  * @version 27-10-2020
  * @author Team Group - Jonah Gaudet, Baillie Noell
@@ -34,14 +28,14 @@ import com.mxgraph.view.mxGraph;
 
 public class GameFrame extends JFrame implements GameView{
 
-    private ArrayList<JTextArea> playersInfo;
-    private JLabel updateLine;
-    private ArrayList<JButton> buttons;
+    private final ArrayList<JTextArea> playersInfo;
+    private final JLabel updateLine;
+    private String playerTurnInfo;
+    private final ArrayList<JButton> buttons;
     private mxGraphComponent board;
-    private GameController gameController;
-    private JPanel boardPanel;
+    private final GameController gameController;
+    private final JPanel boardPanel;
     private mxGraph graph;
-    private JButton startButton;
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
     public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
@@ -65,16 +59,18 @@ public class GameFrame extends JFrame implements GameView{
 
     public GameFrame (String name) {
         super(name);
-        this.buttons = new ArrayList<JButton>();
-        this.playersInfo = new ArrayList<JTextArea>();
+        this.buttons = new ArrayList<>();
+        this.playersInfo = new ArrayList<>();
 
         GameModel abm = new GameModel();
         abm.addGameView(this);
         this.gameController = new GameController(abm);
+        makeMenuBar();
 
         JPanel mainPanel = (JPanel) this.getContentPane();
 
-        this.updateLine = new JLabel("RISK: a multi-player game of world domination");
+        this.updateLine = new JLabel("RISK: a multi-player game of world domination", SwingConstants.CENTER);
+        updateLine.setFont(new Font(updateLine.getFont().getName(), Font.PLAIN, 20));
 
         JPanel middlePane = new JPanel();
         middlePane.setLayout(new GridBagLayout());
@@ -85,7 +81,7 @@ public class GameFrame extends JFrame implements GameView{
         ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
         Image newImage = image.getImage().getScaledInstance(1000, 650,  java.awt.Image.SCALE_SMOOTH);
         placeholderBoard.setIcon(new ImageIcon(newImage));
-        placeholderBoard.setBounds(0, 0, 1000, 650);
+        placeholderBoard.setBounds(0, 0, 1100, 650);
         boardPanel.add(placeholderBoard);
 
         //Adds the boxes with the owned countries in them (right side)
@@ -96,7 +92,7 @@ public class GameFrame extends JFrame implements GameView{
         playerInfo.setLayout(layout1);
         for (int i = 0; i < layout1.getRows() * layout1.getColumns(); i++) {
             JTextArea textArea = new JTextArea(5, 20);
-            textArea.setText("Reserved for player " + Integer.toString(i+1));
+            textArea.setText("Reserved for player " + (i+1));
             JScrollPane scrollPane = new JScrollPane(textArea);
             playerInfo.add(scrollPane);
             textArea.setEditable(false);
@@ -110,20 +106,20 @@ public class GameFrame extends JFrame implements GameView{
         layout2.setVgap(25);
         layout2.setHgap(25);
         buttonOptions.setLayout(layout2);
-        String[] validCommands = {"attack", "state",  "help",  "end"};
-        for (int i = 0; i < 4; i++) {
-            JButton b = new JButton(validCommands[i]);
+        String[] validCommands = {"Reinforcement", "Attack",  "Move",  "End"};
+        for (String validCommand : validCommands) {
+            JButton b = new JButton(validCommand);
             b.addActionListener(gameController);
-            b.setActionCommand(b.getText());
+            b.setActionCommand(b.getText().toLowerCase());
             b.setEnabled(false);
             buttons.add(b);
             buttonOptions.add(b);
         }
 
         //Button to start the game
-        this.startButton = new JButton("Start Game");
-        startButton.addActionListener(gameController);
-        startButton.setActionCommand("new");
+//        this.startButton = new JButton("Start Game");
+//        startButton.addActionListener(gameController);
+//        startButton.setActionCommand("new");
 
         middlePane.add(buttonOptions, getConstraints(0, 0, 3, 1, GridBagConstraints.HORIZONTAL));
         middlePane.add(boardPanel, getConstraints(0, 1, 3, 2, GridBagConstraints.HORIZONTAL));
@@ -131,23 +127,38 @@ public class GameFrame extends JFrame implements GameView{
         mainPanel.add(updateLine, BorderLayout.PAGE_START);
         mainPanel.add(middlePane, BorderLayout.LINE_START);
         mainPanel.add(playerInfo, BorderLayout.LINE_END);
-        mainPanel.add(startButton, BorderLayout.PAGE_END);
+//        mainPanel.add(startButton, BorderLayout.PAGE_END);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("JList Example");
-        this.setSize(1500,800);
+        this.setSize(1550,800);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
+    private void makeMenuBar(){
+        JMenuBar menuBar = new JMenuBar();
+        JMenu gameMenu = new JMenu("Game");
+
+        JMenuItem startGame = new JMenuItem("Start Game");
+        startGame.addActionListener(gameController);
+        startGame.setActionCommand("new");
+        gameMenu.add(startGame);
+
+        menuBar.add(gameMenu);
+        this.setJMenuBar(menuBar);
+    }
+
     /**
      * Should return the board (just voided now so no errors), created
      * in this method:
+     * //TODO: Automation
      */
-    private mxGraphComponent createBoard (Map map, ArrayList<Player> players) {
+    private mxGraphComponent createBoard () {
         this.graph = new mxGraph();
         Object parent = graph.getDefaultParent();
+        graph.setMaximumGraphBounds(new mxRectangle(0,0,1000, 600));
 
         graph.getModel().beginUpdate();
 
@@ -338,22 +349,23 @@ public class GameFrame extends JFrame implements GameView{
     }
 
     private String getColorForPlayerIndex (int playerIndex) {
-        switch (playerIndex) {
-            case 0 : return PLAYER1;
-            case 1 : return PLAYER2;
-            case 2 : return PLAYER3;
-            case 3 : return PLAYER4;
-            case 4 : return PLAYER5;
-            case 5 : return PLAYER6;
-            default : return PLAYER1;
-        }
+        return switch (playerIndex) {
+            case 1 -> PLAYER2;
+            case 2 -> PLAYER3;
+            case 3 -> PLAYER4;
+            case 4 -> PLAYER5;
+            case 5 -> PLAYER6;
+            default -> PLAYER1;
+        };
     }
+
     public void handleGameStart(GameStartEvent gameModel) {
         ArrayList<Player> players = gameModel.getPlayers();
-        Map map = gameModel.getMap();
 
         for (int i = 0; i < players.size(); i++) {
             playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.decode(getColorForPlayerIndex(i))));
+            playersInfo.get(i).setBackground(Color.white);
+            playersInfo.get(i).setSelectedTextColor(Color.black);
         }
 
         for (int i = players.size(); i < playersInfo.size(); i++) {
@@ -367,15 +379,14 @@ public class GameFrame extends JFrame implements GameView{
             b.setEnabled(true);
         }
 
-        startButton.setEnabled(false);
-
-        this.board = createBoard(gameModel.getMap(), gameModel.getPlayers());
+        this.board = createBoard();
         boardPanel.removeAll();
         boardPanel.add(board);
         gameController.addGameBoard(board);
         updateColors(gameModel.getPlayers());
-
     }
+
+
 
     public void updateColors (ArrayList<Player> players) {
         mxGraph graph = board.getGraph();
@@ -386,16 +397,7 @@ public class GameFrame extends JFrame implements GameView{
             String countryName = cell.getId();
             for (int i = 0; i < players.size(); i++) {
                 if (players.get(i).hasCountry(countryName)) {
-                    String newColor;
-                    switch (i) {
-                        case 0 : newColor = PLAYER1; break;
-                        case 1 : newColor = PLAYER2; break;
-                        case 2 : newColor = PLAYER3; break;
-                        case 3 : newColor = PLAYER4; break;
-                        case 4 : newColor = PLAYER5; break;
-                        case 5 : newColor = PLAYER6; break;
-                        default : newColor = PLAYER1; break;
-                    }
+                    String newColor = getColorForPlayerIndex(i);
                     System.out.println("Successfully found " + countryName + ", player ID = " + i + " with color " + newColor);
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, newColor, new Object[]{cell});
                     //cell.setStyle(cell.getStyle() + ";fillColor=" + newColor);
@@ -404,28 +406,64 @@ public class GameFrame extends JFrame implements GameView{
         }
     }
 
-    public GridBagConstraints getConstraints (int gridx, int gridy, int gridwidth, int gridheight, int fill) {
+    public GridBagConstraints getConstraints (int gridX, int gridY, int gridWidth, int gridHeight, int fill) {
         GridBagConstraints c = new GridBagConstraints();
-        c.gridx = gridx;
-        c.gridy = gridy;
-        c.gridwidth = gridwidth;
-        c.gridheight = gridheight;
+        c.gridx = gridX;
+        c.gridy = gridY;
+        c.gridwidth = gridWidth;
+        c.gridheight = gridHeight;
         c.fill = fill;
         c.insets = new Insets(5,5,5,5);
         return c;
     }
 
     public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
-        updateLine.setText("It is " + playerTurn.getName() + "'s turn: ");
+        playerTurnInfo = "It is " + playerTurn.getName() + "'s turn. ";
+        updateLine.setText(playerTurnInfo);
         for (int i = 0; i < playersInfo.size(); i++) {
             if (i == playerTurn.getOrder()) {
-                playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.green));
                 playersInfo.get(i).setBackground(Color.white);
             }
             else if (playersInfo.get(i).isEnabled()){
-                playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.black));
                 playersInfo.get(i).setBackground(Color.lightGray);
             }
+        }
+    }
+
+    public void handleTurnStateChange (TurnStateEvent turnState) {
+        for (JButton b : buttons) {
+            b.setEnabled(false);
+            b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+        }
+
+        switch (turnState.getNewState().toLowerCase()) {
+            case "reinforcement" -> {
+                buttons.get(0).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
+                updateLine.setText(playerTurnInfo + " Click on a country to add reinforcements. " +
+                        gameController.getCurrentReinforcements() + " remain.");
+            }
+            case "attack" -> {
+                buttons.get(1).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
+                buttons.get(2).setEnabled(true);
+                buttons.get(3).setEnabled(true);
+                updateLine.setText(playerTurnInfo + " Select a country to attack with, then the country to attack");
+            }
+            case "move" -> {
+                buttons.get(2).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
+                buttons.get(3).setEnabled(true);
+                updateLine.setText(playerTurnInfo + " Select a country to move troops from, and " +
+                        "a country to move troops to (1 allowed)");
+            }
+        }
+    }
+
+    @Override
+    public void handleResetView(){
+        for(int i = 0; i < playersInfo.size(); i++){
+            playersInfo.get(i).setText("Reserved for player " + (i + 1));
+            playersInfo.get(i).setEnabled(false);
+            playersInfo.get(i).setBackground(Color.red);
+            playersInfo.get(i).setSelectedTextColor(Color.white);
         }
     }
 
@@ -448,6 +486,6 @@ public class GameFrame extends JFrame implements GameView{
     public static void  main(String[] args){
         File f = new File("Risk/images/images.jpg");
         System.out.println(f.exists());
-        GameFrame gFrame = new GameFrame("The game of RISK");
+        new GameFrame("The game of RISK");
     }
 }

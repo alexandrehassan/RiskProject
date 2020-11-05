@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -15,6 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GameModel {
     private final ArrayList<Player> players;
     private Player currentPlayer;
+    private int currentPlayerReinforcements;
     private Map map;
     private final ArrayList<GameView> gameViews;
 
@@ -26,17 +28,6 @@ public class GameModel {
     public GameModel() {
         this.currentPlayer = null;
         this.players = new ArrayList<>();
-        this.map = null;
-        this.gameViews = new ArrayList<> ();
-    }
-
-    /**
-     * Constructor for the game with a list of players to participate
-     * @param players the players to participate in the game
-     */
-    public GameModel(ArrayList<Player> players) {
-        this.currentPlayer = null;
-        this.players = players;
         this.map = null;
         this.gameViews = new ArrayList<> ();
     }
@@ -55,6 +46,18 @@ public class GameModel {
     private void updateGameViewsStart () {
         for (GameView v : gameViews) {
             v.handleGameStart(new GameStartEvent(this, map, players));
+        }
+    }
+
+    private void resetView(){
+        for (GameView v : gameViews) {
+            v.handleResetView();
+        }
+    }
+
+    public void updateGameViewsTurnState (String newState) {
+        for (GameView v : gameViews) {
+            v.handleTurnStateChange(new TurnStateEvent(this, newState));
         }
     }
 
@@ -95,33 +98,54 @@ public class GameModel {
      * then generate a full game and begin playing immediately
      */
     public void userCreateGame () {
-        boolean finished = false;
-        while (!finished && players.size() < 6) {
-            try {
-                String newName = (String) JOptionPane.showInputDialog(
-                        null,
-                        "New player name (input 'done' to continue): ",
-                        "Player name: ",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        "");
-                if (newName.toLowerCase().equals("done")) {
-                    finished = true;
-                } else {
-                    addPlayer(new Player(newName));
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
+
+        try {
+
+            ArrayList<JTextField> playerInput = new ArrayList<>();
+            for(int i = 0; i<6; i++){
+                playerInput.add(new JTextField());
             }
-        }
 
-        if (players.size() < 2) {
-            throw new IllegalArgumentException("Cannot have less than 2 players");
-        }
+            Object[] message = {
+                    "Player 1", playerInput.get(0),
+                    "Player 2", playerInput.get(1),
+                    "Player 3", playerInput.get(2),
+                    "Player 4", playerInput.get(3),
+                    "Player 5", playerInput.get(4),
+                    "Player 6", playerInput.get(5),
+            };
+            int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
+            if (option == JOptionPane.OK_OPTION) {
+                LinkedList<Player> currentPlayers = new LinkedList<>();
+                String playerName;
+                for (JTextField jTextField : playerInput) {
+                    playerName = jTextField.getText().trim();
+                    if(!playerName.equals("")){
+                        currentPlayers.add(new Player(playerName));
+                    }
+                }
 
-        generateGame();
-        updateGameViewsStart();
+                if (currentPlayers.size() < 2) {
+                    throw new IllegalArgumentException("Cannot have less than 2 players");
+                }
+                else{
+                    players.clear();
+                    for (Player player : currentPlayers) {
+                        addPlayer(player);
+                    }
+                }
+                resetView();
+                generateGame();
+                updateGameViewsStart();
+                updateState();
+
+            } else {
+                System.out.println("Buddy creation failed");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
     /**
@@ -152,14 +176,13 @@ public class GameModel {
             player.sortCountries();
             player.assignBeginningTroops(BEGINNING_TROOPS[players.size()-2]);
         }
-        updateState();
     }
 
     /**
      * Gets the number of reinforcements to add for the current player and
      * assigns them randomly to one or more of their countries
      */
-    private void getReinforcements () {
+    public int getReinforcements () {
         //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
         int extraTroops = 0;
         for(Continent continent: map.getContinents()) {
@@ -167,9 +190,9 @@ public class GameModel {
                 extraTroops += continent.getReinforcements();
             }
         }
-        int reinforcements = Math.max(3, currentPlayer.numberOfCountries()/3) + extraTroops;
+        return Math.max(3, currentPlayer.numberOfCountries()/3) + extraTroops;
 
-        autoPutReinforcements(reinforcements);
+        //autoPutReinforcements(reinforcements);
     }
 
     /**
@@ -198,14 +221,14 @@ public class GameModel {
         }
     }
 
-    /**
-     * Adds reinforcements to the selected country
-     *
-     * @param country the country to have the troop added to
-     * @param numberOfTroops the number of troops
-     */
-    private void putReinforcements(Country country, int numberOfTroops){
-        country.addTroop(numberOfTroops);
+    public void putReinforcements (String country, int toAdd){
+        if(currentPlayer.hasCountry(map.getCountry(country))){
+            map.getCountry(country).addTroop(toAdd);
+            updateState();
+        }
+        else{
+            throw new IllegalArgumentException("The player does not own this country");
+        }
     }
 
     /**
@@ -214,12 +237,17 @@ public class GameModel {
      * @param attackingCountry the name of the attacking country
      * @param defendingCountry the name of the defending country
      */
-    public void playAttack(String attackingCountry, String defendingCountry) {
+    public void playAttack(String attackingCountry, String defendingCountry, boolean blitzAttack) {
         try {
             attackingCountry = makeProperCountryName(attackingCountry);
             defendingCountry = makeProperCountryName(defendingCountry);
 
-            performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+            if (!blitzAttack) {
+                performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+            }
+            else {
+                performBlitzAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+            }
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -257,6 +285,39 @@ public class GameModel {
             throw new IllegalArgumentException(defending.getName() + " does not border " + attacking.getName());
         if (attacking.getTroops() <= 1)
             throw new IllegalArgumentException(attacking.getName() + " does not have enough troops to attack (needs more than 1)");
+    }
+
+    public void performBlitzAttack (Country attack, Country defend) {
+        checkAttackValid(attack, defend);
+        int lostAttackers = 0;
+        int lostDefenders = 0;
+        while (attack.getTroops() > 1 && defend.getTroops() > 0) {
+            ArrayList<Integer> attackerDice = new ArrayList<>();
+            ArrayList<Integer> defenderDice = new ArrayList<>();
+            for (int i = 0; i < Math.min(3, attack.getTroops() - 1); i++)
+                attackerDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
+            for (int i = 0; i < Math.min(2, defend.getTroops()); i++)
+                defenderDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
+
+            attackerDice.sort(Collections.reverseOrder());
+            defenderDice.sort(Collections.reverseOrder());
+
+            for (int i = 0; i < defenderDice.size(); i++) {
+                if (attackerDice.get(i) > defenderDice.get(i))
+                    lostAttackers += 1;
+                else
+                    lostDefenders += 1;
+            }
+        }
+        JOptionPane.showMessageDialog(null,
+                "Attacker lost " + lostAttackers + " troop(s), " +
+                        "defender lost " + lostDefenders + " troop(s).");
+        if (defend.getTroops() == 0) {
+            JOptionPane.showMessageDialog(null,
+                        attack.getName() + " takes " + defend.getName());
+            ownerChange(defend, attack, troopSelect(1, attack.getTroops()-1));
+        }
+        updateState();
     }
 
     /**
@@ -336,27 +397,49 @@ public class GameModel {
      * @param destination where the troops will go to
      * @return whether the move was successful
      */
-    private boolean moveTroopsNoNumber(Country origin, Country destination) {
-        return moveTroops(origin, destination, troopSelect(1, origin.getTroops() - 1));
+    public boolean moveTroops(Country origin, Country destination, int toMove) {
+        if (!currentPlayer.pathExists(origin, destination )) {
+            System.out.println("Path does not exist between " + origin.getName() + " " + destination.getName());
+            return false;
+        }
+
+        origin.removeTroops(toMove);
+        destination.addTroop(toMove);
+        return true;
     }
 
     /**
      * Moves troops from one country to the other
      * @param origin where the troops will leave from
      * @param destination where the troops will go to
-     * @param toMove the number of troops to move
      * @return whether the move was successful
      */
-    private boolean moveTroops(Country origin, Country destination, int toMove) {
-        if (!currentPlayer.pathExists(origin, destination)) {
-            System.out.println("Path does not exist between " + origin.getName() + " " + destination.getName());
+    public boolean moveTroops(String origin, String destination) {
+        Country originCountry = map.getCountry(origin);
+        Country destinationCountry = map.getCountry(destination);
+        if (!currentPlayer.pathExists(originCountry, destinationCountry )) {
+            System.out.println("Path does not exist between " + originCountry.getName() + " " + destinationCountry.getName());
             return false;
         }
-        origin.removeTroops(toMove);
-        destination.addTroop(toMove);
+        if (originCountry.getTroops() == 1) {
+            System.out.println(origin + " does not have enough troops to spare");
+            return false;
+        }
+
+        int toMove= troopSelect(1, originCountry.getTroops() - 1);
+
+        originCountry.removeTroops(toMove);
+        destinationCountry.addTroop(toMove);
         return true;
     }
 
+    /**
+     * Returns true if the players owns a country, false if not
+     * @return if the current player owns the country
+     */
+    public boolean playerOwns (String country) {
+        return currentPlayer.hasCountry(country);
+    }
     /**
      * Prints help / instructions for the players
      */
@@ -405,7 +488,22 @@ public class GameModel {
         }else{
             currentPlayer = players.get(0);
         }
+        currentPlayerReinforcements = getReinforcements();
         updatePlayerTurn(currentPlayer.getName());
+    }
+
+    public int getCurrentPlayerReinforcements () {
+        return currentPlayerReinforcements;
+    }
+
+    public void placeCurrentPlayerReinforcements (String clickedCountry, int toRemove) {
+        if (toRemove > currentPlayerReinforcements) {
+            currentPlayerReinforcements = 0;
+            System.out.println("Cannot remove more reinforcements than you currently have");
+        }
+        currentPlayerReinforcements -= toRemove;
+        putReinforcements(clickedCountry, toRemove);
+        updateGameViewsTurnState("reinforcement");
     }
 
     /**
@@ -431,7 +529,7 @@ public class GameModel {
      * @param maximum the maximum value
      * @return the value chosen by the user
     */
-    private int troopSelect (int minimum, int maximum) {
+    public int troopSelect (int minimum, int maximum) {
         if (minimum == maximum)
             return minimum;
 
@@ -449,31 +547,4 @@ public class GameModel {
         return toSelect;
     }
 
-    /**
-     * Gives all of the currents player's countries in one string with each country being on a new line.
-     * @return a String with all the countries a player owns.
-     */
-    public String currentPlayerCountryString() {
-        return currentPlayer.getCountriesString();
-    }
-
-    /**
-     * Gives all the neighbors to the country passed in.
-     * @param country the country to get the neighbors of.
-     * @return a String with all neighbors.
-     */
-    public String neighborString(String country) {
-        StringBuilder stringBuilder = new StringBuilder();
-        ArrayList<Country> neighbors = map.getCountry(makeProperCountryName(country)).getNeighbors();
-        for(Country neighbor: neighbors){
-            if(!currentPlayer.hasCountry(neighbor)){
-                stringBuilder.append(neighbor).append("\n");
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    public void getCountryInfo (String country) {
-        JOptionPane.showMessageDialog(null, map.getCountry(makeProperCountryName(country)));
-    }
 }

@@ -20,27 +20,26 @@ import java.awt.event.*;
  * @author Team Group - Jonah Gaudet
  */
 public class GameController implements ActionListener {
+    private final static int REINFORCEMENT_STATE = 0;
+    private final static int ATTACK_STATE = 1;
+    private final static int MOVEMENT_STATE = 2;
 
-    private GameModel gameModel;
-    private mxGraphComponent gameBoard;
+    private final GameModel gameModel;
 
-    private String attacker;
-    private String defender;
-    private boolean attackMode;
+    private String from;
+    private String to;
+    private int state;
 
     public GameController (GameModel gm) {
         this.gameModel = gm;
-        this.attackMode = false;
     }
 
     public void addGameBoard (mxGraphComponent gameBoard) {
-        this.gameBoard = gameBoard;
         gameBoard.getGraphControl().addMouseListener(new MouseAdapter()
         {
             @Override
             public void mousePressed(MouseEvent e)
             {
-                System.out.println("Click received");
                 Object cell = gameBoard.getCellAt(e.getX(), e.getY());
                 if (!(cell instanceof mxCell))
                 {
@@ -48,23 +47,83 @@ public class GameController implements ActionListener {
                     return;
                 }
 
-                if (attackMode) {
-                    if (attacker.equals("")) {
-                        attacker = (String) ((mxCell) cell).getValue();
-                        JOptionPane.showMessageDialog(null, "Attacking with " + attacker);
-                    }
-                    else if (defender.equals("")) {
-                        defender = (String) ((mxCell) cell).getValue();
-                        JOptionPane.showMessageDialog(null, "Attacking " + defender);
-                        gameModel.playAttack(attacker, defender);
-                        attackMode = false;
-                    }
+                String clickedCountry = (String) ((mxCell) cell).getValue();
+                if (!gameModel.playerOwns(clickedCountry) && state != ATTACK_STATE) {
+                    JOptionPane.showMessageDialog(null, "Current player does not own " + clickedCountry);
+                    return;
                 }
-                else {
-                    gameModel.getCountryInfo((String) ((mxCell) cell).getValue());
+
+                switch (state) {
+                    case REINFORCEMENT_STATE -> {
+                        try {
+                            int reinforcements = gameModel.getCurrentPlayerReinforcements();
+                            if (reinforcements <= 0) {
+                                toAttackPhase();
+                            }
+
+                            int toPut = gameModel.troopSelect(1, reinforcements);
+                            gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
+                            gameModel.putReinforcements(clickedCountry, toPut);
+                            if (gameModel.getCurrentPlayerReinforcements() == 0) {
+                                toAttackPhase();
+                            }
+                        } catch (Exception exception) {
+                            System.out.println(exception.getMessage());
+                        }
+                    }
+                    case ATTACK_STATE -> {
+                        if (from.equals("")) {
+                            from = clickedCountry;
+                            JOptionPane.showMessageDialog(null, "Attacking with " + from);
+                        } else if (to.equals("")) {
+                            to = clickedCountry;
+                            JOptionPane.showMessageDialog(null, "Attacking " + to);
+                            int reply = JOptionPane.showConfirmDialog(null,
+                                    "Attacking " + to + " with " + from + ". Blitz attack?",
+                                    "Select attack type", JOptionPane.YES_NO_OPTION);
+                            gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
+                            from = "";
+                            to = "";
+                        }
+                    }
+                    case MOVEMENT_STATE -> {
+                        if (from.equals("")) {
+                            from = clickedCountry;
+                            JOptionPane.showMessageDialog(null, "Moving from " + from);
+                        } else if (to.equals("")) {
+                            to = clickedCountry;
+                            if (to.equals(from)) {
+                                JOptionPane.showMessageDialog(null, "Cannot move to the same country. Input cleared");
+                                to = "";
+                                from = "";
+                                return;
+                            }
+                            JOptionPane.showMessageDialog(null, "Moving troops from  " + from + " to " + to);
+                            boolean successfulMove = gameModel.moveTroops(from, to);
+                            if (successfulMove) {
+                                gameModel.updateState();
+                                state = REINFORCEMENT_STATE;
+                                gameModel.nextPlayer();
+                                gameModel.showCurrentPlayer();
+                                gameModel.updateGameViewsTurnState("reinforcement");
+                            }
+                            from = "";
+                            to = "";
+                        }
+                    }
                 }
             }
         });
+    }
+
+    /**
+     * Moves on to the attack phase (removes duplicate code)
+     */
+    private void toAttackPhase () {
+        state = ATTACK_STATE;
+        JOptionPane.showMessageDialog(null,
+                "Done placing reinforcements (none left)");
+        gameModel.updateGameViewsTurnState("attack");
     }
 
     @Override
@@ -74,28 +133,34 @@ public class GameController implements ActionListener {
 
         String command = e.getActionCommand().split(" ")[0];
         switch (command) {
-            case "new" -> gameModel.userCreateGame();
+            case "help" -> gameModel.printHelp();
+            case "new" -> {
+                gameModel.userCreateGame();
+                this.state = REINFORCEMENT_STATE;
+                from ="";
+                to ="";
+                gameModel.updateGameViewsTurnState("reinforcement");
+            }
             case "attack" -> {
-                System.out.println("Attacking");
-                attackMode = true;
-                attacker = "";
-                defender = "";
+                state=ATTACK_STATE;
                 JOptionPane.showMessageDialog(null,
                         "Select a country to attack with, then a country to attack");
+                gameModel.updateGameViewsTurnState("attack");
             }
-            case "state" -> {
-                System.out.println("Manually update state");
-                gameModel.updateState();
-            }
-            case "help" -> {
-                System.out.println("Get help");
-                gameModel.printHelp();
+            case "move" -> {
+                state=MOVEMENT_STATE;
+                gameModel.updateGameViewsTurnState("move");
             }
             case "end" -> {
-                System.out.println("Get next player");
+                state=REINFORCEMENT_STATE;
                 gameModel.nextPlayer();
                 gameModel.showCurrentPlayer();
+                gameModel.updateGameViewsTurnState("reinforcement");
             }
         }
+    }
+
+    public int getCurrentReinforcements () {
+        return gameModel.getCurrentPlayerReinforcements();
     }
 }

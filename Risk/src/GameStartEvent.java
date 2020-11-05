@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.EventObject;
 
 /**
  * This class is part of the game of RISK, the term
@@ -15,8 +14,8 @@ import java.util.EventObject;
 
 public class GameStartEvent extends EventObject {
 
-    private Map map;
-    private ArrayList<Player> players;
+    private final Map map;
+    private final ArrayList<Player> players;
     public GameStartEvent (GameModel gameModel, Map map, ArrayList<Player> players) {
         super(gameModel);
         this.map = map;
