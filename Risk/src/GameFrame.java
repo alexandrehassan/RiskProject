@@ -469,7 +469,17 @@ public class GameFrame extends JFrame implements GameView{
 
     @Override
     public void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent) {
+        int index = eliminatedEvent.getPlayerNumber();
+        playersInfo.get(index).setText(eliminatedEvent.getEliminated().getName() + " is eliminated");
+        playersInfo.get(index).setEnabled(false);
+        playersInfo.get(index).setBackground(Color.red);
+        playersInfo.get(index).setSelectedTextColor(Color.white);
 
+    }
+
+    @Override
+    public void handleGameOver(GameOverEvent gameOverEvent) {
+        JOptionPane.showMessageDialog(this, gameOverEvent.getWinner().getName() + " won the Game");
     }
 
 

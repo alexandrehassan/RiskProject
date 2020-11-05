@@ -15,14 +15,19 @@ import java.util.EventObject;
 
 public class PlayerEliminatedEvent extends EventObject {
     private final Player eliminated;
+    private final int playerNumber;
 
-    public PlayerEliminatedEvent (GameModel gameModel, Player eliminated) {
+    public PlayerEliminatedEvent (GameModel gameModel, Player eliminated, int playerNumber) {
         super(gameModel);
         this.eliminated = eliminated;
+        this.playerNumber = playerNumber;
     }
 
     public Player getEliminated(){
         return eliminated;
     }
 
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
 }

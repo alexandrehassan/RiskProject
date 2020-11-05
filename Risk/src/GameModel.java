@@ -398,7 +398,7 @@ public class GameModel {
      */
     private void handlePlayerElimination(Player p) {
         for (GameView v : gameViews) {
-            v.handlePlayerElimination(new PlayerEliminatedEvent(this, p));
+            v.handlePlayerElimination(new PlayerEliminatedEvent(this, p, players.indexOf(p)));
         }
     }
 
