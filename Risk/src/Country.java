@@ -83,6 +83,7 @@ public class Country {
     public void removeTroops(int num) {
         if(num<0) return;
         troops -= num;
+        if(troops<0) troops=0;
     }
 
     @Override
