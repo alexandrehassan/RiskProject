@@ -295,9 +295,11 @@ public class GameModel {
         checkAttackValid(attack, defend);
         int lostAttackers = 0;
         int lostDefenders = 0;
+        ArrayList<Integer> attackerDice = new ArrayList<>();
+        ArrayList<Integer> defenderDice = new ArrayList<>();
         while (attack.getTroops() > 1 && defend.getTroops() > 0) {
-            ArrayList<Integer> attackerDice = new ArrayList<>();
-            ArrayList<Integer> defenderDice = new ArrayList<>();
+            attackerDice.clear();
+            defenderDice.clear();
             for (int i = 0; i < Math.min(3, attack.getTroops() - 1); i++)
                 attackerDice.add(ThreadLocalRandom.current().nextInt(0, 6) + 1);
             for (int i = 0; i < Math.min(2, defend.getTroops()); i++)
@@ -306,15 +308,18 @@ public class GameModel {
             attackerDice.sort(Collections.reverseOrder());
             defenderDice.sort(Collections.reverseOrder());
 
-            for (int i = 0; i < defenderDice.size(); i++) {
-                if (attackerDice.get(i) > defenderDice.get(i))
+            for (int i = 0; i < Math.min(defenderDice.size(), attackerDice.size()) ; i++) {
+                if (attackerDice.get(i) > defenderDice.get(i)) {
+                    attack.removeTroops(1);
                     lostAttackers += 1;
-                else
+                }
+                else {
+                    defend.removeTroops(1);
                     lostDefenders += 1;
+                }
             }
-            attack.removeTroops(lostAttackers);
-            defend.removeTroops(lostDefenders);
         }
+
         JOptionPane.showMessageDialog(null,
                 "Attacker lost " + lostAttackers + " troop(s), " +
                         "defender lost " + lostDefenders + " troop(s).");
