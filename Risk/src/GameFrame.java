@@ -462,7 +462,7 @@ public class GameFrame extends JFrame implements GameView{
         for(int i = 0; i < playersInfo.size(); i++){
             playersInfo.get(i).setText("Reserved for player " + (i + 1));
             playersInfo.get(i).setEnabled(false);
-            playersInfo.get(i).setBackground(Color.red);
+            playersInfo.get(i).setBackground(Color.black);
             playersInfo.get(i).setSelectedTextColor(Color.white);
         }
     }
@@ -472,7 +472,7 @@ public class GameFrame extends JFrame implements GameView{
         int index = eliminatedEvent.getPlayerNumber();
         playersInfo.get(index).setText(eliminatedEvent.getEliminated().getName() + " is eliminated");
         playersInfo.get(index).setEnabled(false);
-        playersInfo.get(index).setBackground(Color.red);
+        playersInfo.get(index).setBackground(Color.black);
         playersInfo.get(index).setSelectedTextColor(Color.white);
 
     }
