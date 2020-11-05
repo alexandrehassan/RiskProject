@@ -103,7 +103,7 @@ public class GameController implements ActionListener {
                             if (successfulMove) {
                                 gameModel.updateState();
                                 state = REINFORCEMENT_STATE;
-                                gameModel.nextPlayer();
+                                gameModel.nextPlayer(true);
                                 gameModel.showCurrentPlayer();
                                 gameModel.updateGameViewsTurnState("reinforcement");
                             }
@@ -153,7 +153,7 @@ public class GameController implements ActionListener {
             }
             case "end" -> {
                 state=REINFORCEMENT_STATE;
-                gameModel.nextPlayer();
+                gameModel.nextPlayer(true);
                 gameModel.showCurrentPlayer();
                 gameModel.updateGameViewsTurnState("reinforcement");
             }

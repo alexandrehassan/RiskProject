@@ -21,4 +21,8 @@ public interface GameView {
     void handleTurnStateChange (TurnStateEvent turnState);
 
     void handleResetView();
+
+    void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent);
+
+    void handleGameOver(GameOverEvent gameOverEvent);
 }
