@@ -467,6 +467,12 @@ public class GameFrame extends JFrame implements GameView{
         }
     }
 
+    @Override
+    public void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent) {
+
+    }
+
+
     public void handleStateUpdate(PlayerStateEvent playerState) {
         playersInfo.get(playerState.getOrder()).setText(playerState.getInfo());
     }

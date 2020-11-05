@@ -378,6 +378,7 @@ public class GameModel {
         for (Player p : players) {
             if (p.hasCountry(defend)) {
                 p.lost(defend);
+                if(p.isEliminated()) handlePlayerElimination(p);
             }
         }
 
@@ -389,6 +390,16 @@ public class GameModel {
         JOptionPane.showMessageDialog(null, message);
         updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         currentPlayer.sortCountries();
+    }
+
+    /**
+     * Updates the game views to show that player p is eliminated.
+     * @param p the player who is eliminated.
+     */
+    private void handlePlayerElimination(Player p) {
+        for (GameView v : gameViews) {
+            v.handlePlayerElimination(new PlayerEliminatedEvent(this, p));
+        }
     }
 
     /**
@@ -440,6 +451,7 @@ public class GameModel {
     public boolean playerOwns (String country) {
         return currentPlayer.hasCountry(country);
     }
+
     /**
      * Prints help / instructions for the players
      */
@@ -478,9 +490,13 @@ public class GameModel {
     }
 
     /**
-     * Changes current player to the next player in the correct order
+     * Changes current player to the next player in the correct order until the next player is not eliminated.
      */
     public void nextPlayer(){
+        int alive = 0;
+        for(Player player: players){
+            if(!player.isEliminated()) alive++;
+        }
         if (players.size() == 0)
             return;
         if(players.indexOf(currentPlayer) != players.size() -1){
@@ -488,8 +504,19 @@ public class GameModel {
         }else{
             currentPlayer = players.get(0);
         }
+        if(currentPlayer.isEliminated()) nextPlayer();
+        if(alive<2) handleGameOver();
         currentPlayerReinforcements = getReinforcements();
         updatePlayerTurn(currentPlayer.getName());
+    }
+
+    /**
+     * Updates all game views to display the fact currentPlayer has won.
+     */
+    private void handleGameOver() {
+        for (GameView v : gameViews) {
+            v.handleGameOver(new GameOverEvent(this, currentPlayer));
+        }
     }
 
     public int getCurrentPlayerReinforcements () {
