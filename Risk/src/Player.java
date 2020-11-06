@@ -198,6 +198,14 @@ public class Player {
         return perimeterCountries;
     }
 
+    public int getNumberOfTroops() {
+        int count = 0;
+        for (Country country : countries) {
+            count+=country.getTroops();
+        }
+        return count;
+    }
+
 //    /**
 //     * Gives all of the player's countries in one string with each country being on a new line.
 //     *

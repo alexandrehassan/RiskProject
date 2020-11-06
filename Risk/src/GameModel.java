@@ -20,7 +20,7 @@ public class GameModel {
     private Map map;
     private final ArrayList<GameView> gameViews;
 
-    private static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
+    public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
 
     /**
      * Default constructor for game.
@@ -30,6 +30,22 @@ public class GameModel {
         this.players = new ArrayList<>();
         this.map = null;
         this.gameViews = new ArrayList<>();
+    }
+
+    /**
+     * Constructor used for playing the game without the GUI/Users.
+     * @throws IllegalArgumentException if number of players is not in [2,6]
+     */
+    public GameModel(ArrayList<Player> players) {
+        if(players.size()<2 || players.size()>6) throw new IllegalArgumentException("Number of players to big.");
+        this.currentPlayer = players.get(0);
+        this.players = players;
+        this.map = null;
+        this.gameViews = new ArrayList<>();
+        resetView();
+        generateGame();
+        updateGameViewsStart();
+        updateState();
     }
 
     /**
@@ -147,7 +163,7 @@ public class GameModel {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            showErrorPupUp(e);
         }
     }
 
@@ -252,9 +268,10 @@ public class GameModel {
                 performBlitzAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            showErrorPupUp(e);
         }
     }
+
 
     /**
      * Fixes the capitalization of countries (can input all lowercase, uppercase,
@@ -319,12 +336,10 @@ public class GameModel {
             }
         }
 
-        JOptionPane.showMessageDialog(null,
-                "Attacker lost " + lostAttackers + " troop(s), " +
+        showMessage("Attacker lost " + lostAttackers + " troop(s), " +
                         "defender lost " + lostDefenders + " troop(s).");
         if (defend.getTroops() == 0) {
-            JOptionPane.showMessageDialog(null,
-                    attack.getName() + " takes " + defend.getName());
+            showMessage(attack.getName() + " takes " + defend.getName());
             ownerChange(defend, attack, troopSelect(1, attack.getTroops() - 1));
         }
         updateState();
@@ -345,7 +360,7 @@ public class GameModel {
         int defendTroops = defend.getTroops();
 
         String message = attackerName + " has " + attackTroops + " troops\n" + defenderName + " has " + defendTroops + " troops";
-        JOptionPane.showMessageDialog(null, message);
+        showMessage(message);
 
         int attackWith = troopSelect(1, Math.min(3, attackTroops - 1));
         int defendWith = Math.min(2, defendTroops);
@@ -359,7 +374,7 @@ public class GameModel {
         attackerDice.sort(Collections.reverseOrder());
         defenderDice.sort(Collections.reverseOrder());
         message = "Attacker rolls: " + Arrays.toString(attackerDice.toArray()) + "\nDefender rolls: " + Arrays.toString(defenderDice.toArray());
-        JOptionPane.showMessageDialog(null, message);
+        showMessage(message);
 
         int lostDefenders = 0, lostAttackers = 0;
         for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()); i++) {
@@ -373,11 +388,13 @@ public class GameModel {
         attack.removeTroops(lostAttackers);
         defend.removeTroops(lostDefenders);
         message = attackerName + " lost " + lostAttackers + " troop(s), " + (attackTroops - lostAttackers) + " troops remain\n" + defenderName + " lost " + lostDefenders + " troop(s), " + (defendTroops - lostDefenders) + " troops remain";
-        JOptionPane.showMessageDialog(null, message);
+        showMessage(message);
 
         if (defend.getTroops() == 0) ownerChange(defend, attack, attackerDice.size() - lostAttackers);
         updateState();
     }
+
+
 
     /**
      * Changes the owner of a country and assigns troops
@@ -398,7 +415,7 @@ public class GameModel {
         currentPlayer.addCountry(defend);
         moveTroops(attack, defend, toAdd);
         String message = currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.";
-        JOptionPane.showMessageDialog(null, message);
+        showMessage(message);
         updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         currentPlayer.sortCountries();
     }
@@ -471,14 +488,13 @@ public class GameModel {
      * Prints help / instructions for the players
      */
     public void printHelp() {
-        JOptionPane.showMessageDialog(
-                null,
+        showMessage(
                 "Game instructions: \n" +
-                        "To attack, select the attack button and choose a defending and attacking country\n" +
-                        "To end your turn, select the 'end' button\n" +
-                        "To manually update the charts on the right, select the 'state' button\n" +
-                        "To get help, select the 'help' button\n" +
-                        "The current player is shown in the top left corner");
+                "To attack, select the attack button and choose a defending and attacking country\n" +
+                "To end your turn, select the 'end' button\n" +
+                "To manually update the charts on the right, select the 'state' button\n" +
+                "To get help, select the 'help' button\n" +
+                "The current player is shown in the top left corner");
     }
 
     /**
@@ -553,7 +569,7 @@ public class GameModel {
      * Displays a message showing that it is the current player's turn
      */
     public void showCurrentPlayer() {
-        JOptionPane.showMessageDialog(null, "It is " + currentPlayer.getName() + "'s turn");
+        showMessage( "It is " + currentPlayer.getName() + "'s turn");
     }
 
     /**
@@ -579,16 +595,36 @@ public class GameModel {
 
         int toSelect = -1;
         while (toSelect < minimum || toSelect > maximum) {
-            toSelect = Integer.parseInt((String) JOptionPane.showInputDialog(
-                    null,
-                    "Number of troops (between " + minimum + " and " + maximum + "): ",
-                    "Get troops",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    ""));
+            toSelect = getIntInput("Number of troops (between " + minimum + " and " + maximum + "): ",
+                    "Get troops");
         }
         return toSelect;
+    }
+
+
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    //Allows the tests to suppress these.
+    protected void showErrorPupUp(Exception e){
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+    //Allows the tests to suppress these.
+    protected void showMessage(String message) {
+        JOptionPane.showMessageDialog(null, message);
+    }
+
+    protected int getIntInput(String message, String title) {
+        return Integer.parseInt((String) JOptionPane.showInputDialog(
+                null,
+                message,
+                title,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                ""));
     }
 
 }
