@@ -1,11 +1,12 @@
 /**
  * This class is part of the game of RISK, the term
  * project for SYSC3110 that emulates the original game of RISK
- *
+ * <p>
  * This class acts as an interface for the game's frame. It allows
  * the model to update various frames using the methods below
- * @version 27-10-2020
+ *
  * @author Team Group - Jonah Gaudet
+ * @version 27-10-2020
  */
 
 public interface GameView {
@@ -18,7 +19,7 @@ public interface GameView {
 
     void handleOwnerChange(OwnerChangeEvent ownerChange);
 
-    void handleTurnStateChange (TurnStateEvent turnState);
+    void handleTurnStateChange(TurnStateEvent turnState);
 
     void handleResetView();
 

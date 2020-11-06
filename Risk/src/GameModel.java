@@ -91,7 +91,7 @@ public class GameModel {
      *
      * @param playerName the player whose turn it is
      */
-    public void updatePlayerTurn(String playerName) {
+    private void updatePlayerTurn(String playerName) {
         for (GameView v : gameViews) {
             v.handlePlayerTurnUpdate(new PlayerTurnEvent(this, playerName, players.indexOf(currentPlayer)));
         }
@@ -155,7 +155,7 @@ public class GameModel {
      * Generates a game as long as two players are present. Assign countries, picks
      * a starting players, assigns troops.
      */
-    public void generateGame() {
+    private void generateGame() {
         //GetMap
         if (players.size() < 2) {
             System.out.println("Add players to start a game");
@@ -185,7 +185,7 @@ public class GameModel {
      * Gets the number of reinforcements to add for the current player and
      * assigns them randomly to one or more of their countries
      */
-    public int getReinforcements() {
+    private int getReinforcements() {
         //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
         int extraTroops = 0;
         for (Continent continent : map.getContinents()) {
@@ -198,32 +198,32 @@ public class GameModel {
         //autoPutReinforcements(reinforcements);
     }
 
-    /**
-     * Gets the number of remaining (not eliminated) players
-     *
-     * @return int amount of remaining players
-     */
-    private int getRemainingPlayers() {
-        int counter = 0;
-        for (Player p : players)
-            if (!p.isEliminated()) counter++;
-        return counter;
-    }
-
-    /**
-     * Method to add reinforcement to a player's countries automatically,
-     * will always add on countries on the exterior of a player's territory.
-     * <p>
-     * Early version of what will be used for AI players.
-     *
-     * @param reinforcements the number of troops to place.
-     */
-    private void autoPutReinforcements(int reinforcements) {
-        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
-        for (int assigned = 0; assigned < reinforcements; assigned++) {
-            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
-        }
-    }
+//    /**
+//     * Gets the number of remaining (not eliminated) players
+//     *
+//     * @return int amount of remaining players
+//     */
+//    private int getRemainingPlayers() {
+//        int counter = 0;
+//        for (Player p : players)
+//            if (!p.isEliminated()) counter++;
+//        return counter;
+//    }
+//
+//    /**
+//     * Method to add reinforcement to a player's countries automatically,
+//     * will always add on countries on the exterior of a player's territory.
+//     * <p>
+//     * Early version of what will be used for AI players.
+//     *
+//     * @param reinforcements the number of troops to place.
+//     */
+//    private void autoPutReinforcements(int reinforcements) {
+//        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
+//        for (int assigned = 0; assigned < reinforcements; assigned++) {
+//            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
+//        }
+//    }
 
     public void putReinforcements(String country, int toAdd) {
         if (currentPlayer.hasCountry(map.getCountry(country))) {
@@ -291,7 +291,7 @@ public class GameModel {
             throw new IllegalArgumentException(attacking.getName() + " does not have enough troops to attack (needs more than 1)");
     }
 
-    public void performBlitzAttack(Country attack, Country defend) {
+    private void performBlitzAttack(Country attack, Country defend) {
         checkAttackValid(attack, defend);
         int lostAttackers = 0;
         int lostDefenders = 0;
@@ -308,12 +308,11 @@ public class GameModel {
             attackerDice.sort(Collections.reverseOrder());
             defenderDice.sort(Collections.reverseOrder());
 
-            for (int i = 0; i < Math.min(defenderDice.size(), attackerDice.size()) ; i++) {
+            for (int i = 0; i < Math.min(defenderDice.size(), attackerDice.size()); i++) {
                 if (attackerDice.get(i) > defenderDice.get(i)) {
                     attack.removeTroops(1);
                     lostAttackers += 1;
-                }
-                else {
+                } else {
                     defend.removeTroops(1);
                     lostDefenders += 1;
                 }
@@ -422,7 +421,7 @@ public class GameModel {
      * @param destination where the troops will go to
      * @return whether the move was successful
      */
-    public boolean moveTroops(Country origin, Country destination, int toMove) {
+    private boolean moveTroops(Country origin, Country destination, int toMove) {
         if (!currentPlayer.pathExists(origin, destination)) {
             System.out.println("Path does not exist between " + origin.getName() + " " + destination.getName());
             return false;
@@ -490,7 +489,7 @@ public class GameModel {
      * @throws IllegalArgumentException if player is null
      * @throws IllegalArgumentException if there are already 6 players.
      */
-    public void addPlayer(Player player) {
+    private void addPlayer(Player player) {
         if (player == null) {
             throw new IllegalArgumentException("Player can't be Null");
         }
@@ -508,18 +507,18 @@ public class GameModel {
      * Changes current player to the next player in the correct order until the next player is not eliminated.
      */
     public void nextPlayer(boolean gameStarted) {
-        if (players.size() == 0) return;
+//        if (players.size() == 0) return;
         if (players.indexOf(currentPlayer) != players.size() - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
         } else {
             currentPlayer = players.get(0);
         }
-        if(gameStarted){
+        if (gameStarted) {
             int alive = 0;
             for (Player player : players) {
                 if (!player.isEliminated()) alive++;
             }
-            if (alive < 2 ) handleGameOver();
+            if (alive < 2) handleGameOver();
             if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
         }
 
