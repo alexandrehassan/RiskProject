@@ -39,7 +39,7 @@ Note: If the user enters in the wrong country at any point of their attack, they
 - Within the current version of the game, the reinforcements are assigned randomly at the beginning of each player's turn based 
 on the number of countries that each player holds. This means that the game *can* be won, but this will take a long time because players
 are not yet able to strategically choose where to place their reinforcements at the beginning of their turns. 
-- The game does not have an end game commnad, the command prompt must be closed to end the game.
+- The game does not have an end game command, the command prompt must be closed to end the game.
 
 #### Improvements to be implemented  
 In reference to the Map class, the planned improvements include changing the countries from the form of a LinkedList of Country Objects to a Hashmap, using the name of the 

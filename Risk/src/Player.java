@@ -74,7 +74,6 @@ public class Player {
         return countries.size() == 0;
     }
 
-
     /**
      * Gives the number of countries owned by Player.
      *
@@ -199,26 +198,26 @@ public class Player {
         return perimeterCountries;
     }
 
-    /**
-     * Gives all of the player's countries in one string with each country being on a new line.
-     *
-     * @return all the countries as a string.
-     */
-    public String getCountriesString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Country country : countries) {
-            stringBuilder.append(country).append("\n");
-        }
-        return stringBuilder.toString();
-    }
+//    /**
+//     * Gives all of the player's countries in one string with each country being on a new line.
+//     *
+//     * @return all the countries as a string.
+//     */
+//    public String getCountriesString() {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (Country country : countries) {
+//            stringBuilder.append(country).append("\n");
+//        }
+//        return stringBuilder.toString();
+//    }
 
-    /**
-     * Returns a linked list of all the countries
-     *
-     * @return all the countries in a linked list
-     */
-    public LinkedList<Country> getCountries() {
-        return countries;
-    }
+//    /**
+//     * Returns a linked list of all the countries
+//     *
+//     * @return all the countries in a linked list
+//     */
+//    public LinkedList<Country> getCountries() {
+//        return countries;
+//    }
 
 }

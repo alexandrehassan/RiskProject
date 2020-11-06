@@ -386,8 +386,7 @@ public class GameFrame extends JFrame implements GameView {
         updateColors(gameModel.getPlayers());
     }
 
-
-    public void updateColors(ArrayList<Player> players) {
+    private void updateColors(ArrayList<Player> players) {
         mxGraph graph = board.getGraph();
         Object[] cells = graph.getChildVertices(graph.getDefaultParent());
         for (Object c : cells) {
@@ -478,7 +477,6 @@ public class GameFrame extends JFrame implements GameView {
     public void handleGameOver(GameOverEvent gameOverEvent) {
         JOptionPane.showMessageDialog(this, gameOverEvent.getWinner().getName() + " won the Game");
     }
-
 
     public void handleStateUpdate(PlayerStateEvent playerState) {
         playersInfo.get(playerState.getOrder()).setText(playerState.getInfo());
