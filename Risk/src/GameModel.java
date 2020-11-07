@@ -119,13 +119,20 @@ public class GameModel {
      */
     public void userCreateGame() {
         LinkedList<String> playerNames = getPlayerNames();
-        if(playerNames.size()<2) showErrorPupUp(new IllegalArgumentException("Cannot have less than 2 players"));
+        if(playerNames.size()<2) {
+            showErrorPupUp(new IllegalArgumentException("Cannot have less than 2 players"));
+            return;
+        }
         else{
             players.clear();
             for (String player : playerNames) {
                 addPlayer(new Player(player));
             }
         }
+        resetView();
+        generateGame();
+        updateGameViewsStart();
+        updateState();
     }
 
     /**
