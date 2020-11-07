@@ -209,13 +209,22 @@ public class GameModel {
 //        }
 //    }
 
-    public void putReinforcements(String country, int toAdd) {
-        if (currentPlayer.hasCountry(map.getCountry(country))) {
-            map.getCountry(country).addTroop(toAdd);
-            updateState();
-        } else {
+    /**
+     *
+     * @param country
+     * @param toAdd
+     * @throws IllegalArgumentException if the country is invalid or toAdd is smaller than 1
+     */
+    public void placeCurrentPlayerReinforcements(String country, int toAdd) {
+        if(toAdd<1)
+            throw new IllegalArgumentException("The number of troops need to be greater than 0");
+        if(!currentPlayer.hasCountry(map.getCountry(country)))
             throw new IllegalArgumentException("The player does not own this country");
-        }
+
+        map.getCountry(country).addTroop(toAdd);
+        currentPlayerReinforcements -= toAdd;
+        updateGameViewsTurnState("reinforcement");
+        updateState();
     }
 
     /**
@@ -519,16 +528,6 @@ public class GameModel {
 
     public int getCurrentPlayerReinforcements() {
         return currentPlayerReinforcements;
-    }
-
-    public void placeCurrentPlayerReinforcements(String clickedCountry, int toRemove) {
-        if (toRemove > currentPlayerReinforcements) {
-            currentPlayerReinforcements = 0;
-            System.out.println("Cannot remove more reinforcements than you currently have");
-        }
-        currentPlayerReinforcements -= toRemove;
-        putReinforcements(clickedCountry, toRemove);
-        updateGameViewsTurnState("reinforcement");
     }
 
     /**

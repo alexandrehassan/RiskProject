@@ -63,7 +63,6 @@ public class GameController implements ActionListener {
 
                             int toPut = gameModel.troopSelect(1, reinforcements);
                             gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
-                            gameModel.putReinforcements(clickedCountry, toPut);
                             if (gameModel.getCurrentPlayerReinforcements() == 0) {
                                 toAttackPhase();
                             }

@@ -71,9 +71,9 @@ class GameModelTest {
     void putReinforcements() {
         Player currentPlayer= model.getCurrentPlayer();
         int beginningCount = currentPlayer.getNumberOfTroops();
-        model.putReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),-1);
+        model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),-1);
         assertEquals(beginningCount,currentPlayer.getNumberOfTroops(),"Number of troops was modified by negative number");
-        model.putReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),1); //Picks a random country.
+        model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),1); //Picks a random country.
         assertEquals(beginningCount+1,currentPlayer.getNumberOfTroops(),"Number of troops didn't go up");
     }
 
@@ -129,9 +129,16 @@ class GameModelTest {
 
     @Test
     void playerOwns() {
-        ArrayList<Country> outsideCountries = model.getCurrentPlayer().getPerimeterCountries();
-        for (Country outsideCountry : outsideCountries) {
-            assertTrue(model.playerOwns(outsideCountry.getName()));
+        Player p1 = model.getCurrentPlayer();
+        ArrayList<Country> p1OutsideCountries = model.getCurrentPlayer().getPerimeterCountries();
+        for (Country outsideCountry : p1OutsideCountries) {
+            assertTrue(model.playerOwns(outsideCountry.getName()),
+                    "Returned false to a country the player owns");
+        }
+        model.nextPlayer(true);
+        for (Country outsideCountry : p1OutsideCountries) {
+            assertFalse(model.playerOwns(outsideCountry.getName()),
+                    "Returned true to a country the player doesn't owns");
         }
     }
 
@@ -144,5 +151,33 @@ class GameModelTest {
 
     @Test
     void placeCurrentPlayerReinforcements() {
+        int playerReinforcements = model.getCurrentPlayerReinforcements();
+        ArrayList<Country> p1OutsideCountries = model.getCurrentPlayer().getPerimeterCountries();
+        int countryBeginningTroops = p1OutsideCountries.get(0).getTroops();
+
+        assertThrows(IllegalArgumentException.class,
+                ()-> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(),-1),
+                "Allowed an invalid number of troops");
+        assertEquals(countryBeginningTroops, p1OutsideCountries.get(0).getTroops(),
+                "Errored but modified the number of troops anyway");
+        assertEquals(playerReinforcements,model.getCurrentPlayerReinforcements(),
+                "Errored but modified the number of reinforcements left to place anyway");
+
+        assertDoesNotThrow(()-> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(),1),
+                "Threw an error when it shouldn't have");
+        assertNotEquals(countryBeginningTroops, p1OutsideCountries.get(0).getTroops(),
+                "Did not modify the number of troops on the country");
+        assertNotEquals(playerReinforcements,model.getCurrentPlayerReinforcements(),
+                "Did not modify the number of reinforcements left");
+
+        model.nextPlayer(true);
+        playerReinforcements = model.getCurrentPlayerReinforcements();
+        assertThrows(IllegalArgumentException.class,
+                ()-> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(),1),
+                "Allowed an invalid country");
+        assertEquals(countryBeginningTroops+1, p1OutsideCountries.get(0).getTroops(),
+                "Errored but modified the number of troops anyway");
+        assertEquals(playerReinforcements,model.getCurrentPlayerReinforcements(),
+                "Errored but modified the number of reinforcements left to place anyway");
     }
 }
