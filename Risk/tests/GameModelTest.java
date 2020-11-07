@@ -80,24 +80,47 @@ class GameModelTest {
     @Test //Only tests Blitz Attack
     void playAttack() {
         GameModel mocked =  spy(new GameModel(PLAYERS));
-        doNothing().when(mocked).showMessage(Matchers.anyString()) ;
-        Player currentPlayer= mocked.getCurrentPlayer();
+        Country attacker;
+        Country defender;
 
+        //Suppress dialogs/mock inputs.
+        doNothing().when(mocked).showMessage(Matchers.anyString());
+        when(mocked.troopSelect(anyInt(),anyInt())).thenReturn(1);
+        doThrow(new IllegalArgumentException()).when(mocked).showErrorPupUp(Matchers.any());
+
+        Player currentPlayer= mocked.getCurrentPlayer();
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
-        Country attacker = perimeterCountries.get(0);
-        //Get a Possible Attack
-        int index =0;
-        Country defender = attacker.getNeighbors().get(index);
-        while(currentPlayer.hasCountry(defender)){
+
+        //Make sure attacker has more than one troop.
+        int index = 0;
+        attacker = perimeterCountries.get(index);
+        while(attacker.getTroops()==1){
             index++;
+            attacker = perimeterCountries.get(index);
         }
+
+        //Get a Possible Attack
+        index =0;
+        defender = attacker.getNeighbors().get(index);
+        while(currentPlayer.hasCountry(defender.getName())){
+            index++;
+            defender = attacker.getNeighbors().get(index);
+        }
+
         int initialTroops = attacker.getTroops() + defender.getTroops();
         mocked.playAttack(attacker.getName(),defender.getName(),true);
         assertNotEquals(initialTroops, attacker.getTroops() + defender.getTroops(), "A valid Attack Failed");
 
+
+        //Check attack himself.
         attacker = currentPlayer.getPerimeterCountries().get(0);
         defender = currentPlayer.getPerimeterCountries().get(1);
+        Country finalAttacker = attacker;
+        Country finalDefender = defender;
 
+        assertThrows(IllegalArgumentException.class,()->
+                mocked.playAttack(finalAttacker.getName(),
+                        finalDefender.getName(),true));
     }
 
     @Test
@@ -106,29 +129,20 @@ class GameModelTest {
 
     @Test
     void playerOwns() {
+        ArrayList<Country> outsideCountries = model.getCurrentPlayer().getPerimeterCountries();
+        for (Country outsideCountry : outsideCountries) {
+            assertTrue(model.playerOwns(outsideCountry.getName()));
+        }
     }
 
     @Test
     void nextPlayer() {
-    }
-
-    @Test
-    void getCurrentPlayerReinforcements() {
+        int startingIndex = PLAYERS.indexOf(model.getCurrentPlayer());
+        model.nextPlayer(true);
+        assertNotEquals(startingIndex,PLAYERS.indexOf(model.getCurrentPlayer()));
     }
 
     @Test
     void placeCurrentPlayerReinforcements() {
-    }
-
-    @Test
-    void showCurrentPlayer() {
-    }
-
-    @Test
-    void updateState() {
-    }
-
-    @Test
-    void troopSelect() {
     }
 }

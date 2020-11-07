@@ -362,8 +362,6 @@ public class GameModel {
         updateState();
     }
 
-
-
     /**
      * Changes the owner of a country and assigns troops
      *
@@ -568,8 +566,6 @@ public class GameModel {
         }
         return toSelect;
     }
-
-
 
     public Player getCurrentPlayer() {
         return currentPlayer;

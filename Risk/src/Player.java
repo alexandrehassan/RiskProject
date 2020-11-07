@@ -109,7 +109,6 @@ public class Player {
      * @return True if the player owns the country False otherwise
      */
     public boolean hasCountry(String country) {
-
         for (Country c : countries) {
             if (c.getName().equals(country)) {
                 return true;
