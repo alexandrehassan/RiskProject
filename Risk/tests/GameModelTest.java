@@ -19,6 +19,7 @@ class GameModelTest {
 
     private GameModel model;
     private ArrayList<Player> PLAYERS;
+
     @BeforeEach
     void setUp() {
         PLAYERS = new ArrayList<>();
@@ -36,27 +37,27 @@ class GameModelTest {
     }
 
     @Test
-    void gameGenerationWrongNumberOfPlayers(){
+    void gameGenerationWrongNumberOfPlayers() {
         ArrayList<Player> players = new ArrayList<>();
         PLAYERS.add(new Player("test"));
-        assertThrows(IllegalArgumentException.class, ()-> new GameModel(players), "model allowed 7 players.");
-        assertThrows(IllegalArgumentException.class, ()-> new GameModel(PLAYERS), "model allowed 7 players.");
+        assertThrows(IllegalArgumentException.class, () -> new GameModel(players), "model allowed 7 players.");
+        assertThrows(IllegalArgumentException.class, () -> new GameModel(PLAYERS), "model allowed 7 players.");
     }
 
     @Test
-    void gameGenerationTroopNumber(){
+    void gameGenerationTroopNumber() {
         ArrayList<Player> players = new ArrayList<>();
-        int count=0;
-        for(int i = MINIMUM_PLAYERS; i<MAXIMUM_PLAYERS+1; i++){
-            for(int j = 0; j<i; j++){
-                players.add(new Player(""+j));
+        int count = 0;
+        for (int i = MINIMUM_PLAYERS; i < MAXIMUM_PLAYERS + 1; i++) {
+            for (int j = 0; j < i; j++) {
+                players.add(new Player("" + j));
             }
             new GameModel(players);
 
             for (Player player : players) {
-                count+=player.getNumberOfTroops();
+                count += player.getNumberOfTroops();
             }
-            assertEquals(GameModel.BEGINNING_TROOPS[i-2]*players.size(),count, i +" players did not " +
+            assertEquals(GameModel.BEGINNING_TROOPS[i - 2] * players.size(), count, i + " players did not " +
                     "generate the correct amount of total troops.");
             count = 0;
             players.clear();
@@ -65,40 +66,41 @@ class GameModelTest {
 
     @Test
     void putReinforcements() {
-        Player currentPlayer= model.getCurrentPlayer();
+        Player currentPlayer = model.getCurrentPlayer();
         int beginningCount = currentPlayer.getNumberOfTroops();
         assertThrows(IllegalArgumentException.class,
-                ()-> model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),-1));
-        assertEquals(beginningCount,currentPlayer.getNumberOfTroops(),"Number of troops was modified by negative number");
-        model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),1); //Picks a random country.
-        assertEquals(beginningCount+1,currentPlayer.getNumberOfTroops(),"Number of troops didn't go up");
+                () -> model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(), -1));
+        assertEquals(beginningCount, currentPlayer.getNumberOfTroops(), "Number of troops was modified by negative number");
+        model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(), 1); //Picks a random country.
+        assertEquals(beginningCount + 1, currentPlayer.getNumberOfTroops(), "Number of troops didn't go up");
     }
 
-    @Test //Only tests Blitz Attack
+    @Test
+        //Only tests Blitz Attack
     void playAttack() {
         //FIXME
         DummyView view = new DummyView();
         model.addGameView(view);
-        Player currentPlayer= model.getCurrentPlayer();
+        Player currentPlayer = model.getCurrentPlayer();
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         Country attacker = perimeterCountries.get(0);
         Country defender = attacker.getNeighbors().get(0);
 
         //Make sure attacker has more than one troop.
-        for(Country country: perimeterCountries){
-            if(country.getTroops()>1){
+        for (Country country : perimeterCountries) {
+            if (country.getTroops() > 1) {
                 attacker = country;
                 break;
             }
         }
         //Get a Possible Attack
-        for(Country country: attacker.getNeighbors()){
-            if(!currentPlayer.hasCountry(country)){
+        for (Country country : attacker.getNeighbors()) {
+            if (!currentPlayer.hasCountry(country)) {
                 defender = country;
             }
         }
         int initialTroops = attacker.getTroops() + defender.getTroops();
-        model.playAttack(attacker.getName(),defender.getName(),true);
+        model.playAttack(attacker.getName(), defender.getName(), true);
         assertNotEquals(initialTroops, attacker.getTroops() + defender.getTroops(), "A valid Attack Failed");
 
 
@@ -109,7 +111,7 @@ class GameModelTest {
         Country finalDefender = defender;
 
         model.playAttack(finalAttacker.getName(),
-                finalDefender.getName(),true);
+                finalDefender.getName(), true);
         assertTrue(view.isThrewException());
 
     }
@@ -136,7 +138,7 @@ class GameModelTest {
     void nextPlayer() {
         int startingIndex = PLAYERS.indexOf(model.getCurrentPlayer());
         model.nextPlayer(true);
-        assertNotEquals(startingIndex,PLAYERS.indexOf(model.getCurrentPlayer()));
+        assertNotEquals(startingIndex, PLAYERS.indexOf(model.getCurrentPlayer()));
     }
 
     @Test
@@ -146,63 +148,72 @@ class GameModelTest {
         int countryBeginningTroops = p1OutsideCountries.get(0).getTroops();
 
         assertThrows(IllegalArgumentException.class,
-                ()-> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(),-1),
+                () -> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(), -1),
                 "Allowed an invalid number of troops");
         assertEquals(countryBeginningTroops, p1OutsideCountries.get(0).getTroops(),
                 "Errored but modified the number of troops anyway");
-        assertEquals(playerReinforcements,model.getCurrentPlayerReinforcements(),
+        assertEquals(playerReinforcements, model.getCurrentPlayerReinforcements(),
                 "Errored but modified the number of reinforcements left to place anyway");
 
-        assertDoesNotThrow(()-> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(),1),
+        assertDoesNotThrow(() -> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(), 1),
                 "Threw an error when it shouldn't have");
         assertNotEquals(countryBeginningTroops, p1OutsideCountries.get(0).getTroops(),
                 "Did not modify the number of troops on the country");
-        assertNotEquals(playerReinforcements,model.getCurrentPlayerReinforcements(),
+        assertNotEquals(playerReinforcements, model.getCurrentPlayerReinforcements(),
                 "Did not modify the number of reinforcements left");
 
         model.nextPlayer(true);
         playerReinforcements = model.getCurrentPlayerReinforcements();
         assertThrows(IllegalArgumentException.class,
-                ()-> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(),1),
+                () -> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(), 1),
                 "Allowed an invalid country");
-        assertEquals(countryBeginningTroops+1, p1OutsideCountries.get(0).getTroops(),
+        assertEquals(countryBeginningTroops + 1, p1OutsideCountries.get(0).getTroops(),
                 "Errored but modified the number of troops anyway");
-        assertEquals(playerReinforcements,model.getCurrentPlayerReinforcements(),
+        assertEquals(playerReinforcements, model.getCurrentPlayerReinforcements(),
                 "Errored but modified the number of reinforcements left to place anyway");
     }
 
 
     //Class used to mock GameView inputs.
-    private static class DummyView implements GameView{
+    private static class DummyView implements GameView {
 
         private boolean threwException = false;
 
         @Override
-        public void handleGameStart(GameStartEvent gameModel) { }
+        public void handleGameStart(GameStartEvent gameModel) {
+        }
 
         @Override
-        public void handleStateUpdate(PlayerStateEvent playerState) { }
+        public void handleStateUpdate(PlayerStateEvent playerState) {
+        }
 
         @Override
-        public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) { }
+        public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
+        }
 
         @Override
-        public void handleOwnerChange(OwnerChangeEvent ownerChange) { }
+        public void handleOwnerChange(OwnerChangeEvent ownerChange) {
+        }
 
         @Override
-        public void handleTurnStateChange(TurnStateEvent turnState) { }
+        public void handleTurnStateChange(TurnStateEvent turnState) {
+        }
 
         @Override
-        public void handleResetView() { }
+        public void handleResetView() {
+        }
 
         @Override
-        public void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent) { }
+        public void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent) {
+        }
 
         @Override
-        public void handleGameOver(GameOverEvent gameOverEvent) {}
+        public void handleGameOver(GameOverEvent gameOverEvent) {
+        }
 
         @Override
-        public void handleMessageShow(GameShowEvent gameShowEvent) { }
+        public void handleMessageShow(GameShowEvent gameShowEvent) {
+        }
 
         @Override
         public int getIntInput(GetIntInputEvent getIntInputEvent) {
@@ -210,18 +221,21 @@ class GameModelTest {
         }
 
         @Override
-        public LinkedList<String> getPlayerNames() { return null; }
+        public LinkedList<String> getPlayerNames() {
+            return null;
+        }
 
         @Override
-        public void ShowErrorPopUp(Exception e){
+        public void ShowErrorPopUp(Exception e) {
             System.out.println(e.getMessage());
             threwException = true;
         }
 
-        public void resetException(){
-            threwException=false;
+        public void resetException() {
+            threwException = false;
         }
-        public boolean isThrewException(){
+
+        public boolean isThrewException() {
             return threwException;
         }
 

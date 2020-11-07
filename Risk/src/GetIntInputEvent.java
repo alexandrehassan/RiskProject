@@ -15,8 +15,8 @@ import java.util.EventObject;
 public class GetIntInputEvent extends EventObject {
 
 
-    private String message;
-    private String title;
+    private final String message;
+    private final String title;
 
     /**
      * Constructs a prototypical Event.

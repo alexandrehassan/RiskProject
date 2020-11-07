@@ -13,7 +13,7 @@ import java.util.EventObject;
  */
 public class GameShowEvent extends EventObject {
 
-    private String message;
+    private final String message;
 
     /**
      * Constructs a prototypical Event.

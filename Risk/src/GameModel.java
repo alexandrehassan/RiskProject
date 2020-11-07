@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,10 +33,11 @@ public class GameModel {
 
     /**
      * Constructor used for playing the game without the GUI/Users.
+     *
      * @throws IllegalArgumentException if number of players is not in [2,6]
      */
     public GameModel(ArrayList<Player> players) {
-        if(players.size()<2 || players.size()>6) throw new IllegalArgumentException("Number of players to big.");
+        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
         this.currentPlayer = players.get(0);
         this.players = players;
         this.map = null;
@@ -119,11 +119,10 @@ public class GameModel {
      */
     public void userCreateGame() {
         LinkedList<String> playerNames = getPlayerNames();
-        if(playerNames.size()<2) {
+        if (playerNames.size() < 2) {
             showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
             return;
-        }
-        else{
+        } else {
             players.clear();
             for (String player : playerNames) {
                 addPlayer(new Player(player));
@@ -210,15 +209,14 @@ public class GameModel {
 //    }
 
     /**
-     *
      * @param country
      * @param toAdd
      * @throws IllegalArgumentException if the country is invalid or toAdd is smaller than 1
      */
     public void placeCurrentPlayerReinforcements(String country, int toAdd) {
-        if(toAdd<1)
+        if (toAdd < 1)
             throw new IllegalArgumentException("The number of troops need to be greater than 0");
-        if(!currentPlayer.hasCountry(map.getCountry(country)))
+        if (!currentPlayer.hasCountry(map.getCountry(country)))
             throw new IllegalArgumentException("The player does not own this country");
 
         map.getCountry(country).addTroop(toAdd);
@@ -314,7 +312,7 @@ public class GameModel {
         }
 
         showMessage("Attacker lost " + lostAttackers + " troop(s), " +
-                        "defender lost " + lostDefenders + " troop(s).");
+                "defender lost " + lostDefenders + " troop(s).");
         if (defend.getTroops() == 0) {
             showMessage(attack.getName() + " takes " + defend.getName());
             ownerChange(defend, attack, troopSelect(1, attack.getTroops() - 1));
@@ -465,11 +463,11 @@ public class GameModel {
     public void printHelp() {
         showMessage(
                 "Game instructions: \n" +
-                "To attack, select the attack button and choose a defending and attacking country\n" +
-                "To end your turn, select the 'end' button\n" +
-                "To manually update the charts on the right, select the 'state' button\n" +
-                "To get help, select the 'help' button\n" +
-                "The current player is shown in the top left corner");
+                        "To attack, select the attack button and choose a defending and attacking country\n" +
+                        "To end your turn, select the 'end' button\n" +
+                        "To manually update the charts on the right, select the 'state' button\n" +
+                        "To get help, select the 'help' button\n" +
+                        "The current player is shown in the top left corner");
     }
 
     /**
@@ -534,7 +532,7 @@ public class GameModel {
      * Displays a message showing that it is the current player's turn
      */
     public void showCurrentPlayer() {
-        showMessage( "It is " + currentPlayer.getName() + "'s turn");
+        showMessage("It is " + currentPlayer.getName() + "'s turn");
     }
 
     /**
@@ -571,30 +569,31 @@ public class GameModel {
     }
 
     //Allows the tests to suppress these.
-    protected void showErrorPopUp(Exception e){
+    protected void showErrorPopUp(Exception e) {
         for (GameView v : gameViews) {
             v.ShowErrorPopUp(e);
         }
     }
+
     //Allows the tests to suppress these.
     protected void showMessage(String message) {
         for (GameView v : gameViews) {
-            v.handleMessageShow(new GameShowEvent(this,message));
+            v.handleMessageShow(new GameShowEvent(this, message));
         }
     }
 
     private int getIntInput(String message, String title) {
         int i = 1;
         for (GameView v : gameViews) {
-            i = v.getIntInput(new GetIntInputEvent(this,message,title));
+            i = v.getIntInput(new GetIntInputEvent(this, message, title));
         }
         return i;
     }
 
-    private LinkedList<String> getPlayerNames(){
+    private LinkedList<String> getPlayerNames() {
         LinkedList<String> arrayList = new LinkedList<>();
         for (GameView v : gameViews) {
-            arrayList= v.getPlayerNames();
+            arrayList = v.getPlayerNames();
         }
         return arrayList;
     }
