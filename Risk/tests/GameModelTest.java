@@ -77,31 +77,26 @@ class GameModelTest {
     @Test //Only tests Blitz Attack
     void playAttack() {
         //FIXME
-        GameModel model =  new GameModel(PLAYERS);
         DummyView view = new DummyView();
         model.addGameView(view);
-        Country attacker;
-        Country defender;
-
         Player currentPlayer= model.getCurrentPlayer();
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
+        Country attacker = perimeterCountries.get(0);
+        Country defender = attacker.getNeighbors().get(0);
 
         //Make sure attacker has more than one troop.
-        int index = 0;
-        attacker = perimeterCountries.get(index);
-        while(attacker.getTroops()==1){
-            index++;
-            attacker = perimeterCountries.get(index);
+        for(Country country: perimeterCountries){
+            if(country.getTroops()>1){
+                attacker = country;
+                break;
+            }
         }
-
         //Get a Possible Attack
-        index =0;
-        defender = attacker.getNeighbors().get(index);
-        while(currentPlayer.hasCountry(defender.getName())){
-            index++;
-            defender = attacker.getNeighbors().get(index);
+        for(Country country: attacker.getNeighbors()){
+            if(!currentPlayer.hasCountry(country)){
+                defender = country;
+            }
         }
-
         int initialTroops = attacker.getTroops() + defender.getTroops();
         model.playAttack(attacker.getName(),defender.getName(),true);
         assertNotEquals(initialTroops, attacker.getTroops() + defender.getTroops(), "A valid Attack Failed");
@@ -178,7 +173,7 @@ class GameModelTest {
 
 
     //Class used to mock GameView inputs.
-    private class DummyView implements GameView{
+    private static class DummyView implements GameView{
 
         private boolean threwException = false;
 

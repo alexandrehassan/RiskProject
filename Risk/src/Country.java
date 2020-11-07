@@ -92,4 +92,15 @@ public class Country {
     public String toString() {
         return name + "  Troops: " + troops;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if(!(o instanceof Country)) return false;
+        Country c = (Country) o;
+
+        if (!c.getName().equals(name)) return false;
+        if(!(c.getTroops()==troops)) return false;
+        return neighbors.containsAll(c.getNeighbors()) && c.getNeighbors().containsAll(neighbors);
+    }
 }
