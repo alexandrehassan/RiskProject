@@ -1,10 +1,15 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Matchers;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+//Mockito is used to mock gameModel to stub some functions.
+import static org.mockito.Mockito.*;
+
 
 class GameModelTest {
     private static final String PLAYER1 = "player 1";
@@ -74,9 +79,12 @@ class GameModelTest {
 
     @Test //Only tests Blitz Attack
     void playAttack() {
-        Player currentPlayer= model.getCurrentPlayer();
+        GameModel mocked =  spy(new GameModel(PLAYERS));
+        doNothing().when(mocked).showMessage(Matchers.anyString()) ;
+        Player currentPlayer= mocked.getCurrentPlayer();
 
-        Country attacker = currentPlayer.getPerimeterCountries().get(0);
+        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
+        Country attacker = perimeterCountries.get(0);
         //Get a Possible Attack
         int index =0;
         Country defender = attacker.getNeighbors().get(index);
@@ -84,8 +92,12 @@ class GameModelTest {
             index++;
         }
         int initialTroops = attacker.getTroops() + defender.getTroops();
-        model.playAttack(attacker.getName(),defender.getName(),true);
-        assertNotEquals(initialTroops, attacker.getTroops() + defender.getTroops());
+        mocked.playAttack(attacker.getName(),defender.getName(),true);
+        assertNotEquals(initialTroops, attacker.getTroops() + defender.getTroops(), "A valid Attack Failed");
+
+        attacker = currentPlayer.getPerimeterCountries().get(0);
+        defender = currentPlayer.getPerimeterCountries().get(1);
+
     }
 
     @Test
