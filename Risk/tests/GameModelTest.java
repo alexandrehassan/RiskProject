@@ -71,7 +71,8 @@ class GameModelTest {
     void putReinforcements() {
         Player currentPlayer= model.getCurrentPlayer();
         int beginningCount = currentPlayer.getNumberOfTroops();
-        model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),-1);
+        assertThrows(IllegalArgumentException.class,
+                ()-> model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),-1));
         assertEquals(beginningCount,currentPlayer.getNumberOfTroops(),"Number of troops was modified by negative number");
         model.placeCurrentPlayerReinforcements(currentPlayer.getPerimeterCountries().get(0).getName(),1); //Picks a random country.
         assertEquals(beginningCount+1,currentPlayer.getNumberOfTroops(),"Number of troops didn't go up");
@@ -79,6 +80,7 @@ class GameModelTest {
 
     @Test //Only tests Blitz Attack
     void playAttack() {
+        //FIXME
         GameModel mocked =  spy(new GameModel(PLAYERS));
         Country attacker;
         Country defender;
