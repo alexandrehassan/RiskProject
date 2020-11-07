@@ -120,7 +120,7 @@ public class GameModel {
     public void userCreateGame() {
         LinkedList<String> playerNames = getPlayerNames();
         if(playerNames.size()<2) {
-            showErrorPupUp(new IllegalArgumentException("Cannot have less than 2 players"));
+            showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
             return;
         }
         else{
@@ -245,7 +245,7 @@ public class GameModel {
                 performBlitzAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
             }
         } catch (Exception e) {
-            showErrorPupUp(e);
+            showErrorPopUp(e);
         }
     }
 
@@ -571,51 +571,32 @@ public class GameModel {
     }
 
     //Allows the tests to suppress these.
-    protected void showErrorPupUp(Exception e){
-        JOptionPane.showMessageDialog(null, e.getMessage());
+    protected void showErrorPopUp(Exception e){
+        for (GameView v : gameViews) {
+            v.ShowErrorPopUp(e);
+        }
     }
     //Allows the tests to suppress these.
     protected void showMessage(String message) {
-        JOptionPane.showMessageDialog(null, message);
+        for (GameView v : gameViews) {
+            v.handleMessageShow(new GameShowEvent(this,message));
+        }
     }
 
-    protected int getIntInput(String message, String title) {
-        return Integer.parseInt((String) JOptionPane.showInputDialog(
-                null,
-                message,
-                title,
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                ""));
+    private int getIntInput(String message, String title) {
+        int i = 1;
+        for (GameView v : gameViews) {
+            i = v.getIntInput(new GetIntInputEvent(this,message,title));
+        }
+        return i;
     }
 
-    protected LinkedList<String> getPlayerNames(){
-        ArrayList<JTextField> playerInput = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            playerInput.add(new JTextField());
+    private LinkedList<String> getPlayerNames(){
+        LinkedList<String> arrayList = new LinkedList<>();
+        for (GameView v : gameViews) {
+            arrayList= v.getPlayerNames();
         }
-
-        Object[] message = {
-                "Player 1", playerInput.get(0),
-                "Player 2", playerInput.get(1),
-                "Player 3", playerInput.get(2),
-                "Player 4", playerInput.get(3),
-                "Player 5", playerInput.get(4),
-                "Player 6", playerInput.get(5),
-        };
-        LinkedList<String> currentPlayers = new LinkedList<>();
-        int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_OPTION) {
-            String playerName;
-            for (JTextField jTextField : playerInput) {
-                playerName = jTextField.getText().trim();
-                if (!playerName.equals("")) {
-                    currentPlayers.add(playerName);
-                }
-            }
-        }
-        return currentPlayers;
+        return arrayList;
     }
 
 }

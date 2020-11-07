@@ -1,15 +1,11 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Matchers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-//Mockito is used to mock gameModel to stub some functions.
-import static org.mockito.Mockito.*;
-
 
 class GameModelTest {
     private static final String PLAYER1 = "player 1";
@@ -81,16 +77,13 @@ class GameModelTest {
     @Test //Only tests Blitz Attack
     void playAttack() {
         //FIXME
-        GameModel mocked =  spy(new GameModel(PLAYERS));
+        GameModel model =  new GameModel(PLAYERS);
+        DummyView view = new DummyView();
+        model.addGameView(view);
         Country attacker;
         Country defender;
 
-        //Suppress dialogs/mock inputs.
-        doNothing().when(mocked).showMessage(Matchers.anyString());
-        when(mocked.troopSelect(anyInt(),anyInt())).thenReturn(1);
-        doThrow(new IllegalArgumentException()).when(mocked).showErrorPupUp(Matchers.any());
-
-        Player currentPlayer= mocked.getCurrentPlayer();
+        Player currentPlayer= model.getCurrentPlayer();
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
 
         //Make sure attacker has more than one troop.
@@ -110,7 +103,7 @@ class GameModelTest {
         }
 
         int initialTroops = attacker.getTroops() + defender.getTroops();
-        mocked.playAttack(attacker.getName(),defender.getName(),true);
+        model.playAttack(attacker.getName(),defender.getName(),true);
         assertNotEquals(initialTroops, attacker.getTroops() + defender.getTroops(), "A valid Attack Failed");
 
 
@@ -120,9 +113,10 @@ class GameModelTest {
         Country finalAttacker = attacker;
         Country finalDefender = defender;
 
-        assertThrows(IllegalArgumentException.class,()->
-                mocked.playAttack(finalAttacker.getName(),
-                        finalDefender.getName(),true));
+        model.playAttack(finalAttacker.getName(),
+                finalDefender.getName(),true);
+        assertTrue(view.isThrewException());
+
     }
 
     @Test
@@ -131,7 +125,6 @@ class GameModelTest {
 
     @Test
     void playerOwns() {
-        Player p1 = model.getCurrentPlayer();
         ArrayList<Country> p1OutsideCountries = model.getCurrentPlayer().getPerimeterCountries();
         for (Country outsideCountry : p1OutsideCountries) {
             assertTrue(model.playerOwns(outsideCountry.getName()),
@@ -181,5 +174,61 @@ class GameModelTest {
                 "Errored but modified the number of troops anyway");
         assertEquals(playerReinforcements,model.getCurrentPlayerReinforcements(),
                 "Errored but modified the number of reinforcements left to place anyway");
+    }
+
+
+    //Class used to mock GameView inputs.
+    private class DummyView implements GameView{
+
+        private boolean threwException = false;
+
+        @Override
+        public void handleGameStart(GameStartEvent gameModel) { }
+
+        @Override
+        public void handleStateUpdate(PlayerStateEvent playerState) { }
+
+        @Override
+        public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) { }
+
+        @Override
+        public void handleOwnerChange(OwnerChangeEvent ownerChange) { }
+
+        @Override
+        public void handleTurnStateChange(TurnStateEvent turnState) { }
+
+        @Override
+        public void handleResetView() { }
+
+        @Override
+        public void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent) { }
+
+        @Override
+        public void handleGameOver(GameOverEvent gameOverEvent) {}
+
+        @Override
+        public void handleMessageShow(GameShowEvent gameShowEvent) { }
+
+        @Override
+        public int getIntInput(GetIntInputEvent getIntInputEvent) {
+            return 1;
+        }
+
+        @Override
+        public LinkedList<String> getPlayerNames() { return null; }
+
+        @Override
+        public void ShowErrorPopUp(Exception e){
+            System.out.println(e.getMessage());
+            threwException = true;
+        }
+
+        public void resetException(){
+            threwException=false;
+        }
+        public boolean isThrewException(){
+            return threwException;
+        }
+
     }
 }

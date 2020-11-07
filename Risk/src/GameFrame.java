@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * This class is part of the game of RISK, the term
@@ -476,6 +477,57 @@ public class GameFrame extends JFrame implements GameView {
     @Override
     public void handleGameOver(GameOverEvent gameOverEvent) {
         JOptionPane.showMessageDialog(this, gameOverEvent.getWinner().getName() + " won the Game");
+    }
+
+    @Override
+    public void handleMessageShow(GameShowEvent gameShowEvent) {
+        JOptionPane.showMessageDialog(null, gameShowEvent.getMessage());
+    }
+
+    @Override
+    public int getIntInput(GetIntInputEvent getIntInputEvent) {
+        return Integer.parseInt((String) JOptionPane.showInputDialog(
+                null,
+                getIntInputEvent.getMessage(),
+                getIntInputEvent.getTitle(),
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                ""));
+    }
+
+    @Override
+    public LinkedList<String> getPlayerNames() {
+        ArrayList<JTextField> playerInput = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            playerInput.add(new JTextField());
+        }
+
+        Object[] message = {
+                "Player 1", playerInput.get(0),
+                "Player 2", playerInput.get(1),
+                "Player 3", playerInput.get(2),
+                "Player 4", playerInput.get(3),
+                "Player 5", playerInput.get(4),
+                "Player 6", playerInput.get(5),
+        };
+        LinkedList<String> currentPlayers = new LinkedList<>();
+        int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            String playerName;
+            for (JTextField jTextField : playerInput) {
+                playerName = jTextField.getText().trim();
+                if (!playerName.equals("")) {
+                    currentPlayers.add(playerName);
+                }
+            }
+        }
+        return currentPlayers;
+    }
+
+    @Override
+    public void ShowErrorPopUp(Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
     }
 
     public void handleStateUpdate(PlayerStateEvent playerState) {

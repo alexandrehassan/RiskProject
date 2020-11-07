@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 /**
  * This class is part of the game of RISK, the term
  * project for SYSC3110 that emulates the original game of RISK
@@ -26,4 +28,12 @@ public interface GameView {
     void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent);
 
     void handleGameOver(GameOverEvent gameOverEvent);
+
+    void handleMessageShow(GameShowEvent gameShowEvent);
+
+    int getIntInput(GetIntInputEvent getIntInputEvent);
+
+    LinkedList<String> getPlayerNames();
+
+    void ShowErrorPopUp(Exception e);
 }
