@@ -6,11 +6,11 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * The Player class represents the individual players in the Risk game.
  * Each player has a name, a list of countries they own and whether or not they have been eliminated.
- *
+ * <p>
  * The state of the player evolves as they acquire or lose countries.
  *
- * @version 17-10-2020
  * @author Team Group - Alexandre Hassan, Jonah Gaudet
+ * @version 17-10-2020
  */
 
 public class Player {
@@ -19,10 +19,11 @@ public class Player {
 
     /**
      * Default constructor for the class Player.
+     *
      * @param name the name of the player.
      */
     public Player(String name) {
-        if(name == null) throw new IllegalArgumentException("Player name cannot be null");
+        if (name == null) throw new IllegalArgumentException("Player name cannot be null");
         if (name.trim().equals("")) {
             throw new IllegalArgumentException("Player name cannot be empty");
         }
@@ -32,22 +33,23 @@ public class Player {
 
     /**
      * Adds a country to the ones owned by the Player
+     *
      * @param country country to be added to the player's countries.
      */
-    public void addCountry(Country country){
+    public void addCountry(Country country) {
         countries.add(country);
     }
 
     public void assignBeginningTroops(int beginningTroops) {
         //To stop too many troops from being assigned to a single country we set a max number of troops on one country
         //The maximum should be at least 4
-        int maxTroops = Math.max(beginningTroops/countries.size() + 2, 4);
+        int maxTroops = Math.max(beginningTroops / countries.size() + 2, 4);
 
         int random;
         int assigned = countries.size();
-        while (assigned<beginningTroops) {
-            random = ThreadLocalRandom.current().nextInt(0,countries.size());
-            if(countries.get(random).getTroops() < maxTroops){
+        while (assigned < beginningTroops) {
+            random = ThreadLocalRandom.current().nextInt(0, countries.size());
+            if (countries.get(random).getTroops() < maxTroops) {
                 countries.get(random).addTroop(1);
                 assigned++;
             }
@@ -56,34 +58,37 @@ public class Player {
 
     /**
      * Gives the name of Player
+     *
      * @return the name of the player.
      */
-    public String getName () {
+    public String getName() {
         return name;
     }
 
     /**
      * Whether or not the player is eliminated
+     *
      * @return True if Eliminated, False otherwise
      */
-    public boolean isEliminated () {
-        return countries.size() ==0;
+    public boolean isEliminated() {
+        return countries.size() == 0;
     }
-
 
     /**
      * Gives the number of countries owned by Player.
+     *
      * @return the size of countries.
      */
-    public int numberOfCountries(){
+    public int numberOfCountries() {
         return countries.size();
     }
 
     /**
      * Removes a country from the countries player owns.
+     *
      * @param c the country to be removed.
      */
-    public void lost(Country c){
+    public void lost(Country c) {
         countries.remove(c);
     }
 
@@ -93,7 +98,7 @@ public class Player {
      * @param country the name of the country to be checked.
      * @return True if the player owns the country False otherwise
      */
-    public boolean hasCountry (Country country) {
+    public boolean hasCountry(Country country) {
         return countries.contains(country);
     }
 
@@ -103,8 +108,7 @@ public class Player {
      * @param country the name of the country to be checked.
      * @return True if the player owns the country False otherwise
      */
-    public boolean hasCountry (String country) {
-
+    public boolean hasCountry(String country) {
         for (Country c : countries) {
             if (c.getName().equals(country)) {
                 return true;
@@ -119,25 +123,26 @@ public class Player {
      * @param countries the countries to be checked
      * @return True if the player owns the countries False otherwise
      */
-    public boolean hasCountries (ArrayList<Country> countries) {
+    public boolean hasCountries(ArrayList<Country> countries) {
         return this.countries.containsAll(countries);
     }
 
     /**
      * Returns the current state of the player.
+     *
      * @return a string with the current state of the player.
      */
-    public String getInfo(){
+    public String getInfo() {
         StringBuilder stringBuilder = new StringBuilder("[" + name + "]\n");
 
-        for (Country country: countries) stringBuilder.append(country.toString()).append("\n");
+        for (Country country : countries) stringBuilder.append(country.toString()).append("\n");
         return stringBuilder.toString();
     }
 
     /**
      * Sorts the players countries in alphabetical order.
      */
-    public void sortCountries () {
+    public void sortCountries() {
         countries.sort(Comparator.comparing(Country::getName));
     }
 
@@ -145,11 +150,11 @@ public class Player {
      * Checks if a path is owned by this player between the two countries (i.e. if it is possible to move troops from
      * start - finish.
      *
-     * @param start starting country
+     * @param start  starting country
      * @param finish destination country
      * @return true if there is a path that exists between start and finish that is owned by Player
      */
-    public boolean pathExists (Country start, Country finish) {
+    public boolean pathExists(Country start, Country finish) {
         if (!(countries.contains(start) && countries.contains(finish))) return false;
         ArrayList<Country> accessibleCountries = new ArrayList<>();
         accessibleCountries.add(start);
@@ -161,11 +166,11 @@ public class Player {
     /**
      * Helper method that gets the accessible countries iteratively
      *
-     * @param country the starting country
-     * @param goal the destination
+     * @param country             the starting country
+     * @param goal                the destination
      * @param accessibleCountries every accessible country.
      */
-    private void getAccessibleCountries (Country country, Country goal, ArrayList<Country> accessibleCountries) {
+    private void getAccessibleCountries(Country country, Country goal, ArrayList<Country> accessibleCountries) {
         for (Country neighbor : country.getNeighbors()) {
             if (!countries.contains(neighbor)) continue;
             if (neighbor.equals(goal)) {
@@ -181,34 +186,45 @@ public class Player {
 
     /**
      * Gets all of the countries that are on the outer perimeter of a player's territory.
+     *
      * @return an Array Containing all exterior countries.
      */
-    public ArrayList<Country> getPerimeterCountries(){
+    public ArrayList<Country> getPerimeterCountries() {
         ArrayList<Country> perimeterCountries = new ArrayList<>();
-        for (Country c: countries) {
+        for (Country c : countries) {
             if (!countries.containsAll(c.getNeighbors())) perimeterCountries.add(c);
         }
         return perimeterCountries;
     }
 
-    /**
-     * Gives all of the player's countries in one string with each country being on a new line.
-     * @return all the countries as a string.
-     */
-    public String getCountriesString(){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(Country country: countries){
-            stringBuilder.append(country).append("\n");
+    public int getNumberOfTroops() {
+        int count = 0;
+        for (Country country : countries) {
+            count+=country.getTroops();
         }
-        return stringBuilder.toString();
+        return count;
     }
 
-    /**
-     * Returns a linked list of all the countries
-     * @return all the countries in a linked list
-     */
-    public LinkedList<Country> getCountries () {
-        return countries;
-    }
+//    /**
+//     * Gives all of the player's countries in one string with each country being on a new line.
+//     *
+//     * @return all the countries as a string.
+//     */
+//    public String getCountriesString() {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (Country country : countries) {
+//            stringBuilder.append(country).append("\n");
+//        }
+//        return stringBuilder.toString();
+//    }
+
+//    /**
+//     * Returns a linked list of all the countries
+//     *
+//     * @return all the countries in a linked list
+//     */
+//    public LinkedList<Country> getCountries() {
+//        return countries;
+//    }
 
 }

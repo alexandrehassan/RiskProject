@@ -7,14 +7,14 @@ import java.util.HashMap;
  * Map class
  * Map creates a new map, and loads it with the countries and sets each country's neighbors
  * Map creates continents
+ *
  * @author Baillie Noell, Sarah Abdallah, Jonah Gaudet, Alexandre Hassan - Team Group
  * @version 4: Oct 19 2020
- *
  */
 
 public class Map {
-    private final HashMap<String,Country> countries;
-    private final HashMap<String,Continent> continents;
+    private final HashMap<String, Country> countries;
+    private final HashMap<String, Continent> continents;
 
     //Countries
     //North America
@@ -104,11 +104,11 @@ public class Map {
         countries.put(GREENLAND, new Country(GREENLAND));
         countries.put(NORTHWEST_TERRITORY, new Country(NORTHWEST_TERRITORY));
         countries.put(ONTARIO, new Country(ONTARIO));
-        countries.put(QUEBEC ,new Country(QUEBEC));
-        countries.put(WESTERN_UNITED_STATES ,new Country(WESTERN_UNITED_STATES));
+        countries.put(QUEBEC, new Country(QUEBEC));
+        countries.put(WESTERN_UNITED_STATES, new Country(WESTERN_UNITED_STATES));
 
         //South America
-        countries.put(ARGENTINA ,new Country(ARGENTINA));
+        countries.put(ARGENTINA, new Country(ARGENTINA));
         countries.put(BRAZIL, new Country(BRAZIL));
         countries.put(PERU, new Country(PERU));
         countries.put(VENEZUELA, new Country(VENEZUELA));
@@ -125,7 +125,7 @@ public class Map {
         //Africa
         countries.put(CONGO, new Country(CONGO));
         countries.put(EAST_AFRICA, new Country(EAST_AFRICA));
-        countries.put(EGYPT,new Country(EGYPT));
+        countries.put(EGYPT, new Country(EGYPT));
         countries.put(MADAGASCAR, new Country(MADAGASCAR));
         countries.put(NORTH_AFRICA, new Country(NORTH_AFRICA));
         countries.put(SOUTH_AFRICA, new Country(SOUTH_AFRICA));
@@ -257,21 +257,21 @@ public class Map {
      */
     private void loadContinents() {
         //Continents
-        String[] NORTH_AMERICA_COUNTRIES = {ALASKA,ALBERTA,CENTRAL_AMERICA,EASTERN_UNITED_STATES,
-                GREENLAND,NORTHWEST_TERRITORY,ONTARIO,QUEBEC,WESTERN_UNITED_STATES};
+        String[] NORTH_AMERICA_COUNTRIES = {ALASKA, ALBERTA, CENTRAL_AMERICA, EASTERN_UNITED_STATES,
+                GREENLAND, NORTHWEST_TERRITORY, ONTARIO, QUEBEC, WESTERN_UNITED_STATES};
 
-        String[] SOUTH_AMERICA_COUNTRIES = {ARGENTINA,BRAZIL,PERU,VENEZUELA};
+        String[] SOUTH_AMERICA_COUNTRIES = {ARGENTINA, BRAZIL, PERU, VENEZUELA};
 
-        String[] EUROPE_COUNTRIES ={GREAT_BRITAIN,ICELAND,NORTHERN_EUROPE,SCANDINAVIA,SOUTHERN_EUROPE,UKRAINE,WESTERN_EUROPE};
+        String[] EUROPE_COUNTRIES = {GREAT_BRITAIN, ICELAND, NORTHERN_EUROPE, SCANDINAVIA, SOUTHERN_EUROPE, UKRAINE, WESTERN_EUROPE};
 
-        String[] AFRICA_COUNTRIES = {CONGO,EAST_AFRICA,EGYPT,MADAGASCAR,NORTH_AFRICA,SOUTH_AFRICA};
+        String[] AFRICA_COUNTRIES = {CONGO, EAST_AFRICA, EGYPT, MADAGASCAR, NORTH_AFRICA, SOUTH_AFRICA};
 
-        String[] ASIA_COUNTRIES ={AFGHANISTAN,CHINA,INDIA,IRKUTSK,JAPAN,KAMCHATKA,MIDDLE_EAST,MONGOLIA,SIAM,SIBERIA,URAL,YAKUTSK};
+        String[] ASIA_COUNTRIES = {AFGHANISTAN, CHINA, INDIA, IRKUTSK, JAPAN, KAMCHATKA, MIDDLE_EAST, MONGOLIA, SIAM, SIBERIA, URAL, YAKUTSK};
 
-        String[] AUSTRALIA_COUNTRIES ={EASTERN_AUSTRALIA,INDONESIA,NEW_GUINEA,WESTERN_AUSTRALIA};
+        String[] AUSTRALIA_COUNTRIES = {EASTERN_AUSTRALIA, INDONESIA, NEW_GUINEA, WESTERN_AUSTRALIA};
 
-        continents.put(NORTH_AMERICA,new Continent(NORTH_AMERICA, 5));
-        continents.put(SOUTH_AMERICA,new Continent(SOUTH_AMERICA, 2));
+        continents.put(NORTH_AMERICA, new Continent(NORTH_AMERICA, 5));
+        continents.put(SOUTH_AMERICA, new Continent(SOUTH_AMERICA, 2));
         continents.put(EUROPE, new Continent(EUROPE, 5));
         continents.put(AFRICA, new Continent(AFRICA, 3));
         continents.put(ASIA, new Continent(ASIA, 7));
@@ -288,12 +288,13 @@ public class Map {
 
     /**
      * Gets the country objects for all the countries with the given names.
+     *
      * @param toGet an Array containing the names of every country to return
      * @return an array of country objects.
      */
-    private ArrayList<Country> getCountries(String[] toGet){
+    private ArrayList<Country> getCountries(String[] toGet) {
         ArrayList<Country> found = new ArrayList<>();
-        for(String countryString :toGet){
+        for (String countryString : toGet) {
             found.add(countries.get(countryString));
         }
         return found;
@@ -301,21 +302,23 @@ public class Map {
 
     /**
      * Gives the country object of the country with the given name.
+     *
      * @param name the name of the country
      * @return the country object with the correct name.
      * @throws IllegalArgumentException if there is no country with name name.
      */
-    public Country getCountry(String name){
-        Country country =countries.get(name);
-        if (country!=null) return country;
+    public Country getCountry(String name) {
+        Country country = countries.get(name);
+        if (country != null) return country;
         throw new IllegalArgumentException(name + " is not a valid country");
     }
 
     /**
      * Gives all the continents of the map.
+     *
      * @return ArrayList of continents.
      */
-    public ArrayList<Continent> getContinents(){
+    public ArrayList<Continent> getContinents() {
         ArrayList<Continent> continentArrayList = new ArrayList<>();
         for (String key : continents.keySet()) {
             continentArrayList.add(continents.get(key));
@@ -325,21 +328,23 @@ public class Map {
 
     /**
      * Gives the continent object of the country with the given name.
+     *
      * @param name the name of the continent
      * @return the continent object with the correct name.
      * @throws IllegalArgumentException if there is no continent with name name.
      */
     public Continent getContinent(String name) {
         Continent continent = continents.get(name);
-        if(continent!=null) return continent;
+        if (continent != null) return continent;
         throw new IllegalArgumentException(name + " is not a valid continent");
     }
 
     /**
      * Shuffles the keys of the countries and returns them as an array.
+     *
      * @return an Array containing all the keys in a random order.
      */
-    public ArrayList<String> getShuffledKeys () {
+    public ArrayList<String> getShuffledKeys() {
         ArrayList<String> keys = new ArrayList<>(countries.keySet());
         Collections.shuffle(keys);
         return keys;
