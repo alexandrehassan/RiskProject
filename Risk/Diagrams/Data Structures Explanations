@@ -34,7 +34,8 @@ Player:
             be greyed out.)
 
 
-Game:
+GameModel:
+
     players: ArrayList<Players>
         we needed some sort of list in order to be able to hold multiple objects without creating different
         variables for each Player in the game.
@@ -51,10 +52,18 @@ Game:
         have need to players.get(index) which would add unneccesary code (using player.whatever() shows what is going on
         in way simpler terms then players.get(index).whatever())
 
-    parser: Parser
+    currentPlayerReinforcements: int
+        At the beginning of each turn, there is a phase where the player can add reinforcements to their controlled countries.
+        When a new player is reached, this field is updated to contain the number of troops to be added, and decreases as the
+        player places troops using the GUI.
 
     map : Map
         not affected too much. The countries list is mostly used in the creation of the map where there are a lot of additions.
+
+    gameViews : ArrayList<GameView>
+        We need a way to keep track of and update all the view associated with this game model. We decided to store these views
+        in an ArrayList so we could quickly and easily iterate over and update the views when any changes were made that should
+        be reflected to the user through said views.
 
 Country:
     neighbor: ArrayList<Country>
@@ -80,23 +89,71 @@ Continent:
     reinforcements: int
         this represents the bonus given when a player owns a continent. It should never change and as such is final.
 
+GameController:
+    REINFORCEMENT_STATE, ATTACK_STATE, MOVEMENT_STATE : private final static int
+        These constants are used to keep track of the current state of the game. The reinforcement state is defined as 0,
+        the attack is 1, and the movement state is 2 (the same order that they occur in a turn). The state can be incremented
+        by simply adding one to the state and reverting back to 0 once '3' is reached
 
-Parser:
-    reader : Scanner
-        Imported from 'java.util.Scanner.' Allows parser to read the input from the command line,
-        which is then modified and transformed into an interpretable command
 
-    commandWords : CommandWords
-        Class created for this project. Used to check if the first word entered falls under the
-        category of recognized 'command words' and creates a command accordingly
+    gameModel: GameModel
+        This field contains the GameModel that the controller sends commands to based on the inputs. Only the methods that
+        should be reached by the controller are made as public to control the actions the user can take.
 
-Command:
-    commandWord : String
-        The 'main' word that must match one of the designated words from CommandWords. It is this
-        'main' command word that decides what happens next once the Command is received
+    from: String
+        Both the attack and movement state require two countries to be selected. This field contains the name of the country
+        that it is performing the action 'from' (attacking from, moving from). It is set to "" once the operation is completed.
 
-CommandWords:
-    validCommands : String[]
-        An array of strings that contains all recognized command words. Stored as a string so it
-        can be checked for equality with other strings, and stored in an array so it can be
-        modified and set prior to the program being run
+    to: String
+        Both the attack and movement state require two countries to be selected. This field contains the name of the country
+        that is the recipient of the intended action (being attacking, troops being moved 'to'). It is also set to "" once the
+        operation has been completed.
+
+    state: int
+        We need a way to keep track of the current state of the game model. This is done with an integer field that denotes
+        the game's current state, and references the final fields REINFORCEMENT_STATE, ATTACK_STATE, and MOVEMENT_STATE to
+        determine what the current state is. State is incremented as needed / as turn states are finished.
+
+GameFrame:
+    playersInfo: ArrayList<JTextArea>
+        This field is an ArrayList of JTextAreas. These JTextAreas contained by the ArrayList are seen on the right side
+        of the game screen, and are updated to display the countries owned by various players in the game. These
+        JTextAreas cannot be modified by the user, and are only changed by events updating the views from the GameModel.
+        There are 6 of these JTextAreas, and the ones not used (if there are fewer than 6 players) are disabled and ignored.
+
+    updateLine: JLabel
+        This field displays information to the user. It is updated as needed to display basic instructions (such as the
+        number of reinforcements to place, whether to attack/move, etc) and whose turn it currently is.
+
+    playerTurnInfo: String
+        This field contains a string denoting the current player. It is used to make updating the updateLine easier, and
+        having the call two events at once to update said line.
+
+
+    buttons : ArrayList<JButton>
+        We need a way to update the different buttons on the board. Instead of having a separate field for all the buttons,
+        we combined them in an ArrayList to make adding and removing buttons easier on the developer end. There will also
+        be very little addition / deletion at runtime, so we chose not to use LinkedList as there would be no discernible
+        benefit.
+
+    board: mxGraphComponent
+        We used a series of external libraries to create an interactive board, which generates events when clicked at a
+        certain spot. When a game is created, a method in GameFrame creates the board using the constants from the Map
+        class and manually chosen position elements. An improvement for Milestone 4 will be to automatically generate
+        the map using the provided Map variable, and use another library to automatically create a readable layout for
+        the board
+
+
+    gameController: GameController
+        This is the controller that receives and interprets any and all events generated by the GameFrame or its fields.
+        These events can be ActionEvents or MousePressed events. It is created in the constructor, and the board field
+        is added once the board is created. There is no opportunity for unrecognized commands, as the board is the only
+        element of the GameFrame that creates MousePressed events.
+
+    boardPanel: JPanel
+        This is the panel that contains the game board. It was given its own panel as the implementation of the
+        board required many different iterations, and adding it's own panel made it easier to recognize and track
+        down any issues.
+
+    graph: mxGraph
+        This is used in the construction of the graph, used to generate the board, and not touched after that.
