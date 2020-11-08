@@ -98,3 +98,13 @@ Removed the unused constructor.
             getPlayerNames
         those are all events that are sent to the views. The tests for gameModel create a dummyView that simulates
         this behavior while allowing the tests to run without a tester clicking anything.
+
+
+GameController:
+    To change -> use an enum instead of ints for the state (similar to 6)
+    Game controller implements a finite state machine. it has three states each corresponding to a phase of a turn of risk
+    It grabs mouseclicks and checks if there is a cell(country) there and if there is it choose the apropriate commands to game model
+    when certain conditions are met it changes to the next state (once there are not reinforcements left or after one optional movement
+    the player can choose to go to the next state by pressing the appropriate button.
+
+    It also handles the menu clicks (rn there is only new game but more options can/will be added).
