@@ -18,7 +18,7 @@ Changes to classes since M1:
 
 Changes in Map:
     Changed countries and continents to hashmaps
-        fast addition and lookup(since the keys are the names of the countries.
+        fast addition and lookup(since the keys are the names of the countries).
     Made the add neighbor add the neighbors both ways (A-B and B-A at once instead of two calls).
     Removed printMap as it isn't used anymore
     loadContinents is not done with an array of names instead of indexes.
@@ -31,3 +31,70 @@ Country:
     added hasNeighbor to remove the needs to do country.getNeighbors.contains(A) instead we can
         simply do country.hasNeighbor which ?reduces? the coupling of our classes.
 
+Player:
+    renamed removeCountry to lost.
+    removed getCountrySize
+    modified the class to remove the need for the eliminated field (isEliminated simply returns true if the player has
+        no countries.
+        Removing the need for checkEliminated and setEliminated.
+    Added a method hasCountries to make reinforcement calculation clearer and ?reduce? coupling of our classes(
+        instead of currentPlayer.getCountries().containsAll(continent.getCountries()) which gets an list of countries
+        from player and continent we get currentPlayer.hasCountries(continent.getCountries()) which passes the list
+        of continents of the continent into Player meaning we don't need to know how countries is stored in player.)
+    Added getInfo that allows to quickly create a String containing the state of the player.
+    added sortCountries
+    added a method to find the perimeter Countries allowing for better automatic troop placement (will be used more later,
+        but was also used while testing.)
+
+
+GameModel (formally Game):
+Removed the unused constructor.
+    removed field parser
+
+    Added fields:
+        currentPlayerReinforcements
+            to not check for the number of reinforcements multiple times in a turn.
+        gameViews
+
+    Added For MVC model:
+        addGameView
+        userCreateGame
+        playerOwns
+
+        Event handling:
+            updateGameViewsStart
+            resetView
+            updateGameViewsTurnState
+            updateGameViewsState
+            updateGameViewsOwnerChange
+            updatePlayerTurn
+            handlePlayerElimination
+            handleGameOver
+
+    Updated but same *logic*:
+        generateGame
+        getReinforcements (no longer auto places them, now actually implemented.)
+        putReinforcements(used to be putReinforcements)
+        printHelp
+        getCurrentPlayerReinforcements
+        placeCurrentPlayerReinforcements
+
+    Removed methods:
+        processCommand
+        getRemainingPlayers
+        temporary removal of autoPutReinforcements (not used)
+
+    playAttack was modified to accommodate the MVC model and a blitz attack option was added.
+    option to move troops using strings instead of countries was added.
+    nextPlayer has a flag to check if the game is started in order to suppress some messages and the game over checks.
+
+    Added in order to be able to run tests:
+        getCurrentPlayer
+
+        In order to be able to suppress popups (JOptionPanes)
+            showErrorPopUp
+            showMessage
+            getIntInput
+            getPlayerNames
+        those are all events that are sent to the views. The tests for gameModel create a dummyView that simulates
+        this behavior while allowing the tests to run without a tester clicking anything.
