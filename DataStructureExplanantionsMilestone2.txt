@@ -1,0 +1,33 @@
+Changes to classes since M1:
+    Removal of
+        -Command
+        -CommandWords
+        -Parser
+    Renamed
+        -Game -> GameModel
+    Additions
+        -GameController
+        -GameFrame
+        Events:
+            -GameOverEvent
+            -GameStartEvent
+            -OwnerChangeEvent
+            -PlayerEliminatedEvent
+            -PlayerStateEvent
+            -TurnStateEvent
+
+Changes in Map:
+    Changed countries and continents to hashmaps
+        fast addition and lookup(since the keys are the names of the countries.
+    Made the add neighbor add the neighbors both ways (A-B and B-A at once instead of two calls).
+    Removed printMap as it isn't used anymore
+    loadContinents is not done with an array of names instead of indexes.
+
+Continent:
+    now adds an array of countries all at once instead of in multiple calls.
+
+Country:
+    *Made the add neighbor add the neighbors both ways (A-B and B-A at once instead of two calls).*
+    added hasNeighbor to remove the needs to do country.getNeighbors.contains(A) instead we can
+        simply do country.hasNeighbor which ?reduces? the coupling of our classes.
+
