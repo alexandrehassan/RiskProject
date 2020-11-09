@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * This class is part of the game of RISK, the term
@@ -140,6 +139,9 @@ public class GameFrame extends JFrame implements GameView {
         this.setVisible(true);
     }
 
+    /**
+     * Creates the menuBar and add it to the frame
+     */
     private void makeMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu gameMenu = new JMenu("Game");
@@ -350,6 +352,11 @@ public class GameFrame extends JFrame implements GameView {
         graph.insertEdge(graph.getDefaultParent(), "", "", vertex1, vertex2, EDGE_STYLE + color);
     }
 
+    /**
+     * Gets the desired colour based on the player's index
+     * @param playerIndex .
+     * @return the colour to use as a String
+     */
     private String getColorForPlayerIndex(int playerIndex) {
         return switch (playerIndex) {
             case 1 -> PLAYER2;
@@ -361,6 +368,10 @@ public class GameFrame extends JFrame implements GameView {
         };
     }
 
+    /**
+     * Handles the start of the game
+     * @param gameModel a GameStartEvent
+     */
     public void handleGameStart(GameStartEvent gameModel) {
         ArrayList<Player> players = gameModel.getPlayers();
 
@@ -388,6 +399,10 @@ public class GameFrame extends JFrame implements GameView {
         updateColors(gameModel.getPlayers());
     }
 
+    /**
+     * Updates the colours of the nodes in the board
+     * @param players the players in the game
+     */
     private void updateColors(ArrayList<Player> players) {
         mxGraph graph = board.getGraph();
         Object[] cells = graph.getChildVertices(graph.getDefaultParent());
@@ -404,6 +419,16 @@ public class GameFrame extends JFrame implements GameView {
         }
     }
 
+    /**
+     * Returns a GridBagConstraints, avoids duplicated code and only takes in the field that
+     * may vary within this frame
+     * @param gridX gridX value
+     * @param gridY gridY value
+     * @param gridWidth gridWidth value
+     * @param gridHeight gridHeight value
+     * @param fill fill value
+     * @return a GridBagConstraints to use
+     */
     public GridBagConstraints getConstraints(int gridX, int gridY, int gridWidth, int gridHeight, int fill) {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = gridX;
@@ -415,6 +440,10 @@ public class GameFrame extends JFrame implements GameView {
         return c;
     }
 
+    /**
+     * Updates the player who's turn it it, changes GUI accordingly
+     * @param playerTurn a PlayerTurnEvent
+     */
     public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
         playerTurnInfo = "It is " + playerTurn.getName() + "'s turn. ";
         updateLine.setText(playerTurnInfo);
@@ -427,6 +456,10 @@ public class GameFrame extends JFrame implements GameView {
         }
     }
 
+    /**
+     * Updates the state of the current player's turn, updates the label
+     * @param turnState a TurnStateEvent
+     */
     public void handleTurnStateChange(TurnStateEvent turnState) {
         for (JButton b : buttons) {
             b.setEnabled(false);
@@ -454,6 +487,9 @@ public class GameFrame extends JFrame implements GameView {
         }
     }
 
+    /**
+     * Handles the complete reset of the view concerning the player info text areas
+     */
     @Override
     public void handleResetView() {
         for (int i = 0; i < playersInfo.size(); i++) {
@@ -464,6 +500,10 @@ public class GameFrame extends JFrame implements GameView {
         }
     }
 
+    /**
+     * Handles the elimination of a player
+     * @param eliminatedEvent a PlayerEliminatedEvent
+     */
     @Override
     public void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent) {
         int index = eliminatedEvent.getPlayerNumber();
@@ -474,15 +514,27 @@ public class GameFrame extends JFrame implements GameView {
 
     }
 
+    /**
+     * Handles the end of a game
+     * @param gameOverEvent a GameOverEvent
+     */
     @Override
     public void handleGameOver(GameOverEvent gameOverEvent) {
         JOptionPane.showMessageDialog(this, gameOverEvent.getWinner().getName() + " won the Game");
     }
 
+    /**
+     * Updates the state a player by their order
+     * @param playerState a PlayerStateEvent
+     */
     public void handleStateUpdate(PlayerStateEvent playerState) {
         playersInfo.get(playerState.getOrder()).setText(playerState.getInfo());
     }
 
+    /**
+     * Updates the owner (a player) of a country with a certain ID
+     * @param ownerChange a OwnerChangeEvent
+     */
     public void handleOwnerChange(OwnerChangeEvent ownerChange) {
         mxGraph graph = board.getGraph();
         Object[] cells = graph.getChildVertices(graph.getDefaultParent());

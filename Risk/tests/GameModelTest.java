@@ -79,7 +79,7 @@ class GameModelTest {
     @Test//Only tests Blitz Attack TODO: Test other attacks.
     void playAttack() {
 
-        Player currentPlayer = model.getCurrentPlayer();
+        Player currentPlayer = (Player) model.getCurrentPlayer();
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         Country attacker = perimeterCountries.get(0);
         Country defender = attacker.getNeighbors().get(0);
@@ -170,8 +170,6 @@ class GameModelTest {
         assertEquals(playerReinforcements, model.getCurrentPlayerReinforcements(),
                 "Errored but modified the number of reinforcements left to place anyway");
     }
-
-
     public class DummyModel extends GameModel {
 
         public DummyModel(ArrayList<Player> players) {
@@ -194,4 +192,5 @@ class GameModelTest {
         public void showMessage(String message) {
         }
     }
+
 }

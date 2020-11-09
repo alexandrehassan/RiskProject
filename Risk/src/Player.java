@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -204,6 +205,25 @@ public class Player {
         }
         return count;
     }
+
+    public int troopSelect(int minimum, int maximum) {
+        if (minimum == maximum)
+            return minimum;
+
+        int toSelect = -1;
+        while (toSelect < minimum || toSelect > maximum) {
+            toSelect = Integer.parseInt((String) JOptionPane.showInputDialog(
+                    null,
+                    "Number of troops (between " + minimum + " and " + maximum + "): ",
+                    "Get number of troops",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""));
+        }
+        return toSelect;
+    }
+
 
 //    /**
 //     * Gives all of the player's countries in one string with each country being on a new line.
