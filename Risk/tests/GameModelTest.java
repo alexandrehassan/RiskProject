@@ -218,11 +218,6 @@ class GameModelTest {
         }
 
         @Override
-        public int getIntInput(GetIntInputEvent getIntInputEvent) {
-            return 1;
-        }
-
-        @Override
         public LinkedList<String> getPlayerNames() {
             return null;
         }
@@ -252,11 +247,6 @@ class GameModelTest {
         public int troopSelect(int minimum, int maximum) {
             //System.out.println("Reached 1");
             return minimum;
-        }
-
-        public int getIntInput(String message, String title) {
-            //System.out.println("Reached 2");
-            return 1;
         }
     }
 }

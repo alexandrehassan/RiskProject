@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -558,8 +559,14 @@ public class GameModel {
 
         int toSelect = -1;
         while (toSelect < minimum || toSelect > maximum) {
-            toSelect = getIntInput("Number of troops (between " + minimum + " and " + maximum + "): ",
-                    "Get troops");
+            toSelect = Integer.parseInt((String) JOptionPane.showInputDialog(
+                    null,
+                    "Number of troops (between " + minimum + " and " + maximum + "): ",
+                    "Get number of troops",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""));
         }
         return toSelect;
     }
@@ -580,14 +587,6 @@ public class GameModel {
         for (GameView v : gameViews) {
             v.handleMessageShow(new GameShowEvent(this, message));
         }
-    }
-
-    public int getIntInput(String message, String title) {
-        int i = 1;
-        for (GameView v : gameViews) {
-            i = v.getIntInput(new GetIntInputEvent(this, message, title));
-        }
-        return i;
     }
 
     private LinkedList<String> getPlayerNames() {

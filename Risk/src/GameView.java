@@ -31,8 +31,6 @@ public interface GameView {
 
     void handleMessageShow(GameShowEvent gameShowEvent);
 
-    int getIntInput(GetIntInputEvent getIntInputEvent);
-
     LinkedList<String> getPlayerNames();
 
     void ShowErrorPopUp(Exception e);

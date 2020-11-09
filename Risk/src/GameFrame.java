@@ -485,18 +485,6 @@ public class GameFrame extends JFrame implements GameView {
     }
 
     @Override
-    public int getIntInput(GetIntInputEvent getIntInputEvent) {
-        return Integer.parseInt((String) JOptionPane.showInputDialog(
-                null,
-                getIntInputEvent.getMessage(),
-                getIntInputEvent.getTitle(),
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                ""));
-    }
-
-    @Override
     public LinkedList<String> getPlayerNames() {
         ArrayList<JTextField> playerInput = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
