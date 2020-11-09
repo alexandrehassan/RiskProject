@@ -76,12 +76,18 @@ class CountryTest {
     @Test
     void removeTroopZero() {
         COUNTRY.removeTroops(0);
-        assertEquals(COUNTRY.getTroops(),InitialTroops);
+        assertEquals(InitialTroops,COUNTRY.getTroops());
     }
 
     @Test
     void removeTroopPositive() {
         COUNTRY.removeTroops(1);
-        assertEquals(COUNTRY.getTroops(),InitialTroops - 1);
+        assertEquals(InitialTroops - 1,COUNTRY.getTroops());
+    }
+
+    @Test
+    void removeTroopBig() {
+        COUNTRY.removeTroops(100);
+        assertEquals(0,COUNTRY.getTroops());
     }
 }

@@ -20,7 +20,11 @@ public class GameModel {
     private Map map;
     private final ArrayList<GameView> gameViews;
 
-    private static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
+    public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
+
+    //================================================================================
+    // Constructors
+    //================================================================================
 
     /**
      * Default constructor for game.
@@ -33,12 +37,39 @@ public class GameModel {
     }
 
     /**
+     * Constructor used for playing the game without the GUI/Users.
+     *
+     * @throws IllegalArgumentException if number of players is not in [2,6]
+     */
+    public GameModel(ArrayList<Player> players) {
+        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
+        this.currentPlayer = players.get(0);
+        this.players = players;
+        this.map = null;
+        this.gameViews = new ArrayList<>();
+        resetView();
+        generateGame();
+        updateGameViewsStart();
+        updateState();
+    }
+
+    //================================================================================
+    // Views
+    //================================================================================
+
+    /**
      * Adds a game view to the model
      *
      * @param gameView GameView to add
      */
     public void addGameView(GameView gameView) {
         gameViews.add(gameView);
+    }
+
+    private void resetView() {
+        for (GameView v : gameViews) {
+            v.handleResetView();
+        }
     }
 
     /**
@@ -50,12 +81,10 @@ public class GameModel {
         }
     }
 
-    private void resetView() {
-        for (GameView v : gameViews) {
-            v.handleResetView();
-        }
-    }
-
+    /**
+     * Updates the turn state of all game views
+     * @param newState .
+     */
     public void updateGameViewsTurnState(String newState) {
         for (GameView v : gameViews) {
             v.handleTurnStateChange(new TurnStateEvent(this, newState));
@@ -91,71 +120,43 @@ public class GameModel {
      *
      * @param playerName the player whose turn it is
      */
-    public void updatePlayerTurn(String playerName) {
+    private void updatePlayerTurn(String playerName) {
         for (GameView v : gameViews) {
             v.handlePlayerTurnUpdate(new PlayerTurnEvent(this, playerName, players.indexOf(currentPlayer)));
         }
     }
 
+    //================================================================================
+    // Game Creation
+    //================================================================================
+
     /**
      * User can add between 2 and 6 players (inclusive) to a game. They can
      * then generate a full game and begin playing immediately
      */
-    public void userCreateGame() {
-
-        try {
-
-            ArrayList<JTextField> playerInput = new ArrayList<>();
-            for (int i = 0; i < 6; i++) {
-                playerInput.add(new JTextField());
+    public boolean userCreateGame() {
+        LinkedList<String> playerNames = getPlayerNames();
+        if (playerNames.size() < 2) {
+            showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
+            return false;
+        } else {
+            players.clear();
+            for (String player : playerNames) {
+                addPlayer(new Player(player));
             }
-
-            Object[] message = {
-                    "Player 1", playerInput.get(0),
-                    "Player 2", playerInput.get(1),
-                    "Player 3", playerInput.get(2),
-                    "Player 4", playerInput.get(3),
-                    "Player 5", playerInput.get(4),
-                    "Player 6", playerInput.get(5),
-            };
-            int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
-            if (option == JOptionPane.OK_OPTION) {
-                LinkedList<Player> currentPlayers = new LinkedList<>();
-                String playerName;
-                for (JTextField jTextField : playerInput) {
-                    playerName = jTextField.getText().trim();
-                    if (!playerName.equals("")) {
-                        currentPlayers.add(new Player(playerName));
-                    }
-                }
-
-                if (currentPlayers.size() < 2) {
-                    throw new IllegalArgumentException("Cannot have less than 2 players");
-                } else {
-                    players.clear();
-                    for (Player player : currentPlayers) {
-                        addPlayer(player);
-                    }
-                }
-                resetView();
-                generateGame();
-                updateGameViewsStart();
-                updateState();
-
-            } else {
-                System.out.println("Buddy creation failed");
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        resetView();
+        generateGame();
+        updateGameViewsStart();
+        updateState();
+        return true;
     }
 
     /**
      * Generates a game as long as two players are present. Assign countries, picks
      * a starting players, assigns troops.
      */
-    public void generateGame() {
+    private void generateGame() {
         //GetMap
         if (players.size() < 2) {
             System.out.println("Add players to start a game");
@@ -181,11 +182,15 @@ public class GameModel {
         }
     }
 
+    //================================================================================
+    // Reinforcements
+    //================================================================================
+
     /**
      * Gets the number of reinforcements to add for the current player and
      * assigns them randomly to one or more of their countries
      */
-    public int getReinforcements() {
+    private int getReinforcements() {
         //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
         int extraTroops = 0;
         for (Continent continent : map.getContinents()) {
@@ -199,40 +204,48 @@ public class GameModel {
     }
 
     /**
-     * Gets the number of remaining (not eliminated) players
-     *
-     * @return int amount of remaining players
+     * Gets the number of reinforcements currently available to the current player
+     * @return the number of reinforcements available
      */
-    private int getRemainingPlayers() {
-        int counter = 0;
-        for (Player p : players)
-            if (!p.isEliminated()) counter++;
-        return counter;
+    public int getCurrentPlayerReinforcements() {
+        return currentPlayerReinforcements;
     }
 
     /**
-     * Method to add reinforcement to a player's countries automatically,
-     * will always add on countries on the exterior of a player's territory.
-     * <p>
-     * Early version of what will be used for AI players.
-     *
-     * @param reinforcements the number of troops to place.
+     * @param country .
+     * @param toAdd .
+     * @throws IllegalArgumentException if the country is invalid or toAdd is smaller than 1
      */
-    private void autoPutReinforcements(int reinforcements) {
-        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
-        for (int assigned = 0; assigned < reinforcements; assigned++) {
-            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
-        }
+    public void placeCurrentPlayerReinforcements(String country, int toAdd) {
+        if (toAdd < 1)
+            throw new IllegalArgumentException("The number of troops need to be greater than 0");
+        if (!currentPlayer.hasCountry(map.getCountry(country)))
+            throw new IllegalArgumentException("The player does not own this country");
+
+        map.getCountry(country).addTroop(toAdd);
+        currentPlayerReinforcements -= toAdd;
+        updateGameViewsTurnState("reinforcement");
+        updateState();
     }
 
-    public void putReinforcements(String country, int toAdd) {
-        if (currentPlayer.hasCountry(map.getCountry(country))) {
-            map.getCountry(country).addTroop(toAdd);
-            updateState();
-        } else {
-            throw new IllegalArgumentException("The player does not own this country");
-        }
-    }
+//    /**
+//     * Method to add reinforcement to a player's countries automatically,
+//     * will always add on countries on the exterior of a player's territory.
+//     * <p>
+//     * Early version of what will be used for AI players.
+//     *
+//     * @param reinforcements the number of troops to place.
+//     */
+//    private void autoPutReinforcements(int reinforcements) {
+//        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
+//        for (int assigned = 0; assigned < reinforcements; assigned++) {
+//            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
+//        }
+//    }
+
+    //================================================================================
+    // Attack
+    //================================================================================
 
     /**
      * Begins the attacking process by ensuring the country names are capitalized
@@ -252,24 +265,8 @@ public class GameModel {
                 performBlitzAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            showErrorPopUp(e);
         }
-    }
-
-    /**
-     * Fixes the capitalization of countries (can input all lowercase, uppercase,
-     * whatever the user feels like)
-     *
-     * @param name name of country whose capitalization is potentially off
-     * @return String the name of the same country with proper capitalization
-     */
-    private String makeProperCountryName(String name) {
-        name = name.toLowerCase();
-        StringBuilder countryName = new StringBuilder(Character.toString(Character.toUpperCase(name.charAt(0))));
-        for (int i = 1; i < name.length(); i++) {
-            countryName.append((name.charAt(i - 1) == ' ') ? Character.toUpperCase(name.charAt(i)) : name.charAt(i));
-        }
-        return countryName.toString();
     }
 
     /**
@@ -291,7 +288,13 @@ public class GameModel {
             throw new IllegalArgumentException(attacking.getName() + " does not have enough troops to attack (needs more than 1)");
     }
 
-    public void performBlitzAttack(Country attack, Country defend) {
+    /**
+     * Performs a blitz attack given two countries (one attacking / defending)
+     *
+     * @param attack the attacking country
+     * @param defend the defending country
+     */
+    private void performBlitzAttack(Country attack, Country defend) {
         checkAttackValid(attack, defend);
         int lostAttackers = 0;
         int lostDefenders = 0;
@@ -308,24 +311,21 @@ public class GameModel {
             attackerDice.sort(Collections.reverseOrder());
             defenderDice.sort(Collections.reverseOrder());
 
-            for (int i = 0; i < Math.min(defenderDice.size(), attackerDice.size()) ; i++) {
+            for (int i = 0; i < Math.min(defenderDice.size(), attackerDice.size()); i++) {
                 if (attackerDice.get(i) > defenderDice.get(i)) {
                     attack.removeTroops(1);
                     lostAttackers += 1;
-                }
-                else {
+                } else {
                     defend.removeTroops(1);
                     lostDefenders += 1;
                 }
             }
         }
 
-        JOptionPane.showMessageDialog(null,
-                "Attacker lost " + lostAttackers + " troop(s), " +
-                        "defender lost " + lostDefenders + " troop(s).");
+        showMessage("Attacker lost " + lostAttackers + " troop(s), " +
+                "defender lost " + lostDefenders + " troop(s).");
         if (defend.getTroops() == 0) {
-            JOptionPane.showMessageDialog(null,
-                    attack.getName() + " takes " + defend.getName());
+            showMessage(attack.getName() + " takes " + defend.getName());
             ownerChange(defend, attack, troopSelect(1, attack.getTroops() - 1));
         }
         updateState();
@@ -346,7 +346,7 @@ public class GameModel {
         int defendTroops = defend.getTroops();
 
         String message = attackerName + " has " + attackTroops + " troops\n" + defenderName + " has " + defendTroops + " troops";
-        JOptionPane.showMessageDialog(null, message);
+        showMessage(message);
 
         int attackWith = troopSelect(1, Math.min(3, attackTroops - 1));
         int defendWith = Math.min(2, defendTroops);
@@ -360,7 +360,7 @@ public class GameModel {
         attackerDice.sort(Collections.reverseOrder());
         defenderDice.sort(Collections.reverseOrder());
         message = "Attacker rolls: " + Arrays.toString(attackerDice.toArray()) + "\nDefender rolls: " + Arrays.toString(defenderDice.toArray());
-        JOptionPane.showMessageDialog(null, message);
+        showMessage(message);
 
         int lostDefenders = 0, lostAttackers = 0;
         for (int i = 0; i < Math.min(attackerDice.size(), defenderDice.size()); i++) {
@@ -374,7 +374,7 @@ public class GameModel {
         attack.removeTroops(lostAttackers);
         defend.removeTroops(lostDefenders);
         message = attackerName + " lost " + lostAttackers + " troop(s), " + (attackTroops - lostAttackers) + " troops remain\n" + defenderName + " lost " + lostDefenders + " troop(s), " + (defendTroops - lostDefenders) + " troops remain";
-        JOptionPane.showMessageDialog(null, message);
+        showMessage(message);
 
         if (defend.getTroops() == 0) ownerChange(defend, attack, attackerDice.size() - lostAttackers);
         updateState();
@@ -399,7 +399,7 @@ public class GameModel {
         currentPlayer.addCountry(defend);
         moveTroops(attack, defend, toAdd);
         String message = currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.";
-        JOptionPane.showMessageDialog(null, message);
+        showMessage(message);
         updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         currentPlayer.sortCountries();
     }
@@ -416,15 +416,104 @@ public class GameModel {
     }
 
     /**
+     * Updates all game views to display the fact currentPlayer has won.
+     */
+    private void handleGameOver() {
+        for (GameView v : gameViews) {
+            v.handleGameOver(new GameOverEvent(this, currentPlayer));
+        }
+    }
+
+    //================================================================================
+    // Players
+    //================================================================================
+
+    /**
+     * Adds a player to the game, there can be maximum 6 players.
+     * 2 players are needed to start a game
+     *
+     * @param player the player to add to the game
+     * @throws IllegalArgumentException if player is null
+     * @throws IllegalArgumentException if there are already 6 players.
+     */
+    private void addPlayer(Player player) {
+        if (player == null) {
+            throw new IllegalArgumentException("Player can't be Null");
+        }
+        if (players.size() == 0) {
+            currentPlayer = player;
+        }
+        if (players.size() < 6) {
+            players.add(player);
+        } else {
+            throw new IllegalArgumentException("Maximum 6 players.");
+        }
+    }
+
+    /**
+     * Changes current player to the next player in the correct order until the next player is not eliminated.
+     */
+    public void nextPlayer(boolean gameStarted) {
+//        if (players.size() == 0) return;
+        if (players.indexOf(currentPlayer) != players.size() - 1) {
+            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+        } else {
+            currentPlayer = players.get(0);
+        }
+        if (gameStarted) {
+            int alive = 0;
+            for (Player player : players) {
+                if (!player.isEliminated()) alive++;
+            }
+            if (alive < 2) handleGameOver();
+            if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
+        }
+
+        currentPlayerReinforcements = getReinforcements();
+        updatePlayerTurn(currentPlayer.getName());
+    }
+
+    /**
+     * Displays a message showing that it is the current player's turn
+     */
+    public void showCurrentPlayer() {
+        showMessage("It is " + currentPlayer.getName() + "'s turn");
+    }
+
+    /**
+     * Gets the current player
+     * @return the current player
+     */
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+//    /**
+//     * Gets the number of remaining (not eliminated) players
+//     *
+//     * @return int amount of remaining players
+//     */
+//    private int getRemainingPlayers() {
+//        int counter = 0;
+//        for (Player p : players)
+//            if (!p.isEliminated()) counter++;
+//        return counter;
+//    }
+
+    //================================================================================
+    // Movement
+    //================================================================================
+
+    /**
      * Moves troops from one country to the other
      *
      * @param origin      where the troops will leave from
      * @param destination where the troops will go to
      * @return whether the move was successful
      */
-    public boolean moveTroops(Country origin, Country destination, int toMove) {
+    private boolean moveTroops(Country origin, Country destination, int toMove) {
         if (!currentPlayer.pathExists(origin, destination)) {
-            System.out.println("Path does not exist between " + origin.getName() + " " + destination.getName());
+            showMessage("Path does not exist between " + origin.getName() + " and " + destination.getName());
             return false;
         }
 
@@ -444,11 +533,11 @@ public class GameModel {
         Country originCountry = map.getCountry(origin);
         Country destinationCountry = map.getCountry(destination);
         if (!currentPlayer.pathExists(originCountry, destinationCountry)) {
-            System.out.println("Path does not exist between " + originCountry.getName() + " " + destinationCountry.getName());
+            showMessage("Path does not exist between " + originCountry.getName() + " and " + destinationCountry.getName());
             return false;
         }
         if (originCountry.getTroops() == 1) {
-            System.out.println(origin + " does not have enough troops to spare");
+            showMessage(origin + " does not have enough troops to spare");
             return false;
         }
 
@@ -458,6 +547,71 @@ public class GameModel {
         destinationCountry.addTroop(toMove);
         return true;
     }
+
+    //================================================================================
+    // Updating views
+    //================================================================================
+
+    /**
+     * Prints the state of the board.
+     * Includes player names, country names, and number of troops per country
+     */
+    public void updateState() {
+        for (int i = 0; i < players.size(); i++) {
+            updateGameViewsState(players.get(i).getInfo(), i);
+        }
+    }
+
+    //================================================================================
+    // Pop-ups
+    //================================================================================
+
+
+    //Allows the tests to suppress these.
+    public void showErrorPopUp(Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+
+    //Allows the tests to suppress these.
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(null, message);
+    }
+
+    /**
+     * Gets player names from a JOptionPane
+     * @return the player names as a LinkedList of Strings
+     */
+    private LinkedList<String> getPlayerNames() {
+        ArrayList<JTextField> playerInput = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            playerInput.add(new JTextField());
+        }
+
+        Object[] message = {
+                "Player 1", playerInput.get(0),
+                "Player 2", playerInput.get(1),
+                "Player 3", playerInput.get(2),
+                "Player 4", playerInput.get(3),
+                "Player 5", playerInput.get(4),
+                "Player 6", playerInput.get(5),
+        };
+        LinkedList<String> currentPlayers = new LinkedList<>();
+        int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            String playerName;
+            for (JTextField jTextField : playerInput) {
+                playerName = jTextField.getText().trim();
+                if (!playerName.equals("")) {
+                    currentPlayers.add(playerName);
+                }
+            }
+        }
+        return currentPlayers;
+    }
+
+    //================================================================================
+    // Miscellaneous
+    //================================================================================
 
     /**
      * Returns true if the players owns a country, false if not
@@ -472,99 +626,13 @@ public class GameModel {
      * Prints help / instructions for the players
      */
     public void printHelp() {
-        JOptionPane.showMessageDialog(
-                null,
+        showMessage(
                 "Game instructions: \n" +
                         "To attack, select the attack button and choose a defending and attacking country\n" +
                         "To end your turn, select the 'end' button\n" +
                         "To manually update the charts on the right, select the 'state' button\n" +
                         "To get help, select the 'help' button\n" +
                         "The current player is shown in the top left corner");
-    }
-
-    /**
-     * Adds a player to the game, there can be maximum 6 players.
-     * 2 players are needed to start a game
-     *
-     * @param player the player to add to the game
-     * @throws IllegalArgumentException if player is null
-     * @throws IllegalArgumentException if there are already 6 players.
-     */
-    public void addPlayer(Player player) {
-        if (player == null) {
-            throw new IllegalArgumentException("Player can't be Null");
-        }
-        if (players.size() == 0) {
-            currentPlayer = player;
-        }
-        if (players.size() < 6) {
-            players.add(player);
-        } else {
-            throw new IllegalArgumentException("Maximum 6 players.");
-        }
-    }
-
-    /**
-     * Changes current player to the next player in the correct order until the next player is not eliminated.
-     */
-    public void nextPlayer(boolean gameStarted) {
-        if (players.size() == 0) return;
-        if (players.indexOf(currentPlayer) != players.size() - 1) {
-            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-        } else {
-            currentPlayer = players.get(0);
-        }
-        if(gameStarted){
-            int alive = 0;
-            for (Player player : players) {
-                if (!player.isEliminated()) alive++;
-            }
-            if (alive < 2 ) handleGameOver();
-            if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
-        }
-
-        currentPlayerReinforcements = getReinforcements();
-        updatePlayerTurn(currentPlayer.getName());
-    }
-
-    /**
-     * Updates all game views to display the fact currentPlayer has won.
-     */
-    private void handleGameOver() {
-        for (GameView v : gameViews) {
-            v.handleGameOver(new GameOverEvent(this, currentPlayer));
-        }
-    }
-
-    public int getCurrentPlayerReinforcements() {
-        return currentPlayerReinforcements;
-    }
-
-    public void placeCurrentPlayerReinforcements(String clickedCountry, int toRemove) {
-        if (toRemove > currentPlayerReinforcements) {
-            currentPlayerReinforcements = 0;
-            System.out.println("Cannot remove more reinforcements than you currently have");
-        }
-        currentPlayerReinforcements -= toRemove;
-        putReinforcements(clickedCountry, toRemove);
-        updateGameViewsTurnState("reinforcement");
-    }
-
-    /**
-     * Displays a message showing that it is the current player's turn
-     */
-    public void showCurrentPlayer() {
-        JOptionPane.showMessageDialog(null, "It is " + currentPlayer.getName() + "'s turn");
-    }
-
-    /**
-     * Prints the state of the board.
-     * Includes player names, country names, and number of troops per country
-     */
-    public void updateState() {
-        for (int i = 0; i < players.size(); i++) {
-            updateGameViewsState(players.get(i).getInfo(), i);
-        }
     }
 
     /**
@@ -575,21 +643,24 @@ public class GameModel {
      * @return the value chosen by the user
      */
     public int troopSelect(int minimum, int maximum) {
-        if (minimum == maximum)
-            return minimum;
-
-        int toSelect = -1;
-        while (toSelect < minimum || toSelect > maximum) {
-            toSelect = Integer.parseInt((String) JOptionPane.showInputDialog(
-                    null,
-                    "Number of troops (between " + minimum + " and " + maximum + "): ",
-                    "Get troops",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    ""));
-        }
-        return toSelect;
+        return currentPlayer.troopSelect(minimum,maximum);
     }
 
+
+
+    /**
+     * Fixes the capitalization of countries (can input all lowercase, uppercase,
+     * whatever the user feels like)
+     *
+     * @param name name of country whose capitalization is potentially off
+     * @return String the name of the same country with proper capitalization
+     */
+    private String makeProperCountryName(String name) {
+        name = name.toLowerCase();
+        StringBuilder countryName = new StringBuilder(Character.toString(Character.toUpperCase(name.charAt(0))));
+        for (int i = 1; i < name.length(); i++) {
+            countryName.append((name.charAt(i - 1) == ' ') ? Character.toUpperCase(name.charAt(i)) : name.charAt(i));
+        }
+        return countryName.toString();
+    }
 }
