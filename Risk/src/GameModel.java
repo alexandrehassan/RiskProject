@@ -81,6 +81,10 @@ public class GameModel {
         }
     }
 
+    /**
+     * Updates the turn state of all game views
+     * @param newState
+     */
     public void updateGameViewsTurnState(String newState) {
         for (GameView v : gameViews) {
             v.handleTurnStateChange(new TurnStateEvent(this, newState));
@@ -199,6 +203,10 @@ public class GameModel {
         //autoPutReinforcements(reinforcements);
     }
 
+    /**
+     * Gets the number of reinforcements currently available to the current player
+     * @return the number of reinforcements available
+     */
     public int getCurrentPlayerReinforcements() {
         return currentPlayerReinforcements;
     }
@@ -280,6 +288,12 @@ public class GameModel {
             throw new IllegalArgumentException(attacking.getName() + " does not have enough troops to attack (needs more than 1)");
     }
 
+    /**
+     * Performs a blitz attack given two countries (one attacking / defending)
+     *
+     * @param attack the attacking country
+     * @param defend the defending country
+     */
     private void performBlitzAttack(Country attack, Country defend) {
         checkAttackValid(attack, defend);
         int lostAttackers = 0;
@@ -466,6 +480,10 @@ public class GameModel {
         showMessage("It is " + currentPlayer.getName() + "'s turn");
     }
 
+    /**
+     * Gets the current player
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -605,6 +623,10 @@ public class GameModel {
         JOptionPane.showMessageDialog(null, message);
     }
 
+    /**
+     * Gets player names from a JOptionPane
+     * @return the player names as a LinkedList of Strings
+     */
     private LinkedList<String> getPlayerNames() {
         ArrayList<JTextField> playerInput = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
