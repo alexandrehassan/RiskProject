@@ -413,7 +413,7 @@ public class GameModel {
      */
     private boolean moveTroops(Country origin, Country destination, int toMove) {
         if (!currentPlayer.pathExists(origin, destination)) {
-            showMessage("Path does not exist between " + origin.getName() + " " + destination.getName());
+            showMessage("Path does not exist between " + origin.getName() + " and " + destination.getName());
             return false;
         }
 
@@ -433,7 +433,7 @@ public class GameModel {
         Country originCountry = map.getCountry(origin);
         Country destinationCountry = map.getCountry(destination);
         if (!currentPlayer.pathExists(originCountry, destinationCountry)) {
-            showMessage("Path does not exist between " + originCountry.getName() + " " + destinationCountry.getName());
+            showMessage("Path does not exist between " + originCountry.getName() + " and " + destinationCountry.getName());
             return false;
         }
         if (originCountry.getTroops() == 1) {
@@ -582,7 +582,7 @@ public class GameModel {
         }
     }
 
-    private int getIntInput(String message, String title) {
+    public int getIntInput(String message, String title) {
         int i = 1;
         for (GameView v : gameViews) {
             i = v.getIntInput(new GetIntInputEvent(this, message, title));
