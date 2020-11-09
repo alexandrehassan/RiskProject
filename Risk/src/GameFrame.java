@@ -397,7 +397,6 @@ public class GameFrame extends JFrame implements GameView {
             for (int i = 0; i < players.size(); i++) {
                 if (players.get(i).hasCountry(countryName)) {
                     String newColor = getColorForPlayerIndex(i);
-                    System.out.println("Successfully found " + countryName + ", player ID = " + i + " with color " + newColor);
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, newColor, new Object[]{cell});
                     //cell.setStyle(cell.getStyle() + ";fillColor=" + newColor);
                 }
