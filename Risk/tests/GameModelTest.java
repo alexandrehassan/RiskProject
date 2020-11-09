@@ -2,6 +2,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -75,12 +76,9 @@ class GameModelTest {
         assertEquals(beginningCount + 1, currentPlayer.getNumberOfTroops(), "Number of troops didn't go up");
     }
 
-    @Test
-        //Only tests Blitz Attack
+    @Test//Only tests Blitz Attack TODO: Test other attacks.
     void playAttack() {
-        //FIXME
-        //DummyView view = new DummyView();
-        //model.addGameView(view);
+
         Player currentPlayer = model.getCurrentPlayer();
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         Country attacker = perimeterCountries.get(0);
@@ -104,7 +102,6 @@ class GameModelTest {
         assertNotEquals(initialTroops, attacker.getTroops() + defender.getTroops(), "A valid Attack Failed");
 
         //Check attack himself.
-        /*
         attacker = currentPlayer.getPerimeterCountries().get(0);
         defender = currentPlayer.getPerimeterCountries().get(1);
         Country finalAttacker = attacker;
@@ -113,8 +110,7 @@ class GameModelTest {
 
         model.playAttack(finalAttacker.getName(),
                 finalDefender.getName(), true);
-        //assertTrue(view.isThrewException());
-         */
+        assertTrue(model.threwException);
 
     }
 
@@ -176,77 +172,26 @@ class GameModelTest {
     }
 
 
-    //Class used to mock GameView inputs.
-    private static class DummyView implements GameView {
-
-        private boolean threwException = false;
-
-        @Override
-        public void handleGameStart(GameStartEvent gameModel) {
-        }
-
-        @Override
-        public void handleStateUpdate(PlayerStateEvent playerState) {
-        }
-
-        @Override
-        public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
-        }
-
-        @Override
-        public void handleOwnerChange(OwnerChangeEvent ownerChange) {
-        }
-
-        @Override
-        public void handleTurnStateChange(TurnStateEvent turnState) {
-        }
-
-        @Override
-        public void handleResetView() {
-        }
-
-        @Override
-        public void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent) {
-        }
-
-        @Override
-        public void handleGameOver(GameOverEvent gameOverEvent) {
-        }
-
-        @Override
-        public void handleMessageShow(GameShowEvent gameShowEvent) {
-        }
-
-        @Override
-        public LinkedList<String> getPlayerNames() {
-            return null;
-        }
-
-        @Override
-        public void ShowErrorPopUp(Exception e) {
-            System.out.println(e.getMessage());
-            threwException = true;
-        }
-
-        public void resetException() {
-            threwException = false;
-        }
-
-        public boolean isThrewException() {
-            return threwException;
-        }
-
-    }
-
     public class DummyModel extends GameModel {
 
         public DummyModel(ArrayList<Player> players) {
             super(players);
         }
+        public boolean threwException = false;
 
         public int troopSelect(int minimum, int maximum) {
             //System.out.println("Reached 1");
             return minimum;
+        }
+
+        public void showErrorPopUp(Exception e) {
+            threwException = true;
+        }
+        public void resetError(){
+            threwException = false;
+        }
+
+        public void showMessage(String message) {
         }
     }
 }

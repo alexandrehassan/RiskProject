@@ -28,10 +28,4 @@ public interface GameView {
     void handlePlayerElimination(PlayerEliminatedEvent eliminatedEvent);
 
     void handleGameOver(GameOverEvent gameOverEvent);
-
-    void handleMessageShow(GameShowEvent gameShowEvent);
-
-    LinkedList<String> getPlayerNames();
-
-    void ShowErrorPopUp(Exception e);
 }
