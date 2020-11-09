@@ -413,7 +413,7 @@ public class GameModel {
      */
     private boolean moveTroops(Country origin, Country destination, int toMove) {
         if (!currentPlayer.pathExists(origin, destination)) {
-            System.out.println("Path does not exist between " + origin.getName() + " " + destination.getName());
+            showMessage("Path does not exist between " + origin.getName() + " " + destination.getName());
             return false;
         }
 
@@ -433,11 +433,11 @@ public class GameModel {
         Country originCountry = map.getCountry(origin);
         Country destinationCountry = map.getCountry(destination);
         if (!currentPlayer.pathExists(originCountry, destinationCountry)) {
-            System.out.println("Path does not exist between " + originCountry.getName() + " " + destinationCountry.getName());
+            showMessage("Path does not exist between " + originCountry.getName() + " " + destinationCountry.getName());
             return false;
         }
         if (originCountry.getTroops() == 1) {
-            System.out.println(origin + " does not have enough troops to spare");
+            showMessage(origin + " does not have enough troops to spare");
             return false;
         }
 
