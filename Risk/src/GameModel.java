@@ -564,7 +564,7 @@ public class GameModel {
 
     //Allows the tests to suppress these.
     public void showErrorPopUp(Exception e) {
-        currentPlayer.errorHandling(e);
+        JOptionPane.showMessageDialog(null, e.getMessage());;
     }
 
     //================================================================================
@@ -606,7 +606,7 @@ public class GameModel {
 
     //Allows the tests to suppress these.
     public void showMessage(String message) {
-        currentPlayer.message(message);
+        JOptionPane.showMessageDialog(null, message);;
     }
 
     /**

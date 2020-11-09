@@ -224,13 +224,6 @@ public class Player {
         return toSelect;
     }
 
-    public void message(String message) {
-        JOptionPane.showMessageDialog(null, message);
-    }
-
-    public void errorHandling(Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
-    }
 
 //    /**
 //     * Gives all of the player's countries in one string with each country being on a new line.
