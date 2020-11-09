@@ -198,32 +198,6 @@ public class GameModel {
         return currentPlayerReinforcements;
     }
 
-//    /**
-//     * Gets the number of remaining (not eliminated) players
-//     *
-//     * @return int amount of remaining players
-//     */
-//    private int getRemainingPlayers() {
-//        int counter = 0;
-//        for (Player p : players)
-//            if (!p.isEliminated()) counter++;
-//        return counter;
-//    }
-//
-//    /**
-//     * Method to add reinforcement to a player's countries automatically,
-//     * will always add on countries on the exterior of a player's territory.
-//     * <p>
-//     * Early version of what will be used for AI players.
-//     *
-//     * @param reinforcements the number of troops to place.
-//     */
-//    private void autoPutReinforcements(int reinforcements) {
-//        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
-//        for (int assigned = 0; assigned < reinforcements; assigned++) {
-//            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
-//        }
-//    }
 
     /**
      * @param country
@@ -241,6 +215,21 @@ public class GameModel {
         updateGameViewsTurnState("reinforcement");
         updateState();
     }
+
+//    /**
+//     * Method to add reinforcement to a player's countries automatically,
+//     * will always add on countries on the exterior of a player's territory.
+//     * <p>
+//     * Early version of what will be used for AI players.
+//     *
+//     * @param reinforcements the number of troops to place.
+//     */
+//    private void autoPutReinforcements(int reinforcements) {
+//        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
+//        for (int assigned = 0; assigned < reinforcements; assigned++) {
+//            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
+//        }
+//    }
 
     //================================================================================
     // Attack
@@ -476,6 +465,18 @@ public class GameModel {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
+//    /**
+//     * Gets the number of remaining (not eliminated) players
+//     *
+//     * @return int amount of remaining players
+//     */
+//    private int getRemainingPlayers() {
+//        int counter = 0;
+//        for (Player p : players)
+//            if (!p.isEliminated()) counter++;
+//        return counter;
+//    }
 
     //================================================================================
     // Movement
