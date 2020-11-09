@@ -198,7 +198,6 @@ public class GameModel {
         return currentPlayerReinforcements;
     }
 
-
     /**
      * @param country
      * @param toAdd
