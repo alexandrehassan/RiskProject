@@ -83,7 +83,7 @@ public class GameModel {
 
     /**
      * Updates the turn state of all game views
-     * @param newState
+     * @param newState .
      */
     public void updateGameViewsTurnState(String newState) {
         for (GameView v : gameViews) {
@@ -212,8 +212,8 @@ public class GameModel {
     }
 
     /**
-     * @param country
-     * @param toAdd
+     * @param country .
+     * @param toAdd .
      * @throws IllegalArgumentException if the country is invalid or toAdd is smaller than 1
      */
     public void placeCurrentPlayerReinforcements(String country, int toAdd) {
@@ -569,12 +569,12 @@ public class GameModel {
 
     //Allows the tests to suppress these.
     public void showErrorPopUp(Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());;
+        JOptionPane.showMessageDialog(null, e.getMessage());
     }
 
     //Allows the tests to suppress these.
     public void showMessage(String message) {
-        JOptionPane.showMessageDialog(null, message);;
+        JOptionPane.showMessageDialog(null, message);
     }
 
     /**

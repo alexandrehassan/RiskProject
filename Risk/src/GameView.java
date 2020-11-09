@@ -1,5 +1,3 @@
-import java.util.LinkedList;
-
 /**
  * This class is part of the game of RISK, the term
  * project for SYSC3110 that emulates the original game of RISK

@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * This class is part of the game of RISK, the term
@@ -355,7 +354,7 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Gets the desired colour based on the player's index
-     * @param playerIndex
+     * @param playerIndex .
      * @return the colour to use as a String
      */
     private String getColorForPlayerIndex(int playerIndex) {
@@ -422,7 +421,7 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Returns a GridBagConstraints, avoids duplicated code and only takes in the field that
-     * may varu within this frame
+     * may vary within this frame
      * @param gridX gridX value
      * @param gridY gridY value
      * @param gridWidth gridWidth value
