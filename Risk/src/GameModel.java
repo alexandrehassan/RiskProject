@@ -546,7 +546,7 @@ public class GameModel {
 
     //Allows the tests to suppress these.
     public void showErrorPopUp(Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
+        currentPlayer.errorHandling(e);
     }
 
     //================================================================================
@@ -583,26 +583,12 @@ public class GameModel {
      * @return the value chosen by the user
      */
     public int troopSelect(int minimum, int maximum) {
-        if (minimum == maximum)
-            return minimum;
-
-        int toSelect = -1;
-        while (toSelect < minimum || toSelect > maximum) {
-            toSelect = Integer.parseInt((String) JOptionPane.showInputDialog(
-                    null,
-                    "Number of troops (between " + minimum + " and " + maximum + "): ",
-                    "Get number of troops",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    ""));
-        }
-        return toSelect;
+        return currentPlayer.troopSelect(minimum,maximum);
     }
 
     //Allows the tests to suppress these.
     public void showMessage(String message) {
-        JOptionPane.showMessageDialog(null, message);
+        currentPlayer.message(message);
     }
 
     private LinkedList<String> getPlayerNames() {
