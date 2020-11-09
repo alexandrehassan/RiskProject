@@ -22,11 +22,10 @@ how a new turn begins, and how the state of the game is printed.
  - to move troops click the move button and 
  - to end turn at any time click end 
 #### Known Issues 
-- if a player clicks outside of a county a string error popup is returned and they must start the attack again 
 
 #### Improvements to be implemented  
 -The graph creation will become more streamlined, in preperation for the automation of custom board creation for milestone 4
-
+-trying to attack with a country that does not have enough troops will alert the player when clicked instead of when the attack happens forcing the player to restart the attack
   
 #### Roadmap Ahead:
  In Milestone 3 an AI player will be created, as well as troop movement and reinforecment placement will be refined
