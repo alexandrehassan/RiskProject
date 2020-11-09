@@ -127,14 +127,15 @@ public class GameFrame extends JFrame implements GameView {
         middlePane.add(boardPanel, getConstraints(0, 1, 3, 2, GridBagConstraints.HORIZONTAL));
 
         mainPanel.add(updateLine, BorderLayout.PAGE_START);
-        mainPanel.add(middlePane, BorderLayout.LINE_START);
-        mainPanel.add(playerInfo, BorderLayout.LINE_END);
+        mainPanel.add(new JScrollPane(middlePane), BorderLayout.LINE_START);
+        mainPanel.add(new JScrollPane(playerInfo), BorderLayout.LINE_END);
 //        mainPanel.add(startButton, BorderLayout.PAGE_END);
 
+        this.setContentPane(new JScrollPane(mainPanel));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("JList Example");
         this.setSize(1550, 800);
-        this.setResizable(false);
+        this.setResizable(true);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
