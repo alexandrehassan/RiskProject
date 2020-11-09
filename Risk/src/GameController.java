@@ -48,6 +48,11 @@ public class GameController implements ActionListener {
                 }
 
                 String clickedCountry = (String) ((mxCell) cell).getValue();
+
+                if (clickedCountry.equals("")) {
+                    return;
+                }
+
                 if (!gameModel.playerOwns(clickedCountry) && state != ATTACK_STATE) {
                     JOptionPane.showMessageDialog(null, "Current player does not own " + clickedCountry);
                     return;
