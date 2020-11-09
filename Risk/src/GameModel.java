@@ -22,6 +22,10 @@ public class GameModel {
 
     public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
 
+    //================================================================================
+    // Constructors
+    //================================================================================
+
     /**
      * Default constructor for game.
      */
@@ -49,6 +53,10 @@ public class GameModel {
         updateState();
     }
 
+    //================================================================================
+    // Views
+    //================================================================================
+
     /**
      * Adds a game view to the model
      *
@@ -58,18 +66,18 @@ public class GameModel {
         gameViews.add(gameView);
     }
 
+    private void resetView() {
+        for (GameView v : gameViews) {
+            v.handleResetView();
+        }
+    }
+
     /**
      * Updates all game views
      */
     private void updateGameViewsStart() {
         for (GameView v : gameViews) {
             v.handleGameStart(new GameStartEvent(this, map, players));
-        }
-    }
-
-    private void resetView() {
-        for (GameView v : gameViews) {
-            v.handleResetView();
         }
     }
 
@@ -165,6 +173,10 @@ public class GameModel {
         }
     }
 
+    //================================================================================
+    // Reinforcements
+    //================================================================================
+
     /**
      * Gets the number of reinforcements to add for the current player and
      * assigns them randomly to one or more of their countries
@@ -180,6 +192,10 @@ public class GameModel {
         return Math.max(3, currentPlayer.numberOfCountries() / 3) + extraTroops;
 
         //autoPutReinforcements(reinforcements);
+    }
+
+    public int getCurrentPlayerReinforcements() {
+        return currentPlayerReinforcements;
     }
 
 //    /**
@@ -226,6 +242,10 @@ public class GameModel {
         updateState();
     }
 
+    //================================================================================
+    // Attack
+    //================================================================================
+
     /**
      * Begins the attacking process by ensuring the country names are capitalized
      * correctly, then getting the right countries and performing the attack
@@ -246,23 +266,6 @@ public class GameModel {
         } catch (Exception e) {
             showErrorPopUp(e);
         }
-    }
-
-
-    /**
-     * Fixes the capitalization of countries (can input all lowercase, uppercase,
-     * whatever the user feels like)
-     *
-     * @param name name of country whose capitalization is potentially off
-     * @return String the name of the same country with proper capitalization
-     */
-    private String makeProperCountryName(String name) {
-        name = name.toLowerCase();
-        StringBuilder countryName = new StringBuilder(Character.toString(Character.toUpperCase(name.charAt(0))));
-        for (int i = 1; i < name.length(); i++) {
-            countryName.append((name.charAt(i - 1) == ' ') ? Character.toUpperCase(name.charAt(i)) : name.charAt(i));
-        }
-        return countryName.toString();
     }
 
     /**
@@ -406,70 +409,17 @@ public class GameModel {
     }
 
     /**
-     * Moves troops from one country to the other
-     *
-     * @param origin      where the troops will leave from
-     * @param destination where the troops will go to
-     * @return whether the move was successful
+     * Updates all game views to display the fact currentPlayer has won.
      */
-    private boolean moveTroops(Country origin, Country destination, int toMove) {
-        if (!currentPlayer.pathExists(origin, destination)) {
-            showMessage("Path does not exist between " + origin.getName() + " and " + destination.getName());
-            return false;
+    private void handleGameOver() {
+        for (GameView v : gameViews) {
+            v.handleGameOver(new GameOverEvent(this, currentPlayer));
         }
-
-        origin.removeTroops(toMove);
-        destination.addTroop(toMove);
-        return true;
     }
 
-    /**
-     * Moves troops from one country to the other
-     *
-     * @param origin      where the troops will leave from
-     * @param destination where the troops will go to
-     * @return whether the move was successful
-     */
-    public boolean moveTroops(String origin, String destination) {
-        Country originCountry = map.getCountry(origin);
-        Country destinationCountry = map.getCountry(destination);
-        if (!currentPlayer.pathExists(originCountry, destinationCountry)) {
-            showMessage("Path does not exist between " + originCountry.getName() + " and " + destinationCountry.getName());
-            return false;
-        }
-        if (originCountry.getTroops() == 1) {
-            showMessage(origin + " does not have enough troops to spare");
-            return false;
-        }
-
-        int toMove = troopSelect(1, originCountry.getTroops() - 1);
-
-        originCountry.removeTroops(toMove);
-        destinationCountry.addTroop(toMove);
-        return true;
-    }
-
-    /**
-     * Returns true if the players owns a country, false if not
-     *
-     * @return if the current player owns the country
-     */
-    public boolean playerOwns(String country) {
-        return currentPlayer.hasCountry(country);
-    }
-
-    /**
-     * Prints help / instructions for the players
-     */
-    public void printHelp() {
-        showMessage(
-                "Game instructions: \n" +
-                        "To attack, select the attack button and choose a defending and attacking country\n" +
-                        "To end your turn, select the 'end' button\n" +
-                        "To manually update the charts on the right, select the 'state' button\n" +
-                        "To get help, select the 'help' button\n" +
-                        "The current player is shown in the top left corner");
-    }
+    //================================================================================
+    // Players
+    //================================================================================
 
     /**
      * Adds a player to the game, there can be maximum 6 players.
@@ -517,24 +467,67 @@ public class GameModel {
     }
 
     /**
-     * Updates all game views to display the fact currentPlayer has won.
-     */
-    private void handleGameOver() {
-        for (GameView v : gameViews) {
-            v.handleGameOver(new GameOverEvent(this, currentPlayer));
-        }
-    }
-
-    public int getCurrentPlayerReinforcements() {
-        return currentPlayerReinforcements;
-    }
-
-    /**
      * Displays a message showing that it is the current player's turn
      */
     public void showCurrentPlayer() {
         showMessage("It is " + currentPlayer.getName() + "'s turn");
     }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    //================================================================================
+    // Movement
+    //================================================================================
+
+    /**
+     * Moves troops from one country to the other
+     *
+     * @param origin      where the troops will leave from
+     * @param destination where the troops will go to
+     * @return whether the move was successful
+     */
+    private boolean moveTroops(Country origin, Country destination, int toMove) {
+        if (!currentPlayer.pathExists(origin, destination)) {
+            showMessage("Path does not exist between " + origin.getName() + " and " + destination.getName());
+            return false;
+        }
+
+        origin.removeTroops(toMove);
+        destination.addTroop(toMove);
+        return true;
+    }
+
+    /**
+     * Moves troops from one country to the other
+     *
+     * @param origin      where the troops will leave from
+     * @param destination where the troops will go to
+     * @return whether the move was successful
+     */
+    public boolean moveTroops(String origin, String destination) {
+        Country originCountry = map.getCountry(origin);
+        Country destinationCountry = map.getCountry(destination);
+        if (!currentPlayer.pathExists(originCountry, destinationCountry)) {
+            showMessage("Path does not exist between " + originCountry.getName() + " and " + destinationCountry.getName());
+            return false;
+        }
+        if (originCountry.getTroops() == 1) {
+            showMessage(origin + " does not have enough troops to spare");
+            return false;
+        }
+
+        int toMove = troopSelect(1, originCountry.getTroops() - 1);
+
+        originCountry.removeTroops(toMove);
+        destinationCountry.addTroop(toMove);
+        return true;
+    }
+
+    //================================================================================
+    // Updating views
+    //================================================================================
 
     /**
      * Prints the state of the board.
@@ -544,6 +537,37 @@ public class GameModel {
         for (int i = 0; i < players.size(); i++) {
             updateGameViewsState(players.get(i).getInfo(), i);
         }
+    }
+
+    //Allows the tests to suppress these.
+    public void showErrorPopUp(Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+
+    //================================================================================
+    // Miscellaneous
+    //================================================================================
+
+    /**
+     * Returns true if the players owns a country, false if not
+     *
+     * @return if the current player owns the country
+     */
+    public boolean playerOwns(String country) {
+        return currentPlayer.hasCountry(country);
+    }
+
+    /**
+     * Prints help / instructions for the players
+     */
+    public void printHelp() {
+        showMessage(
+                "Game instructions: \n" +
+                        "To attack, select the attack button and choose a defending and attacking country\n" +
+                        "To end your turn, select the 'end' button\n" +
+                        "To manually update the charts on the right, select the 'state' button\n" +
+                        "To get help, select the 'help' button\n" +
+                        "The current player is shown in the top left corner");
     }
 
     /**
@@ -569,15 +593,6 @@ public class GameModel {
                     ""));
         }
         return toSelect;
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    //Allows the tests to suppress these.
-    public void showErrorPopUp(Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
     }
 
     //Allows the tests to suppress these.
@@ -613,4 +628,19 @@ public class GameModel {
         return currentPlayers;
     }
 
+    /**
+     * Fixes the capitalization of countries (can input all lowercase, uppercase,
+     * whatever the user feels like)
+     *
+     * @param name name of country whose capitalization is potentially off
+     * @return String the name of the same country with proper capitalization
+     */
+    private String makeProperCountryName(String name) {
+        name = name.toLowerCase();
+        StringBuilder countryName = new StringBuilder(Character.toString(Character.toUpperCase(name.charAt(0))));
+        for (int i = 1; i < name.length(); i++) {
+            countryName.append((name.charAt(i - 1) == ' ') ? Character.toUpperCase(name.charAt(i)) : name.charAt(i));
+        }
+        return countryName.toString();
+    }
 }
