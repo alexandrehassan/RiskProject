@@ -139,11 +139,12 @@ public class GameController implements ActionListener {
         switch (command) {
             case "help" -> gameModel.printHelp();
             case "new" -> {
-                gameModel.userCreateGame();
-                this.state = REINFORCEMENT_STATE;
-                from = "";
-                to = "";
-                gameModel.updateGameViewsTurnState("reinforcement");
+                if (gameModel.userCreateGame()) {
+                    this.state = REINFORCEMENT_STATE;
+                    from = "";
+                    to = "";
+                    gameModel.updateGameViewsTurnState("reinforcement");
+                }
             }
             case "attack" -> {
                 state = ATTACK_STATE;

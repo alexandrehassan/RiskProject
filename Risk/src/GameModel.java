@@ -122,15 +122,19 @@ public class GameModel {
         }
     }
 
+    //================================================================================
+    // Game Creation
+    //================================================================================
+
     /**
      * User can add between 2 and 6 players (inclusive) to a game. They can
      * then generate a full game and begin playing immediately
      */
-    public void userCreateGame() {
+    public boolean userCreateGame() {
         LinkedList<String> playerNames = getPlayerNames();
         if (playerNames.size() < 2) {
             showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
-            return;
+            return false;
         } else {
             players.clear();
             for (String player : playerNames) {
@@ -141,6 +145,7 @@ public class GameModel {
         generateGame();
         updateGameViewsStart();
         updateState();
+        return true;
     }
 
     /**
