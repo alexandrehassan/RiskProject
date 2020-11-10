@@ -38,10 +38,18 @@ public class GameController implements ActionListener {
     private String to;
     private State state;
 
+    /**
+     * Constructor for the GameController
+     * @param gm a GameModel to control
+     */
     public GameController(GameModel gm) {
         this.gameModel = gm;
     }
 
+    /**
+     * Adds a game board to receive / process commands from
+     * @param gameBoard a gameBoard to get commands from
+     */
     public void addGameBoard(mxGraphComponent gameBoard) {
         gameBoard.getGraphControl().addMouseListener(new MouseAdapter() {
             @Override
@@ -135,6 +143,11 @@ public class GameController implements ActionListener {
         gameModel.updateGameViewsTurnState("attack");
     }
 
+    /**
+     * Reads an action from the view, then interprets it and executes commands
+     * accordingly
+     * @param e the ActionEvent to interpret
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == null)
@@ -142,13 +155,15 @@ public class GameController implements ActionListener {
 
         String command = e.getActionCommand();
         switch (command) {
+
             case HELP_COMMAND -> gameModel.printHelp();
             case NEW_COMMAND -> {
-                gameModel.userCreateGame();
-                this.state = State.REINFORCEMENT;
-                from = EMPTY;
-                to = EMPTY;
-                gameModel.updateGameViewsTurnState("reinforcement");
+                if (gameModel.userCreateGame()) {
+                    this.state = State.REINFORCEMENT;
+                    from = EMPTY;
+                    to = EMPTY;
+                    gameModel.updateGameViewsTurnState("reinforcement");
+                }
             }
             case ATTACK_COMMAND -> {
                 state = State.ATTACK;
@@ -169,6 +184,10 @@ public class GameController implements ActionListener {
         }
     }
 
+    /**
+     * Gets the number of reinforcements currently available to the current players
+     * @return the number of available reinforcements
+     */
     public int getCurrentReinforcements() {
         return gameModel.getCurrentPlayerReinforcements();
     }

@@ -81,6 +81,10 @@ public class GameModel {
         }
     }
 
+    /**
+     * Updates the turn state of all game views
+     * @param newState .
+     */
     public void updateGameViewsTurnState(String newState) {
         for (GameView v : gameViews) {
             v.handleTurnStateChange(new TurnStateEvent(this, newState));
@@ -122,15 +126,19 @@ public class GameModel {
         }
     }
 
+    //================================================================================
+    // Game Creation
+    //================================================================================
+
     /**
      * User can add between 2 and 6 players (inclusive) to a game. They can
      * then generate a full game and begin playing immediately
      */
-    public void userCreateGame() {
+    public boolean userCreateGame() {
         LinkedList<String> playerNames = getPlayerNames();
         if (playerNames.size() < 2) {
             showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
-            return;
+            return false;
         } else {
             players.clear();
             for (String player : playerNames) {
@@ -141,6 +149,7 @@ public class GameModel {
         generateGame();
         updateGameViewsStart();
         updateState();
+        return true;
     }
 
     /**
@@ -194,13 +203,17 @@ public class GameModel {
         //autoPutReinforcements(reinforcements);
     }
 
+    /**
+     * Gets the number of reinforcements currently available to the current player
+     * @return the number of reinforcements available
+     */
     public int getCurrentPlayerReinforcements() {
         return currentPlayerReinforcements;
     }
 
     /**
-     * @param country
-     * @param toAdd
+     * @param country .
+     * @param toAdd .
      * @throws IllegalArgumentException if the country is invalid or toAdd is smaller than 1
      */
     public void placeCurrentPlayerReinforcements(String country, int toAdd) {
@@ -275,6 +288,12 @@ public class GameModel {
             throw new IllegalArgumentException(attacking.getName() + " does not have enough troops to attack (needs more than 1)");
     }
 
+    /**
+     * Performs a blitz attack given two countries (one attacking / defending)
+     *
+     * @param attack the attacking country
+     * @param defend the defending country
+     */
     private void performBlitzAttack(Country attack, Country defend) {
         checkAttackValid(attack, defend);
         int lostAttackers = 0;
@@ -461,6 +480,10 @@ public class GameModel {
         showMessage("It is " + currentPlayer.getName() + "'s turn");
     }
 
+    /**
+     * Gets the current player
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -539,9 +562,51 @@ public class GameModel {
         }
     }
 
+    //================================================================================
+    // Pop-ups
+    //================================================================================
+
+
     //Allows the tests to suppress these.
     public void showErrorPopUp(Exception e) {
-        currentPlayer.errorHandling(e);
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+
+    //Allows the tests to suppress these.
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(null, message);
+    }
+
+    /**
+     * Gets player names from a JOptionPane
+     * @return the player names as a LinkedList of Strings
+     */
+    private LinkedList<String> getPlayerNames() {
+        ArrayList<JTextField> playerInput = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            playerInput.add(new JTextField());
+        }
+
+        Object[] message = {
+                "Player 1", playerInput.get(0),
+                "Player 2", playerInput.get(1),
+                "Player 3", playerInput.get(2),
+                "Player 4", playerInput.get(3),
+                "Player 5", playerInput.get(4),
+                "Player 6", playerInput.get(5),
+        };
+        LinkedList<String> currentPlayers = new LinkedList<>();
+        int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            String playerName;
+            for (JTextField jTextField : playerInput) {
+                playerName = jTextField.getText().trim();
+                if (!playerName.equals("")) {
+                    currentPlayers.add(playerName);
+                }
+            }
+        }
+        return currentPlayers;
     }
 
     //================================================================================
@@ -581,38 +646,7 @@ public class GameModel {
         return currentPlayer.troopSelect(minimum,maximum);
     }
 
-    //Allows the tests to suppress these.
-    public void showMessage(String message) {
-        currentPlayer.message(message);
-    }
 
-    private LinkedList<String> getPlayerNames() {
-        ArrayList<JTextField> playerInput = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            playerInput.add(new JTextField());
-        }
-
-        Object[] message = {
-                "Player 1", playerInput.get(0),
-                "Player 2", playerInput.get(1),
-                "Player 3", playerInput.get(2),
-                "Player 4", playerInput.get(3),
-                "Player 5", playerInput.get(4),
-                "Player 6", playerInput.get(5),
-        };
-        LinkedList<String> currentPlayers = new LinkedList<>();
-        int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_OPTION) {
-            String playerName;
-            for (JTextField jTextField : playerInput) {
-                playerName = jTextField.getText().trim();
-                if (!playerName.equals("")) {
-                    currentPlayers.add(playerName);
-                }
-            }
-        }
-        return currentPlayers;
-    }
 
     /**
      * Fixes the capitalization of countries (can input all lowercase, uppercase,

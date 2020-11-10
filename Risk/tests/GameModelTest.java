@@ -16,19 +16,19 @@ class GameModelTest {
     private static final int MINIMUM_PLAYERS = 2;
     private static final int MAXIMUM_PLAYERS = 6;
 
-    private GameModel model;
+    private DummyModel model;
     private ArrayList<Player> PLAYERS;
 
     @BeforeEach
     void setUp() {
         PLAYERS = new ArrayList<>();
-        PLAYERS.add(new HeadlessPlayer(PLAYER1));
-        PLAYERS.add(new HeadlessPlayer(PLAYER2));
-        PLAYERS.add(new HeadlessPlayer(PLAYER3));
-        PLAYERS.add(new HeadlessPlayer(PLAYER4));
-        PLAYERS.add(new HeadlessPlayer(PLAYER5));
-        PLAYERS.add(new HeadlessPlayer(PLAYER6));
-        model = new GameModel(PLAYERS);
+        PLAYERS.add(new Player(PLAYER1));
+        PLAYERS.add(new Player(PLAYER2));
+        PLAYERS.add(new Player(PLAYER3));
+        PLAYERS.add(new Player(PLAYER4));
+        PLAYERS.add(new Player(PLAYER5));
+        PLAYERS.add(new Player(PLAYER6));
+        model = new DummyModel(PLAYERS);
     }
 
     @AfterEach
@@ -38,7 +38,7 @@ class GameModelTest {
     @Test
     void gameGenerationWrongNumberOfPlayers() {
         ArrayList<Player> players = new ArrayList<>();
-        PLAYERS.add(new HeadlessPlayer("test"));
+        PLAYERS.add(new Player("test"));
         assertThrows(IllegalArgumentException.class, () -> new GameModel(players), "model allowed 7 players.");
         assertThrows(IllegalArgumentException.class, () -> new GameModel(PLAYERS), "model allowed 7 players.");
     }
@@ -49,7 +49,7 @@ class GameModelTest {
         int count = 0;
         for (int i = MINIMUM_PLAYERS; i < MAXIMUM_PLAYERS + 1; i++) {
             for (int j = 0; j < i; j++) {
-                players.add(new HeadlessPlayer("" + j));
+                players.add(new Player("" + j));
             }
             new GameModel(players);
 
@@ -77,7 +77,7 @@ class GameModelTest {
     @Test//Only tests Blitz Attack TODO: Test other attacks.
     void playAttack() {
 
-        HeadlessPlayer currentPlayer = (HeadlessPlayer) model.getCurrentPlayer();
+        Player currentPlayer = (Player) model.getCurrentPlayer();
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         Country attacker = perimeterCountries.get(0);
         Country defender = attacker.getNeighbors().get(0);
@@ -108,7 +108,7 @@ class GameModelTest {
 
         model.playAttack(finalAttacker.getName(),
                 finalDefender.getName(), true);
-        assertTrue(currentPlayer.isThrewException());
+        assertTrue(model.threwException);
 
     }
 
@@ -168,6 +168,27 @@ class GameModelTest {
         assertEquals(playerReinforcements, model.getCurrentPlayerReinforcements(),
                 "Errored but modified the number of reinforcements left to place anyway");
     }
+    public class DummyModel extends GameModel {
 
+        public DummyModel(ArrayList<Player> players) {
+            super(players);
+        }
+        public boolean threwException = false;
+
+        public int troopSelect(int minimum, int maximum) {
+            //System.out.println("Reached 1");
+            return minimum;
+        }
+
+        public void showErrorPopUp(Exception e) {
+            threwException = true;
+        }
+        public void resetError(){
+            threwException = false;
+        }
+
+        public void showMessage(String message) {
+        }
+    }
 
 }
