@@ -23,15 +23,20 @@ import java.awt.event.MouseEvent;
  * @version 27-10-2020
  */
 public class GameController implements ActionListener {
-    private final static int REINFORCEMENT_STATE = 0;
-    private final static int ATTACK_STATE = 1;
-    private final static int MOVEMENT_STATE = 2;
+    private enum State {REINFORCEMENT,ATTACK,MOVEMENT}
+
+    private static final String HELP_COMMAND = "help";
+    private static final String NEW_COMMAND = "new";
+    private static final String ATTACK_COMMAND = "attack";
+    private static final String MOVE_COMMAND = "move";
+    private static final String END_COMMAND = "end";
+    private static final String EMPTY = "";
 
     private final GameModel gameModel;
 
     private String from;
     private String to;
-    private int state;
+    private State state;
 
     /**
      * Constructor for the GameController
@@ -57,17 +62,17 @@ public class GameController implements ActionListener {
 
                 String clickedCountry = (String) ((mxCell) cell).getValue();
 
-                if (clickedCountry.equals("")) {
+                if (clickedCountry.equals(EMPTY)) {
                     return;
                 }
 
-                if (!gameModel.playerOwns(clickedCountry) && state != ATTACK_STATE) {
+                if (!gameModel.playerOwns(clickedCountry) && state != State.ATTACK) {
                     JOptionPane.showMessageDialog(null, "Current player does not own " + clickedCountry);
                     return;
                 }
 
                 switch (state) {
-                    case REINFORCEMENT_STATE -> {
+                    case REINFORCEMENT -> {
                         try {
                             int reinforcements = gameModel.getCurrentPlayerReinforcements();
                             if (reinforcements <= 0) {
@@ -83,44 +88,44 @@ public class GameController implements ActionListener {
                             System.out.println(exception.getMessage());
                         }
                     }
-                    case ATTACK_STATE -> {
-                        if (from.equals("")) {
+                    case ATTACK -> {
+                        if (from.equals(EMPTY)) {
                             from = clickedCountry;
                             JOptionPane.showMessageDialog(null, "Attacking with " + from);
-                        } else if (to.equals("")) {
+                        } else if (to.equals(EMPTY)) {
                             to = clickedCountry;
                             JOptionPane.showMessageDialog(null, "Attacking " + to);
                             int reply = JOptionPane.showConfirmDialog(null,
                                     "Attacking " + to + " with " + from + ". Blitz attack?",
                                     "Select attack type", JOptionPane.YES_NO_OPTION);
                             gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
-                            from = "";
-                            to = "";
+                            from = EMPTY;
+                            to = EMPTY;
                         }
                     }
-                    case MOVEMENT_STATE -> {
-                        if (from.equals("")) {
+                    case MOVEMENT -> {
+                        if (from.equals(EMPTY)) {
                             from = clickedCountry;
                             JOptionPane.showMessageDialog(null, "Moving from " + from);
-                        } else if (to.equals("")) {
+                        } else if (to.equals(EMPTY)) {
                             to = clickedCountry;
                             if (to.equals(from)) {
                                 JOptionPane.showMessageDialog(null, "Cannot move to the same country. Input cleared");
-                                to = "";
-                                from = "";
+                                to = EMPTY;
+                                from = EMPTY;
                                 return;
                             }
                             JOptionPane.showMessageDialog(null, "Moving troops from  " + from + " to " + to);
                             boolean successfulMove = gameModel.moveTroops(from, to);
                             if (successfulMove) {
                                 gameModel.updateState();
-                                state = REINFORCEMENT_STATE;
+                                state = State.REINFORCEMENT;
                                 gameModel.nextPlayer(true);
                                 gameModel.showCurrentPlayer();
                                 gameModel.updateGameViewsTurnState("reinforcement");
                             }
-                            from = "";
-                            to = "";
+                            from = EMPTY;
+                            to = EMPTY;
                         }
                     }
                 }
@@ -132,7 +137,7 @@ public class GameController implements ActionListener {
      * Moves on to the attack phase (removes duplicate code)
      */
     private void toAttackPhase() {
-        state = ATTACK_STATE;
+        state = State.ATTACK;
         JOptionPane.showMessageDialog(null,
                 "Done placing reinforcements (none left)");
         gameModel.updateGameViewsTurnState("attack");
@@ -148,29 +153,30 @@ public class GameController implements ActionListener {
         if (e.getActionCommand() == null)
             return;
 
-        String command = e.getActionCommand().split(" ")[0];
+        String command = e.getActionCommand();
         switch (command) {
-            case "help" -> gameModel.printHelp();
-            case "new" -> {
+
+            case HELP_COMMAND -> gameModel.printHelp();
+            case NEW_COMMAND -> {
                 if (gameModel.userCreateGame()) {
-                    this.state = REINFORCEMENT_STATE;
-                    from = "";
-                    to = "";
+                    this.state = State.REINFORCEMENT;
+                    from = EMPTY;
+                    to = EMPTY;
                     gameModel.updateGameViewsTurnState("reinforcement");
                 }
             }
-            case "attack" -> {
-                state = ATTACK_STATE;
+            case ATTACK_COMMAND -> {
+                state = State.ATTACK;
                 JOptionPane.showMessageDialog(null,
                         "Select a country to attack with, then a country to attack");
                 gameModel.updateGameViewsTurnState("attack");
             }
-            case "move" -> {
-                state = MOVEMENT_STATE;
+            case MOVE_COMMAND -> {
+                state = State.MOVEMENT;
                 gameModel.updateGameViewsTurnState("move");
             }
-            case "end" -> {
-                state = REINFORCEMENT_STATE;
+            case END_COMMAND -> {
+                state = State.REINFORCEMENT;
                 gameModel.nextPlayer(true);
                 gameModel.showCurrentPlayer();
                 gameModel.updateGameViewsTurnState("reinforcement");
