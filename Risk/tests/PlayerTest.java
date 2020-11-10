@@ -38,6 +38,17 @@ class PlayerTest {
     }
 
     @Test
+    void getNumberOfTroops() {
+        int beginningTroops = 20;
+        ArrayList<Country> countries = map.getContinent(Map.ASIA).getCountries();
+        countries.forEach(testPlayer::addCountry);
+
+        testPlayer.assignBeginningTroops(beginningTroops);
+
+        assertEquals(testPlayer.getNumberOfTroops(), beginningTroops);
+    }
+
+    @Test
     void isEliminated() {
         Player player = new Player(NAME);
         assertTrue(player.isEliminated());

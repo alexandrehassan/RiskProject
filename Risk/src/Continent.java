@@ -16,7 +16,7 @@ public class Continent {
     /**
      * Default constructor for class Continent.
      *
-     * @param name the name of the continent
+     * @param name           the name of the continent
      * @param reinforcements the number of bonus reinforcements given if all of the continent is owned by one player.
      */
     public Continent(String name, int reinforcements) {
@@ -53,11 +53,11 @@ public class Continent {
     }
 
     /**
-    * Adds the given countries to the continent.
-    *
-    * @param countries the countries to be added.
-    */
-    public void addCountries(ArrayList<Country> countries){
+     * Adds the given countries to the continent.
+     *
+     * @param countries the countries to be added.
+     */
+    public void addCountries(ArrayList<Country> countries) {
         Set<Country> countryHashSet = new HashSet<>(this.countries);
         countryHashSet.addAll(countries);
         this.countries = new ArrayList<>(countryHashSet);
