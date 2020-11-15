@@ -228,20 +228,7 @@ public class GameModel {
         updateState();
     }
 
-//    /**
-//     * Method to add reinforcement to a player's countries automatically,
-//     * will always add on countries on the exterior of a player's territory.
-//     * <p>
-//     * Early version of what will be used for AI players.
-//     *
-//     * @param reinforcements the number of troops to place.
-//     */
-//    private void autoPutReinforcements(int reinforcements) {
-//        ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
-//        for (int assigned = 0; assigned < reinforcements; assigned++) {
-//            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
-//        }
-//    }
+
 
     //================================================================================
     // Attack
@@ -452,6 +439,7 @@ public class GameModel {
 
     /**
      * Changes current player to the next player in the correct order until the next player is not eliminated.
+     * TODO: Add AI check
      */
     public void nextPlayer(boolean gameStarted) {
 //        if (players.size() == 0) return;
@@ -471,6 +459,10 @@ public class GameModel {
 
         currentPlayerReinforcements = getReinforcements();
         updatePlayerTurn(currentPlayer.getName());
+        if(currentPlayer instanceof AIPlayer) {
+            ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
+            //views.handle(currentPlayer.getTurnMessages(); TODO: Make this happen
+        }
     }
 
     /**
@@ -607,7 +599,7 @@ public class GameModel {
                 playerName = playerInput.get(i).getText().trim();
                 if (!playerName.equals("")) {
                     if(AIPlayer.get(i).isSelected()){
-                        currentPlayers.add(new AIPlayer(playerName));
+                        currentPlayers.add(new AIPlayer(playerName, this));
                     }
                     else {
                         currentPlayers.add(new Player(playerName));
