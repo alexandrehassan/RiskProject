@@ -135,14 +135,14 @@ public class GameModel {
      * then generate a full game and begin playing immediately
      */
     public boolean userCreateGame() {
-        LinkedList<String> playerNames = getPlayerNames();
-        if (playerNames.size() < 2) {
+        LinkedList<Player> playersTemp = getPlayerNames();
+        if (playersTemp.size() < 2) {
             showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
             return false;
         } else {
             players.clear();
-            for (String player : playerNames) {
-                addPlayer(new Player(player));
+            for (Player player : playersTemp) {
+                addPlayer(player);
             }
         }
         resetView();
@@ -569,40 +569,49 @@ public class GameModel {
 
     //Allows the tests to suppress these.
     public void showErrorPopUp(Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
+        currentPlayer.handleError(e);
     }
 
     //Allows the tests to suppress these.
     public void showMessage(String message) {
-        JOptionPane.showMessageDialog(null, message);
+        currentPlayer.handleMessage(message);
     }
 
     /**
      * Gets player names from a JOptionPane
      * @return the player names as a LinkedList of Strings
      */
-    private LinkedList<String> getPlayerNames() {
+    private LinkedList<Player> getPlayerNames() {
         ArrayList<JTextField> playerInput = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             playerInput.add(new JTextField());
         }
+        ArrayList<JCheckBox> AIPlayer = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            AIPlayer.add(new JCheckBox("Computer Player"));
+        }
 
         Object[] message = {
-                "Player 1", playerInput.get(0),
-                "Player 2", playerInput.get(1),
-                "Player 3", playerInput.get(2),
-                "Player 4", playerInput.get(3),
-                "Player 5", playerInput.get(4),
-                "Player 6", playerInput.get(5),
+                "Player 1", playerInput.get(0), AIPlayer.get(0),
+                "Player 2", playerInput.get(1), AIPlayer.get(1),
+                "Player 3", playerInput.get(2), AIPlayer.get(2),
+                "Player 4", playerInput.get(3), AIPlayer.get(3),
+                "Player 5", playerInput.get(4), AIPlayer.get(4),
+                "Player 6", playerInput.get(5), AIPlayer.get(5),
         };
-        LinkedList<String> currentPlayers = new LinkedList<>();
+        LinkedList<Player> currentPlayers = new LinkedList<>();
         int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String playerName;
-            for (JTextField jTextField : playerInput) {
-                playerName = jTextField.getText().trim();
+            for (int i = 0; i< playerInput.size(); i++) {
+                playerName = playerInput.get(i).getText().trim();
                 if (!playerName.equals("")) {
-                    currentPlayers.add(playerName);
+                    if(AIPlayer.get(i).isSelected()){
+                        currentPlayers.add(new AIPlayer(playerName));
+                    }
+                    else {
+                        currentPlayers.add(new Player(playerName));
+                    }
                 }
             }
         }
