@@ -459,9 +459,10 @@ public class GameModel {
 
         currentPlayerReinforcements = getReinforcements();
         updatePlayerTurn(currentPlayer.getName());
-        if(currentPlayer instanceof AIPlayer) {
+        if(currentPlayer instanceof AIPlayer && gameStarted) {
             ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
             //views.handle(currentPlayer.getTurnMessages(); TODO: Make this happen
+            nextPlayer(true);
         }
     }
 
@@ -479,18 +480,6 @@ public class GameModel {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
-//    /**
-//     * Gets the number of remaining (not eliminated) players
-//     *
-//     * @return int amount of remaining players
-//     */
-//    private int getRemainingPlayers() {
-//        int counter = 0;
-//        for (Player p : players)
-//            if (!p.isEliminated()) counter++;
-//        return counter;
-//    }
 
     //================================================================================
     // Movement
