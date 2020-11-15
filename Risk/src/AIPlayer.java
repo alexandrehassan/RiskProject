@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -53,15 +54,18 @@ public class AIPlayer extends Player{
      */
     private void autoPutReinforcements(int reinforcements) {
         ArrayList<Country> perimeterCountries = getPerimeterCountries();
-        for (int assigned = 0; assigned < reinforcements; assigned++) {
-            perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
+        if (perimeterCountries.size() != 0) {
+            for (int assigned = 0; assigned < reinforcements; assigned++) {
+                perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
+            }
         }
-    }
-
-
-    private void autoAttack(){
-        for (Country country : super.countries) {
-
+        else {
+            LinkedList<Country> allCountries = getCountries();
+            System.out.println(allCountries.size());
+            for (int assigned = 0; assigned < reinforcements && allCountries.size() > 0; assigned++) {
+                allCountries.get(ThreadLocalRandom.current().nextInt(0, allCountries.size())).addTroop(1);
+            }
+            System.out.println("Left from " + allCountries.size());
         }
     }
 }

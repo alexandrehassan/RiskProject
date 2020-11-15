@@ -198,6 +198,14 @@ public class Player {
         return perimeterCountries;
     }
 
+    /**
+     * Gets all countries
+     * @return all countries
+     */
+    public LinkedList<Country> getCountries () {
+        return countries;
+    }
+
     public int getNumberOfTroops() {
         int count = 0;
         for (Country country : countries) {
