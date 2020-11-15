@@ -135,7 +135,7 @@ public class GameModel {
      * then generate a full game and begin playing immediately
      */
     public boolean userCreateGame() {
-        LinkedList<Player> playersTemp = getPlayerNames();
+        LinkedList<Player> playersTemp = getPlayers();
         if (playersTemp.size() < 2) {
             showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
             return false;
@@ -250,6 +250,25 @@ public class GameModel {
                 performAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
             } else {
                 performBlitzAttack(map.getCountry(attackingCountry), map.getCountry(defendingCountry));
+            }
+        } catch (Exception e) {
+            showErrorPopUp(e);
+        }
+    }
+
+    /**
+     * Begins the attacking process by ensuring the country names are capitalized
+     * correctly, then getting the right countries and performing the attack
+     *
+     * @param attackingCountry the name of the attacking country
+     * @param defendingCountry the name of the defending country
+     */
+    public void playAttack(Country attackingCountry, Country defendingCountry, boolean blitzAttack) {
+        try {
+            if (!blitzAttack) {
+                performAttack(attackingCountry,defendingCountry);
+            } else {
+                performBlitzAttack(attackingCountry,defendingCountry);
             }
         } catch (Exception e) {
             showErrorPopUp(e);
@@ -455,13 +474,14 @@ public class GameModel {
             }
             if (alive < 2) handleGameOver();
             if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
+            if(currentPlayer instanceof AIPlayer) {
+                ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
+                //views.handle(currentPlayer.getTurnMessages(); TODO: Make this happen
         }
 
         currentPlayerReinforcements = getReinforcements();
         updatePlayerTurn(currentPlayer.getName());
-        if(currentPlayer instanceof AIPlayer) {
-            ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
-            //views.handle(currentPlayer.getTurnMessages(); TODO: Make this happen
+
         }
     }
 
@@ -573,7 +593,7 @@ public class GameModel {
      * Gets player names from a JOptionPane
      * @return the player names as a LinkedList of Strings
      */
-    private LinkedList<Player> getPlayerNames() {
+    private LinkedList<Player> getPlayers() {
         ArrayList<JTextField> playerInput = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             playerInput.add(new JTextField());

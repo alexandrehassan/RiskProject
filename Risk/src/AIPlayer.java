@@ -35,7 +35,7 @@ public class AIPlayer extends Player{
 
     public void playTurn(int currentPlayerReinforcements){
         autoPutReinforcements(currentPlayerReinforcements);
-
+        autoAttack();
         model.updateState();
     }
 
@@ -60,8 +60,15 @@ public class AIPlayer extends Player{
 
 
     private void autoAttack(){
-        for (Country country : super.countries) {
-
+        for (Country country :getPerimeterCountries()) {
+            if(country.getTroops()>1){
+                for(Country defender: country.getNeighbors()){
+                    if(!hasCountry(defender)){
+                        model.playAttack(country,defender,true);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
