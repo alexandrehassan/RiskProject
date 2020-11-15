@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -54,18 +55,23 @@ public class AIPlayer extends Player{
      */
     private void autoPutReinforcements(int reinforcements) {
         ArrayList<Country> perimeterCountries = getPerimeterCountries();
+        HashMap<String, Integer> addedReinforcements = new HashMap<String, Integer>();
         if (perimeterCountries.size() != 0) {
             for (int assigned = 0; assigned < reinforcements; assigned++) {
-                perimeterCountries.get(ThreadLocalRandom.current().nextInt(0, perimeterCountries.size())).addTroop(1);
+                int index = ThreadLocalRandom.current().nextInt(0, perimeterCountries.size());
+                Country country = perimeterCountries.get(index);
+                country.addTroop(1);
+                String name = country.getName();
+                if (addedReinforcements.containsKey(name)) {
+                    addedReinforcements.put(name, addedReinforcements.get(name) + 1);
+                }
+                else {
+                    addedReinforcements.put(country.getName(), 1);
+                }
             }
-        }
-        else {
-            LinkedList<Country> allCountries = getCountries();
-            System.out.println(allCountries.size());
-            for (int assigned = 0; assigned < reinforcements && allCountries.size() > 0; assigned++) {
-                allCountries.get(ThreadLocalRandom.current().nextInt(0, allCountries.size())).addTroop(1);
+            for (Object key : addedReinforcements.keySet()) {
+                turnMessages.append("\nAdded " + addedReinforcements.get(key) + " reinforcements to " + key + ".");
             }
-            System.out.println("Left from " + allCountries.size());
         }
     }
 }

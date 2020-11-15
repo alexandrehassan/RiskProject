@@ -461,7 +461,8 @@ public class GameModel {
         updatePlayerTurn(currentPlayer.getName());
         if(currentPlayer instanceof AIPlayer && gameStarted) {
             ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
-            //views.handle(currentPlayer.getTurnMessages(); TODO: Make this happen
+            System.out.println(((AIPlayer) currentPlayer).getTurnMessages());
+            //views.handle(currentPlayer.getTurnMessages()); TODO: Make this happen
             nextPlayer(true);
         }
     }
