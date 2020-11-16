@@ -256,6 +256,18 @@ public class GameModel {
         }
     }
 
+    public void playAttack(Country attackingCountry, Country defendingCountry, boolean blitzAttack) {
+        try {
+            if (!blitzAttack) {
+                performAttack(attackingCountry, defendingCountry);
+            } else {
+                performBlitzAttack(attackingCountry, defendingCountry);
+            }
+        } catch (Exception e) {
+            showErrorPopUp(e);
+        }
+    }
+
     /**
      * Checks that the two countries involved in the attack meet the requirements for
      * a legal RISK battle
@@ -442,7 +454,6 @@ public class GameModel {
      * TODO: Add AI check
      */
     public void nextPlayer(boolean gameStarted) {
-//        if (players.size() == 0) return;
         if (players.indexOf(currentPlayer) != players.size() - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
         } else {
@@ -458,7 +469,7 @@ public class GameModel {
         }
 
         currentPlayerReinforcements = getReinforcements();
-        updatePlayerTurn(currentPlayer.getName());
+        if(! (currentPlayer instanceof AIPlayer)) updatePlayerTurn(currentPlayer.getName());
         if(currentPlayer instanceof AIPlayer && gameStarted) {
             ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
             System.out.println(((AIPlayer) currentPlayer).getTurnMessages());

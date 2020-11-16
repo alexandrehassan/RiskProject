@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,8 +38,23 @@ public class AIPlayer extends Player{
 
     public void playTurn(int currentPlayerReinforcements){
         autoPutReinforcements(currentPlayerReinforcements);
-
+        autoAttack();
         model.updateState();
+        System.out.println(turnMessages);
+        turnMessages.setLength(0);
+    }
+
+    private void autoAttack() {
+        for(Country possibleAttack: getPerimeterCountries()){
+            if(possibleAttack.getTroops()>1){
+                for(Country possibleDefender: possibleAttack.getNeighbors()){
+                    if(!hasCountry(possibleDefender)){
+                        model.playAttack(possibleAttack,possibleDefender,true);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public String getTurnMessages(){
@@ -73,5 +89,10 @@ public class AIPlayer extends Player{
                 turnMessages.append("\nAdded " + addedReinforcements.get(key) + " reinforcements to " + key + ".");
             }
         }
+    }
+
+    @Override
+    public int troopSelect(int minimum, int maximum) {
+        return maximum;
     }
 }
