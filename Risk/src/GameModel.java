@@ -701,4 +701,7 @@ public class GameModel {
     }
 
 
+    public String getHistory() {
+        return history.toString();
+    }
 }

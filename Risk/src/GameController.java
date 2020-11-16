@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
+
 /**
  * This class is part of the game of RISK, the term
  * project for SYSC3110 that emulates the original game of RISK.
@@ -31,6 +33,7 @@ public class GameController implements ActionListener {
     private static final String MOVE_COMMAND = "move";
     private static final String END_COMMAND = "end";
     private static final String EMPTY = "";
+    private static final String HISTORY_COMMAND = "history";
 
     private final GameModel gameModel;
 
@@ -189,6 +192,12 @@ public class GameController implements ActionListener {
                     gameModel.showCurrentPlayer();
                 gameModel.updateGameViewsTurnState("reinforcement");
                 }
+            }
+            case HISTORY_COMMAND -> {
+                JTextArea textArea = new JTextArea(gameModel.getHistory(),50,70);
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
+                JOptionPane.showMessageDialog(null,scrollPane);
             }
         }
     }
