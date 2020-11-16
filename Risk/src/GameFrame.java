@@ -153,8 +153,14 @@ public class GameFrame extends JFrame implements GameView {
         for (int i = 0; i < playersInfo.size(); i++) {
             playersInfo.get(i).setText("Reserved for player " + (i + 1));
             playersInfo.get(i).setEnabled(false);
-            playersInfo.get(i).setBackground(Color.black);
-            playersInfo.get(i).setSelectedTextColor(Color.white);
+            playersInfo.get(i).setBackground(Color.white);
+            playersInfo.get(i).setSelectedTextColor(Color.gray);
+            playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+        }
+
+        for (JButton b : buttons) {
+            b.setEnabled(false);
+            b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
         }
     }
 

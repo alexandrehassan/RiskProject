@@ -19,6 +19,7 @@ public class GameModel {
     private int currentPlayerReinforcements;
     private Map map;
     private final ArrayList<GameView> gameViews;
+    private final StringBuilder history;
 
     public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
 
@@ -34,6 +35,7 @@ public class GameModel {
         this.players = new ArrayList<>();
         this.map = null;
         this.gameViews = new ArrayList<>();
+        this.history = new StringBuilder();
     }
 
     /**
@@ -47,6 +49,7 @@ public class GameModel {
         this.players = players;
         this.map = null;
         this.gameViews = new ArrayList<>();
+        this.history = new StringBuilder();
         resetView();
         generateGame();
         updateGameViewsStart();
@@ -398,13 +401,7 @@ public class GameModel {
             }
         }
 
-        int toAdd = 1;
-        try {
-            toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
-        }
-        catch (Exception e) {
-            //
-        }
+        int toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
 
         currentPlayer.addCountry(defend);
         moveTroops(attack, defend, toAdd);
@@ -436,6 +433,7 @@ public class GameModel {
         for (GameView v : gameViews) {
             v.handleGameOver(new GameOverEvent(this, currentPlayer));
         }
+        System.out.println(history.toString());
         resetModel();
     }
 
@@ -467,7 +465,6 @@ public class GameModel {
 
     /**
      * Changes current player to the next player in the correct order until the next player is not eliminated.
-     * TODO: Add AI check
      */
     public void nextPlayer(boolean gameStarted) {
         if (players.indexOf(currentPlayer) != players.size() - 1) {
@@ -475,25 +472,30 @@ public class GameModel {
         } else {
             currentPlayer = players.get(0);
         }
-        if (gameStarted) {
-            if (getRemainingPlayers() < 2) handleGameOver();
-            if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
-        }
 
-        currentPlayerReinforcements = getReinforcements();
-
-        if(currentPlayer instanceof AIPlayer && gameStarted) {
-            ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
-            System.out.println(((AIPlayer) currentPlayer).getTurnMessages());
-            //views.handle(currentPlayer.getTurnMessages()); TODO: Make this happen
-            if (!(getRemainingPlayers() < 2)) {
-                nextPlayer(true);
-            } else {
+        if(gameStarted){
+            if (getRemainingPlayers() < 2) {
                 handleGameOver();
+                return;
             }
-        } else {
-            updatePlayerTurn(currentPlayer.getName());
-            updateGameViewsTurnState("reinforcement");
+            if (currentPlayer.isEliminated())
+                nextPlayer(true);
+
+            history.append("\n\n").append(currentPlayer.getName()).append("\n");
+            currentPlayerReinforcements = getReinforcements();
+            if(currentPlayer instanceof AIPlayer) {
+                ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
+                if (!(getRemainingPlayers() < 2)) {
+                    nextPlayer(true);
+                } else {
+                    handleGameOver();
+                }
+            }else {
+                updatePlayerTurn(currentPlayer.getName());
+                updateGameViewsTurnState("reinforcement");
+            }
+
+
         }
     }
 
@@ -517,11 +519,7 @@ public class GameModel {
      * @return the number of remaining players
      */
     public int getRemainingPlayers () {
-        int alive = 0;
-        for (Player p : players) {
-            if (!p.isEliminated()) alive++;
-        }
-        return alive;
+        return (int)players.stream().filter(player -> !player.isEliminated()).count();
     }
 
     //================================================================================
@@ -596,9 +594,10 @@ public class GameModel {
         currentPlayer.handleError(e);
     }
 
-    //Allows the tests to suppress these.
+    //Allows the AI to suppress these.
     public void showMessage(String message) {
         currentPlayer.handleMessage(message);
+        history.append(message).append("\n");
     }
 
     /**
