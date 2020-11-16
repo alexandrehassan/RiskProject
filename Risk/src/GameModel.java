@@ -579,7 +579,7 @@ public class GameModel {
         currentPlayer.handleError(e);
     }
 
-    //Allows the tests to suppress these.
+    //Allows the AI to suppress these.
     public void showMessage(String message) {
         currentPlayer.handleMessage(message);
         history.append(message).append("\n");

@@ -48,7 +48,7 @@ public class AIPlayer extends Player{
         for(Country possibleAttack: getPerimeterCountries()){
             if(possibleAttack.getTroops()>1){
                 for(Country possibleDefender: possibleAttack.getNeighbors()){
-                    if(!hasCountry(possibleDefender)){
+                    if(!hasCountry(possibleDefender) && possibleAttack.getTroops()>possibleDefender.getTroops()){
                         model.playAttack(possibleAttack,possibleDefender,true);
                         break;
                     }
