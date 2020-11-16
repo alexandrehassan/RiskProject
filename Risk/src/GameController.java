@@ -178,8 +178,10 @@ public class GameController implements ActionListener {
             case END_COMMAND -> {
                 state = State.REINFORCEMENT;
                 gameModel.nextPlayer(true);
-                gameModel.showCurrentPlayer();
+                if(gameModel.getCurrentPlayer()!=null){
+                    gameModel.showCurrentPlayer();
                 gameModel.updateGameViewsTurnState("reinforcement");
+                }
             }
         }
     }

@@ -19,6 +19,7 @@ public class GameModel {
     private int currentPlayerReinforcements;
     private Map map;
     private final ArrayList<GameView> gameViews;
+    private StringBuilder history;
 
     public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
 
@@ -34,6 +35,7 @@ public class GameModel {
         this.players = new ArrayList<>();
         this.map = null;
         this.gameViews = new ArrayList<>();
+        this.history = new StringBuilder();
     }
 
     /**
@@ -427,6 +429,7 @@ public class GameModel {
         for (GameView v : gameViews) {
             v.handleGameOver(new GameOverEvent(this, currentPlayer));
         }
+        System.out.println(history.toString());
         resetModel();
     }
 
@@ -471,10 +474,14 @@ public class GameModel {
             for (Player player : players) {
                 if (!player.isEliminated()) alive++;
             }
-            if (alive < 2) handleGameOver();
+            if (alive < 2) {
+                handleGameOver();
+                return;
+            }
             if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
         }
 
+        history.append(currentPlayer.getName());
         currentPlayerReinforcements = getReinforcements();
         if(! (currentPlayer instanceof AIPlayer)) updatePlayerTurn(currentPlayer.getName());
         if(currentPlayer instanceof AIPlayer && gameStarted) {
@@ -575,6 +582,7 @@ public class GameModel {
     //Allows the tests to suppress these.
     public void showMessage(String message) {
         currentPlayer.handleMessage(message);
+        history.append(message).append("\n");
     }
 
     /**
