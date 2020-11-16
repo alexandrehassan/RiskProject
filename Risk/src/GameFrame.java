@@ -550,6 +550,7 @@ public class GameFrame extends JFrame implements GameView {
         for (JButton b : buttons) {
             b.setEnabled(false);
         }
+        reset();
     }
 
     /**
