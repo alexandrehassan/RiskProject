@@ -235,7 +235,6 @@ public class GameModel {
     }
 
 
-
     //================================================================================
     // Attack
     //================================================================================
@@ -411,6 +410,7 @@ public class GameModel {
         moveTroops(attack, defend, toAdd);
         String message = currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.";
         showMessage(message);
+        updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         currentPlayer.sortCountries();
         updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         if (getRemainingPlayers() < 2 && !(currentPlayer instanceof AIPlayer)) {
@@ -481,13 +481,17 @@ public class GameModel {
         }
 
         currentPlayerReinforcements = getReinforcements();
-        if(! (currentPlayer instanceof AIPlayer)) updatePlayerTurn(currentPlayer.getName());
+
         if(currentPlayer instanceof AIPlayer && gameStarted) {
             ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
+            System.out.println(((AIPlayer) currentPlayer).getTurnMessages());
             //views.handle(currentPlayer.getTurnMessages()); TODO: Make this happen
             if (!(getRemainingPlayers() < 2)) {
                 nextPlayer(true);
             }
+        } else {
+            updatePlayerTurn(currentPlayer.getName());
+            updateGameViewsTurnState("reinforcement");
         }
     }
 

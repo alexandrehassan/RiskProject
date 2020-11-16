@@ -23,7 +23,7 @@ import java.awt.event.MouseEvent;
  * @version 27-10-2020
  */
 public class GameController implements ActionListener {
-    private enum State {REINFORCEMENT,ATTACK,MOVEMENT}
+    private enum State {UNDECLARED, REINFORCEMENT,ATTACK,MOVEMENT}
 
     private static final String HELP_COMMAND = "help";
     private static final String NEW_COMMAND = "new";
@@ -72,7 +72,8 @@ public class GameController implements ActionListener {
                 }
 
                 switch (state) {
-                    case REINFORCEMENT -> {
+                    case UNDECLARED, REINFORCEMENT -> {
+                        state = State.REINFORCEMENT;
                         try {
                             int reinforcements = gameModel.getCurrentPlayerReinforcements();
                             if (reinforcements <= 0) {
@@ -159,12 +160,14 @@ public class GameController implements ActionListener {
             case HELP_COMMAND -> gameModel.printHelp();
             case NEW_COMMAND -> {
                 if (gameModel.userCreateGame()) {
-                    this.state = State.REINFORCEMENT;
                     from = EMPTY;
                     to = EMPTY;
+                    System.out.println(gameModel.getCurrentPlayer().getName());
                     if (gameModel.getCurrentPlayer() instanceof AIPlayer) {
+                        this.state = State.UNDECLARED;
                         gameModel.nextPlayer(true);
                     } else {
+                        this.state = State.REINFORCEMENT;
                         gameModel.updateGameViewsTurnState("reinforcement");
                     }
                 }
