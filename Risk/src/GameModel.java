@@ -60,6 +60,9 @@ public class GameModel {
         players.clear();
         currentPlayer = null;
         map = null;
+        for(GameView v: gameViews){
+            v.reset();
+        }
     }
 
     //================================================================================
@@ -434,6 +437,7 @@ public class GameModel {
             v.handleGameOver(new GameOverEvent(this, currentPlayer));
         }
         System.out.println(history.toString());
+        JOptionPane.showMessageDialog(null,currentPlayer.getName() +" won the game");
         resetModel();
     }
 

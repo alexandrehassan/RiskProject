@@ -57,4 +57,6 @@ public interface GameView {
      * @param gameOverEvent a GameOverEvent
      */
     void handleGameOver(GameOverEvent gameOverEvent);
+
+    void reset();
 }

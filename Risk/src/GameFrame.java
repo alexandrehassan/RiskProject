@@ -140,7 +140,7 @@ public class GameFrame extends JFrame implements GameView {
     }
 
 
-    private void reset(){
+    public void reset(){
         updateLine.setText("RISK: a multi-player game of world domination");
         JLabel placeholderBoard = new JLabel();
         ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
@@ -550,7 +550,6 @@ public class GameFrame extends JFrame implements GameView {
         for (JButton b : buttons) {
             b.setEnabled(false);
         }
-        reset();
     }
 
     /**
