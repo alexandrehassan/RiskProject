@@ -49,6 +49,7 @@ public class GameModel {
         this.players = players;
         this.map = null;
         this.gameViews = new ArrayList<>();
+        this.history = new StringBuilder();
         resetView();
         generateGame();
         updateGameViewsStart();
@@ -464,11 +465,13 @@ public class GameModel {
      * TODO: Add AI check
      */
     public void nextPlayer(boolean gameStarted) {
+        //Checks what position and changes accordingly
         if (players.indexOf(currentPlayer) != players.size() - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
         } else {
             currentPlayer = players.get(0);
         }
+
         if (gameStarted) {
             int alive = 0;
             for (Player player : players) {
@@ -479,16 +482,16 @@ public class GameModel {
                 return;
             }
             if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
-        }
 
-        history.append(currentPlayer.getName());
-        currentPlayerReinforcements = getReinforcements();
-        if(! (currentPlayer instanceof AIPlayer)) updatePlayerTurn(currentPlayer.getName());
-        if(currentPlayer instanceof AIPlayer && gameStarted) {
-            ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
-            System.out.println(((AIPlayer) currentPlayer).getTurnMessages());
-            //views.handle(currentPlayer.getTurnMessages()); TODO: Make this happen
-            nextPlayer(true);
+            history.append("\n\n").append(currentPlayer.getName()).append("\n");
+            currentPlayerReinforcements = getReinforcements();
+
+            if(currentPlayer instanceof AIPlayer) {
+                ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
+                nextPlayer(true);
+            }
+            else
+                updatePlayerTurn(currentPlayer.getName());
         }
     }
 
