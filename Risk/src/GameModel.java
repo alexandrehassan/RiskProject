@@ -473,11 +473,8 @@ public class GameModel {
         }
 
         if (gameStarted) {
-            int alive = 0;
-            for (Player player : players) {
-                if (!player.isEliminated()) alive++;
-            }
-            if (alive < 2) {
+            int aliveCount = (int)players.stream().filter(player -> !player.isEliminated()).count();
+            if (aliveCount < 2) {
                 handleGameOver();
                 return;
             }
