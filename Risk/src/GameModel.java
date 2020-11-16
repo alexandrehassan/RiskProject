@@ -488,6 +488,8 @@ public class GameModel {
             //views.handle(currentPlayer.getTurnMessages()); TODO: Make this happen
             if (!(getRemainingPlayers() < 2)) {
                 nextPlayer(true);
+            } else {
+                handleGameOver();
             }
         } else {
             updatePlayerTurn(currentPlayer.getName());
