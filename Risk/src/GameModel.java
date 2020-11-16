@@ -399,14 +399,23 @@ public class GameModel {
             }
         }
 
-        int toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
+        int toAdd = 1;
+        try {
+            toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
+        }
+        catch (Exception e) {
+            //
+        }
 
         currentPlayer.addCountry(defend);
         moveTroops(attack, defend, toAdd);
         String message = currentPlayer.getName() + " took " + defend.getName() + " with " + toAdd + " troops.";
         showMessage(message);
-        updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         currentPlayer.sortCountries();
+        updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
+        if (getRemainingPlayers() < 2 && !(currentPlayer instanceof AIPlayer)) {
+            handleGameOver();
+        }
     }
 
     /**
@@ -467,11 +476,7 @@ public class GameModel {
             currentPlayer = players.get(0);
         }
         if (gameStarted) {
-            int alive = 0;
-            for (Player player : players) {
-                if (!player.isEliminated()) alive++;
-            }
-            if (alive < 2) handleGameOver();
+            if (getRemainingPlayers() < 2) handleGameOver();
             if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
         }
 
@@ -479,9 +484,10 @@ public class GameModel {
         if(! (currentPlayer instanceof AIPlayer)) updatePlayerTurn(currentPlayer.getName());
         if(currentPlayer instanceof AIPlayer && gameStarted) {
             ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
-            System.out.println(((AIPlayer) currentPlayer).getTurnMessages());
             //views.handle(currentPlayer.getTurnMessages()); TODO: Make this happen
-            nextPlayer(true);
+            if (!(getRemainingPlayers() < 2)) {
+                nextPlayer(true);
+            }
         }
     }
 
@@ -498,6 +504,18 @@ public class GameModel {
      */
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * Get the number of remaining players
+     * @return the number of remaining players
+     */
+    public int getRemainingPlayers () {
+        int alive = 0;
+        for (Player p : players) {
+            if (!p.isEliminated()) alive++;
+        }
+        return alive;
     }
 
     //================================================================================

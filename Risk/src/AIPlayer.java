@@ -40,7 +40,7 @@ public class AIPlayer extends Player{
         autoPutReinforcements(currentPlayerReinforcements);
         autoAttack();
         model.updateState();
-        System.out.println(turnMessages);
+        //System.out.println(turnMessages);
         turnMessages.setLength(0);
     }
 

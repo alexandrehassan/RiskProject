@@ -162,7 +162,11 @@ public class GameController implements ActionListener {
                     this.state = State.REINFORCEMENT;
                     from = EMPTY;
                     to = EMPTY;
-                    gameModel.updateGameViewsTurnState("reinforcement");
+                    if (gameModel.getCurrentPlayer() instanceof AIPlayer) {
+                        gameModel.nextPlayer(true);
+                    } else {
+                        gameModel.updateGameViewsTurnState("reinforcement");
+                    }
                 }
             }
             case ATTACK_COMMAND -> {

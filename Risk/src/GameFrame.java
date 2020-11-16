@@ -540,7 +540,7 @@ public class GameFrame extends JFrame implements GameView {
     @Override
     public void handleGameOver(GameOverEvent gameOverEvent) {
         JOptionPane.showMessageDialog(this, gameOverEvent.getWinner().getName() + " won the Game");
-        reset();
+
     }
 
     /**
