@@ -139,6 +139,25 @@ public class GameFrame extends JFrame implements GameView {
         this.setVisible(true);
     }
 
+
+    private void reset(){
+        updateLine.setText("RISK: a multi-player game of world domination");
+        JLabel placeholderBoard = new JLabel();
+        ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
+        Image newImage = image.getImage().getScaledInstance(1000, 650, java.awt.Image.SCALE_SMOOTH);
+        placeholderBoard.setIcon(new ImageIcon(newImage));
+        placeholderBoard.setBounds(0, 0, 1100, 650);
+        boardPanel.removeAll();
+        boardPanel.add(placeholderBoard);
+
+        for (int i = 0; i < playersInfo.size(); i++) {
+            playersInfo.get(i).setText("Reserved for player " + (i + 1));
+            playersInfo.get(i).setEnabled(false);
+            playersInfo.get(i).setBackground(Color.black);
+            playersInfo.get(i).setSelectedTextColor(Color.white);
+        }
+    }
+
     /**
      * Creates the menuBar and add it to the frame
      */
@@ -521,7 +540,7 @@ public class GameFrame extends JFrame implements GameView {
     @Override
     public void handleGameOver(GameOverEvent gameOverEvent) {
         JOptionPane.showMessageDialog(this, gameOverEvent.getWinner().getName() + " won the Game");
-
+        reset();
     }
 
     /**

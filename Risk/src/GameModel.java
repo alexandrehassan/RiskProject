@@ -53,6 +53,12 @@ public class GameModel {
         updateState();
     }
 
+    public void resetModel(){
+        players.clear();
+        currentPlayer = null;
+        map = null;
+    }
+
     //================================================================================
     // Views
     //================================================================================
@@ -421,6 +427,7 @@ public class GameModel {
         for (GameView v : gameViews) {
             v.handleGameOver(new GameOverEvent(this, currentPlayer));
         }
+        resetModel();
     }
 
     //================================================================================
@@ -665,4 +672,6 @@ public class GameModel {
         }
         return countryName.toString();
     }
+
+
 }
