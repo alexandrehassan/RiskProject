@@ -19,7 +19,7 @@ public class GameModel {
     private int currentPlayerReinforcements;
     private Map map;
     private final ArrayList<GameView> gameViews;
-    private StringBuilder history;
+    private final StringBuilder history;
 
     public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
 
@@ -481,7 +481,7 @@ public class GameModel {
                 handleGameOver();
                 return;
             }
-            if (currentPlayer.isEliminated()) nextPlayer(gameStarted);
+            if (currentPlayer.isEliminated()) nextPlayer(true);
 
             history.append("\n\n").append(currentPlayer.getName()).append("\n");
             currentPlayerReinforcements = getReinforcements();
