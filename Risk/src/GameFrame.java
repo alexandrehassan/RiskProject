@@ -37,6 +37,7 @@ public class GameFrame extends JFrame implements GameView {
     private final GameController gameController;
     private final JPanel boardPanel;
     private mxGraph graph;
+    private JMenu gameMenu;
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
     public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
@@ -169,19 +170,21 @@ public class GameFrame extends JFrame implements GameView {
      */
     private void makeMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu gameMenu = new JMenu("Game");
+        gameMenu = new JMenu("Game");
 
         JMenuItem startGame = new JMenuItem("Start Game");
         startGame.addActionListener(gameController);
         startGame.setActionCommand("new");
         gameMenu.add(startGame);
 
-        JMenuItem showHistory = new JMenuItem("Show move history");
-        showHistory.addActionListener(gameController);
-        showHistory.setActionCommand("history");
-        gameMenu.add(showHistory);
-
         menuBar.add(gameMenu);
+
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem help = new JMenuItem("Help");
+        help.addActionListener(gameController);
+        help.setActionCommand("help");
+        helpMenu.add(help);
+        menuBar.add(helpMenu);
         this.setJMenuBar(menuBar);
     }
 
@@ -427,6 +430,11 @@ public class GameFrame extends JFrame implements GameView {
         boardPanel.add(board);
         gameController.addGameBoard(board);
         updateColors(gameModel.getPlayers());
+
+        JMenuItem showHistory = new JMenuItem("Show move history");
+        showHistory.addActionListener(gameController);
+        showHistory.setActionCommand("history");
+        gameMenu.add(showHistory);
     }
 
     /**

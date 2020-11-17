@@ -160,7 +160,9 @@ public class GameController implements ActionListener {
         String command = e.getActionCommand();
         switch (command) {
 
-            case HELP_COMMAND -> gameModel.printHelp();
+            case HELP_COMMAND ->
+                JOptionPane.showMessageDialog(null,gameModel.getHelp());
+
             case NEW_COMMAND -> {
                 if (gameModel.userCreateGame()) {
                     from = EMPTY;

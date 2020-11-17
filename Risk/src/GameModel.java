@@ -704,4 +704,13 @@ public class GameModel {
     public String getHistory() {
         return history.toString();
     }
+
+    public String getHelp() {
+        return "Game instructions: \n" +
+                "To attack, select the attack button and choose a defending and attacking country\n" +
+                "To end your turn, select the 'end' button\n" +
+                "To manually update the charts on the right, select the 'state' button\n" +
+                "To get help, select the 'help' button\n" +
+                "The current player is shown in the top left corner";
+    }
 }
