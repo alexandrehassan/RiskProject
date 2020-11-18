@@ -1,55 +1,49 @@
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 /**
  * @author Alexandre Hassan
  * @version 2020-11-15
  */
-public class AIPlayer extends Player{
+public class AIPlayer extends Player {
 
-    private boolean hadError;
-    private StringBuilder turnMessages;
-    private GameModel model;
+    private final GameModel model;
 
     /**
      * Default constructor for the class Player.
      *
-     * @param name the name of the player.
-     * @param gameModel
+     * @param name      the name of the player.
+     * @param gameModel the model representing the game being played.
      */
     public AIPlayer(String name, GameModel gameModel) {
         super(name);
-        this.turnMessages = new StringBuilder();
         this.model = gameModel;
     }
 
     @Override
     public void handleError(Exception e) {
-        hadError = true;
+        //TODO
     }
 
     @Override
     public void handleMessage(String message) {
-        turnMessages.append(message).append("\n");
     }
 
-    public void playTurn(int currentPlayerReinforcements){
-        turnMessages.setLength(0);
+    public void playTurn(int currentPlayerReinforcements) {
         autoPutReinforcements(currentPlayerReinforcements);
         autoAttack();
+        autoMove();
         model.updateState();
-        //System.out.println(turnMessages);
     }
 
     private void autoAttack() {
-        for(Country possibleAttack: getPerimeterCountries()){
-            if(possibleAttack.getTroops()>1){
-                for(Country possibleDefender: possibleAttack.getNeighbors()){
-                    if(!hasCountry(possibleDefender) && possibleAttack.getTroops()>possibleDefender.getTroops()){
-                        model.playAttack(possibleAttack,possibleDefender,true);
+        for (Country possibleAttack : getPerimeterCountries()) {
+            if (possibleAttack.getTroops() > 1) {
+                for (Country possibleDefender : possibleAttack.getNeighbors()) {
+                    if (!hasCountry(possibleDefender) && possibleAttack.getTroops() > possibleDefender.getTroops()) {
+                        model.playAttack(possibleAttack, possibleDefender, true);
                         break;
                     }
                 }
@@ -57,9 +51,6 @@ public class AIPlayer extends Player{
         }
     }
 
-    public String getTurnMessages(){
-        return turnMessages.toString();
-    }
 
     /**
      * Method to add reinforcement to a player's countries automatically,
@@ -71,22 +62,45 @@ public class AIPlayer extends Player{
      */
     private void autoPutReinforcements(int reinforcements) {
         ArrayList<Country> perimeterCountries = getPerimeterCountries();
-        HashMap<String, Integer> addedReinforcements = new HashMap<String, Integer>();
         if (perimeterCountries.size() != 0) {
-            for (int assigned = 0; assigned < reinforcements; assigned++) {
+            for (int assigned = 0; assigned < reinforcements;) {
                 int index = ThreadLocalRandom.current().nextInt(0, perimeterCountries.size());
                 Country country = perimeterCountries.get(index);
-                country.addTroop(1);
-                String name = country.getName();
-                if (addedReinforcements.containsKey(name)) {
-                    addedReinforcements.put(name, addedReinforcements.get(name) + 1);
+//                if(country.getNeighbors().stream().noneMatch(this::hasCountry) ||
+//                        perimeterCountries.size()==1){
+                boolean isAlone = country.getNeighbors().stream().noneMatch(this::hasCountry);//checks if player has any of the neighbors of the country,
+                                            // prevents from placing troops on surrounded countries.
+                if(isAlone && perimeterCountries.size()>1){ //Restricts the number of countries player defends.
+                    perimeterCountries.remove(country);
                 }
-                else {
-                    addedReinforcements.put(country.getName(), 1);
+                else{
+                    model.placeAIReinforcements(country);
+                    assigned++;
                 }
             }
-            for (Object key : addedReinforcements.keySet()) {
-                turnMessages.append("\nAdded " + addedReinforcements.get(key) + " reinforcements to " + key + ".");
+        }
+    }
+
+    private void autoMove(){
+        ArrayList<Country> innerCountries = getInnerCountries();
+        List<Country> innerWithTroops = innerCountries.stream()
+                .filter(country -> country.getTroops()>1).collect(Collectors.toList());
+        if(innerWithTroops.size()==0) return;
+        ArrayList<Country> perimeterCountries = getPerimeterCountries();
+        List<Country> deepInner = innerWithTroops.stream()
+                .filter(inner -> inner.getNeighbors().stream().
+                        noneMatch(perimeterCountries::contains)).collect(Collectors.toList());
+        Country from;
+        if(deepInner.size()!=0){
+            from = deepInner.get(0);
+        }else{
+            from = innerCountries.get(0);
+        }
+
+        for(Country perimeterCountry: perimeterCountries){
+            if(pathExists(from ,perimeterCountry)){
+                model.moveTroops(deepInner.get(0), perimeterCountry, from.getTroops()-1);
+                return;
             }
         }
     }

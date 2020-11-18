@@ -25,7 +25,7 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
  * @version 27-10-2020
  */
 public class GameController implements ActionListener {
-    private enum State {UNDECLARED, REINFORCEMENT,ATTACK,MOVEMENT}
+    private enum State {UNDECLARED, REINFORCEMENT, ATTACK, MOVEMENT}
 
     private static final String HELP_COMMAND = "help";
     private static final String NEW_COMMAND = "new";
@@ -43,6 +43,7 @@ public class GameController implements ActionListener {
 
     /**
      * Constructor for the GameController
+     *
      * @param gm a GameModel to control
      */
     public GameController(GameModel gm) {
@@ -51,6 +52,7 @@ public class GameController implements ActionListener {
 
     /**
      * Adds a game board to receive / process commands from
+     *
      * @param gameBoard a gameBoard to get commands from
      */
     public void addGameBoard(mxGraphComponent gameBoard) {
@@ -150,6 +152,7 @@ public class GameController implements ActionListener {
     /**
      * Reads an action from the view, then interprets it and executes commands
      * accordingly
+     *
      * @param e the ActionEvent to interpret
      */
     @Override
@@ -160,8 +163,7 @@ public class GameController implements ActionListener {
         String command = e.getActionCommand();
         switch (command) {
 
-            case HELP_COMMAND ->
-                JOptionPane.showMessageDialog(null,gameModel.getHelp());
+            case HELP_COMMAND -> JOptionPane.showMessageDialog(null, gameModel.getHelp());
 
             case NEW_COMMAND -> {
                 if (gameModel.userCreateGame()) {
@@ -190,22 +192,23 @@ public class GameController implements ActionListener {
             case END_COMMAND -> {
                 state = State.REINFORCEMENT;
                 gameModel.nextPlayer(true);
-                if(gameModel.getCurrentPlayer()!=null){
+                if (gameModel.getCurrentPlayer() != null) {
                     gameModel.showCurrentPlayer();
-                gameModel.updateGameViewsTurnState("reinforcement");
+                    gameModel.updateGameViewsTurnState("reinforcement");
                 }
             }
             case HISTORY_COMMAND -> {
-                JTextArea textArea = new JTextArea(gameModel.getHistory(),50,70);
+                JTextArea textArea = new JTextArea(gameModel.getHistory(), 50, 70);
                 JScrollPane scrollPane = new JScrollPane(textArea);
                 scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
-                JOptionPane.showMessageDialog(null,scrollPane);
+                JOptionPane.showMessageDialog(null, scrollPane);
             }
         }
     }
 
     /**
      * Gets the number of reinforcements currently available to the current players
+     *
      * @return the number of available reinforcements
      */
     public int getCurrentReinforcements() {

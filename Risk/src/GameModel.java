@@ -56,11 +56,12 @@ public class GameModel {
         updateState();
     }
 
-    public void resetModel(){
+    public void resetModel() {
         players.clear();
         currentPlayer = null;
         map = null;
-        for(GameView v: gameViews){
+        history.setLength(0);
+        for (GameView v : gameViews) {
             v.reset();
         }
     }
@@ -95,6 +96,7 @@ public class GameModel {
 
     /**
      * Updates the turn state of all game views
+     *
      * @param newState .
      */
     public void updateGameViewsTurnState(String newState) {
@@ -199,8 +201,7 @@ public class GameModel {
     //================================================================================
 
     /**
-     * Gets the number of reinforcements to add for the current player and
-     * assigns them randomly to one or more of their countries
+     * Gets the number of reinforcements to add for the current player
      */
     private int getReinforcements() {
         //gets the number of reinforcements the currentPlayer should be able to place at the beginning of the turn
@@ -211,12 +212,11 @@ public class GameModel {
             }
         }
         return Math.max(3, currentPlayer.numberOfCountries() / 3) + extraTroops;
-
-        //autoPutReinforcements(reinforcements);
     }
 
     /**
      * Gets the number of reinforcements currently available to the current player
+     *
      * @return the number of reinforcements available
      */
     public int getCurrentPlayerReinforcements() {
@@ -225,7 +225,7 @@ public class GameModel {
 
     /**
      * @param country .
-     * @param toAdd .
+     * @param toAdd   .
      * @throws IllegalArgumentException if the country is invalid or toAdd is smaller than 1
      */
     public void placeCurrentPlayerReinforcements(String country, int toAdd) {
@@ -238,6 +238,13 @@ public class GameModel {
         currentPlayerReinforcements -= toAdd;
         updateGameViewsTurnState("reinforcement");
         updateState();
+        history.append(currentPlayer.getName()).append(" placed ").append(toAdd).append(" troops on ").append(country);
+    }
+
+    public void placeAIReinforcements(Country country) {
+        country.addTroop(1);
+        history.append(currentPlayer.getName()).append(" placed ").append(1).append(" troop on ")
+                .append(country.getName()).append("\n");
     }
 
 
@@ -404,7 +411,13 @@ public class GameModel {
             }
         }
 
-        int toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
+        //Makes it so if the user enters something invalid it just defaults to the minimum amount of troops.
+        int toAdd = minimumMove;
+        try {
+            toAdd = troopSelect(minimumMove, attack.getTroops() - 1);
+        } catch (Exception e) {
+            //
+        }
 
         currentPlayer.addCountry(defend);
         moveTroops(attack, defend, toAdd);
@@ -437,7 +450,7 @@ public class GameModel {
             v.handleGameOver(new GameOverEvent(this, currentPlayer));
         }
         System.out.println(history.toString());
-        JOptionPane.showMessageDialog(null,currentPlayer.getName() +" won the game");
+        JOptionPane.showMessageDialog(null, currentPlayer.getName() + " won the game");
         resetModel();
     }
 
@@ -477,7 +490,7 @@ public class GameModel {
             currentPlayer = players.get(0);
         }
 
-        if(gameStarted){
+        if (gameStarted) {
             if (getRemainingPlayers() < 2) {
                 handleGameOver();
                 return;
@@ -487,14 +500,14 @@ public class GameModel {
 
             history.append("\n\n").append(currentPlayer.getName()).append("\n");
             currentPlayerReinforcements = getReinforcements();
-            if(currentPlayer instanceof AIPlayer) {
+            if (currentPlayer instanceof AIPlayer) {
                 ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
                 if (!(getRemainingPlayers() < 2)) {
                     nextPlayer(true);
                 } else {
                     handleGameOver();
                 }
-            }else {
+            } else {
                 updatePlayerTurn(currentPlayer.getName());
                 updateGameViewsTurnState("reinforcement");
             }
@@ -512,6 +525,7 @@ public class GameModel {
 
     /**
      * Gets the current player
+     *
      * @return the current player
      */
     public Player getCurrentPlayer() {
@@ -520,10 +534,11 @@ public class GameModel {
 
     /**
      * Get the number of remaining players
+     *
      * @return the number of remaining players
      */
-    public int getRemainingPlayers () {
-        return (int)players.stream().filter(player -> !player.isEliminated()).count();
+    public int getRemainingPlayers() {
+        return (int) players.stream().filter(player -> !player.isEliminated()).count();
     }
 
     //================================================================================
@@ -537,7 +552,7 @@ public class GameModel {
      * @param destination where the troops will go to
      * @return whether the move was successful
      */
-    private boolean moveTroops(Country origin, Country destination, int toMove) {
+    public boolean moveTroops(Country origin, Country destination, int toMove) {
         if (!currentPlayer.pathExists(origin, destination)) {
             showMessage("Path does not exist between " + origin.getName() + " and " + destination.getName());
             return false;
@@ -545,6 +560,8 @@ public class GameModel {
 
         origin.removeTroops(toMove);
         destination.addTroop(toMove);
+        history.append(currentPlayer.getName()).append(" moved ").append(toMove).append(" from ").append(origin.getName())
+                .append(" to ").append(destination.getName()).append("\n");
         return true;
     }
 
@@ -606,6 +623,7 @@ public class GameModel {
 
     /**
      * Gets player names from a JOptionPane
+     *
      * @return the player names as a LinkedList of Strings
      */
     private LinkedList<Player> getPlayerNames() {
@@ -630,13 +648,12 @@ public class GameModel {
         int option = JOptionPane.showConfirmDialog(null, message, "Add players", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String playerName;
-            for (int i = 0; i< playerInput.size(); i++) {
+            for (int i = 0; i < playerInput.size(); i++) {
                 playerName = playerInput.get(i).getText().trim();
                 if (!playerName.equals("")) {
-                    if(AIPlayer.get(i).isSelected()){
+                    if (AIPlayer.get(i).isSelected()) {
                         currentPlayers.add(new AIPlayer(playerName, this));
-                    }
-                    else {
+                    } else {
                         currentPlayers.add(new Player(playerName));
                     }
                 }
@@ -679,9 +696,8 @@ public class GameModel {
      * @return the value chosen by the user
      */
     public int troopSelect(int minimum, int maximum) {
-        return currentPlayer.troopSelect(minimum,maximum);
+        return currentPlayer.troopSelect(minimum, maximum);
     }
-
 
 
     /**

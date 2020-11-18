@@ -199,17 +199,32 @@ public class Player {
     }
 
     /**
+     * Gets all of the countries that are not on the outer perimeter of a player's territory.
+     *
+     * @return an Array Containing all interior countries.
+     */
+    public ArrayList<Country> getInnerCountries() {
+        ArrayList<Country> innerCountries = new ArrayList<>();
+        for (Country c : countries) {
+            if (countries.containsAll(c.getNeighbors())) innerCountries.add(c);
+        }
+        return innerCountries;
+    }
+
+
+    /**
      * Gets all countries
+     *
      * @return all countries
      */
-    public LinkedList<Country> getCountries () {
+    public LinkedList<Country> getCountries() {
         return countries;
     }
 
     public int getNumberOfTroops() {
         int count = 0;
         for (Country country : countries) {
-            count+=country.getTroops();
+            count += country.getTroops();
         }
         return count;
     }
