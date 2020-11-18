@@ -51,7 +51,6 @@ public class AIPlayer extends Player {
         }
     }
 
-
     /**
      * Method to add reinforcement to a player's countries automatically,
      * will always add on countries on the exterior of a player's territory.
