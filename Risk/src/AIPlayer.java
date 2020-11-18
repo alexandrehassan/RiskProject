@@ -31,6 +31,10 @@ public class AIPlayer extends Player {
     public void handleMessage(String message) {
     }
 
+    /**
+     * Goes through all three phases of a turn.
+     * @param currentPlayerReinforcements the number of reinforcements this player can place.
+     */
     public void playTurn(int currentPlayerReinforcements) {
         autoPutReinforcements(currentPlayerReinforcements);
         autoAttack();
@@ -38,6 +42,10 @@ public class AIPlayer extends Player {
         model.updateState();
     }
 
+    /**
+     * Attacks once from every country that has troops >1 and more troops than the country being attacked
+     * (this always blitz attacks).
+     */
     private void autoAttack() {
         for (Country possibleAttack : getPerimeterCountries()) {
             if (possibleAttack.getTroops() > 1) {
@@ -80,6 +88,11 @@ public class AIPlayer extends Player {
         }
     }
 
+    /**
+     * Method that moves troops from deep inside Ally territory to the front line.
+     * If no deep countries exists (more than two layers in the players territory) it picks countries that are inside
+     * (one layer in) in order to keep the AI's troops closest to the action.
+     */
     private void autoMove(){
         ArrayList<Country> innerCountries = getInnerCountries();
         List<Country> innerWithTroops = innerCountries.stream()
