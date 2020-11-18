@@ -37,6 +37,8 @@ public class GameFrame extends JFrame implements GameView {
     private final GameController gameController;
     private final JPanel boardPanel;
     private mxGraph graph;
+    private JMenuItem showHistory;
+    private JMenu gameMenu;
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
     public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
@@ -117,11 +119,6 @@ public class GameFrame extends JFrame implements GameView {
             buttonOptions.add(b);
         }
 
-        //Button to start the game
-//        this.startButton = new JButton("Start Game");
-//        startButton.addActionListener(gameController);
-//        startButton.setActionCommand("new");
-
         middlePane.add(buttonOptions, getConstraints(0, 0, 3, 1, GridBagConstraints.HORIZONTAL));
         middlePane.add(boardPanel, getConstraints(0, 1, 3, 2, GridBagConstraints.HORIZONTAL));
 
@@ -139,12 +136,38 @@ public class GameFrame extends JFrame implements GameView {
         this.setVisible(true);
     }
 
+
+    public void reset() {
+        updateLine.setText("RISK: a multi-player game of world domination");
+        JLabel placeholderBoard = new JLabel();
+        ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
+        Image newImage = image.getImage().getScaledInstance(1000, 650, java.awt.Image.SCALE_SMOOTH);
+        placeholderBoard.setIcon(new ImageIcon(newImage));
+        placeholderBoard.setBounds(0, 0, 1100, 650);
+        boardPanel.removeAll();
+        boardPanel.add(placeholderBoard);
+
+        for (int i = 0; i < playersInfo.size(); i++) {
+            playersInfo.get(i).setText("Reserved for player " + (i + 1));
+            playersInfo.get(i).setEnabled(false);
+            playersInfo.get(i).setBackground(Color.white);
+            playersInfo.get(i).setSelectedTextColor(Color.gray);
+            playersInfo.get(i).setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+        }
+
+        for (JButton b : buttons) {
+            b.setEnabled(false);
+            b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+        }
+        showHistory.setEnabled(false);
+    }
+
     /**
      * Creates the menuBar and add it to the frame
      */
     private void makeMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu gameMenu = new JMenu("Game");
+        gameMenu = new JMenu("Game");
 
         JMenuItem startGame = new JMenuItem("Start Game");
         startGame.addActionListener(gameController);
@@ -152,6 +175,19 @@ public class GameFrame extends JFrame implements GameView {
         gameMenu.add(startGame);
 
         menuBar.add(gameMenu);
+
+        showHistory = new JMenuItem("Show move history");
+        showHistory.addActionListener(gameController);
+        showHistory.setActionCommand("history");
+        showHistory.setEnabled(false);
+        gameMenu.add(showHistory);
+
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem help = new JMenuItem("Help");
+        help.addActionListener(gameController);
+        help.setActionCommand("help");
+        helpMenu.add(help);
+        menuBar.add(helpMenu);
         this.setJMenuBar(menuBar);
     }
 
@@ -354,6 +390,7 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Gets the desired colour based on the player's index
+     *
      * @param playerIndex .
      * @return the colour to use as a String
      */
@@ -370,6 +407,7 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Handles the start of the game
+     *
      * @param gameModel a GameStartEvent
      */
     public void handleGameStart(GameStartEvent gameModel) {
@@ -397,10 +435,13 @@ public class GameFrame extends JFrame implements GameView {
         boardPanel.add(board);
         gameController.addGameBoard(board);
         updateColors(gameModel.getPlayers());
+
+        showHistory.setEnabled(true);
     }
 
     /**
      * Updates the colours of the nodes in the board
+     *
      * @param players the players in the game
      */
     private void updateColors(ArrayList<Player> players) {
@@ -422,11 +463,12 @@ public class GameFrame extends JFrame implements GameView {
     /**
      * Returns a GridBagConstraints, avoids duplicated code and only takes in the field that
      * may vary within this frame
-     * @param gridX gridX value
-     * @param gridY gridY value
-     * @param gridWidth gridWidth value
+     *
+     * @param gridX      gridX value
+     * @param gridY      gridY value
+     * @param gridWidth  gridWidth value
      * @param gridHeight gridHeight value
-     * @param fill fill value
+     * @param fill       fill value
      * @return a GridBagConstraints to use
      */
     public GridBagConstraints getConstraints(int gridX, int gridY, int gridWidth, int gridHeight, int fill) {
@@ -442,6 +484,7 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Updates the player who's turn it it, changes GUI accordingly
+     *
      * @param playerTurn a PlayerTurnEvent
      */
     public void handlePlayerTurnUpdate(PlayerTurnEvent playerTurn) {
@@ -458,6 +501,7 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Updates the state of the current player's turn, updates the label
+     *
      * @param turnState a TurnStateEvent
      */
     public void handleTurnStateChange(TurnStateEvent turnState) {
@@ -502,6 +546,7 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Handles the elimination of a player
+     *
      * @param eliminatedEvent a PlayerEliminatedEvent
      */
     @Override
@@ -516,15 +561,21 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Handles the end of a game
+     *
      * @param gameOverEvent a GameOverEvent
      */
     @Override
     public void handleGameOver(GameOverEvent gameOverEvent) {
-        JOptionPane.showMessageDialog(this, gameOverEvent.getWinner().getName() + " won the Game");
+        updateLine.setText(gameOverEvent.getWinner().getName() + " won the Game");
+
+        for (JButton b : buttons) {
+            b.setEnabled(false);
+        }
     }
 
     /**
      * Updates the state a player by their order
+     *
      * @param playerState a PlayerStateEvent
      */
     public void handleStateUpdate(PlayerStateEvent playerState) {
@@ -533,6 +584,7 @@ public class GameFrame extends JFrame implements GameView {
 
     /**
      * Updates the owner (a player) of a country with a certain ID
+     *
      * @param ownerChange a OwnerChangeEvent
      */
     public void handleOwnerChange(OwnerChangeEvent ownerChange) {

@@ -198,10 +198,33 @@ public class Player {
         return perimeterCountries;
     }
 
+    /**
+     * Gets all of the countries that are not on the outer perimeter of a player's territory.
+     *
+     * @return an Array Containing all interior countries.
+     */
+    public ArrayList<Country> getInnerCountries() {
+        ArrayList<Country> innerCountries = new ArrayList<>();
+        for (Country c : countries) {
+            if (countries.containsAll(c.getNeighbors())) innerCountries.add(c);
+        }
+        return innerCountries;
+    }
+
+
+    /**
+     * Gets all countries
+     *
+     * @return all countries
+     */
+    public LinkedList<Country> getCountries() {
+        return countries;
+    }
+
     public int getNumberOfTroops() {
         int count = 0;
         for (Country country : countries) {
-            count+=country.getTroops();
+            count += country.getTroops();
         }
         return count;
     }
@@ -224,27 +247,12 @@ public class Player {
         return toSelect;
     }
 
+    public void handleError(Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
 
-//    /**
-//     * Gives all of the player's countries in one string with each country being on a new line.
-//     *
-//     * @return all the countries as a string.
-//     */
-//    public String getCountriesString() {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (Country country : countries) {
-//            stringBuilder.append(country).append("\n");
-//        }
-//        return stringBuilder.toString();
-//    }
-
-//    /**
-//     * Returns a linked list of all the countries
-//     *
-//     * @return all the countries in a linked list
-//     */
-//    public LinkedList<Country> getCountries() {
-//        return countries;
-//    }
+    public void handleMessage(String message) {
+        JOptionPane.showMessageDialog(null, message);
+    }
 
 }

@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
+
 /**
  * This class is part of the game of RISK, the term
  * project for SYSC3110 that emulates the original game of RISK.
@@ -23,7 +25,7 @@ import java.awt.event.MouseEvent;
  * @version 27-10-2020
  */
 public class GameController implements ActionListener {
-    private enum State {REINFORCEMENT,ATTACK,MOVEMENT}
+    private enum State {UNDECLARED, REINFORCEMENT, ATTACK, MOVEMENT}
 
     private static final String HELP_COMMAND = "help";
     private static final String NEW_COMMAND = "new";
@@ -31,6 +33,7 @@ public class GameController implements ActionListener {
     private static final String MOVE_COMMAND = "move";
     private static final String END_COMMAND = "end";
     private static final String EMPTY = "";
+    private static final String HISTORY_COMMAND = "history";
 
     private final GameModel gameModel;
 
@@ -40,6 +43,7 @@ public class GameController implements ActionListener {
 
     /**
      * Constructor for the GameController
+     *
      * @param gm a GameModel to control
      */
     public GameController(GameModel gm) {
@@ -48,6 +52,7 @@ public class GameController implements ActionListener {
 
     /**
      * Adds a game board to receive / process commands from
+     *
      * @param gameBoard a gameBoard to get commands from
      */
     public void addGameBoard(mxGraphComponent gameBoard) {
@@ -72,7 +77,8 @@ public class GameController implements ActionListener {
                 }
 
                 switch (state) {
-                    case REINFORCEMENT -> {
+                    case UNDECLARED, REINFORCEMENT -> {
+                        state = State.REINFORCEMENT;
                         try {
                             int reinforcements = gameModel.getCurrentPlayerReinforcements();
                             if (reinforcements <= 0) {
@@ -146,6 +152,7 @@ public class GameController implements ActionListener {
     /**
      * Reads an action from the view, then interprets it and executes commands
      * accordingly
+     *
      * @param e the ActionEvent to interpret
      */
     @Override
@@ -156,13 +163,20 @@ public class GameController implements ActionListener {
         String command = e.getActionCommand();
         switch (command) {
 
-            case HELP_COMMAND -> gameModel.printHelp();
+            case HELP_COMMAND -> JOptionPane.showMessageDialog(null, gameModel.getHelp());
+
             case NEW_COMMAND -> {
                 if (gameModel.userCreateGame()) {
-                    this.state = State.REINFORCEMENT;
                     from = EMPTY;
                     to = EMPTY;
-                    gameModel.updateGameViewsTurnState("reinforcement");
+                    System.out.println(gameModel.getCurrentPlayer().getName());
+                    if (gameModel.getCurrentPlayer() instanceof AIPlayer) {
+                        this.state = State.UNDECLARED;
+                        gameModel.nextPlayer(true);
+                    } else {
+                        this.state = State.REINFORCEMENT;
+                        gameModel.updateGameViewsTurnState("reinforcement");
+                    }
                 }
             }
             case ATTACK_COMMAND -> {
@@ -178,14 +192,23 @@ public class GameController implements ActionListener {
             case END_COMMAND -> {
                 state = State.REINFORCEMENT;
                 gameModel.nextPlayer(true);
-                gameModel.showCurrentPlayer();
-                gameModel.updateGameViewsTurnState("reinforcement");
+                if (gameModel.getCurrentPlayer() != null) {
+                    gameModel.showCurrentPlayer();
+                    gameModel.updateGameViewsTurnState("reinforcement");
+                }
+            }
+            case HISTORY_COMMAND -> {
+                JTextArea textArea = new JTextArea(gameModel.getHistory(), 50, 70);
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
+                JOptionPane.showMessageDialog(null, scrollPane);
             }
         }
     }
 
     /**
      * Gets the number of reinforcements currently available to the current players
+     *
      * @return the number of available reinforcements
      */
     public int getCurrentReinforcements() {
