@@ -93,12 +93,13 @@ public class AIPlayer extends Player {
         if(deepInner.size()!=0){
             from = deepInner.get(0);
         }else{
-            from = innerCountries.get(0);
+            from = innerWithTroops.get(0);
         }
 
         for(Country perimeterCountry: perimeterCountries){
             if(pathExists(from ,perimeterCountry)){
-                model.moveTroops(deepInner.get(0), perimeterCountry, from.getTroops()-1);
+                model.moveTroops(from, perimeterCountry, from.getTroops()-1);
+                System.out.println(from + " from to " + perimeterCountry );
                 return;
             }
         }
