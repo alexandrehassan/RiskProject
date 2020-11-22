@@ -32,6 +32,7 @@ public class GameController implements ActionListener {
     private static final String ATTACK_COMMAND = "attack";
     private static final String MOVE_COMMAND = "move";
     private static final String END_COMMAND = "end";
+    private static final String REINFORCEMENT_COMMAND = "reinforcement";
     private static final String EMPTY = "";
     private static final String HISTORY_COMMAND = "history";
 
@@ -128,7 +129,7 @@ public class GameController implements ActionListener {
                                 state = State.REINFORCEMENT;
                                 gameModel.nextPlayer(true);
                                 gameModel.showCurrentPlayer();
-                                gameModel.updateGameViewsTurnState("reinforcement");
+                                gameModel.updateGameViewsTurnState(REINFORCEMENT_COMMAND);
                             }
                             from = EMPTY;
                             to = EMPTY;
@@ -146,7 +147,7 @@ public class GameController implements ActionListener {
         state = State.ATTACK;
         JOptionPane.showMessageDialog(null,
                 "Done placing reinforcements (none left)");
-        gameModel.updateGameViewsTurnState("attack");
+        gameModel.updateGameViewsTurnState(ATTACK_COMMAND);
     }
 
     /**
@@ -175,7 +176,7 @@ public class GameController implements ActionListener {
                         gameModel.nextPlayer(true);
                     } else {
                         this.state = State.REINFORCEMENT;
-                        gameModel.updateGameViewsTurnState("reinforcement");
+                        gameModel.updateGameViewsTurnState(REINFORCEMENT_COMMAND);
                     }
                 }
             }
@@ -183,18 +184,18 @@ public class GameController implements ActionListener {
                 state = State.ATTACK;
                 JOptionPane.showMessageDialog(null,
                         "Select a country to attack with, then a country to attack");
-                gameModel.updateGameViewsTurnState("attack");
+                gameModel.updateGameViewsTurnState(ATTACK_COMMAND);
             }
             case MOVE_COMMAND -> {
                 state = State.MOVEMENT;
-                gameModel.updateGameViewsTurnState("move");
+                gameModel.updateGameViewsTurnState(MOVE_COMMAND);
             }
             case END_COMMAND -> {
                 state = State.REINFORCEMENT;
                 gameModel.nextPlayer(true);
                 if (gameModel.getCurrentPlayer() != null) {
                     gameModel.showCurrentPlayer();
-                    gameModel.updateGameViewsTurnState("reinforcement");
+                    gameModel.updateGameViewsTurnState(REINFORCEMENT_COMMAND);
                 }
             }
             case HISTORY_COMMAND -> {
