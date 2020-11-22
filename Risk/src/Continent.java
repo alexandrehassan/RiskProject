@@ -12,6 +12,7 @@ public class Continent {
     private final String name;
     private ArrayList<Country> countries;
     private final int reinforcements;
+    private final String color;
 
     /**
      * Default constructor for class Continent.
@@ -19,10 +20,11 @@ public class Continent {
      * @param name           the name of the continent
      * @param reinforcements the number of bonus reinforcements given if all of the continent is owned by one player.
      */
-    public Continent(String name, int reinforcements) {
+    public Continent(String name, int reinforcements, String color) {
         this.name = name;
         this.reinforcements = reinforcements;
         countries = new ArrayList<>();
+        this.color = color;
     }
 
     /**
@@ -65,5 +67,9 @@ public class Continent {
 
     public void addCountry(Country country){
         countries.add(country);
+    }
+
+    public String getColor() {
+        return color;
     }
 }

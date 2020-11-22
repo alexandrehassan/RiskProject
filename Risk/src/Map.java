@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-
 /**
  * Map class
  * Map creates a new map, and loads it with the countries and sets each country's neighbors
@@ -16,6 +15,7 @@ public class Map {
     private final HashMap<String, Country> countries;
     private final HashMap<String, Continent> continents;
 
+    public static final String BLACK = "#000000";
 
 
     /**
@@ -90,5 +90,13 @@ public class Map {
         ArrayList<String> keys = new ArrayList<>(countries.keySet());
         Collections.shuffle(keys);
         return keys;
+    }
+
+    public ArrayList<Country> getAllCountries() {
+        ArrayList<Country> countryArrayList = new ArrayList<>();
+        for (String key : countries.keySet()) {
+            countryArrayList.add(countries.get(key));
+        }
+        return countryArrayList;
     }
 }

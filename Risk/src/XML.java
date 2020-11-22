@@ -109,7 +109,8 @@ public class XML {
 
                     Continent newContinent = new Continent(
                             continentName,
-                            Integer.parseInt(continentElem.getElementsByTagName("continentReinforcements").item(0).getTextContent()));
+                            Integer.parseInt(continentElem.getElementsByTagName("continentReinforcements").item(0).getTextContent()),
+                            continentElem.getElementsByTagName("continentColor").item(0).getTextContent());
 
                     continents.put(newContinent.getName(), newContinent);
 
@@ -175,7 +176,7 @@ public class XML {
     }
 
     public static void main(String[] args) {
-        mapToXML(new Map());
+        //mapToXML(new Map());
         mapFromXML("map.xml");
 
     }

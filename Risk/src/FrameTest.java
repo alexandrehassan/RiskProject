@@ -10,23 +10,14 @@ import com.mxgraph.view.mxGraph;
 import java.util.HashMap;
 
 public class FrameTest extends JFrame {
-    public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
-    public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
+    public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4;#000000";
+    public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4;#000000";
 
 
     public static final int WIDTH = 80;
     public static final int HEIGHT = 65;
-    public static final String EDGE_STYLE = "endArrow=false;";
+    public static final String EDGE_STYLE = "endArrow=false;#000000";
     private Map map;
-
-    public static final String NA_COLOR = "#ff9000";
-    public static final String SA_COLOR = "#ffd000";
-    public static final String EU_COLOR = "#ff6500";
-    public static final String AF_COLOR = "#ffa500";
-    public static final String AS_COLOR = "#ffba00";
-    public static final String AU_COLOR = "#ff7b00";
-    public static final String BLACK = "#000000";
-
 
     private mxGraph graph;
 
@@ -46,13 +37,13 @@ public class FrameTest extends JFrame {
                 x +=10;
                 y +=10;
 
-                vertices.put(country.getName(),insertVertex(country.getName(), x, y, Map.BLACK));
+                vertices.put(country.getName(),insertVertex(country.getName(), x, y));
             }
             Country country;
             for (String vertexName : vertices.keySet()) {
                 country = map.getCountry(vertexName);
                 for (Country neighbor : country.getNeighbors()) {
-                    insertEdge(vertices.get(neighbor.getName()),vertices.get(vertexName),Map.BLACK);
+                    insertEdge(vertices.get(neighbor.getName()),vertices.get(vertexName));
                 }
             }
 
@@ -65,7 +56,7 @@ public class FrameTest extends JFrame {
             graph.getModel().endUpdate();
         }
         mxFastOrganicLayout layout = new mxFastOrganicLayout(graph);
-        layout.setForceConstant(50);
+        layout.setForceConstant(45);
         layout.setUseInputOrigin(false);
         layout.setInitialTemp(500);
 //        layout.setMinDistanceLimit(1);
@@ -86,11 +77,10 @@ public class FrameTest extends JFrame {
      * @param name      the name of the vertex
      * @param xPosition .
      * @param yPosition .
-     * @param color     .
      * @return the new vertex.
      */
-    private Object insertVertex(String name, int xPosition, int yPosition, String color) {
-        return graph.insertVertex(graph.getDefaultParent(), name, name, xPosition, yPosition, WIDTH, HEIGHT, getVertexStyle(name) + ";" + color);
+    private Object insertVertex(String name, int xPosition, int yPosition) {
+        return graph.insertVertex(graph.getDefaultParent(), name, name, xPosition, yPosition, WIDTH, HEIGHT, getVertexStyle(name));
     }
 
     /**
@@ -98,10 +88,9 @@ public class FrameTest extends JFrame {
      *
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
-     * @param color   the color of the edge.
      */
-    private void insertEdge(Object vertex1, Object vertex2, String color) {
-        graph.insertEdge(graph.getDefaultParent(), "", "", vertex1, vertex2, EDGE_STYLE + color);
+    private void insertEdge(Object vertex1, Object vertex2) {
+        graph.insertEdge(graph.getDefaultParent(), "", "", vertex1, vertex2, EDGE_STYLE);
     }
 
     private String getVertexStyle(String name){
