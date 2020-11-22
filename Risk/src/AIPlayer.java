@@ -73,8 +73,6 @@ public class AIPlayer extends Player {
             for (int assigned = 0; assigned < reinforcements;) {
                 int index = ThreadLocalRandom.current().nextInt(0, perimeterCountries.size());
                 Country country = perimeterCountries.get(index);
-//                if(country.getNeighbors().stream().noneMatch(this::hasCountry) ||
-//                        perimeterCountries.size()==1){
                 boolean isAlone = country.getNeighbors().stream().noneMatch(this::hasCountry);//checks if player has any of the neighbors of the country,
                                             // prevents from placing troops on surrounded countries.
                 if(isAlone && perimeterCountries.size()>1){ //Restricts the number of countries player defends.
