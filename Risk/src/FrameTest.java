@@ -19,10 +19,19 @@ public class FrameTest extends JFrame {
     public static final String EDGE_STYLE = "endArrow=false;";
     private Map map;
 
+    public static final String NA_COLOR = "#ff9000";
+    public static final String SA_COLOR = "#ffd000";
+    public static final String EU_COLOR = "#ff6500";
+    public static final String AF_COLOR = "#ffa500";
+    public static final String AS_COLOR = "#ffba00";
+    public static final String AU_COLOR = "#ff7b00";
+    public static final String BLACK = "#000000";
+
+
     private mxGraph graph;
 
     public FrameTest() {
-        map = new Map();
+        map = XML.mapFromXML("map.xml");
         this.graph = new mxGraph();
         graph.setMaximumGraphBounds(new mxRectangle(0,0,1200,1200));
         Object parent = graph.getDefaultParent();
@@ -103,7 +112,7 @@ public class FrameTest extends JFrame {
     }
 
     public static void main(String[] args) {
-        FrameTests frame = new FrameTests();
+        FrameTest frame = new FrameTest();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 1800);
         frame.setVisible(true);
