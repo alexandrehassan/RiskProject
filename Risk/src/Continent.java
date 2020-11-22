@@ -62,4 +62,8 @@ public class Continent {
         countryHashSet.addAll(countries);
         this.countries = new ArrayList<>(countryHashSet);
     }
+
+    public void addCountry(Country country){
+        countries.add(country);
+    }
 }

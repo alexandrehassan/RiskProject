@@ -93,6 +93,15 @@ public class Map {
     }
 
     /**
+     * Constructor for the Map class.
+     * Generates a map of the classic Risk game.
+     */
+    public Map(HashMap<String, Country> countries, HashMap<String, Continent> continents) {
+        this.countries = countries;
+        this.continents = continents;
+    }
+
+    /**
      * Helper method for constructor of map that creates all the country objects.
      */
     private void loadMap() {
