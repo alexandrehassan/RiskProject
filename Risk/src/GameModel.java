@@ -99,7 +99,7 @@ public class GameModel {
      *
      * @param newState .
      */
-    public void updateGameViewsTurnState(String newState) {
+    public void updateGameViewsTurnState(GameController.State newState) {
         for (GameView v : gameViews) {
             v.handleTurnStateChange(new TurnStateEvent(this, newState));
         }
@@ -236,7 +236,7 @@ public class GameModel {
 
         map.getCountry(country).addTroop(toAdd);
         currentPlayerReinforcements -= toAdd;
-        updateGameViewsTurnState("reinforcement");
+        updateGameViewsTurnState(GameController.State.REINFORCEMENT);
         updateState();
         history.append(currentPlayer.getName()).append(" placed ").append(toAdd).append(" troops on ").append(country);
     }
@@ -509,7 +509,7 @@ public class GameModel {
                 }
             } else {
                 updatePlayerTurn(currentPlayer.getName());
-                updateGameViewsTurnState("reinforcement");
+                updateGameViewsTurnState(GameController.State.REINFORCEMENT);
             }
 
 

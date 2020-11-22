@@ -510,19 +510,19 @@ public class GameFrame extends JFrame implements GameView {
             b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
         }
 
-        switch (turnState.getNewState().toLowerCase()) {
-            case "reinforcement" -> {
+        switch (turnState.getNewState()) {
+            case REINFORCEMENT -> {
                 buttons.get(0).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 updateLine.setText(playerTurnInfo + " Click on a country to add reinforcements. " +
                         gameController.getCurrentReinforcements() + " remain.");
             }
-            case "attack" -> {
+            case ATTACK -> {
                 buttons.get(1).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 buttons.get(2).setEnabled(true);
                 buttons.get(3).setEnabled(true);
                 updateLine.setText(playerTurnInfo + " Select a country to attack with, then the country to attack");
             }
-            case "move" -> {
+            case MOVEMENT-> {
                 buttons.get(2).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 buttons.get(3).setEnabled(true);
                 updateLine.setText(playerTurnInfo + " Select a country to move troops from, and " +
