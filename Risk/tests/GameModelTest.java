@@ -77,7 +77,7 @@ class GameModelTest {
     @Test//Only tests Blitz Attack TODO: Test other attacks.
     void playAttack() {
 
-        Player currentPlayer = (Player) model.getCurrentPlayer();
+        Player currentPlayer = model.getCurrentPlayer();
         ArrayList<Country> perimeterCountries = currentPlayer.getPerimeterCountries();
         Country attacker = perimeterCountries.get(0);
         Country defender = attacker.getNeighbors().get(0);
