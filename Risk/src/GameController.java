@@ -27,14 +27,14 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 public class GameController implements ActionListener {
     private enum State {UNDECLARED, REINFORCEMENT, ATTACK, MOVEMENT}
 
-    private static final String HELP_COMMAND = "help";
-    private static final String NEW_COMMAND = "new";
-    private static final String ATTACK_COMMAND = "attack";
-    private static final String MOVE_COMMAND = "move";
-    private static final String END_COMMAND = "end";
-    private static final String REINFORCEMENT_COMMAND = "reinforcement";
-    private static final String EMPTY = "";
-    private static final String HISTORY_COMMAND = "history";
+    public static final String HELP_COMMAND = "help";
+    public static final String NEW_COMMAND = "new";
+    public static final String ATTACK_COMMAND = "attack";
+    public static final String MOVE_COMMAND = "move";
+    public static final String END_COMMAND = "end";
+    public static final String REINFORCEMENT_COMMAND = "reinforcement";
+    public static final String EMPTY = "";
+    public static final String HISTORY_COMMAND = "history";
 
     private final GameModel gameModel;
 
