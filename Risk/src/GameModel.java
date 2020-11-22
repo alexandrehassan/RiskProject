@@ -171,6 +171,7 @@ public class GameModel {
      * a starting players, assigns troops.
      */
     private void generateGame() {
+
         //GetMap
         if (players.size() < 2) {
             System.out.println("Add players to start a game");

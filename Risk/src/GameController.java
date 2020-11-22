@@ -167,6 +167,7 @@ public class GameController implements ActionListener {
             case HELP_COMMAND -> JOptionPane.showMessageDialog(null, gameModel.getHelp());
 
             case NEW_COMMAND -> {
+                gameModel.resetModel();
                 if (gameModel.userCreateGame()) {
                     from = EMPTY;
                     to = EMPTY;
