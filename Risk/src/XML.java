@@ -96,12 +96,12 @@ public class XML {
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+//            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
             NodeList continentNodes = doc.getElementsByTagName("Continent");
             for (int temp = 0; temp < continentNodes.getLength(); temp++) {
                 Node continentNode = continentNodes.item(temp);
-                System.out.println("\nCurrent Element :" + continentNode.getNodeName());
+//                System.out.println("\nCurrent Element :" + continentNode.getNodeName());
 
                 if (continentNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element continentElem = (Element) continentNode;
@@ -113,11 +113,11 @@ public class XML {
 
                     continents.put(newContinent.getName(), newContinent);
 
-                    System.out.println("\n \n \n First Name : "
-                            + continentElem
-                            .getElementsByTagName("continentName")
-                            .item(0)
-                            .getTextContent());
+//                    System.out.println("\n \n \n First Name : "
+//                            + continentElem
+//                            .getElementsByTagName("continentName")
+//                            .item(0)
+//                            .getTextContent());
 
 
                     NodeList countryNodes = continentElem.getElementsByTagName("country");
@@ -125,7 +125,7 @@ public class XML {
                     for(int countryIndex = 0; countryIndex<countryNodes.getLength();countryIndex++){
 
                         Node countryNode = countryNodes.item(countryIndex);
-                        System.out.println("countryNode NodeName " + countryNode.getNodeName());
+//                        System.out.println("countryNode NodeName " + countryNode.getNodeName());
 
                         if(countryNode.getNodeType() == Node.ELEMENT_NODE){
                             Element countryElem = (Element) countryNode;
@@ -135,18 +135,18 @@ public class XML {
                             newContinent.addCountry(newCountry);
                             countries.put(newCountry.getName(), newCountry);
 
-                            System.out.println(countryElem.getElementsByTagName("countryName").item(0).getTextContent());
-                            System.out.println("troops " + countryElem.getElementsByTagName("troops").item(0).getTextContent());
+//                            System.out.println(countryElem.getElementsByTagName("countryName").item(0).getTextContent());
+//                            System.out.println("troops " + countryElem.getElementsByTagName("troops").item(0).getTextContent());
                             NodeList neighborsNodes = countryElem.getElementsByTagName("neighbors");
                             ArrayList<String> neighborList = new ArrayList<>();
                             for(int neighborIndex = 0; neighborIndex<neighborsNodes.getLength(); neighborIndex++){
                                 Node neighborNode = neighborsNodes.item(neighborIndex);
-                                System.out.println("neighborNode NodeName"+ neighborNode.getNodeName());
+//                                System.out.println("neighborNode NodeName"+ neighborNode.getNodeName());
                                  if(neighborNode.getNodeType() == Node.ELEMENT_NODE){
                                      Element neighborElem = (Element) neighborNode;
                                      NodeList neighbors = neighborElem.getElementsByTagName("neighbor");
                                      for(int i = 0; i< neighbors.getLength(); i++){
-                                         System.out.println("\t"+neighbors.item(i).getTextContent());
+//                                         System.out.println("\t"+neighbors.item(i).getTextContent());
                                          neighborList.add(neighbors.item(i).getTextContent());
                                      }
 
