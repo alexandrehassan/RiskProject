@@ -167,18 +167,13 @@ public class GameController implements ActionListener {
             case HELP_COMMAND -> JOptionPane.showMessageDialog(null, gameModel.getHelp());
 
             case NEW_COMMAND -> {
-                gameModel.resetModel();
-                if (gameModel.userCreateGame()) {
-                    from = EMPTY;
-                    to = EMPTY;
-                    System.out.println(gameModel.getCurrentPlayer().getName());
-                    if (gameModel.getCurrentPlayer() instanceof AIPlayer) {
-                        this.state = State.UNDECLARED;
-                        gameModel.nextPlayer(true);
-                    } else {
-                        this.state = State.REINFORCEMENT;
-                        gameModel.updateGameViewsTurnState(state);
-                    }
+                if(gameModel.getCurrentPlayer() == null){
+                    createNewGame();
+                }
+                else if(JOptionPane.showConfirmDialog(null,"You are about to start a new game",
+                        "Confirm",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                    gameModel.resetModel();
+                    createNewGame();
                 }
             }
             case ATTACK_COMMAND -> {
@@ -204,6 +199,21 @@ public class GameController implements ActionListener {
                 JScrollPane scrollPane = new JScrollPane(textArea);
                 scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
                 JOptionPane.showMessageDialog(null, scrollPane);
+            }
+        }
+    }
+
+    private void createNewGame() {
+        if (gameModel.userCreateGame()) {
+            from = EMPTY;
+            to = EMPTY;
+            System.out.println(gameModel.getCurrentPlayer().getName());
+            if (gameModel.getCurrentPlayer() instanceof AIPlayer) {
+                this.state = State.UNDECLARED;
+                gameModel.nextPlayer(true);
+            } else {
+                this.state = State.REINFORCEMENT;
+                gameModel.updateGameViewsTurnState(state);
             }
         }
     }
