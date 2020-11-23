@@ -15,14 +15,14 @@ import java.util.EventObject;
 
 public class TurnStateEvent extends EventObject {
 
-    private final String newState;
+    private final GameController.State newState;
 
-    public TurnStateEvent(GameModel gameModel, String newState) {
+    public TurnStateEvent(GameModel gameModel, GameController.State newState) {
         super(gameModel);
         this.newState = newState;
     }
 
-    public String getNewState() {
+    public GameController.State getNewState() {
         return newState;
     }
 }
