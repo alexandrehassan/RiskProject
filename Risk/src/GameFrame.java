@@ -1,3 +1,4 @@
+import com.mxgraph.layout.mxFastOrganicLayout;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
@@ -9,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class is part of the game of RISK, the term
@@ -42,15 +44,8 @@ public class GameFrame extends JFrame implements GameView {
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
     public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
-    public static final String NA_COLOR = "strokeColor=#ff9000";
-    public static final String SA_COLOR = "strokeColor=#ffd000";
-    public static final String EU_COLOR = "strokeColor=#ff6500";
-    public static final String AF_COLOR = "strokeColor=#ffa500";
-    public static final String AS_COLOR = "strokeColor=#ffba00";
-    public static final String AU_COLOR = "strokeColor=#ff7b00";
-    public static final String BLACK = "strokeColor=#000000";
     public static final int WIDTH = 65;
-    public static final int HEIGHT = 65;
+    public static final int HEIGHT = 50;
     public static final String EDGE_STYLE = "endArrow=false;";
 
     public static final String PLAYER1 = "#FF3333"; //red
@@ -196,7 +191,7 @@ public class GameFrame extends JFrame implements GameView {
      * in this method:
      * //TODO: Automation
      */
-    private mxGraphComponent createBoard() {
+    private mxGraphComponent createBoardOld() {
         this.graph = new mxGraph();
 //        Object parent = graph.getDefaultParent();
 //        graph.setMaximumGraphBounds(new mxRectangle(0, 0, 1000, 600));
@@ -364,17 +359,83 @@ public class GameFrame extends JFrame implements GameView {
     }
 
     /**
+     * Should return the board (just voided now so no errors), created
+     * in this method:
+     * //TODO: Automation
+     * @param map
+     */
+    private mxGraphComponent createBoard(Map map) {
+        this.graph = new mxGraph();
+        Object parent = graph.getDefaultParent();
+
+        graph.setMaximumGraphBounds(new mxRectangle(0,0,990,600));
+        graph.setMinimumGraphSize(new mxRectangle(0,0,990,600));
+
+
+        graph.getModel().beginUpdate();
+
+        try {
+            int x = 0;
+            int y = 0;
+            HashMap<String, Object> vertices = new HashMap<>();
+//            for(Country country: map.getAllCountries()){
+//                x +=30;
+//                y +=20;
+//
+//                vertices.put(country.getName(),insertVertex(country.getName(), x, y));
+//            }
+
+            for(Continent continent: map.getContinents()){
+                x +=100;
+                y +=100;
+
+                for(Country country: continent.getCountries()){
+                    x +=5;
+                    y +=5;
+                    vertices.put(country.getName(),insertVertex(country.getName(), x, y));
+                }
+            }
+            Country country;
+            for (String vertexName : vertices.keySet()) {
+                country = map.getCountry(vertexName);
+                for (Country neighbor : country.getNeighbors()) {
+                    insertEdge(vertices.get(neighbor.getName()),vertices.get(vertexName));
+                }
+            }
+
+            for(Continent continent: map.getContinents()){
+                for(Country country1: continent.getCountries()){
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, continent.getColor(),
+                            new Object[]{vertices.get(country1.getName())});
+                }
+            }
+        } finally {
+            graph.getModel().endUpdate();
+        }
+        mxFastOrganicLayout layout = new mxFastOrganicLayout(graph);
+        layout.setForceConstant(45);
+        layout.setUseInputOrigin(false);
+        layout.setInitialTemp(500);
+        layout.execute(parent);
+
+        mxGraphComponent graphComponent = new mxGraphComponent(graph);
+        graphComponent.setEnabled(false);
+        //graphComponent.setSize(1000,650);
+        getContentPane().add(graphComponent);
+
+        return graphComponent;
+    }
+
+    /**
      * Helper function for the creation of the insertion of vertices.
      *
      * @param name      the name of the vertex
      * @param xPosition .
      * @param yPosition .
-     * @param style     .
-     * @param color     .
      * @return the new vertex.
      */
-    private Object insertVertex(String name, int xPosition, int yPosition, String style, String color) {
-        return graph.insertVertex(graph.getDefaultParent(), name, name, xPosition, yPosition, WIDTH, HEIGHT, style + ";" + color);
+    private Object insertVertex(String name, int xPosition, int yPosition) {
+        return graph.insertVertex(graph.getDefaultParent(), name, name, xPosition, yPosition, WIDTH, HEIGHT, getVertexStyle(name));
     }
 
     /**
@@ -382,10 +443,16 @@ public class GameFrame extends JFrame implements GameView {
      *
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
-     * @param color   the color of the edge.
      */
-    private void insertEdge(Object vertex1, Object vertex2, String color) {
-        graph.insertEdge(graph.getDefaultParent(), "", "", vertex1, vertex2, EDGE_STYLE + color);
+    private void insertEdge(Object vertex1, Object vertex2) {
+        graph.insertEdge(graph.getDefaultParent(), "", "", vertex1, vertex2, EDGE_STYLE);
+    }
+
+    private String getVertexStyle(String name){
+        if(name.length()>10 && name.split(" ").length ==1){
+            return VERTEX_STYLE_ONE_WORD;
+        }
+        return VERTEX_STYLE;
     }
 
     /**
@@ -430,7 +497,7 @@ public class GameFrame extends JFrame implements GameView {
             b.setEnabled(true);
         }
 
-        this.board = createBoard();
+        this.board = createBoard(gameModel.getMap());
         boardPanel.removeAll();
         boardPanel.add(board);
         gameController.addGameBoard(board);

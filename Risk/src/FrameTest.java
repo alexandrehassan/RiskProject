@@ -14,8 +14,8 @@ public class FrameTest extends JFrame {
     public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4;#000000";
 
 
-    public static final int WIDTH = 80;
-    public static final int HEIGHT = 65;
+    public static final int WIDTH = 65;
+    public static final int HEIGHT = 50;
     public static final String EDGE_STYLE = "endArrow=false;#000000";
     private Map map;
 
@@ -24,7 +24,8 @@ public class FrameTest extends JFrame {
     public FrameTest() {
         map = XML.mapFromXML("map.xml");
         this.graph = new mxGraph();
-        graph.setMaximumGraphBounds(new mxRectangle(0,0,1200,1200));
+        graph.setMaximumGraphBounds(new mxRectangle(0,0,990,700));
+        graph.setMinimumGraphSize(new mxRectangle(0,0,990,700));
         Object parent = graph.getDefaultParent();
 
         graph.getModel().beginUpdate();
@@ -33,11 +34,15 @@ public class FrameTest extends JFrame {
             int x = 0;
             int y = 0;
             HashMap<String, Object> vertices = new HashMap<>();
-            for(Country country: map.getAllCountries()){
-                x +=10;
-                y +=10;
+            for(Continent continent: map.getContinents()){
+                x +=50;
+                y +=50;
 
-                vertices.put(country.getName(),insertVertex(country.getName(), x, y));
+                for(Country country: continent.getCountries()){
+                    x +=5;
+                    y +=1;
+                    vertices.put(country.getName(),insertVertex(country.getName(), x, y));
+                }
             }
             Country country;
             for (String vertexName : vertices.keySet()) {
@@ -56,14 +61,23 @@ public class FrameTest extends JFrame {
             graph.getModel().endUpdate();
         }
         mxFastOrganicLayout layout = new mxFastOrganicLayout(graph);
-        layout.setForceConstant(45);
+        layout.setForceConstant(70);
         layout.setUseInputOrigin(false);
         layout.setInitialTemp(500);
-//        layout.setMinDistanceLimit(1);
+        layout.execute(parent);
 
-//        mxGraphLayout layout = new mxOrganicLayout(graph, new Rectangle(500,500));
-        //layout.setDisableEdgeStyle(false);
-//        mxGraphLayout layout = new mxCircleLayout(graph);
+        layout = new mxFastOrganicLayout(graph);
+        layout.setForceConstant(55);
+        layout.setUseInputOrigin(false);
+        layout.setInitialTemp(400);
+        layout.execute(parent);
+
+        layout = new mxFastOrganicLayout(graph);
+        layout.setForceConstant(30);
+        layout.setUseInputOrigin(false);
+        layout.setInitialTemp(300);
+        layout.execute(parent);
+        layout.execute(parent);
         layout.execute(parent);
 
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
@@ -103,7 +117,7 @@ public class FrameTest extends JFrame {
     public static void main(String[] args) {
         FrameTest frame = new FrameTest();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 1800);
+        frame.setSize(1200,800);
         frame.setVisible(true);
     }
 
