@@ -43,6 +43,33 @@ public class AIPlayer extends Player {
     }
 
     /**
+     * Method to add reinforcement to a player's countries automatically,
+     * will always add on countries on the exterior of a player's territory.
+     * <p>
+     * Early version of what will be used for AI players.
+     *
+     * @param reinforcements the number of troops to place.
+     */
+    private void autoPutReinforcements(int reinforcements) {
+        ArrayList<Country> perimeterCountries = getPerimeterCountries();
+        if (perimeterCountries.size() != 0) {
+            for (int assigned = 0; assigned < reinforcements;) {
+                int index = ThreadLocalRandom.current().nextInt(0, perimeterCountries.size());
+                Country country = perimeterCountries.get(index);
+                boolean isAlone = country.getNeighbors().stream().noneMatch(this::hasCountry);//checks if player has any of the neighbors of the country,
+                // prevents from placing troops on surrounded countries.
+                if(isAlone && perimeterCountries.size()>1){ //Restricts the number of countries player defends.
+                    perimeterCountries.remove(country);
+                }
+                else{
+                    model.placeAIReinforcements(country);
+                    assigned++;
+                }
+            }
+        }
+    }
+
+    /**
      * Attacks once from every country that has troops >1 and more troops than the country being attacked
      * (this always blitz attacks).
      */
@@ -59,32 +86,7 @@ public class AIPlayer extends Player {
         }
     }
 
-    /**
-     * Method to add reinforcement to a player's countries automatically,
-     * will always add on countries on the exterior of a player's territory.
-     * <p>
-     * Early version of what will be used for AI players.
-     *
-     * @param reinforcements the number of troops to place.
-     */
-    private void autoPutReinforcements(int reinforcements) {
-        ArrayList<Country> perimeterCountries = getPerimeterCountries();
-        if (perimeterCountries.size() != 0) {
-            for (int assigned = 0; assigned < reinforcements;) {
-                int index = ThreadLocalRandom.current().nextInt(0, perimeterCountries.size());
-                Country country = perimeterCountries.get(index);
-                boolean isAlone = country.getNeighbors().stream().noneMatch(this::hasCountry);//checks if player has any of the neighbors of the country,
-                                            // prevents from placing troops on surrounded countries.
-                if(isAlone && perimeterCountries.size()>1){ //Restricts the number of countries player defends.
-                    perimeterCountries.remove(country);
-                }
-                else{
-                    model.placeAIReinforcements(country);
-                    assigned++;
-                }
-            }
-        }
-    }
+
 
     /**
      * Method that moves troops from deep inside Ally territory to the front line.
