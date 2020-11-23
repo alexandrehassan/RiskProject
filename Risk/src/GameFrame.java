@@ -109,7 +109,8 @@ public class GameFrame extends JFrame implements GameView {
         layout2.setVgap(25);
         layout2.setHgap(25);
         buttonOptions.setLayout(layout2);
-        String[] validCommands = {"Reinforcement", "Attack", "Move", "End"};
+        String[] validCommands = {GameController.REINFORCEMENT_COMMAND, GameController.ATTACK_COMMAND,
+                GameController.MOVE_COMMAND, GameController.END_COMMAND};
         for (String validCommand : validCommands) {
             JButton b = new JButton(validCommand);
             b.addActionListener(gameController);
@@ -171,21 +172,21 @@ public class GameFrame extends JFrame implements GameView {
 
         JMenuItem startGame = new JMenuItem("Start Game");
         startGame.addActionListener(gameController);
-        startGame.setActionCommand("new");
+        startGame.setActionCommand(GameController.NEW_COMMAND);
         gameMenu.add(startGame);
 
         menuBar.add(gameMenu);
 
         showHistory = new JMenuItem("Show move history");
         showHistory.addActionListener(gameController);
-        showHistory.setActionCommand("history");
+        showHistory.setActionCommand(GameController.HISTORY_COMMAND);
         showHistory.setEnabled(false);
         gameMenu.add(showHistory);
 
         JMenu helpMenu = new JMenu("Help");
-        JMenuItem help = new JMenuItem("Help");
+        JMenuItem help = new JMenuItem(GameController.HELP_COMMAND);
         help.addActionListener(gameController);
-        help.setActionCommand("help");
+        help.setActionCommand(GameController.HELP_COMMAND);
         helpMenu.add(help);
         menuBar.add(helpMenu);
         this.setJMenuBar(menuBar);
@@ -454,7 +455,6 @@ public class GameFrame extends JFrame implements GameView {
                 if (players.get(i).hasCountry(countryName)) {
                     String newColor = getColorForPlayerIndex(i);
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, newColor, new Object[]{cell});
-                    //cell.setStyle(cell.getStyle() + ";fillColor=" + newColor);
                 }
             }
         }
@@ -510,19 +510,19 @@ public class GameFrame extends JFrame implements GameView {
             b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
         }
 
-        switch (turnState.getNewState().toLowerCase()) {
-            case "reinforcement" -> {
+        switch (turnState.getNewState()) {
+            case REINFORCEMENT -> {
                 buttons.get(0).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 updateLine.setText(playerTurnInfo + " Click on a country to add reinforcements. " +
                         gameController.getCurrentReinforcements() + " remain.");
             }
-            case "attack" -> {
+            case ATTACK -> {
                 buttons.get(1).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 buttons.get(2).setEnabled(true);
                 buttons.get(3).setEnabled(true);
                 updateLine.setText(playerTurnInfo + " Select a country to attack with, then the country to attack");
             }
-            case "move" -> {
+            case MOVEMENT-> {
                 buttons.get(2).setBorder(BorderFactory.createLineBorder(Color.decode("#00ff00")));
                 buttons.get(3).setEnabled(true);
                 updateLine.setText(playerTurnInfo + " Select a country to move troops from, and " +
