@@ -194,7 +194,6 @@ public class GameFrame extends JFrame implements GameView {
     /**
      * Should return the board (just voided now so no errors), created
      * in this method:
-     * //TODO: Automation
      */
     private mxGraphComponent createBoard() {
         this.graph = new mxGraph();
