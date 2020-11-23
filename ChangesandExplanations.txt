@@ -18,6 +18,7 @@ GameFrame:
 GameModel:
     modified in order to accomodate AIPlayer
         mostly methods that take in Country objects instead of Strings.
+        changes to nextPlayer so all AIPlayer turns happen automatically
     Moved all input prompts into players. (allows AI to do them in the background)
     handling of end of game now works better
 
