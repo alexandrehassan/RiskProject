@@ -38,6 +38,8 @@ public class GameModel {
         this.history = new StringBuilder();
     }
 
+
+
     /**
      * Constructor used for playing the game without the GUI/Users.
      *
@@ -52,6 +54,26 @@ public class GameModel {
         this.history = new StringBuilder();
         resetView();
         generateGame();
+        updateGameViewsStart();
+        updateState();
+    }
+
+
+    /**
+     * Constructor used for playing the game without the GUI/Users.
+     *
+     * @throws IllegalArgumentException if number of players is not in [2,6]
+     */
+    public GameModel(ArrayList<Player> players, Player currentPlayer, Map map, String history) {
+        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
+        this.currentPlayer = currentPlayer;
+        this.players = players;
+        if(currentPlayer == null)
+            currentPlayer = players.get(0);
+        this.map = map;
+        this.gameViews = new ArrayList<>();
+        this.history = new StringBuilder(history);
+        resetView();
         updateGameViewsStart();
         updateState();
     }
