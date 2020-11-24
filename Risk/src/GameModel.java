@@ -66,6 +66,14 @@ public class GameModel {
         }
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
     //================================================================================
     // Views
     //================================================================================

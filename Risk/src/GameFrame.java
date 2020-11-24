@@ -169,6 +169,11 @@ public class GameFrame extends JFrame implements GameView {
         startGame.setActionCommand("new");
         gameMenu.add(startGame);
 
+        JMenuItem saveGame = new JMenuItem("Save Game");
+        saveGame.addActionListener(gameController);
+        saveGame.setActionCommand(gameController.SAVE_COMMAND);
+        gameMenu.add(saveGame);
+
         menuBar.add(gameMenu);
 
         showHistory = new JMenuItem("Show move history");
