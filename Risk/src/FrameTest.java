@@ -63,7 +63,6 @@ public class FrameTest extends JFrame {
         mxFastOrganicLayout layout = new mxFastOrganicLayout(graph);
         layout.setForceConstant(70);
         layout.setUseInputOrigin(false);
-        layout.setInitialTemp(500);
         layout.execute(parent);
 
         layout = new mxFastOrganicLayout(graph);
@@ -73,7 +72,7 @@ public class FrameTest extends JFrame {
         layout.execute(parent);
 
         layout = new mxFastOrganicLayout(graph);
-        layout.setForceConstant(30);
+        layout.setForceConstant(28);
         layout.setUseInputOrigin(false);
         layout.setInitialTemp(300);
         layout.execute(parent);
