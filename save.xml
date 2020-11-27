@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<game>
+    <players>
+        <player>
+            <playerName>cxz</playerName>
+            <playerOwned>Alaska</playerOwned>
+            <playerOwned>Brazil</playerOwned>
+            <playerOwned>Central America</playerOwned>
+            <playerOwned>China</playerOwned>
+            <playerOwned>Eastern Australia</playerOwned>
+            <playerOwned>Eastern United States</playerOwned>
+            <playerOwned>Egypt</playerOwned>
+            <playerOwned>Greenland</playerOwned>
+            <playerOwned>Iceland</playerOwned>
+            <playerOwned>India</playerOwned>
+            <playerOwned>Japan</playerOwned>
+            <playerOwned>Madagascar</playerOwned>
+            <playerOwned>Northwest Territory</playerOwned>
+            <playerOwned>Ontario</playerOwned>
+            <playerOwned>Peru</playerOwned>
+            <playerOwned>Quebec</playerOwned>
+            <playerOwned>Scandinavia</playerOwned>
+            <playerOwned>Siam</playerOwned>
+            <playerOwned>Southern Europe</playerOwned>
+            <playerOwned>Ukraine</playerOwned>
+            <playerOwned>Western Europe</playerOwned>
+        </player>
+        <player>
+            <playerName>cxz</playerName>
+            <playerOwned>Afghanistan</playerOwned>
+            <playerOwned>Alberta</playerOwned>
+            <playerOwned>Argentina</playerOwned>
+            <playerOwned>Congo</playerOwned>
+            <playerOwned>East Africa</playerOwned>
+            <playerOwned>Great Britain</playerOwned>
+            <playerOwned>Indonesia</playerOwned>
+            <playerOwned>Irkutsk</playerOwned>
+            <playerOwned>Kamchatka</playerOwned>
+            <playerOwned>Middle East</playerOwned>
+            <playerOwned>Mongolia</playerOwned>
+            <playerOwned>New Guinea</playerOwned>
+            <playerOwned>North Africa</playerOwned>
+            <playerOwned>Northern Europe</playerOwned>
+            <playerOwned>Siberia</playerOwned>
+            <playerOwned>South Africa</playerOwned>
+            <playerOwned>Ural</playerOwned>
+            <playerOwned>Venezuela</playerOwned>
+            <playerOwned>Western Australia</playerOwned>
+            <playerOwned>Western United States</playerOwned>
+            <playerOwned>Yakutsk</playerOwned>
+        </player>
+    </players>
+    <currentPlayer>cxz</currentPlayer>
+    <map>
+        <Continent>
+            <continentName>South America</continentName>
+            <continentReinforcements>2</continentReinforcements>
+            <country>
+                <countryName>Brazil</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Argentina</neighbor>
+                    <neighbor>Peru</neighbor>
+                    <neighbor>Venezuela</neighbor>
+                    <neighbor>North Africa</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Peru</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Argentina</neighbor>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Venezuela</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Argentina</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Peru</neighbor>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Peru</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Venezuela</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Central America</neighbor>
+                    <neighbor>Peru</neighbor>
+                    <neighbor>Central America</neighbor>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Peru</neighbor>
+                </neighbors>
+            </country>
+        </Continent>
+        <Continent>
+            <continentName>Asia</continentName>
+            <continentReinforcements>7</continentReinforcements>
+            <country>
+                <countryName>Mongolia</countryName>
+                <troops>4</troops>
+                <neighbors>
+                    <neighbor>China</neighbor>
+                    <neighbor>Irkutsk</neighbor>
+                    <neighbor>Japan</neighbor>
+                    <neighbor>Kamchatka</neighbor>
+                    <neighbor>Siberia</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>China</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>India</neighbor>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>Siam</neighbor>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>India</neighbor>
+                    <neighbor>Siam</neighbor>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Siberia</neighbor>
+                    <neighbor>Ural</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Siam</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>India</neighbor>
+                    <neighbor>China</neighbor>
+                    <neighbor>India</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Yakutsk</countryName>
+                <troops>4</troops>
+                <neighbors>
+                    <neighbor>Irkutsk</neighbor>
+                    <neighbor>Siberia</neighbor>
+                    <neighbor>Irkutsk</neighbor>
+                    <neighbor>Kamchatka</neighbor>
+                    <neighbor>Siberia</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Middle East</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>India</neighbor>
+                    <neighbor>Egypt</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>Southern Europe</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>India</neighbor>
+                    <neighbor>East Africa</neighbor>
+                    <neighbor>Egypt</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Ural</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>China</neighbor>
+                    <neighbor>Siberia</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>China</neighbor>
+                    <neighbor>Siberia</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>India</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>China</neighbor>
+                    <neighbor>Middle East</neighbor>
+                    <neighbor>Siam</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Kamchatka</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Irkutsk</neighbor>
+                    <neighbor>Yakutsk</neighbor>
+                    <neighbor>Japan</neighbor>
+                    <neighbor>Alaska</neighbor>
+                    <neighbor>Irkutsk</neighbor>
+                    <neighbor>Japan</neighbor>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Yakutsk</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Irkutsk</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Kamchatka</neighbor>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Siberia</neighbor>
+                    <neighbor>Yakutsk</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Afghanistan</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>India</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Middle East</neighbor>
+                    <neighbor>India</neighbor>
+                    <neighbor>China</neighbor>
+                    <neighbor>Ural</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Japan</countryName>
+                <troops>4</troops>
+                <neighbors>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Kamchatka</neighbor>
+                    <neighbor>Mongolia</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Siberia</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>China</neighbor>
+                    <neighbor>Irkutsk</neighbor>
+                    <neighbor>China</neighbor>
+                    <neighbor>Irkutsk</neighbor>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Ural</neighbor>
+                    <neighbor>Yakutsk</neighbor>
+                </neighbors>
+            </country>
+        </Continent>
+        <Continent>
+            <continentName>Europe</continentName>
+            <continentReinforcements>5</continentReinforcements>
+            <country>
+                <countryName>Great Britain</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Iceland</neighbor>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Scandinavia</neighbor>
+                    <neighbor>Western Europe</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Southern Europe</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Egypt</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>North Africa</neighbor>
+                    <neighbor>Western Europe</neighbor>
+                    <neighbor>Middle East</neighbor>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Western Europe</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Middle East</neighbor>
+                    <neighbor>Egypt</neighbor>
+                    <neighbor>North Africa</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Northern Europe</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Great Britain</neighbor>
+                    <neighbor>Scandinavia</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Southern Europe</neighbor>
+                    <neighbor>Western Europe</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Iceland</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Great Britain</neighbor>
+                    <neighbor>Greenland</neighbor>
+                    <neighbor>Greenland</neighbor>
+                    <neighbor>Great Britain</neighbor>
+                    <neighbor>Greenland</neighbor>
+                    <neighbor>Scandinavia</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Europe</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Great Britain</neighbor>
+                    <neighbor>North Africa</neighbor>
+                    <neighbor>Great Britain</neighbor>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Southern Europe</neighbor>
+                    <neighbor>North Africa</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Scandinavia</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Great Britain</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Iceland</neighbor>
+                    <neighbor>Great Britain</neighbor>
+                    <neighbor>Iceland</neighbor>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Ukraine</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Ukraine</countryName>
+                <troops>4</troops>
+                <neighbors>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Scandinavia</neighbor>
+                    <neighbor>Southern Europe</neighbor>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>Middle East</neighbor>
+                    <neighbor>Ural</neighbor>
+                </neighbors>
+            </country>
+        </Continent>
+        <Continent>
+            <continentName>Africa</continentName>
+            <continentReinforcements>3</continentReinforcements>
+            <country>
+                <countryName>North Africa</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Egypt</neighbor>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Southern Europe</neighbor>
+                    <neighbor>Western Europe</neighbor>
+                    <neighbor>Congo</neighbor>
+                    <neighbor>East Africa</neighbor>
+                    <neighbor>Egypt</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>East Africa</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Egypt</neighbor>
+                    <neighbor>South Africa</neighbor>
+                    <neighbor>North Africa</neighbor>
+                    <neighbor>Congo</neighbor>
+                    <neighbor>Middle East</neighbor>
+                    <neighbor>Congo</neighbor>
+                    <neighbor>Egypt</neighbor>
+                    <neighbor>North Africa</neighbor>
+                    <neighbor>South Africa</neighbor>
+                    <neighbor>Madagascar</neighbor>
+                    <neighbor>Middle East</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Egypt</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Southern Europe</neighbor>
+                    <neighbor>East Africa</neighbor>
+                    <neighbor>North Africa</neighbor>
+                    <neighbor>Middle East</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Congo</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>South Africa</neighbor>
+                    <neighbor>North Africa</neighbor>
+                    <neighbor>East Africa</neighbor>
+                    <neighbor>North Africa</neighbor>
+                    <neighbor>South Africa</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>South Africa</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Congo</neighbor>
+                    <neighbor>East Africa</neighbor>
+                    <neighbor>Madagascar</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Madagascar</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>South Africa</neighbor>
+                    <neighbor>East Africa</neighbor>
+                    <neighbor>East Africa</neighbor>
+                    <neighbor>South Africa</neighbor>
+                </neighbors>
+            </country>
+        </Continent>
+        <Continent>
+            <continentName>Australia</continentName>
+            <continentReinforcements>2</continentReinforcements>
+            <country>
+                <countryName>Western Australia</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Indonesia</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Western Australia</neighbor>
+                    <neighbor>Siam</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                    <neighbor>Siam</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                    <neighbor>Western Australia</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Eastern Australia</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>New Guinea</neighbor>
+                    <neighbor>Western Australia</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>New Guinea</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Western Australia</neighbor>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>Western Australia</neighbor>
+                </neighbors>
+            </country>
+        </Continent>
+        <Continent>
+            <continentName>North America</continentName>
+            <continentReinforcements>5</continentReinforcements>
+            <country>
+                <countryName>Ontario</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Quebec</neighbor>
+                    <neighbor>Northwest Territory</neighbor>
+                    <neighbor>Greenland</neighbor>
+                    <neighbor>Western United States</neighbor>
+                    <neighbor>Alberta</neighbor>
+                    <neighbor>Alberta</neighbor>
+                    <neighbor>Eastern United States</neighbor>
+                    <neighbor>Greenland</neighbor>
+                    <neighbor>Northwest Territory</neighbor>
+                    <neighbor>Western United States</neighbor>
+                    <neighbor>Quebec</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Northwest Territory</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Alaska</neighbor>
+                    <neighbor>Alberta</neighbor>
+                    <neighbor>Greenland</neighbor>
+                    <neighbor>Ontario</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Eastern United States</countryName>
+                <troops>3</troops>
+                <neighbors>
+                    <neighbor>Quebec</neighbor>
+                    <neighbor>Central America</neighbor>
+                    <neighbor>Western United States</neighbor>
+                    <neighbor>Ontario</neighbor>
+                    <neighbor>Central America</neighbor>
+                    <neighbor>Ontario</neighbor>
+                    <neighbor>Quebec</neighbor>
+                    <neighbor>Western United States</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Central America</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Western United States</neighbor>
+                    <neighbor>Eastern United States</neighbor>
+                    <neighbor>Venezuela</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Greenland</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Quebec</neighbor>
+                    <neighbor>Northwest Territory</neighbor>
+                    <neighbor>Northwest Territory</neighbor>
+                    <neighbor>Ontario</neighbor>
+                    <neighbor>Quebec</neighbor>
+                    <neighbor>Iceland</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Quebec</countryName>
+                <troops>4</troops>
+                <neighbors>
+                    <neighbor>Eastern United States</neighbor>
+                    <neighbor>Greenland</neighbor>
+                    <neighbor>Ontario</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Alaska</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Northwest Territory</neighbor>
+                    <neighbor>Alberta</neighbor>
+                    <neighbor>Kamchatka</neighbor>
+                    <neighbor>Alberta</neighbor>
+                    <neighbor>Northwest Territory</neighbor>
+                    <neighbor>Kamchatka</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western United States</countryName>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Central America</neighbor>
+                    <neighbor>Alberta</neighbor>
+                    <neighbor>Central America</neighbor>
+                    <neighbor>Eastern United States</neighbor>
+                    <neighbor>Ontario</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Alberta</countryName>
+                <troops>2</troops>
+                <neighbors>
+                    <neighbor>Northwest Territory</neighbor>
+                    <neighbor>Western United States</neighbor>
+                    <neighbor>Alaska</neighbor>
+                    <neighbor>Western United States</neighbor>
+                    <neighbor>Northwest Territory</neighbor>
+                    <neighbor>Ontario</neighbor>
+                </neighbors>
+            </country>
+        </Continent>
+    </map>
+    <history/>
+</game>

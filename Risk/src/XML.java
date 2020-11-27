@@ -278,65 +278,65 @@ public class XML {
     }
 
 
-    public static GameModel LoadGame(String filename){
-        try {
-            File inputFile = new File(filename);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(inputFile);
-            doc.getDocumentElement().normalize();
-
-            Map map = mapMaker(doc.getElementsByTagName("map"));
-
-            ArrayList<Player> players = new ArrayList<>();
-
-            NodeList playerNodes = doc.getElementsByTagName("player");
-            for (int playerIndex = 0; playerIndex < playerNodes.getLength(); playerIndex++) {
-                Node playerNode = playerNodes.item(playerIndex);
-
-                if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element playerElem = (Element) playerNode;
-                    Player player = new Player(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
-
-                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
-                    for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
-                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
-                    }
-                }
-            }
-
-            NodeList AINodes = doc.getElementsByTagName("AIplayer");
-            for (int AIIndex = 0; AIIndex < AINodes.getLength(); AIIndex++) {
-                Node playerNode = AINodes.item(AIIndex);
-
-                if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element playerElem = (Element) playerNode;
-                    Player player = new AIPlayer(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
-
-                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
-                    for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
-                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
-                    }
-                }
-            }
-
-
-            String history = doc.getElementsByTagName("history").item(0).getTextContent();
-            String currentPlayerName = doc.getElementsByTagName("currentPlayer").item(0).getTextContent();
-            Player currentPlayer = null;
-
-            for(Player player: players){
-                if(player.getName().equals(currentPlayerName)){
-                    currentPlayer = player;
-                    break;
-                }
-            }
-            return new GameModel(players,currentPlayer,map,history);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+//    public static GameModel LoadGame(String filename){
+//        try {
+//            File inputFile = new File(filename);
+//            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//            Document doc = dBuilder.parse(inputFile);
+//            doc.getDocumentElement().normalize();
+//
+//            Map map = mapMaker(doc.getElementsByTagName("map"));
+//
+//            ArrayList<Player> players = new ArrayList<>();
+//
+//            NodeList playerNodes = doc.getElementsByTagName("player");
+//            for (int playerIndex = 0; playerIndex < playerNodes.getLength(); playerIndex++) {
+//                Node playerNode = playerNodes.item(playerIndex);
+//
+//                if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
+//                    Element playerElem = (Element) playerNode;
+//                    Player player = new Player(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
+//
+//                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
+//                    for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
+//                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
+//                    }
+//                }
+//            }
+//
+//            NodeList AINodes = doc.getElementsByTagName("AIplayer");
+//            for (int AIIndex = 0; AIIndex < AINodes.getLength(); AIIndex++) {
+//                Node playerNode = AINodes.item(AIIndex);
+//
+//                if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
+//                    Element playerElem = (Element) playerNode;
+//                    Player player = new AIPlayer(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
+//
+//                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
+//                    for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
+//                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
+//                    }
+//                }
+//            }
+//
+//
+//            String history = doc.getElementsByTagName("history").item(0).getTextContent();
+//            String currentPlayerName = doc.getElementsByTagName("currentPlayer").item(0).getTextContent();
+//            Player currentPlayer = null;
+//
+//            for(Player player: players){
+//                if(player.getName().equals(currentPlayerName)){
+//                    currentPlayer = player;
+//                    break;
+//                }
+//            }
+//            return new GameModel(players,currentPlayer,map,history);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     public static void main(String[] args) {
         //mapToXML(new Map());
