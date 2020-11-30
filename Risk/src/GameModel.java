@@ -39,7 +39,6 @@ public class GameModel {
     }
 
 
-
     /**
      * Constructor used for playing the game without the GUI/Users.
      *
@@ -68,7 +67,7 @@ public class GameModel {
         if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
         this.currentPlayer = currentPlayer;
         this.players = players;
-        if(currentPlayer == null)
+        if (currentPlayer == null)
             currentPlayer = players.get(0);
         this.map = map;
         this.gameViews = new ArrayList<>();

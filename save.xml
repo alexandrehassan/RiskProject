@@ -1,64 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <game>
     <players>
-        <player>
-            <playerName>cxz</playerName>
-            <playerOwned>Alaska</playerOwned>
-            <playerOwned>Brazil</playerOwned>
-            <playerOwned>Central America</playerOwned>
-            <playerOwned>China</playerOwned>
-            <playerOwned>Eastern Australia</playerOwned>
+        <AIplayer>
+            <playerName>dsa</playerName>
+            <playerOwned>Alberta</playerOwned>
+            <playerOwned>Congo</playerOwned>
             <playerOwned>Eastern United States</playerOwned>
-            <playerOwned>Egypt</playerOwned>
+            <playerOwned>Great Britain</playerOwned>
             <playerOwned>Greenland</playerOwned>
             <playerOwned>Iceland</playerOwned>
-            <playerOwned>India</playerOwned>
             <playerOwned>Japan</playerOwned>
-            <playerOwned>Madagascar</playerOwned>
-            <playerOwned>Northwest Territory</playerOwned>
-            <playerOwned>Ontario</playerOwned>
-            <playerOwned>Peru</playerOwned>
-            <playerOwned>Quebec</playerOwned>
-            <playerOwned>Scandinavia</playerOwned>
-            <playerOwned>Siam</playerOwned>
-            <playerOwned>Southern Europe</playerOwned>
-            <playerOwned>Ukraine</playerOwned>
-            <playerOwned>Western Europe</playerOwned>
-        </player>
-        <player>
-            <playerName>cxz</playerName>
-            <playerOwned>Afghanistan</playerOwned>
-            <playerOwned>Alberta</playerOwned>
-            <playerOwned>Argentina</playerOwned>
-            <playerOwned>Congo</playerOwned>
-            <playerOwned>East Africa</playerOwned>
-            <playerOwned>Great Britain</playerOwned>
-            <playerOwned>Indonesia</playerOwned>
-            <playerOwned>Irkutsk</playerOwned>
             <playerOwned>Kamchatka</playerOwned>
+            <playerOwned>Madagascar</playerOwned>
+            <playerOwned>Peru</playerOwned>
+            <playerOwned>Western Europe</playerOwned>
+        </AIplayer>
+        <AIplayer>
+            <playerName>dsa</playerName>
+            <playerOwned>Argentina</playerOwned>
+            <playerOwned>Central America</playerOwned>
+            <playerOwned>China</playerOwned>
+            <playerOwned>East Africa</playerOwned>
+            <playerOwned>Eastern Australia</playerOwned>
+            <playerOwned>Egypt</playerOwned>
+            <playerOwned>India</playerOwned>
             <playerOwned>Middle East</playerOwned>
             <playerOwned>Mongolia</playerOwned>
             <playerOwned>New Guinea</playerOwned>
-            <playerOwned>North Africa</playerOwned>
             <playerOwned>Northern Europe</playerOwned>
+            <playerOwned>Scandinavia</playerOwned>
+            <playerOwned>Siam</playerOwned>
             <playerOwned>Siberia</playerOwned>
             <playerOwned>South Africa</playerOwned>
-            <playerOwned>Ural</playerOwned>
+            <playerOwned>Southern Europe</playerOwned>
+            <playerOwned>Ukraine</playerOwned>
             <playerOwned>Venezuela</playerOwned>
-            <playerOwned>Western Australia</playerOwned>
             <playerOwned>Western United States</playerOwned>
+        </AIplayer>
+        <player>
+            <playerName>dsa</playerName>
+            <playerOwned>Afghanistan</playerOwned>
+            <playerOwned>Alaska</playerOwned>
+            <playerOwned>Brazil</playerOwned>
+            <playerOwned>Indonesia</playerOwned>
+            <playerOwned>Irkutsk</playerOwned>
+            <playerOwned>North Africa</playerOwned>
+            <playerOwned>Northwest Territory</playerOwned>
+            <playerOwned>Ontario</playerOwned>
+            <playerOwned>Quebec</playerOwned>
+            <playerOwned>Ural</playerOwned>
+            <playerOwned>Western Australia</playerOwned>
             <playerOwned>Yakutsk</playerOwned>
         </player>
     </players>
-    <currentPlayer>cxz</currentPlayer>
+    <currentPlayer>dsa</currentPlayer>
     <map>
         <Continent>
             <continentName>South America</continentName>
             <continentReinforcements>2</continentReinforcements>
             <country>
                 <countryName>Brazil</countryName>
-                <troops>3</troops>
+                <troops>1</troops>
                 <neighbors>
+                    <neighbor>Venezuela</neighbor>
+                    <neighbor>Peru</neighbor>
                     <neighbor>Argentina</neighbor>
                     <neighbor>Peru</neighbor>
                     <neighbor>Venezuela</neighbor>
@@ -67,9 +72,9 @@
             </country>
             <country>
                 <countryName>Peru</countryName>
-                <troops>3</troops>
+                <troops>1</troops>
                 <neighbors>
-                    <neighbor>Brazil</neighbor>
+                    <neighbor>Venezuela</neighbor>
                     <neighbor>Argentina</neighbor>
                     <neighbor>Brazil</neighbor>
                     <neighbor>Venezuela</neighbor>
@@ -77,10 +82,10 @@
             </country>
             <country>
                 <countryName>Argentina</countryName>
-                <troops>3</troops>
+                <troops>1</troops>
                 <neighbors>
-                    <neighbor>Brazil</neighbor>
                     <neighbor>Peru</neighbor>
+                    <neighbor>Brazil</neighbor>
                     <neighbor>Brazil</neighbor>
                     <neighbor>Peru</neighbor>
                 </neighbors>
@@ -89,9 +94,7 @@
                 <countryName>Venezuela</countryName>
                 <troops>1</troops>
                 <neighbors>
-                    <neighbor>Brazil</neighbor>
                     <neighbor>Central America</neighbor>
-                    <neighbor>Peru</neighbor>
                     <neighbor>Central America</neighbor>
                     <neighbor>Brazil</neighbor>
                     <neighbor>Peru</neighbor>
@@ -103,8 +106,10 @@
             <continentReinforcements>7</continentReinforcements>
             <country>
                 <countryName>Mongolia</countryName>
-                <troops>4</troops>
+                <troops>1</troops>
                 <neighbors>
+                    <neighbor>China</neighbor>
+                    <neighbor>Siberia</neighbor>
                     <neighbor>China</neighbor>
                     <neighbor>Irkutsk</neighbor>
                     <neighbor>Japan</neighbor>
@@ -116,10 +121,7 @@
                 <countryName>China</countryName>
                 <troops>3</troops>
                 <neighbors>
-                    <neighbor>India</neighbor>
-                    <neighbor>Mongolia</neighbor>
-                    <neighbor>Afghanistan</neighbor>
-                    <neighbor>Siam</neighbor>
+                    <neighbor>Ural</neighbor>
                     <neighbor>Afghanistan</neighbor>
                     <neighbor>India</neighbor>
                     <neighbor>Siam</neighbor>
@@ -130,9 +132,10 @@
             </country>
             <country>
                 <countryName>Siam</countryName>
-                <troops>3</troops>
+                <troops>1</troops>
                 <neighbors>
-                    <neighbor>India</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>China</neighbor>
                     <neighbor>China</neighbor>
                     <neighbor>India</neighbor>
                     <neighbor>Indonesia</neighbor>
@@ -140,10 +143,8 @@
             </country>
             <country>
                 <countryName>Yakutsk</countryName>
-                <troops>4</troops>
+                <troops>2</troops>
                 <neighbors>
-                    <neighbor>Irkutsk</neighbor>
-                    <neighbor>Siberia</neighbor>
                     <neighbor>Irkutsk</neighbor>
                     <neighbor>Kamchatka</neighbor>
                     <neighbor>Siberia</neighbor>
@@ -151,12 +152,12 @@
             </country>
             <country>
                 <countryName>Middle East</countryName>
-                <troops>3</troops>
+                <troops>2</troops>
                 <neighbors>
-                    <neighbor>India</neighbor>
-                    <neighbor>Egypt</neighbor>
                     <neighbor>Ukraine</neighbor>
+                    <neighbor>Egypt</neighbor>
                     <neighbor>Afghanistan</neighbor>
+                    <neighbor>East Africa</neighbor>
                     <neighbor>Southern Europe</neighbor>
                     <neighbor>Ukraine</neighbor>
                     <neighbor>Afghanistan</neighbor>
@@ -167,12 +168,8 @@
             </country>
             <country>
                 <countryName>Ural</countryName>
-                <troops>1</troops>
+                <troops>3</troops>
                 <neighbors>
-                    <neighbor>Ukraine</neighbor>
-                    <neighbor>Afghanistan</neighbor>
-                    <neighbor>China</neighbor>
-                    <neighbor>Siberia</neighbor>
                     <neighbor>Ukraine</neighbor>
                     <neighbor>Afghanistan</neighbor>
                     <neighbor>China</neighbor>
@@ -183,6 +180,10 @@
                 <countryName>India</countryName>
                 <troops>2</troops>
                 <neighbors>
+                    <neighbor>China</neighbor>
+                    <neighbor>Siam</neighbor>
+                    <neighbor>Afghanistan</neighbor>
+                    <neighbor>Middle East</neighbor>
                     <neighbor>Afghanistan</neighbor>
                     <neighbor>China</neighbor>
                     <neighbor>Middle East</neighbor>
@@ -191,12 +192,13 @@
             </country>
             <country>
                 <countryName>Kamchatka</countryName>
-                <troops>3</troops>
+                <troops>4</troops>
                 <neighbors>
-                    <neighbor>Mongolia</neighbor>
-                    <neighbor>Irkutsk</neighbor>
                     <neighbor>Yakutsk</neighbor>
+                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Alaska</neighbor>
                     <neighbor>Japan</neighbor>
+                    <neighbor>Irkutsk</neighbor>
                     <neighbor>Alaska</neighbor>
                     <neighbor>Irkutsk</neighbor>
                     <neighbor>Japan</neighbor>
@@ -206,8 +208,10 @@
             </country>
             <country>
                 <countryName>Irkutsk</countryName>
-                <troops>2</troops>
+                <troops>1</troops>
                 <neighbors>
+                    <neighbor>Yakutsk</neighbor>
+                    <neighbor>Siberia</neighbor>
                     <neighbor>Mongolia</neighbor>
                     <neighbor>Kamchatka</neighbor>
                     <neighbor>Mongolia</neighbor>
@@ -217,9 +221,10 @@
             </country>
             <country>
                 <countryName>Afghanistan</countryName>
-                <troops>1</troops>
+                <troops>3</troops>
                 <neighbors>
-                    <neighbor>India</neighbor>
+                    <neighbor>Ural</neighbor>
+                    <neighbor>China</neighbor>
                     <neighbor>Ukraine</neighbor>
                     <neighbor>Ukraine</neighbor>
                     <neighbor>Middle East</neighbor>
@@ -230,7 +235,7 @@
             </country>
             <country>
                 <countryName>Japan</countryName>
-                <troops>4</troops>
+                <troops>2</troops>
                 <neighbors>
                     <neighbor>Mongolia</neighbor>
                     <neighbor>Kamchatka</neighbor>
@@ -241,9 +246,9 @@
                 <countryName>Siberia</countryName>
                 <troops>2</troops>
                 <neighbors>
-                    <neighbor>Mongolia</neighbor>
+                    <neighbor>Ural</neighbor>
                     <neighbor>China</neighbor>
-                    <neighbor>Irkutsk</neighbor>
+                    <neighbor>Yakutsk</neighbor>
                     <neighbor>China</neighbor>
                     <neighbor>Irkutsk</neighbor>
                     <neighbor>Mongolia</neighbor>
@@ -257,8 +262,10 @@
             <continentReinforcements>5</continentReinforcements>
             <country>
                 <countryName>Great Britain</countryName>
-                <troops>2</troops>
+                <troops>3</troops>
                 <neighbors>
+                    <neighbor>Iceland</neighbor>
+                    <neighbor>Scandinavia</neighbor>
                     <neighbor>Northern Europe</neighbor>
                     <neighbor>Iceland</neighbor>
                     <neighbor>Northern Europe</neighbor>
@@ -268,12 +275,11 @@
             </country>
             <country>
                 <countryName>Southern Europe</countryName>
-                <troops>1</troops>
+                <troops>2</troops>
                 <neighbors>
+                    <neighbor>Ukraine</neighbor>
                     <neighbor>Northern Europe</neighbor>
                     <neighbor>Egypt</neighbor>
-                    <neighbor>Ukraine</neighbor>
-                    <neighbor>North Africa</neighbor>
                     <neighbor>Western Europe</neighbor>
                     <neighbor>Middle East</neighbor>
                     <neighbor>Northern Europe</neighbor>
@@ -286,8 +292,10 @@
             </country>
             <country>
                 <countryName>Northern Europe</countryName>
-                <troops>2</troops>
+                <troops>1</troops>
                 <neighbors>
+                    <neighbor>Ukraine</neighbor>
+                    <neighbor>Scandinavia</neighbor>
                     <neighbor>Great Britain</neighbor>
                     <neighbor>Scandinavia</neighbor>
                     <neighbor>Ukraine</neighbor>
@@ -297,10 +305,8 @@
             </country>
             <country>
                 <countryName>Iceland</countryName>
-                <troops>3</troops>
+                <troops>2</troops>
                 <neighbors>
-                    <neighbor>Great Britain</neighbor>
-                    <neighbor>Greenland</neighbor>
                     <neighbor>Greenland</neighbor>
                     <neighbor>Great Britain</neighbor>
                     <neighbor>Greenland</neighbor>
@@ -309,11 +315,10 @@
             </country>
             <country>
                 <countryName>Western Europe</countryName>
-                <troops>1</troops>
+                <troops>3</troops>
                 <neighbors>
                     <neighbor>Northern Europe</neighbor>
                     <neighbor>Great Britain</neighbor>
-                    <neighbor>North Africa</neighbor>
                     <neighbor>Great Britain</neighbor>
                     <neighbor>Northern Europe</neighbor>
                     <neighbor>Southern Europe</neighbor>
@@ -324,10 +329,8 @@
                 <countryName>Scandinavia</countryName>
                 <troops>1</troops>
                 <neighbors>
-                    <neighbor>Northern Europe</neighbor>
-                    <neighbor>Great Britain</neighbor>
-                    <neighbor>Ukraine</neighbor>
                     <neighbor>Iceland</neighbor>
+                    <neighbor>Ukraine</neighbor>
                     <neighbor>Great Britain</neighbor>
                     <neighbor>Iceland</neighbor>
                     <neighbor>Northern Europe</neighbor>
@@ -336,9 +339,9 @@
             </country>
             <country>
                 <countryName>Ukraine</countryName>
-                <troops>4</troops>
+                <troops>2</troops>
                 <neighbors>
-                    <neighbor>Northern Europe</neighbor>
+                    <neighbor>Ural</neighbor>
                     <neighbor>Northern Europe</neighbor>
                     <neighbor>Scandinavia</neighbor>
                     <neighbor>Southern Europe</neighbor>
@@ -355,8 +358,11 @@
                 <countryName>North Africa</countryName>
                 <troops>3</troops>
                 <neighbors>
-                    <neighbor>Brazil</neighbor>
                     <neighbor>Egypt</neighbor>
+                    <neighbor>Western Europe</neighbor>
+                    <neighbor>East Africa</neighbor>
+                    <neighbor>Brazil</neighbor>
+                    <neighbor>Southern Europe</neighbor>
                     <neighbor>Brazil</neighbor>
                     <neighbor>Southern Europe</neighbor>
                     <neighbor>Western Europe</neighbor>
@@ -367,13 +373,10 @@
             </country>
             <country>
                 <countryName>East Africa</countryName>
-                <troops>3</troops>
+                <troops>1</troops>
                 <neighbors>
                     <neighbor>Egypt</neighbor>
                     <neighbor>South Africa</neighbor>
-                    <neighbor>North Africa</neighbor>
-                    <neighbor>Congo</neighbor>
-                    <neighbor>Middle East</neighbor>
                     <neighbor>Congo</neighbor>
                     <neighbor>Egypt</neighbor>
                     <neighbor>North Africa</neighbor>
@@ -384,7 +387,7 @@
             </country>
             <country>
                 <countryName>Egypt</countryName>
-                <troops>3</troops>
+                <troops>1</troops>
                 <neighbors>
                     <neighbor>Southern Europe</neighbor>
                     <neighbor>East Africa</neighbor>
@@ -397,6 +400,7 @@
                 <troops>3</troops>
                 <neighbors>
                     <neighbor>South Africa</neighbor>
+                    <neighbor>East Africa</neighbor>
                     <neighbor>North Africa</neighbor>
                     <neighbor>East Africa</neighbor>
                     <neighbor>North Africa</neighbor>
@@ -405,7 +409,7 @@
             </country>
             <country>
                 <countryName>South Africa</countryName>
-                <troops>2</troops>
+                <troops>1</troops>
                 <neighbors>
                     <neighbor>Congo</neighbor>
                     <neighbor>East Africa</neighbor>
@@ -414,7 +418,7 @@
             </country>
             <country>
                 <countryName>Madagascar</countryName>
-                <troops>2</troops>
+                <troops>4</troops>
                 <neighbors>
                     <neighbor>South Africa</neighbor>
                     <neighbor>East Africa</neighbor>
@@ -430,7 +434,8 @@
                 <countryName>Western Australia</countryName>
                 <troops>3</troops>
                 <neighbors>
-                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
                     <neighbor>Eastern Australia</neighbor>
                     <neighbor>Indonesia</neighbor>
                     <neighbor>New Guinea</neighbor>
@@ -440,9 +445,6 @@
                 <countryName>Indonesia</countryName>
                 <troops>2</troops>
                 <neighbors>
-                    <neighbor>Western Australia</neighbor>
-                    <neighbor>Siam</neighbor>
-                    <neighbor>New Guinea</neighbor>
                     <neighbor>Siam</neighbor>
                     <neighbor>New Guinea</neighbor>
                     <neighbor>Western Australia</neighbor>
@@ -450,18 +452,19 @@
             </country>
             <country>
                 <countryName>Eastern Australia</countryName>
-                <troops>2</troops>
+                <troops>1</troops>
                 <neighbors>
+                    <neighbor>New Guinea</neighbor>
+                    <neighbor>Western Australia</neighbor>
                     <neighbor>New Guinea</neighbor>
                     <neighbor>Western Australia</neighbor>
                 </neighbors>
             </country>
             <country>
                 <countryName>New Guinea</countryName>
-                <troops>3</troops>
+                <troops>2</troops>
                 <neighbors>
-                    <neighbor>Eastern Australia</neighbor>
-                    <neighbor>Western Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
                     <neighbor>Eastern Australia</neighbor>
                     <neighbor>Indonesia</neighbor>
                     <neighbor>Western Australia</neighbor>
@@ -473,10 +476,9 @@
             <continentReinforcements>5</continentReinforcements>
             <country>
                 <countryName>Ontario</countryName>
-                <troops>3</troops>
+                <troops>1</troops>
                 <neighbors>
                     <neighbor>Quebec</neighbor>
-                    <neighbor>Northwest Territory</neighbor>
                     <neighbor>Greenland</neighbor>
                     <neighbor>Western United States</neighbor>
                     <neighbor>Alberta</neighbor>
@@ -490,8 +492,12 @@
             </country>
             <country>
                 <countryName>Northwest Territory</countryName>
-                <troops>2</troops>
+                <troops>3</troops>
                 <neighbors>
+                    <neighbor>Greenland</neighbor>
+                    <neighbor>Alaska</neighbor>
+                    <neighbor>Alberta</neighbor>
+                    <neighbor>Ontario</neighbor>
                     <neighbor>Alaska</neighbor>
                     <neighbor>Alberta</neighbor>
                     <neighbor>Greenland</neighbor>
@@ -500,10 +506,10 @@
             </country>
             <country>
                 <countryName>Eastern United States</countryName>
-                <troops>3</troops>
+                <troops>2</troops>
                 <neighbors>
-                    <neighbor>Quebec</neighbor>
                     <neighbor>Central America</neighbor>
+                    <neighbor>Quebec</neighbor>
                     <neighbor>Western United States</neighbor>
                     <neighbor>Ontario</neighbor>
                     <neighbor>Central America</neighbor>
@@ -514,7 +520,7 @@
             </country>
             <country>
                 <countryName>Central America</countryName>
-                <troops>1</troops>
+                <troops>2</troops>
                 <neighbors>
                     <neighbor>Western United States</neighbor>
                     <neighbor>Eastern United States</neighbor>
@@ -525,8 +531,8 @@
                 <countryName>Greenland</countryName>
                 <troops>1</troops>
                 <neighbors>
+                    <neighbor>Iceland</neighbor>
                     <neighbor>Quebec</neighbor>
-                    <neighbor>Northwest Territory</neighbor>
                     <neighbor>Northwest Territory</neighbor>
                     <neighbor>Ontario</neighbor>
                     <neighbor>Quebec</neighbor>
@@ -544,11 +550,8 @@
             </country>
             <country>
                 <countryName>Alaska</countryName>
-                <troops>1</troops>
+                <troops>4</troops>
                 <neighbors>
-                    <neighbor>Northwest Territory</neighbor>
-                    <neighbor>Alberta</neighbor>
-                    <neighbor>Kamchatka</neighbor>
                     <neighbor>Alberta</neighbor>
                     <neighbor>Northwest Territory</neighbor>
                     <neighbor>Kamchatka</neighbor>
@@ -569,8 +572,8 @@
                 <countryName>Alberta</countryName>
                 <troops>2</troops>
                 <neighbors>
-                    <neighbor>Northwest Territory</neighbor>
                     <neighbor>Western United States</neighbor>
+                    <neighbor>Alaska</neighbor>
                     <neighbor>Alaska</neighbor>
                     <neighbor>Western United States</neighbor>
                     <neighbor>Northwest Territory</neighbor>
@@ -579,5 +582,37 @@
             </country>
         </Continent>
     </map>
-    <history/>
+    <history>
+
+        dsa
+        dsa placed 1 troop on East Africa
+        dsa placed 1 troop on Egypt
+        dsa placed 1 troop on Mongolia
+        dsa placed 1 troop on Middle East
+        Attacker lost 2 troop(s), defender lost 1 troop(s).
+        Attacker lost 1 troop(s), defender lost 2 troop(s).
+        East Africa takes South Africa
+        dsa moved 1 from East Africa to South Africa
+        dsa took South Africa with 1 troops.
+        Attacker lost 2 troop(s), defender lost 2 troop(s).
+        Egypt takes Southern Europe
+        dsa moved 2 from Egypt to Southern Europe
+        dsa took Southern Europe with 2 troops.
+        Attacker lost 2 troop(s), defender lost 3 troop(s).
+        Mongolia takes Siberia
+        dsa moved 2 from Mongolia to Siberia
+        dsa took Siberia with 2 troops.
+        Attacker lost 1 troop(s), defender lost 2 troop(s).
+        Northern Europe takes Scandinavia
+        dsa moved 1 from Northern Europe to Scandinavia
+        dsa took Scandinavia with 1 troops.
+        Attacker lost 0 troop(s), defender lost 2 troop(s).
+        Venezuela takes Central America
+        dsa moved 2 from Venezuela to Central America
+        dsa took Central America with 2 troops.
+        Attacker lost 3 troop(s), defender lost 1 troop(s).
+
+
+        dsa
+    </history>
 </game>
