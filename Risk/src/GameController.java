@@ -127,7 +127,7 @@ public class GameController implements ActionListener {
                             if (successfulMove) {
                                 gameModel.updateState();
                                 state = State.REINFORCEMENT;
-                                gameModel.nextPlayer(true);
+                                gameModel.nextPlayer();
                                 gameModel.showCurrentPlayer();
                                 gameModel.updateGameViewsTurnState(state);
                             }
@@ -188,7 +188,7 @@ public class GameController implements ActionListener {
             }
             case END_COMMAND -> {
                 state = State.REINFORCEMENT;
-                gameModel.nextPlayer(true);
+                gameModel.nextPlayer();
                 if (gameModel.getCurrentPlayer() != null) {
                     gameModel.showCurrentPlayer();
                     gameModel.updateGameViewsTurnState(state);
@@ -208,13 +208,8 @@ public class GameController implements ActionListener {
             from = EMPTY;
             to = EMPTY;
             System.out.println(gameModel.getCurrentPlayer().getName());
-            if (gameModel.getCurrentPlayer() instanceof AIPlayer) {
-                this.state = State.UNDECLARED;
-                gameModel.nextPlayer(true);
-            } else {
-                this.state = State.REINFORCEMENT;
-                gameModel.updateGameViewsTurnState(state);
-            }
+            gameModel.nextPlayer();
+            this.state = State.REINFORCEMENT;
         }
     }
 

@@ -20,6 +20,7 @@ public class GameModel {
     private Map map;
     private final ArrayList<GameView> gameViews;
     private final StringBuilder history;
+    private boolean gameStarted;
 
     public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
 
@@ -36,6 +37,7 @@ public class GameModel {
         this.map = null;
         this.gameViews = new ArrayList<>();
         this.history = new StringBuilder();
+        gameStarted = false;
     }
 
     /**
@@ -50,10 +52,12 @@ public class GameModel {
         this.map = null;
         this.gameViews = new ArrayList<>();
         this.history = new StringBuilder();
+        gameStarted = false;
         resetView();
         generateGame();
         updateGameViewsStart();
         updateState();
+
     }
 
     public void resetModel() {
@@ -64,6 +68,7 @@ public class GameModel {
         for (GameView v : gameViews) {
             v.reset();
         }
+        gameStarted = false;
     }
 
     //================================================================================
@@ -187,7 +192,7 @@ public class GameModel {
         ArrayList<String> countryKeysArrayList = map.getShuffledKeys();
         for (String key : countryKeysArrayList) {
             currentPlayer.addCountry(map.getCountry(key));
-            nextPlayer(false);
+            nextPlayer();
         }
 
         //Sort countries and Randomly Assign troops to countries
@@ -195,6 +200,7 @@ public class GameModel {
             player.sortCountries();
             player.assignBeginningTroops(BEGINNING_TROOPS[players.size() - 2]);
         }
+        gameStarted = true;
     }
 
     //================================================================================
@@ -426,7 +432,7 @@ public class GameModel {
         updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         currentPlayer.sortCountries();
         updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
-        if (getRemainingPlayers() < 2 && !(currentPlayer instanceof AIPlayer)) {
+        if (getRemainingPlayers() < 2) {
             handleGameOver();
         }
     }
@@ -483,7 +489,7 @@ public class GameModel {
     /**
      * Changes current player to the next player in the correct order until the next player is not eliminated.
      */
-    public void nextPlayer(boolean gameStarted) {
+    public void nextPlayer() {
         if (players.indexOf(currentPlayer) != players.size() - 1) {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
         } else {
@@ -492,40 +498,19 @@ public class GameModel {
 
         if (gameStarted) {
             if (getRemainingPlayers() < 2) {
+                gameStarted=false;
                 handleGameOver();
                 return;
-            }
-            if (currentPlayer.isEliminated())
-                nextPlayer(true);
+            }else {
+                if (currentPlayer.isEliminated())
+                    nextPlayer();
 
-            history.append("\n\n").append(currentPlayer.getName()).append("\n");
-            currentPlayerReinforcements = getReinforcements();
-
-            if (currentPlayer instanceof AIPlayer) {
-                ((AIPlayer) currentPlayer).playTurn();
-                if (!(getRemainingPlayers() < 2)) {
-                    nextPlayer(true);
-                } else {
-                    handleGameOver();
-                }
-            } else {
+                history.append("\n\n").append(currentPlayer.getName()).append("\n");
+                currentPlayerReinforcements = getReinforcements();
+                currentPlayer.playTurn();
                 updatePlayerTurn(currentPlayer.getName());
                 updateGameViewsTurnState(GameController.State.REINFORCEMENT);
             }
-
-
-//            if (currentPlayer instanceof AIPlayer) {
-//                ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
-//                if (!(getRemainingPlayers() < 2)) {
-//                    nextPlayer(true);
-//                } else {
-//                    handleGameOver();
-//                }
-//            } else {
-//                updatePlayerTurn(currentPlayer.getName());
-//                updateGameViewsTurnState(GameController.State.REINFORCEMENT);
-//            }
-
 
         }
     }

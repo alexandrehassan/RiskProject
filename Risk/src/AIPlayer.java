@@ -41,6 +41,7 @@ public class AIPlayer extends Player {
         autoAttack();
         autoMove();
         model.updateState();
+        model.nextPlayer();
     }
 
     /**

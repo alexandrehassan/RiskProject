@@ -161,6 +161,7 @@ public class GameFrame extends JFrame implements GameView {
             b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
         }
         showHistory.setEnabled(false);
+
     }
 
     /**
