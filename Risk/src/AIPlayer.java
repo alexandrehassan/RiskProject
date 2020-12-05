@@ -33,10 +33,10 @@ public class AIPlayer extends Player {
 
     /**
      * Goes through all three phases of a turn.
-     *
-     * @param currentPlayerReinforcements the number of reinforcements this player can place.
      */
-    public void playTurn(int currentPlayerReinforcements) {
+    @Override
+    public void playTurn() {
+        int currentPlayerReinforcements = model.getCurrentPlayerReinforcements();
         autoPutReinforcements(currentPlayerReinforcements);
         autoAttack();
         autoMove();
@@ -86,8 +86,6 @@ public class AIPlayer extends Player {
             }
         }
     }
-
-
 
     /**
      * Method that moves troops from deep inside Ally territory to the front line.

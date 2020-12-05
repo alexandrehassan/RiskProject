@@ -211,6 +211,14 @@ public class Player {
         return innerCountries;
     }
 
+    /**
+     * Gets all of the countries that are not on the outer perimeter of a player's territory.
+     *
+     * @return an Array Containing all interior countries.
+     */
+    public void playTurn() {
+
+    }
 
     /**
      * Gets all countries

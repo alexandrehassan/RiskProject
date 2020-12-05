@@ -248,7 +248,6 @@ public class GameModel {
                 .append(country.getName()).append("\n");
     }
 
-
     //================================================================================
     // Attack
     //================================================================================
@@ -501,8 +500,9 @@ public class GameModel {
 
             history.append("\n\n").append(currentPlayer.getName()).append("\n");
             currentPlayerReinforcements = getReinforcements();
+
             if (currentPlayer instanceof AIPlayer) {
-                ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
+                ((AIPlayer) currentPlayer).playTurn();
                 if (!(getRemainingPlayers() < 2)) {
                     nextPlayer(true);
                 } else {
@@ -512,6 +512,19 @@ public class GameModel {
                 updatePlayerTurn(currentPlayer.getName());
                 updateGameViewsTurnState(GameController.State.REINFORCEMENT);
             }
+
+
+//            if (currentPlayer instanceof AIPlayer) {
+//                ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
+//                if (!(getRemainingPlayers() < 2)) {
+//                    nextPlayer(true);
+//                } else {
+//                    handleGameOver();
+//                }
+//            } else {
+//                updatePlayerTurn(currentPlayer.getName());
+//                updateGameViewsTurnState(GameController.State.REINFORCEMENT);
+//            }
 
 
         }
@@ -609,7 +622,6 @@ public class GameModel {
     //================================================================================
     // Pop-ups
     //================================================================================
-
 
     //Allows the tests to suppress these.
     public void showErrorPopUp(Exception e) {
