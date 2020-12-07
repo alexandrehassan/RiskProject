@@ -44,6 +44,14 @@ public class XML {
                 troops.appendChild(doc.createTextNode(String.valueOf(c.getTroops())));
                 countryElem.appendChild(troops);
 
+                Element xPos = doc.createElement("X");
+                xPos.appendChild(doc.createTextNode(String.valueOf(map.getPosition(c).x)));
+                countryElem.appendChild(xPos);
+
+                Element yPos = doc.createElement("Y");
+                yPos.appendChild(doc.createTextNode(String.valueOf(map.getPosition(c).y)));
+                countryElem.appendChild(yPos);
+
                 Element neighbors = doc.createElement("neighbors");
                 ArrayList<Element> neighborElems = new ArrayList<>();
                 for(Country neighbor : c.getNeighbors()){
@@ -203,12 +211,10 @@ public class XML {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Map(countries,continents);
+        return new Map(countries,continents, positionsCountries);
     }
 
-
     private static Map mapMaker(NodeList continentNodes){
-
         HashMap<String, Country> countries=  new HashMap<>();
         HashMap<String, Continent> continents = new HashMap<>();
         HashMap<Country, ArrayList<String>> countryNeighborMap = new HashMap<>();
@@ -274,9 +280,8 @@ public class XML {
                 country.addNeighbor(countries.get(neighbor));
             }
         }
-        return new Map(countries,continents);
+        return new Map(countries,continents, positionsCountries);
     }
-
 
 //    public static GameModel LoadGame(String filename){
 //        try {

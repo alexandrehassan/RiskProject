@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 public class Map {
     private final HashMap<String, Country> countries;
     private final HashMap<String, Continent> continents;
-
+    private final HashMap<Country, Point> positionsCountries;
     public static final String BLACK = "#000000";
 
 
@@ -22,9 +23,12 @@ public class Map {
      * Constructor for the Map class.
      * Generates a map of the classic Risk game.
      */
-    public Map(HashMap<String, Country> countries, HashMap<String, Continent> continents) {
+    public Map(HashMap<String, Country> countries,
+               HashMap<String, Continent> continents,
+               HashMap<Country, Point> positionsCountries) {
         this.countries = countries;
         this.continents = continents;
+        this.positionsCountries = positionsCountries;
     }
 
 
@@ -98,5 +102,9 @@ public class Map {
             countryArrayList.add(countries.get(key));
         }
         return countryArrayList;
+    }
+
+    public Point getPosition(Country country){
+        return positionsCountries.get(country);
     }
 }
