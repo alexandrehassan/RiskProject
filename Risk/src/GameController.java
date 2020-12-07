@@ -78,23 +78,7 @@ public class GameController implements ActionListener {
                 }
 
                 switch (state) {
-                    case UNDECLARED, REINFORCEMENT -> {
-                        state = State.REINFORCEMENT;
-                        try {
-                            int reinforcements = gameModel.getCurrentPlayerReinforcements();
-                            if (reinforcements <= 0) {
-                                toAttackPhase();
-                            }
-
-                            int toPut = gameModel.troopSelect(1, reinforcements);
-                            gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
-                            if (gameModel.getCurrentPlayerReinforcements() == 0) {
-                                toAttackPhase();
-                            }
-                        } catch (Exception exception) {
-                            System.out.println(exception.getMessage());
-                        }
-                    }
+                    case UNDECLARED, REINFORCEMENT -> reinforcementState(clickedCountry);
                     case ATTACK -> {
                         if (from.equals(EMPTY)) {
                             from = clickedCountry;
@@ -225,5 +209,23 @@ public class GameController implements ActionListener {
      */
     public int getCurrentReinforcements() {
         return gameModel.getCurrentPlayerReinforcements();
+    }
+
+    public void reinforcementState(String clickedCountry) {
+        state = State.REINFORCEMENT;
+        try {
+            int reinforcements = gameModel.getCurrentPlayerReinforcements();
+            if (reinforcements <= 0) {
+                toAttackPhase();
+            }
+
+            int toPut = gameModel.troopSelect(1, reinforcements);
+            gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
+            if (gameModel.getCurrentPlayerReinforcements() == 0) {
+                toAttackPhase();
+            }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 }
