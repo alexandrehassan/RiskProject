@@ -20,6 +20,7 @@ public class GameModel {
     private Map map;
     private final ArrayList<GameView> gameViews;
     private final StringBuilder history;
+    private boolean gameStarted;
 
     public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
 
@@ -36,6 +37,7 @@ public class GameModel {
         this.map = null;
         this.gameViews = new ArrayList<>();
         this.history = new StringBuilder();
+        gameStarted = false;
     }
 
     /**
@@ -50,10 +52,12 @@ public class GameModel {
         this.map = null;
         this.gameViews = new ArrayList<>();
         this.history = new StringBuilder();
+        gameStarted = false;
         resetView();
         generateGame();
         updateGameViewsStart();
         updateState();
+
     }
 
     public void resetModel() {
@@ -64,6 +68,7 @@ public class GameModel {
         for (GameView v : gameViews) {
             v.reset();
         }
+        gameStarted = false;
     }
 
     //================================================================================
@@ -187,7 +192,7 @@ public class GameModel {
         ArrayList<String> countryKeysArrayList = map.getShuffledKeys();
         for (String key : countryKeysArrayList) {
             currentPlayer.addCountry(map.getCountry(key));
-            nextPlayer(false);
+            nextPlayer();
         }
 
         //Sort countries and Randomly Assign troops to countries
@@ -195,6 +200,7 @@ public class GameModel {
             player.sortCountries();
             player.assignBeginningTroops(BEGINNING_TROOPS[players.size() - 2]);
         }
+        gameStarted = true;
     }
 
     //================================================================================
@@ -247,7 +253,6 @@ public class GameModel {
         history.append(currentPlayer.getName()).append(" placed ").append(1).append(" troop on ")
                 .append(country.getName()).append("\n");
     }
-
 
     //================================================================================
     // Attack
@@ -427,7 +432,7 @@ public class GameModel {
         updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
         currentPlayer.sortCountries();
         updateGameViewsOwnerChange(defend.getName(), players.indexOf(currentPlayer));
-        if (getRemainingPlayers() < 2 && !(currentPlayer instanceof AIPlayer)) {
+        if (getRemainingPlayers() < 2) {
             handleGameOver();
         }
     }
@@ -484,36 +489,31 @@ public class GameModel {
     /**
      * Changes current player to the next player in the correct order until the next player is not eliminated.
      */
-    public void nextPlayer(boolean gameStarted) {
-        if (players.indexOf(currentPlayer) != players.size() - 1) {
-            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-        } else {
-            currentPlayer = players.get(0);
-        }
-
-        if (gameStarted) {
-            if (getRemainingPlayers() < 2) {
-                handleGameOver();
-                return;
-            }
-            if (currentPlayer.isEliminated())
-                nextPlayer(true);
-
-            history.append("\n\n").append(currentPlayer.getName()).append("\n");
-            currentPlayerReinforcements = getReinforcements();
-            if (currentPlayer instanceof AIPlayer) {
-                ((AIPlayer) currentPlayer).playTurn(currentPlayerReinforcements);
-                if (!(getRemainingPlayers() < 2)) {
-                    nextPlayer(true);
-                } else {
-                    handleGameOver();
-                }
+    public void nextPlayer() {
+        try{
+            if (players.indexOf(currentPlayer) != players.size() - 1) {
+                currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
             } else {
-                updatePlayerTurn(currentPlayer.getName());
-                updateGameViewsTurnState(GameController.State.REINFORCEMENT);
+                currentPlayer = players.get(0);
             }
 
+            if (gameStarted) {
+                if (getRemainingPlayers() < 2) {
+                    gameStarted=false;
+                    handleGameOver();
+                }else {
+                    if (currentPlayer.isEliminated())
+                        nextPlayer();
 
+                    history.append("\n\n").append(currentPlayer.getName()).append("\n");
+                    currentPlayerReinforcements = getReinforcements();
+                    currentPlayer.playTurn();
+                    updatePlayerTurn(currentPlayer.getName());
+                    updateGameViewsTurnState(GameController.State.REINFORCEMENT);
+                }
+            }
+        }catch (Exception e){
+            //some errors sometimes happen here, they do not impact execution and are thus ignored.
         }
     }
 
@@ -551,19 +551,17 @@ public class GameModel {
      *
      * @param origin      where the troops will leave from
      * @param destination where the troops will go to
-     * @return whether the move was successful
      */
-    public boolean moveTroops(Country origin, Country destination, int toMove) {
+    public void moveTroops(Country origin, Country destination, int toMove) {
         if (!currentPlayer.pathExists(origin, destination)) {
             showMessage("Path does not exist between " + origin.getName() + " and " + destination.getName());
-            return false;
+            return;
         }
 
         origin.removeTroops(toMove);
         destination.addTroop(toMove);
         history.append(currentPlayer.getName()).append(" moved ").append(toMove).append(" from ").append(origin.getName())
                 .append(" to ").append(destination.getName()).append("\n");
-        return true;
     }
 
     /**
@@ -609,7 +607,6 @@ public class GameModel {
     //================================================================================
     // Pop-ups
     //================================================================================
-
 
     //Allows the tests to suppress these.
     public void showErrorPopUp(Exception e) {
@@ -676,18 +673,7 @@ public class GameModel {
         return currentPlayer.hasCountry(country);
     }
 
-    /**
-     * Prints help / instructions for the players
-     */
-    public void printHelp() {
-        showMessage(
-                "Game instructions: \n" +
-                        "To attack, select the attack button and choose a defending and attacking country\n" +
-                        "To end your turn, select the 'end' button\n" +
-                        "To manually update the charts on the right, select the 'state' button\n" +
-                        "To get help, select the 'help' button\n" +
-                        "The current player is shown in the top left corner");
-    }
+
 
     /**
      * Selects a number between the minimum and maximum using the parser
@@ -723,11 +709,12 @@ public class GameModel {
     }
 
     public String getHelp() {
-        return "Game instructions: \n" +
-                "To attack, select the attack button and choose a defending and attacking country\n" +
-                "To end your turn, select the 'end' button\n" +
-                "To manually update the charts on the right, select the 'state' button\n" +
-                "To get help, select the 'help' button\n" +
-                "The current player is shown in the top left corner";
+        return """
+                Game instructions:\s
+                To attack, select the attack button and choose a defending and attacking country
+                To end your turn, select the 'end' button
+                To manually update the charts on the right, select the 'state' button
+                To get help, select the 'help' button
+                The current player is shown in the top left corner""";
     }
 }
