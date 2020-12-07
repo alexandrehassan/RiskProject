@@ -112,16 +112,7 @@ public class GameController implements ActionListener {
 
             case HELP_COMMAND -> helpCommand();
 
-            case NEW_COMMAND -> {
-                if(gameModel.getCurrentPlayer() == null){
-                    createNewGame();
-                }
-                else if(JOptionPane.showConfirmDialog(null,"You are about to start a new game",
-                        "Confirm",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-                    gameModel.resetModel();
-                    createNewGame();
-                }
-            }
+            case NEW_COMMAND -> newCommand();
             case ATTACK_COMMAND -> {
                 state = State.ATTACK;
                 JOptionPane.showMessageDialog(null,
@@ -235,6 +226,17 @@ public class GameController implements ActionListener {
 
     public void helpCommand() {
         JOptionPane.showMessageDialog(null, gameModel.getHelp());
+    }
+
+    public void newCommand() {
+        if(gameModel.getCurrentPlayer() == null){
+            createNewGame();
+        }
+        else if(JOptionPane.showConfirmDialog(null,"You are about to start a new game",
+                "Confirm",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            gameModel.resetModel();
+            createNewGame();
+        }
     }
 
 }
