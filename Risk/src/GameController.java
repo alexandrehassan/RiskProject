@@ -80,31 +80,7 @@ public class GameController implements ActionListener {
                 switch (state) {
                     case UNDECLARED, REINFORCEMENT -> reinforcementState(clickedCountry);
                     case ATTACK -> attackState(clickedCountry);
-                    case MOVEMENT -> {
-                        if (from.equals(EMPTY)) {
-                            from = clickedCountry;
-                            JOptionPane.showMessageDialog(null, "Moving from " + from);
-                        } else if (to.equals(EMPTY)) {
-                            to = clickedCountry;
-                            if (to.equals(from)) {
-                                JOptionPane.showMessageDialog(null, "Cannot move to the same country. Input cleared");
-                                to = EMPTY;
-                                from = EMPTY;
-                                return;
-                            }
-                            JOptionPane.showMessageDialog(null, "Moving troops from  " + from + " to " + to);
-                            boolean successfulMove = gameModel.moveTroops(from, to);
-                            if (successfulMove) {
-                                gameModel.updateState();
-                                state = State.REINFORCEMENT;
-                                gameModel.nextPlayer(true);
-                                gameModel.showCurrentPlayer();
-                                gameModel.updateGameViewsTurnState(state);
-                            }
-                            from = EMPTY;
-                            to = EMPTY;
-                        }
-                    }
+                    case MOVEMENT -> movementState(clickedCountry);
                 }
             }
         });
@@ -226,6 +202,32 @@ public class GameController implements ActionListener {
                     "Attacking " + to + " with " + from + ". Blitz attack?",
                     "Select attack type", JOptionPane.YES_NO_OPTION);
             gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
+            from = EMPTY;
+            to = EMPTY;
+        }
+    }
+
+    public void movementState(String clickedCountry) {
+        if (from.equals(EMPTY)) {
+            from = clickedCountry;
+            JOptionPane.showMessageDialog(null, "Moving from " + from);
+        } else if (to.equals(EMPTY)) {
+            to = clickedCountry;
+            if (to.equals(from)) {
+                JOptionPane.showMessageDialog(null, "Cannot move to the same country. Input cleared");
+                to = EMPTY;
+                from = EMPTY;
+                return;
+            }
+            JOptionPane.showMessageDialog(null, "Moving troops from  " + from + " to " + to);
+            boolean successfulMove = gameModel.moveTroops(from, to);
+            if (successfulMove) {
+                gameModel.updateState();
+                state = State.REINFORCEMENT;
+                gameModel.nextPlayer(true);
+                gameModel.showCurrentPlayer();
+                gameModel.updateGameViewsTurnState(state);
+            }
             from = EMPTY;
             to = EMPTY;
         }
