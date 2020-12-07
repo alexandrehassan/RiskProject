@@ -113,14 +113,7 @@ public class GameController implements ActionListener {
             case NEW_COMMAND -> newCommand();
             case ATTACK_COMMAND -> attackCommand();
             case MOVE_COMMAND -> moveCommand();
-            case END_COMMAND -> {
-                state = State.REINFORCEMENT;
-                gameModel.nextPlayer(true);
-                if (gameModel.getCurrentPlayer() != null) {
-                    gameModel.showCurrentPlayer();
-                    gameModel.updateGameViewsTurnState(state);
-                }
-            }
+            case END_COMMAND -> endCommand();
             case HISTORY_COMMAND -> {
                 JTextArea textArea = new JTextArea(gameModel.getHistory(), 50, 70);
                 JScrollPane scrollPane = new JScrollPane(textArea);
@@ -239,5 +232,14 @@ public class GameController implements ActionListener {
     public void moveCommand() {
         state = State.MOVEMENT;
         gameModel.updateGameViewsTurnState(state);
+    }
+
+    public void endCommand() {
+        state = State.REINFORCEMENT;
+        gameModel.nextPlayer(true);
+        if (gameModel.getCurrentPlayer() != null) {
+            gameModel.showCurrentPlayer();
+            gameModel.updateGameViewsTurnState(state);
+        }
     }
 }
