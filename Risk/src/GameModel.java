@@ -513,7 +513,7 @@ public class GameModel {
                 }
             }
         }catch (Exception e){
-
+            //some errors sometimes happen here, they do not impact execution and are thus ignored.
         }
     }
 
