@@ -109,16 +109,9 @@ public class GameController implements ActionListener {
 
         String command = e.getActionCommand();
         switch (command) {
-
             case HELP_COMMAND -> helpCommand();
-
             case NEW_COMMAND -> newCommand();
-            case ATTACK_COMMAND -> {
-                state = State.ATTACK;
-                JOptionPane.showMessageDialog(null,
-                        "Select a country to attack with, then a country to attack");
-                gameModel.updateGameViewsTurnState(state);
-            }
+            case ATTACK_COMMAND -> attackCommand();
             case MOVE_COMMAND -> {
                 state = State.MOVEMENT;
                 gameModel.updateGameViewsTurnState(state);
@@ -237,6 +230,13 @@ public class GameController implements ActionListener {
             gameModel.resetModel();
             createNewGame();
         }
+    }
+
+    public void attackCommand() {
+        state = State.ATTACK;
+        JOptionPane.showMessageDialog(null,
+                "Select a country to attack with, then a country to attack");
+        gameModel.updateGameViewsTurnState(state);
     }
 
 }
