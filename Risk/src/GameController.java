@@ -110,7 +110,7 @@ public class GameController implements ActionListener {
         String command = e.getActionCommand();
         switch (command) {
 
-            case HELP_COMMAND -> JOptionPane.showMessageDialog(null, gameModel.getHelp());
+            case HELP_COMMAND -> helpCommand();
 
             case NEW_COMMAND -> {
                 if(gameModel.getCurrentPlayer() == null){
@@ -232,4 +232,9 @@ public class GameController implements ActionListener {
             to = EMPTY;
         }
     }
+
+    public void helpCommand() {
+        JOptionPane.showMessageDialog(null, gameModel.getHelp());
+    }
+
 }
