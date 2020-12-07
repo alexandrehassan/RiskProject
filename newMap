@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<continents>
+    <continent>
+        <continentName></continentName>
+        <continentTroops>2</continentTroops>
+        <continentColor>colorhere</continentColor>
+        <countries>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+        </countries>
+    </continent>
+    <continent>
+        <continentName></continentName>
+        <continentTroops>2</continentTroops>
+        <continentColor>colorhere</continentColor>
+        <countries>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+        </countries>
+    </continent>
+    <continent>
+        <continentName></continentName>
+        <continentTroops>2</continentTroops>
+        <continentColor>colorhere</continentColor>
+        <countries>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+        </countries>
+    </continent>
+    <continent>
+        <continentName></continentName>
+        <continentTroops>2</continentTroops>
+        <continentColor>colorhere</continentColor>
+        <countries>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+        </countries>
+    </continent>
+    <continent>
+        <continentName></continentName>
+        <continentTroops>2</continentTroops>
+        <continentColor>colorhere</continentColor>
+        <countries>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+        </countries>
+    </continent>
+    <continent>
+        <continentName></continentName>
+        <continentTroops>2</continentTroops>
+        <continentColor>colorhere</continentColor>
+        <countries>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+            <country>
+                <countryName>Western Australia</countryName>
+                <X>760</X>
+                <Y>450</Y>
+                <troops>1</troops>
+                <neighbors>
+                    <neighbor>Eastern Australia</neighbor>
+                    <neighbor>Indonesia</neighbor>
+                    <neighbor>New Guinea</neighbor>
+                </neighbors>
+            </country>
+        </countries>
+    </continent>
+</continents>
