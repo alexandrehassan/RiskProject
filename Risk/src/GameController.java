@@ -112,10 +112,7 @@ public class GameController implements ActionListener {
             case HELP_COMMAND -> helpCommand();
             case NEW_COMMAND -> newCommand();
             case ATTACK_COMMAND -> attackCommand();
-            case MOVE_COMMAND -> {
-                state = State.MOVEMENT;
-                gameModel.updateGameViewsTurnState(state);
-            }
+            case MOVE_COMMAND -> moveCommand();
             case END_COMMAND -> {
                 state = State.REINFORCEMENT;
                 gameModel.nextPlayer(true);
@@ -239,4 +236,8 @@ public class GameController implements ActionListener {
         gameModel.updateGameViewsTurnState(state);
     }
 
+    public void moveCommand() {
+        state = State.MOVEMENT;
+        gameModel.updateGameViewsTurnState(state);
+    }
 }
