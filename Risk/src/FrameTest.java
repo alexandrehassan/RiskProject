@@ -7,6 +7,7 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxRectangle;
 import com.mxgraph.view.mxGraph;
 
+import java.awt.*;
 import java.util.HashMap;
 
 public class FrameTest extends JFrame {
@@ -26,23 +27,14 @@ public class FrameTest extends JFrame {
         this.graph = new mxGraph();
         graph.setMaximumGraphBounds(new mxRectangle(0,0,990,700));
         graph.setMinimumGraphSize(new mxRectangle(0,0,990,700));
-        Object parent = graph.getDefaultParent();
 
         graph.getModel().beginUpdate();
-
+        Point position;
         try {
-            int x = 0;
-            int y = 0;
             HashMap<String, Object> vertices = new HashMap<>();
-            for(Continent continent: map.getContinents()){
-                x +=50;
-                y +=50;
-
-                for(Country country: continent.getCountries()){
-                    x +=5;
-                    y +=1;
-                    vertices.put(country.getName(),insertVertex(country.getName(), x, y));
-                }
+            for(Country country: map.getAllCountries()){
+                position = map.getPosition(country);
+                vertices.put(country.getName(),insertVertex(country.getName(), position.x, position.y));
             }
             Country country;
             for (String vertexName : vertices.keySet()) {
@@ -60,24 +52,6 @@ public class FrameTest extends JFrame {
         } finally {
             graph.getModel().endUpdate();
         }
-        mxFastOrganicLayout layout = new mxFastOrganicLayout(graph);
-        layout.setForceConstant(70);
-        layout.setUseInputOrigin(false);
-        layout.execute(parent);
-
-        layout = new mxFastOrganicLayout(graph);
-        layout.setForceConstant(55);
-        layout.setUseInputOrigin(false);
-        layout.setInitialTemp(400);
-        layout.execute(parent);
-
-        layout = new mxFastOrganicLayout(graph);
-        layout.setForceConstant(28);
-        layout.setUseInputOrigin(false);
-        layout.setInitialTemp(300);
-        layout.execute(parent);
-        layout.execute(parent);
-        layout.execute(parent);
 
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
         graphComponent.setEnabled(false);
@@ -107,9 +81,8 @@ public class FrameTest extends JFrame {
     }
 
     private String getVertexStyle(String name){
-        if(name.length()>10 && name.split(" ").length ==1){
+        if(name.length()>10 && name.split(" ").length ==1)
             return VERTEX_STYLE_ONE_WORD;
-        }
         return VERTEX_STYLE;
     }
 
