@@ -114,12 +114,7 @@ public class GameController implements ActionListener {
             case ATTACK_COMMAND -> attackCommand();
             case MOVE_COMMAND -> moveCommand();
             case END_COMMAND -> endCommand();
-            case HISTORY_COMMAND -> {
-                JTextArea textArea = new JTextArea(gameModel.getHistory(), 50, 70);
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
-                JOptionPane.showMessageDialog(null, scrollPane);
-            }
+            case HISTORY_COMMAND -> historyCommand();
         }
     }
 
@@ -241,5 +236,12 @@ public class GameController implements ActionListener {
             gameModel.showCurrentPlayer();
             gameModel.updateGameViewsTurnState(state);
         }
+    }
+
+    public void historyCommand() {
+        JTextArea textArea = new JTextArea(gameModel.getHistory(), 50, 70);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
+        JOptionPane.showMessageDialog(null, scrollPane);
     }
 }
