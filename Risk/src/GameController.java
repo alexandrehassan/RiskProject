@@ -79,21 +79,7 @@ public class GameController implements ActionListener {
 
                 switch (state) {
                     case UNDECLARED, REINFORCEMENT -> reinforcementState(clickedCountry);
-                    case ATTACK -> {
-                        if (from.equals(EMPTY)) {
-                            from = clickedCountry;
-                            JOptionPane.showMessageDialog(null, "Attacking with " + from);
-                        } else if (to.equals(EMPTY)) {
-                            to = clickedCountry;
-                            JOptionPane.showMessageDialog(null, "Attacking " + to);
-                            int reply = JOptionPane.showConfirmDialog(null,
-                                    "Attacking " + to + " with " + from + ". Blitz attack?",
-                                    "Select attack type", JOptionPane.YES_NO_OPTION);
-                            gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
-                            from = EMPTY;
-                            to = EMPTY;
-                        }
-                    }
+                    case ATTACK -> attackState(clickedCountry);
                     case MOVEMENT -> {
                         if (from.equals(EMPTY)) {
                             from = clickedCountry;
@@ -226,6 +212,22 @@ public class GameController implements ActionListener {
             }
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
+        }
+    }
+
+    public void attackState(String clickedCountry) {
+        if (from.equals(EMPTY)) {
+            from = clickedCountry;
+            JOptionPane.showMessageDialog(null, "Attacking with " + from);
+        } else if (to.equals(EMPTY)) {
+            to = clickedCountry;
+            JOptionPane.showMessageDialog(null, "Attacking " + to);
+            int reply = JOptionPane.showConfirmDialog(null,
+                    "Attacking " + to + " with " + from + ". Blitz attack?",
+                    "Select attack type", JOptionPane.YES_NO_OPTION);
+            gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
+            from = EMPTY;
+            to = EMPTY;
         }
     }
 }
