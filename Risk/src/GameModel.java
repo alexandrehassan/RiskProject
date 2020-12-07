@@ -490,27 +490,29 @@ public class GameModel {
      * Changes current player to the next player in the correct order until the next player is not eliminated.
      */
     public void nextPlayer() {
-        if (players.indexOf(currentPlayer) != players.size() - 1) {
-            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
-        } else {
-            currentPlayer = players.get(0);
-        }
-
-        if (gameStarted) {
-            if (getRemainingPlayers() < 2) {
-                gameStarted=false;
-                handleGameOver();
-                return;
-            }else {
-                if (currentPlayer.isEliminated())
-                    nextPlayer();
-
-                history.append("\n\n").append(currentPlayer.getName()).append("\n");
-                currentPlayerReinforcements = getReinforcements();
-                currentPlayer.playTurn();
-                updatePlayerTurn(currentPlayer.getName());
-                updateGameViewsTurnState(GameController.State.REINFORCEMENT);
+        try{
+            if (players.indexOf(currentPlayer) != players.size() - 1) {
+                currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+            } else {
+                currentPlayer = players.get(0);
             }
+
+            if (gameStarted) {
+                if (getRemainingPlayers() < 2) {
+                    gameStarted=false;
+                    handleGameOver();
+                }else {
+                    if (currentPlayer.isEliminated())
+                        nextPlayer();
+
+                    history.append("\n\n").append(currentPlayer.getName()).append("\n");
+                    currentPlayerReinforcements = getReinforcements();
+                    currentPlayer.playTurn();
+                    updatePlayerTurn(currentPlayer.getName());
+                    updateGameViewsTurnState(GameController.State.REINFORCEMENT);
+                }
+            }
+        }catch (Exception e){
 
         }
     }
@@ -549,19 +551,17 @@ public class GameModel {
      *
      * @param origin      where the troops will leave from
      * @param destination where the troops will go to
-     * @return whether the move was successful
      */
-    public boolean moveTroops(Country origin, Country destination, int toMove) {
+    public void moveTroops(Country origin, Country destination, int toMove) {
         if (!currentPlayer.pathExists(origin, destination)) {
             showMessage("Path does not exist between " + origin.getName() + " and " + destination.getName());
-            return false;
+            return;
         }
 
         origin.removeTroops(toMove);
         destination.addTroop(toMove);
         history.append(currentPlayer.getName()).append(" moved ").append(toMove).append(" from ").append(origin.getName())
                 .append(" to ").append(destination.getName()).append("\n");
-        return true;
     }
 
     /**
@@ -673,18 +673,7 @@ public class GameModel {
         return currentPlayer.hasCountry(country);
     }
 
-    /**
-     * Prints help / instructions for the players
-     */
-    public void printHelp() {
-        showMessage(
-                "Game instructions: \n" +
-                        "To attack, select the attack button and choose a defending and attacking country\n" +
-                        "To end your turn, select the 'end' button\n" +
-                        "To manually update the charts on the right, select the 'state' button\n" +
-                        "To get help, select the 'help' button\n" +
-                        "The current player is shown in the top left corner");
-    }
+
 
     /**
      * Selects a number between the minimum and maximum using the parser
@@ -720,11 +709,12 @@ public class GameModel {
     }
 
     public String getHelp() {
-        return "Game instructions: \n" +
-                "To attack, select the attack button and choose a defending and attacking country\n" +
-                "To end your turn, select the 'end' button\n" +
-                "To manually update the charts on the right, select the 'state' button\n" +
-                "To get help, select the 'help' button\n" +
-                "The current player is shown in the top left corner";
+        return """
+                Game instructions:\s
+                To attack, select the attack button and choose a defending and attacking country
+                To end your turn, select the 'end' button
+                To manually update the charts on the right, select the 'state' button
+                To get help, select the 'help' button
+                The current player is shown in the top left corner""";
     }
 }

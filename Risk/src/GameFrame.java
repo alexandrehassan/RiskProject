@@ -38,7 +38,6 @@ public class GameFrame extends JFrame implements GameView {
     private final JPanel boardPanel;
     private mxGraph graph;
     private JMenuItem showHistory;
-    private JMenu gameMenu;
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
     public static final String VERTEX_STYLE_ONE_WORD = "shape=ellipse;strokeWidth=4";
@@ -169,7 +168,7 @@ public class GameFrame extends JFrame implements GameView {
      */
     private void makeMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        gameMenu = new JMenu("Game");
+        JMenu gameMenu = new JMenu("Game");
 
         JMenuItem startGame = new JMenuItem("Start Game");
         startGame.addActionListener(gameController);
