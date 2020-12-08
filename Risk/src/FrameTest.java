@@ -23,7 +23,7 @@ public class FrameTest extends JFrame {
     private mxGraph graph;
 
     public FrameTest() {
-        map = XML.mapFromXML("map.xml");
+        map = XML.mapFromXML("newMap.xml");
         this.graph = new mxGraph();
         graph.setMaximumGraphBounds(new mxRectangle(0,0,990,700));
         graph.setMinimumGraphSize(new mxRectangle(0,0,990,700));

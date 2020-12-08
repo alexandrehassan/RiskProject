@@ -41,7 +41,7 @@ public class XML {
     private static final String HISTORY_TAG = "history";
     private static final String CONTINENT_COLOR_TAG = "continentColor";
 
-    public static Element makeMapElement(Map map, Document doc) {
+    private static Element makeMapElement(Map map, Document doc) {
         Element mapElem = doc.createElement(MAP_TAG);
 
         for(Continent continent: map.getContinents()){
@@ -370,7 +370,7 @@ public class XML {
 
     public static void main(String[] args) {
         //mapToXML(new Map());
-        mapFromXML("map.xml");
+        mapFromXML("newMap.xml");
 
     }
 

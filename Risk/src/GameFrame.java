@@ -199,34 +199,16 @@ public class GameFrame extends JFrame implements GameView {
      */
     private mxGraphComponent createBoard(Map map) {
         this.graph = new mxGraph();
-        Object parent = graph.getDefaultParent();
-
-        graph.setMaximumGraphBounds(new mxRectangle(0,0,990,600));
-        graph.setMinimumGraphSize(new mxRectangle(0,0,990,600));
-
+        graph.setMaximumGraphBounds(new mxRectangle(0,0,990,700));
+        graph.setMinimumGraphSize(new mxRectangle(0,0,990,700));
 
         graph.getModel().beginUpdate();
-
+        Point position;
         try {
-            int x = 0;
-            int y = 0;
             HashMap<String, Object> vertices = new HashMap<>();
-//            for(Country country: map.getAllCountries()){
-//                x +=30;
-//                y +=20;
-//
-//                vertices.put(country.getName(),insertVertex(country.getName(), x, y));
-//            }
-
-            for(Continent continent: map.getContinents()){
-                x +=100;
-                y +=100;
-
-                for(Country country: continent.getCountries()){
-                    x +=5;
-                    y +=5;
-                    vertices.put(country.getName(),insertVertex(country.getName(), x, y));
-                }
+            for(Country country: map.getAllCountries()){
+                position = map.getPosition(country);
+                vertices.put(country.getName(),insertVertex(country.getName(), position.x, position.y));
             }
             Country country;
             for (String vertexName : vertices.keySet()) {
@@ -238,24 +220,15 @@ public class GameFrame extends JFrame implements GameView {
 
             for(Continent continent: map.getContinents()){
                 for(Country country1: continent.getCountries()){
-                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, continent.getColor(),
-                            new Object[]{vertices.get(country1.getName())});
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, continent.getColor(), new Object[]{vertices.get(country1.getName())});
                 }
             }
         } finally {
             graph.getModel().endUpdate();
         }
-        mxFastOrganicLayout layout = new mxFastOrganicLayout(graph);
-        layout.setForceConstant(45);
-        layout.setUseInputOrigin(false);
-        layout.setInitialTemp(500);
-        layout.execute(parent);
 
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
         graphComponent.setEnabled(false);
-        //graphComponent.setSize(1000,650);
-        getContentPane().add(graphComponent);
-
         return graphComponent;
     }
 
