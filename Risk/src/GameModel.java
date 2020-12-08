@@ -47,7 +47,7 @@ public class GameModel {
      * @throws IllegalArgumentException if number of players is not in [2,6]
      */
     public GameModel(ArrayList<Player> players) {
-        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
+        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players too big.");
         this.currentPlayer = players.get(0);
         this.players = players;
         this.map = null;
@@ -61,25 +61,6 @@ public class GameModel {
 
     }
 
-
-    /**
-     * Constructor used for playing the game without the GUI/Users.
-     *
-     * @throws IllegalArgumentException if number of players is not in [2,6]
-     */
-    public GameModel(ArrayList<Player> players, Player currentPlayer, Map map, String history) {
-        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
-        this.currentPlayer = currentPlayer;
-        this.players = players;
-        if (currentPlayer == null)
-            currentPlayer = players.get(0);
-        this.map = map;
-        this.gameViews = new ArrayList<>();
-        this.history = new StringBuilder(history);
-        resetView();
-        updateGameViewsStart();
-        updateState();
-    }
 
     public void resetModel() {
         players.clear();
