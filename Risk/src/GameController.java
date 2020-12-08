@@ -21,7 +21,7 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
  * To add: should be able to receive countries instead of prompting the
  * user to input them, will add later
  *
- * @author Team Group - Jonah Gaudet
+ * @author Team Group - Jonah Gaudet, Baillie Noell
  * @version 27-10-2020
  */
 public class GameController implements ActionListener {
@@ -123,13 +123,8 @@ public class GameController implements ActionListener {
             from = EMPTY;
             to = EMPTY;
             System.out.println(gameModel.getCurrentPlayer().getName());
-            if (gameModel.getCurrentPlayer() instanceof AIPlayer) {
-                this.state = State.UNDECLARED;
-                gameModel.nextPlayer(true);
-            } else {
-                this.state = State.REINFORCEMENT;
-                gameModel.updateGameViewsTurnState(state);
-            }
+            gameModel.nextPlayer();
+            this.state = State.REINFORCEMENT;
         }
     }
 
@@ -146,12 +141,14 @@ public class GameController implements ActionListener {
         state = State.REINFORCEMENT;
         try {
             int reinforcements = gameModel.getCurrentPlayerReinforcements();
+
             if (reinforcements <= 0) {
                 toAttackPhase();
             }
 
             int toPut = gameModel.troopSelect(1, reinforcements);
             gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
+
             if (gameModel.getCurrentPlayerReinforcements() == 0) {
                 toAttackPhase();
             }
@@ -193,7 +190,7 @@ public class GameController implements ActionListener {
             if (successfulMove) {
                 gameModel.updateState();
                 state = State.REINFORCEMENT;
-                gameModel.nextPlayer(true);
+                gameModel.nextPlayer();
                 gameModel.showCurrentPlayer();
                 gameModel.updateGameViewsTurnState(state);
             }
@@ -231,7 +228,7 @@ public class GameController implements ActionListener {
 
     public void endCommand() {
         state = State.REINFORCEMENT;
-        gameModel.nextPlayer(true);
+        gameModel.nextPlayer();
         if (gameModel.getCurrentPlayer() != null) {
             gameModel.showCurrentPlayer();
             gameModel.updateGameViewsTurnState(state);
@@ -244,4 +241,6 @@ public class GameController implements ActionListener {
         scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
         JOptionPane.showMessageDialog(null, scrollPane);
     }
+
+
 }
