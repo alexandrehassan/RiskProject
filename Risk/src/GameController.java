@@ -31,6 +31,7 @@ public class GameController implements ActionListener {
     public static final String NEW_COMMAND = "new";
     public static final String ATTACK_COMMAND = "attack";
     public static final String MOVE_COMMAND = "move";
+    public static final String REINFORCEMENT_COMMAND = "reinforce";
     public static final String END_COMMAND = "end";
     public static final String EMPTY = "";
     public static final String HISTORY_COMMAND = "history";
