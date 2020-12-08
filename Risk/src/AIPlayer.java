@@ -22,11 +22,6 @@ public class AIPlayer extends Player {
         this.model = gameModel;
     }
 
-    public AIPlayer(String name){
-        super(name);
-        model= null;
-    }
-
     public void setModel(GameModel model){
         this.model=model;
 
