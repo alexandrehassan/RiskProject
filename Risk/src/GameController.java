@@ -35,6 +35,7 @@ public class GameController implements ActionListener {
     public static final String EMPTY = "";
     public static final String HISTORY_COMMAND = "history";
     public static final String SAVE_COMMAND = "save";
+    public static final String LOAD_COMMAND= "load";
 
     private final GameModel gameModel;
 
@@ -207,6 +208,15 @@ public class GameController implements ActionListener {
             case SAVE_COMMAND -> {
                 XML.GameToXML(gameModel);
                 JOptionPane.showMessageDialog(null, "success");
+            }
+            case LOAD_COMMAND->{
+                GameModel model= XML.loadGame("save.xml");
+                GameFrame gameFrame= new GameFrame("test", model);
+                model.addGameView(gameFrame);
+                model.loadGame();
+
+
+
             }
         }
     }

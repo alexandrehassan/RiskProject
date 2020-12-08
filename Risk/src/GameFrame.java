@@ -31,6 +31,8 @@ import java.util.HashMap;
 
 public class GameFrame extends JFrame implements GameView {
 
+
+    //private GameModel gameModel;
     private final ArrayList<JTextArea> playersInfo;
     private final JLabel updateLine;
     private String playerTurnInfo;
@@ -61,9 +63,85 @@ public class GameFrame extends JFrame implements GameView {
         this.buttons = new ArrayList<>();
         this.playersInfo = new ArrayList<>();
 
-        GameModel abm = new GameModel();
-        abm.addGameView(this);
-        this.gameController = new GameController(abm);
+        GameModel gameModel = new GameModel();
+        gameModel.addGameView(this);
+        this.gameController = new GameController(gameModel);
+        makeMenuBar();
+
+        JPanel mainPanel = (JPanel) this.getContentPane();
+
+        this.updateLine = new JLabel("RISK: a multi-player game of world domination", SwingConstants.CENTER);
+        updateLine.setFont(new Font(updateLine.getFont().getName(), Font.PLAIN, 20));
+
+        JPanel middlePane = new JPanel();
+        middlePane.setLayout(new GridBagLayout());
+
+        //Put the board in this panel. For now, just a copy of the risk image
+        this.boardPanel = new JPanel();
+        JLabel placeholderBoard = new JLabel();
+        ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
+        Image newImage = image.getImage().getScaledInstance(1000, 650, java.awt.Image.SCALE_SMOOTH);
+        placeholderBoard.setIcon(new ImageIcon(newImage));
+        placeholderBoard.setBounds(0, 0, 1100, 650);
+        boardPanel.add(placeholderBoard);
+
+        //Adds the boxes with the owned countries in them (right side)
+        JPanel playerInfo = new JPanel();
+        GridLayout layout1 = new GridLayout(3, 2);
+        layout1.setVgap(5);
+        layout1.setHgap(5);
+        playerInfo.setLayout(layout1);
+        for (int i = 0; i < layout1.getRows() * layout1.getColumns(); i++) {
+            JTextArea textArea = new JTextArea(5, 20);
+            textArea.setText("Reserved for player " + (i + 1));
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            playerInfo.add(scrollPane);
+            textArea.setEditable(false);
+            playersInfo.add(textArea);
+        }
+        playerInfo.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        //Add the command buttons
+        JPanel buttonOptions = new JPanel();
+        GridLayout layout2 = new GridLayout(1, 4);
+        layout2.setVgap(25);
+        layout2.setHgap(25);
+        buttonOptions.setLayout(layout2);
+        String[] validCommands = {"Reinforcement", "Attack", "Move", "End"};
+        for (String validCommand : validCommands) {
+            JButton b = new JButton(validCommand);
+            b.addActionListener(gameController);
+            b.setActionCommand(b.getText().toLowerCase());
+            b.setEnabled(false);
+            buttons.add(b);
+            buttonOptions.add(b);
+        }
+
+        middlePane.add(buttonOptions, getConstraints(0, 0, 3, 1, GridBagConstraints.HORIZONTAL));
+        middlePane.add(boardPanel, getConstraints(0, 1, 3, 2, GridBagConstraints.HORIZONTAL));
+
+        mainPanel.add(updateLine, BorderLayout.PAGE_START);
+        mainPanel.add(new JScrollPane(middlePane), BorderLayout.LINE_START);
+        mainPanel.add(new JScrollPane(playerInfo), BorderLayout.LINE_END);
+//        mainPanel.add(startButton, BorderLayout.PAGE_END);
+
+        this.setContentPane(new JScrollPane(mainPanel));
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("JList Example");
+        this.setSize(1550, 800);
+        this.setResizable(true);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+    }
+
+    public GameFrame(String name, GameModel gameModel) {
+        super(name);
+        this.buttons = new ArrayList<>();
+        this.playersInfo = new ArrayList<>();
+
+        //this.gameModel = new GameModel();
+        gameModel.addGameView(this);
+        this.gameController = new GameController(gameModel);
         makeMenuBar();
 
         JPanel mainPanel = (JPanel) this.getContentPane();
@@ -133,6 +211,8 @@ public class GameFrame extends JFrame implements GameView {
     }
 
 
+
+
     public void reset() {
         updateLine.setText("RISK: a multi-player game of world domination");
         JLabel placeholderBoard = new JLabel();
@@ -170,6 +250,11 @@ public class GameFrame extends JFrame implements GameView {
         startGame.addActionListener(gameController);
         startGame.setActionCommand("new");
         gameMenu.add(startGame);
+
+        JMenuItem loadGame = new JMenuItem("Load Game");
+        loadGame.addActionListener(gameController);
+        loadGame.setActionCommand(gameController.LOAD_COMMAND);
+        gameMenu.add(loadGame);
 
         saveGame = new JMenuItem("Save Game");
         saveGame.addActionListener(gameController);
@@ -474,6 +559,7 @@ public class GameFrame extends JFrame implements GameView {
             }
         }
     }
+
 
     public static void main(String[] args) {
         File f = new File("Risk/images/images.jpg");

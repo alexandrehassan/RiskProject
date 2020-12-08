@@ -194,7 +194,21 @@ public class GameModel {
         updateState();
         return true;
     }
-
+    /**
+     * User can add between 2 and 6 players (inclusive) to a game. They can
+     * then generate a full game and begin playing immediately
+     */
+    public boolean loadGame() {
+        if (players.size() < 2) {
+            showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
+            return false;
+        }
+        resetView();
+        generateGame();
+        updateGameViewsStart();
+        updateState();
+        return true;
+    }
     /**
      * Generates a game as long as two players are present. Assign countries, picks
      * a starting players, assigns troops.

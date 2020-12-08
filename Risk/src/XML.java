@@ -239,141 +239,158 @@ public class XML {
         return new Map(countries, continents, positionsCountries);
     }
 
-//    private static Map mapMaker(NodeList continentNodes){
-//        HashMap<String, Country> countries=  new HashMap<>();
-//        HashMap<String, Continent> continents = new HashMap<>();
-//        HashMap<Country, ArrayList<String>> countryNeighborMap = new HashMap<>();
-//        HashMap<Country, Point> positionsCountries = new HashMap<>();
-//
-//        for (int temp = 0; temp < continentNodes.getLength(); temp++) {
-//            Node continentNode = continentNodes.item(temp);
-//
-//            if (continentNode.getNodeType() == Node.ELEMENT_NODE) {
-//                Element continentElem = (Element) continentNode;
-//                String continentName =continentElem.getElementsByTagName(CONTINENT_NAME_TAG).item(0).getTextContent();
-//
-//                Continent newContinent = new Continent(
-//                        continentName,
-//                        Integer.parseInt(continentElem.getElementsByTagName(CONTINENT_REINFORCEMENTS_TAG).item(0).getTextContent()),
-//                        continentElem.getElementsByTagName(CONTINENT_COLOR_TAG).item(0).getTextContent());
-//
-//                continents.put(newContinent.getName(), newContinent);
-//
-//                NodeList countryNodes = continentElem.getElementsByTagName(COUNTRY_TAG);
-//
-//                for(int countryIndex = 0; countryIndex<countryNodes.getLength();countryIndex++){
-//
-//                    Node countryNode = countryNodes.item(countryIndex);
-////                        System.out.println("countryNode NodeName " + countryNode.getNodeName());
-//
-//                    if(countryNode.getNodeType() == Node.ELEMENT_NODE){
-//                        Element countryElem = (Element) countryNode;
-//
-//                        Country newCountry = new Country(countryElem.getElementsByTagName(COUNTRY_NAME_TAG).item(0).getTextContent(),
-//                                Integer.parseInt(countryElem.getElementsByTagName(TROOPS_TAG).item(0).getTextContent()));
-//                        newContinent.addCountry(newCountry);
-//                        countries.put(newCountry.getName(), newCountry);
-//                        positionsCountries.put(newCountry, new Point(Integer.parseInt(countryElem.getElementsByTagName(X_TAG).item(0).getTextContent()),
-//                                Integer.parseInt(countryElem.getElementsByTagName(Y_TAG).item(0).getTextContent())));
-//
-////                            System.out.println(countryElem.getElementsByTagName(COUNTRY_NAME_TAG).item(0).getTextContent());
-////                            System.out.println("troops " + countryElem.getElementsByTagName(TROOPS_TAG).item(0).getTextContent());
-//                        NodeList neighborsNodes = countryElem.getElementsByTagName(NEIGHBORS_TAG);
-//                        ArrayList<String> neighborList = new ArrayList<>();
-//                        for(int neighborIndex = 0; neighborIndex<neighborsNodes.getLength(); neighborIndex++){
-//                            Node neighborNode = neighborsNodes.item(neighborIndex);
-////                                System.out.println("neighborNode NodeName"+ neighborNode.getNodeName());
-//                            if(neighborNode.getNodeType() == Node.ELEMENT_NODE){
-//                                Element neighborElem = (Element) neighborNode;
-//                                NodeList neighbors = neighborElem.getElementsByTagName(NEIGHBOR_TAG);
-//                                for(int i = 0; i< neighbors.getLength(); i++){
-////                                         System.out.println("\t"+neighbors.item(i).getTextContent());
-//                                    neighborList.add(neighbors.item(i).getTextContent());
-//                                }
-//
-//                            }
-//
-//                        }
-//                        countryNeighborMap.put(newCountry,neighborList);
-//                    }
-//
-//                }
-//
-//            }
-//
-//        }
-//        for (Country country : countryNeighborMap.keySet()) {
-//            for (String neighbor : countryNeighborMap.get(country)) {
-//                country.addNeighbor(countries.get(neighbor));
-//            }
-//        }
-//        return new Map(countries,continents, positionsCountries);
-//    }
+    private static Map mapMaker(NodeList continentNodes){
+        HashMap<String, Country> countries=  new HashMap<>();
+        HashMap<String, Continent> continents = new HashMap<>();
+        HashMap<Country, ArrayList<String>> countryNeighborMap = new HashMap<>();
+        HashMap<Country, Point> positionsCountries = new HashMap<>();
 
-//    public static GameModel LoadGame(String filename){
-//        try {
-//            File inputFile = new File(filename);
-//            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-//            Document doc = dBuilder.parse(inputFile);
-//            doc.getDocumentElement().normalize();
-//
-//            Map map = mapMaker(doc.getElementsByTagName(MAP_TAG));
-//
-//            ArrayList<Player> players = new ArrayList<>();
-//
-//            NodeList playerNodes = doc.getElementsByTagName("player");
-//            for (int playerIndex = 0; playerIndex < playerNodes.getLength(); playerIndex++) {
-//                Node playerNode = playerNodes.item(playerIndex);
-//
-//                if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
-//                    Element playerElem = (Element) playerNode;
-//                    Player player = new Player(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
-//
-//                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
-//                    for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
-//                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
-//                    }
-//                }
-//            }
-//
-//            NodeList AINodes = doc.getElementsByTagName("AIplayer");
-//            for (int AIIndex = 0; AIIndex < AINodes.getLength(); AIIndex++) {
-//                Node playerNode = AINodes.item(AIIndex);
-//
-//                if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
-//                    Element playerElem = (Element) playerNode;
-//                    Player player = new AIPlayer(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
-//
-//                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
-//                    for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
-//                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
-//                    }
-//                }
-//            }
-//
-//
-//            String history = doc.getElementsByTagName("history").item(0).getTextContent();
-//            String currentPlayerName = doc.getElementsByTagName("currentPlayer").item(0).getTextContent();
-//            Player currentPlayer = null;
-//
-//            for(Player player: players){
-//                if(player.getName().equals(currentPlayerName)){
-//                    currentPlayer = player;
-//                    break;
-//                }
-//            }
-//            return new GameModel(players,currentPlayer,map,history);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+        for (int temp = 0; temp < continentNodes.getLength(); temp++) {
+            Node continentNode = continentNodes.item(temp);
+
+            if (continentNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element continentElem = (Element) continentNode;
+                String continentName =continentElem.getElementsByTagName(CONTINENT_NAME_TAG).item(0).getTextContent();
+
+                Continent newContinent = new Continent(
+                        continentName,
+                        Integer.parseInt(continentElem.getElementsByTagName(CONTINENT_REINFORCEMENTS_TAG).item(0).getTextContent()),
+                        continentElem.getElementsByTagName(CONTINENT_COLOR_TAG).item(0).getTextContent());
+
+                continents.put(newContinent.getName(), newContinent);
+
+                NodeList countryNodes = continentElem.getElementsByTagName(COUNTRY_TAG);
+
+                for(int countryIndex = 0; countryIndex<countryNodes.getLength();countryIndex++){
+
+                    Node countryNode = countryNodes.item(countryIndex);
+//                        System.out.println("countryNode NodeName " + countryNode.getNodeName());
+
+                    if(countryNode.getNodeType() == Node.ELEMENT_NODE){
+                        Element countryElem = (Element) countryNode;
+
+                        Country newCountry = new Country(countryElem.getElementsByTagName(COUNTRY_NAME_TAG).item(0).getTextContent(),
+                                Integer.parseInt(countryElem.getElementsByTagName(TROOPS_TAG).item(0).getTextContent()));
+                        newContinent.addCountry(newCountry);
+                        countries.put(newCountry.getName(), newCountry);
+                        positionsCountries.put(newCountry, new Point(Integer.parseInt(countryElem.getElementsByTagName(X_TAG).item(0).getTextContent()),
+                                Integer.parseInt(countryElem.getElementsByTagName(Y_TAG).item(0).getTextContent())));
+
+//                            System.out.println(countryElem.getElementsByTagName(COUNTRY_NAME_TAG).item(0).getTextContent());
+//                            System.out.println("troops " + countryElem.getElementsByTagName(TROOPS_TAG).item(0).getTextContent());
+                        NodeList neighborsNodes = countryElem.getElementsByTagName(NEIGHBORS_TAG);
+                        ArrayList<String> neighborList = new ArrayList<>();
+                        for(int neighborIndex = 0; neighborIndex<neighborsNodes.getLength(); neighborIndex++){
+                            Node neighborNode = neighborsNodes.item(neighborIndex);
+//                                System.out.println("neighborNode NodeName"+ neighborNode.getNodeName());
+                            if(neighborNode.getNodeType() == Node.ELEMENT_NODE){
+                                Element neighborElem = (Element) neighborNode;
+                                NodeList neighbors = neighborElem.getElementsByTagName(NEIGHBOR_TAG);
+                                for(int i = 0; i< neighbors.getLength(); i++){
+//                                         System.out.println("\t"+neighbors.item(i).getTextContent());
+                                    neighborList.add(neighbors.item(i).getTextContent());
+                                }
+
+                            }
+
+                        }
+                        countryNeighborMap.put(newCountry,neighborList);
+                    }
+
+                }
+
+            }
+
+        }
+        for (Country country : countryNeighborMap.keySet()) {
+            for (String neighbor : countryNeighborMap.get(country)) {
+                country.addNeighbor(countries.get(neighbor));
+            }
+        }
+        return new Map(countries,continents, positionsCountries);
+    }
+
+    public static GameModel loadGame(String filename) {
+        try {
+            File inputFile = new File(filename);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            //gives a map object back
+            Map map = mapMaker(doc.getElementsByTagName(MAP_TAG));
+
+            ArrayList<Player> players = new ArrayList<>();
+
+            NodeList playerNodes = doc.getElementsByTagName("player");
+            for (int playerIndex = 0; playerIndex < playerNodes.getLength(); playerIndex++) {
+                Node playerNode = playerNodes.item(playerIndex);
+
+                if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element playerElem = (Element) playerNode;
+                    Player player = new Player(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
+
+                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
+                    for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
+                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
+                    }
+                    players.add(player);
+                }
+            }
+
+            NodeList AINodes = doc.getElementsByTagName("AIplayer");
+            for (int AIIndex = 0; AIIndex < AINodes.getLength(); AIIndex++) {
+                Node playerNode = AINodes.item(AIIndex);
+
+                if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element playerElem = (Element) playerNode;
+                    Player player = new AIPlayer(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
+
+                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
+                    for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
+                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
+                    }
+
+                    players.add(player);
+                }
+            }
+
+
+            String history = doc.getElementsByTagName("history").item(0).getTextContent();
+            String currentPlayerName = doc.getElementsByTagName("currentPlayer").item(0).getTextContent();
+            System.out.println(currentPlayerName);
+            Player currentPlayer = null;
+
+            for (Player player : players) {
+                if (player.getName().equals(currentPlayerName)) {
+                    currentPlayer = player;
+                    break;
+                }
+            }
+            GameModel model = new GameModel(players, currentPlayer, map, history);
+            for (Player player : model.getPlayers()) {
+                if (player instanceof AIPlayer) {
+                    ((AIPlayer) player).setModel(model);
+                }
+            }
+            return model;
+            //return new GameModel(players,currentPlayer,map,history);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
 
     public static void main(String[] args) {
         //mapToXML(new Map());
-        mapFromXML("newMap.xml");
+        //mapFromXML("newMap.xml");
+        GameModel model= loadGame("save.xml");
+        System.out.println("this worked");
 
     }
+
 
 }
