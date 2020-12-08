@@ -25,8 +25,8 @@ import java.util.HashMap;
  * whose action command is simply the country's name. Also need to clean up
  * the layout, because right now it looks bad.
  *
- * @author Team Group - Jonah Gaudet, Baillie Noell
- * @version 27-10-2020
+ * @author Team Group - Jonah Gaudet, Baillie Noell, Alexandre Hassan, Sarah Abdallah
+ * @version 08-12-2020
  */
 
 public class GameFrame extends JFrame implements GameView {

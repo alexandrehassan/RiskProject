@@ -17,8 +17,8 @@ import java.util.HashMap;
 /**
  * A library of functions used to translate certain objects to XML and the other way.
  *
- * @author Alexandre Hassan
- * @version 2020-11-21
+ * @author Alexandre Hassan, Sarah Abdallah
+ * @version 2020-12-08
  */
 public class XML {
 
@@ -107,7 +107,7 @@ public class XML {
      * Makes a XML file representing the Gamemodel.
      * @param model the model to be translated into XML
      */
-    public static void GameToXML(GameModel model) {
+    public static void saveGame(GameModel model) {
         try {
             DocumentBuilderFactory dbFactory =
                     DocumentBuilderFactory.newInstance();
@@ -321,6 +321,7 @@ public class XML {
             Map map = mapMaker(doc.getElementsByTagName(MAP_TAG));
 
             ArrayList<Player> players = new ArrayList<>();
+            HashMap<String, ArrayList<Country>> AiPlayers = new HashMap<>();
 
             NodeList playerNodes = doc.getElementsByTagName("player");
             for (int playerIndex = 0; playerIndex < playerNodes.getLength(); playerIndex++) {
@@ -339,27 +340,33 @@ public class XML {
             }
 
             NodeList AINodes = doc.getElementsByTagName("AIplayer");
+            ArrayList<Country> AiCountries;
             for (int AIIndex = 0; AIIndex < AINodes.getLength(); AIIndex++) {
                 Node playerNode = AINodes.item(AIIndex);
 
                 if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element playerElem = (Element) playerNode;
-                    Player player = new AIPlayer(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
+                    String playerName = playerElem.getElementsByTagName("playerName").item(0).getTextContent();
 
                     NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
+                    AiCountries = new ArrayList<>();
                     for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
-                        player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
+                        AiCountries.add(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
                     }
-
-                    players.add(player);
+                    AiPlayers.put(playerName,AiCountries);
                 }
             }
-
 
             String history = doc.getElementsByTagName("history").item(0).getTextContent();
             String currentPlayerName = doc.getElementsByTagName("currentPlayer").item(0).getTextContent();
             System.out.println(currentPlayerName);
             Player currentPlayer = null;
+
+            GameModel model = new GameModel();
+
+            for (String playerName : AiPlayers.keySet()) {
+                players.add(new AIPlayer(playerName, model));
+            }
 
             for (Player player : players) {
                 if (player.getName().equals(currentPlayerName)) {
@@ -367,14 +374,12 @@ public class XML {
                     break;
                 }
             }
-            GameModel model = new GameModel(players, currentPlayer, map, history);
-            for (Player player : model.getPlayers()) {
-                if (player instanceof AIPlayer) {
-                    ((AIPlayer) player).setModel(model);
-                }
-            }
+            model.setPlayers(players);
+            model.setMap(map);
+            model.setCurrentPlayer(currentPlayer);
+            model.setHistory(new StringBuilder(history));
+
             return model;
-            //return new GameModel(players,currentPlayer,map,history);
         } catch (Exception e) {
             e.printStackTrace();
         }
