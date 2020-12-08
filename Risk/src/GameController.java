@@ -117,9 +117,10 @@ public class GameController implements ActionListener {
             case END_COMMAND -> endCommand();
             case HISTORY_COMMAND -> historyCommand();
             case LOAD_COMMAND -> loadCommand();
-
+            case SAVE_COMMAND -> saveCommand();
         }
     }
+
 
     private void createNewGame() {
         if (gameModel.userCreateGame()) {
@@ -268,4 +269,9 @@ public class GameController implements ActionListener {
         model.addGameView(gameFrame);
         model.loadGame();
     }
+    private void saveCommand() {
+        String filename = JOptionPane.showInputDialog("Name of Save File");
+        XML.saveGame(filename, gameModel);
+    }
+
 }

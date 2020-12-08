@@ -107,7 +107,7 @@ public class XML {
      * Makes a XML file representing the Gamemodel.
      * @param model the model to be translated into XML
      */
-    public static void saveGame(GameModel model) {
+    public static void saveGame(String filename, GameModel model) {
         try {
             DocumentBuilderFactory dbFactory =
                     DocumentBuilderFactory.newInstance();
@@ -152,7 +152,7 @@ public class XML {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("save.xml"));
+            StreamResult result = new StreamResult(new File(filename+ ".xml"));
             transformer.transform(source, result);
 
         } catch (Exception e) {
