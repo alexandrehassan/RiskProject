@@ -1,1 +1,11 @@
-
+New additions for Milestone 4: 
+Saving a Game of Risk: 
+-If you want to save the state of the game of Risk, you can select "Save Game" from the drop-down menu 
+-info (players, owned countries) is retrieved from gameModel using for each loops 
+-the information is presented as elements wihtin tags <players> <player> <AIPlayer> 
+-state of game (state of game model) is outputted in an xml file names save.xml 
+Loading a Game of Risk: 
+-If you want to load a previously-saved game of Risk, you can select "Load Game" from the drop-down menu
+- A game will be read from our saved file 
+- we retrive all the info (players, player-owned countries) by using their tag names tag names 
+- 
