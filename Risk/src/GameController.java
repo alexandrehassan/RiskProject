@@ -21,7 +21,7 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
  * To add: should be able to receive countries instead of prompting the
  * user to input them, will add later
  *
- * @author Team Group - Jonah Gaudet
+ * @author Team Group - Jonah Gaudet, Baillie Noell
  * @version 27-10-2020
  */
 public class GameController implements ActionListener {
@@ -33,6 +33,7 @@ public class GameController implements ActionListener {
     public static final String NEW_COMMAND = "new";
     public static final String ATTACK_COMMAND = "attack";
     public static final String MOVE_COMMAND = "move";
+    public static final String REINFORCEMENT_COMMAND = "reinforce";
     public static final String END_COMMAND = "end";
     public static final String EMPTY = "";
     public static final String HISTORY_COMMAND = "history";
@@ -72,73 +73,16 @@ public class GameController implements ActionListener {
 
                 String clickedCountry = (String) ((mxCell) cell).getValue();
 
-                if (clickedCountry.equals(EMPTY)) {
-                    return;
-                }
-
-                if (!gameModel.playerOwns(clickedCountry) && state != State.ATTACK) {
-                    JOptionPane.showMessageDialog(null, "Current player does not own " + clickedCountry);
+                if (!checkCountry(clickedCountry)) {
                     return;
                 }
 
                 switch (state) {
-                    case UNDECLARED, REINFORCEMENT -> {
-                        state = State.REINFORCEMENT;
-                        try {
-                            int reinforcements = gameModel.getCurrentPlayerReinforcements();
-                            if (reinforcements <= 0) {
-                                toAttackPhase();
-                            }
 
-                            int toPut = gameModel.troopSelect(1, reinforcements);
-                            gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
-                            if (gameModel.getCurrentPlayerReinforcements() == 0) {
-                                toAttackPhase();
-                            }
-                        } catch (Exception exception) {
-                            System.out.println(exception.getMessage());
-                        }
-                    }
-                    case ATTACK -> {
-                        if (from.equals(EMPTY)) {
-                            from = clickedCountry;
-                            JOptionPane.showMessageDialog(null, "Attacking with " + from);
-                        } else if (to.equals(EMPTY)) {
-                            to = clickedCountry;
-                            JOptionPane.showMessageDialog(null, "Attacking " + to);
-                            int reply = JOptionPane.showConfirmDialog(null,
-                                    "Attacking " + to + " with " + from + ". Blitz attack?",
-                                    "Select attack type", JOptionPane.YES_NO_OPTION);
-                            gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
-                            from = EMPTY;
-                            to = EMPTY;
-                        }
-                    }
-                    case MOVEMENT -> {
-                        if (from.equals(EMPTY)) {
-                            from = clickedCountry;
-                            JOptionPane.showMessageDialog(null, "Moving from " + from);
-                        } else if (to.equals(EMPTY)) {
-                            to = clickedCountry;
-                            if (to.equals(from)) {
-                                JOptionPane.showMessageDialog(null, "Cannot move to the same country. Input cleared");
-                                to = EMPTY;
-                                from = EMPTY;
-                                return;
-                            }
-                            JOptionPane.showMessageDialog(null, "Moving troops from  " + from + " to " + to);
-                            boolean successfulMove = gameModel.moveTroops(from, to);
-                            if (successfulMove) {
-                                gameModel.updateState();
-                                state = State.REINFORCEMENT;
-                                gameModel.nextPlayer();
-                                gameModel.showCurrentPlayer();
-                                gameModel.updateGameViewsTurnState(state);
-                            }
-                            from = EMPTY;
-                            to = EMPTY;
-                        }
-                    }
+                    case UNDECLARED, REINFORCEMENT -> reinforcementState(clickedCountry);
+                    case ATTACK -> attackState(clickedCountry);
+                    case MOVEMENT -> movementState(clickedCountry);
+
                 }
             }
         });
@@ -162,68 +106,26 @@ public class GameController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == null)
+        if (e.getActionCommand() == null) {
             return;
+        }
 
         String command = e.getActionCommand();
         switch (command) {
+            case HELP_COMMAND -> helpCommand();
+            case NEW_COMMAND -> newCommand();
+            case ATTACK_COMMAND -> attackCommand();
+            case MOVE_COMMAND -> moveCommand();
+            case END_COMMAND -> endCommand();
+            case HISTORY_COMMAND -> historyCommand();
+            case LOAD_COMMAND -> loadCommand();
 
-            case HELP_COMMAND -> JOptionPane.showMessageDialog(null, gameModel.getHelp());
-
-            case NEW_COMMAND -> {
-                if(gameModel.getCurrentPlayer() == null){
-                    createNewGame();
-                }
-                else if(JOptionPane.showConfirmDialog(null,"You are about to start a new game",
-                        "Confirm",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-                    gameModel.resetModel();
-                    createNewGame();
-                }
-            }
-            case ATTACK_COMMAND -> {
-                state = State.ATTACK;
-                JOptionPane.showMessageDialog(null,
-                        "Select a country to attack with, then a country to attack");
-                gameModel.updateGameViewsTurnState(state);
-            }
-            case MOVE_COMMAND -> {
-                state = State.MOVEMENT;
-                gameModel.updateGameViewsTurnState(state);
-            }
-            case END_COMMAND -> {
-                state = State.REINFORCEMENT;
-                gameModel.nextPlayer();
-                if (gameModel.getCurrentPlayer() != null) {
-                    gameModel.showCurrentPlayer();
-                    gameModel.updateGameViewsTurnState(state);
-                }
-            }
-            case HISTORY_COMMAND -> {
-                JTextArea textArea = new JTextArea(gameModel.getHistory(), 50, 70);
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
-                JOptionPane.showMessageDialog(null, scrollPane);
-            }
-            case SAVE_COMMAND -> {
-                XML.saveGame(gameModel);
-                JOptionPane.showMessageDialog(null, "success");
-            }
-            case LOAD_COMMAND->{
-                GameModel model= XML.loadGame("save.xml");
-                GameFrame gameFrame= new GameFrame("test", model);
-                model.addGameView(gameFrame);
-                model.loadGame();
-
-
-
-            }
         }
     }
 
     private void createNewGame() {
         if (gameModel.userCreateGame()) {
-            from = EMPTY;
-            to = EMPTY;
+            setEmpty();
             System.out.println(gameModel.getCurrentPlayer().getName());
             gameModel.nextPlayer();
             this.state = State.REINFORCEMENT;
@@ -237,5 +139,135 @@ public class GameController implements ActionListener {
      */
     public int getCurrentReinforcements() {
         return gameModel.getCurrentPlayerReinforcements();
+    }
+    public void reinforcementState(String clickedCountry) {
+        state = State.REINFORCEMENT;
+        try {
+            checkReinforcements();
+
+            int toPut = gameModel.troopSelect(1, gameModel.getCurrentPlayerReinforcements());
+            gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
+
+            checkReinforcements();
+
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    public void attackState(String clickedCountry) {
+        if (from.equals(EMPTY)) {
+            from = clickedCountry;
+            JOptionPane.showMessageDialog(null, "Attacking with " + from);
+        } else if (to.equals(EMPTY)) {
+            to = clickedCountry;
+            JOptionPane.showMessageDialog(null, "Attacking " + to);
+            int reply = JOptionPane.showConfirmDialog(null,
+                    "Attacking " + to + " with " + from + ". Blitz attack?",
+                    "Select attack type", JOptionPane.YES_NO_OPTION);
+            gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
+            setEmpty();
+        }
+    }
+
+    public void movementState(String clickedCountry) {
+        if (from.equals(EMPTY)) {
+            from = clickedCountry;
+            JOptionPane.showMessageDialog(null, "Moving from " + from);
+        } else if (to.equals(EMPTY)) {
+            to = clickedCountry;
+            if (to.equals(from)) {
+                JOptionPane.showMessageDialog(null, "Cannot move to the same country. Input cleared");
+                setEmpty();
+                return;
+            }
+            JOptionPane.showMessageDialog(null, "Moving troops from  " + from + " to " + to);
+            checkSuccessfulMove();
+            setEmpty();
+        }
+    }
+
+    public void helpCommand() {
+        JOptionPane.showMessageDialog(null, gameModel.getHelp());
+    }
+
+    public void newCommand() {
+        if(gameModel.getCurrentPlayer() == null){
+            createNewGame();
+        }
+        else if(JOptionPane.showConfirmDialog(null,"You are about to start a new game",
+                "Confirm",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            gameModel.resetModel();
+            createNewGame();
+        }
+    }
+
+    public void attackCommand() {
+        state = State.ATTACK;
+        JOptionPane.showMessageDialog(null,
+                "Select a country to attack with, then a country to attack");
+        gameModel.updateGameViewsTurnState(state);
+    }
+
+    public void moveCommand() {
+        state = State.MOVEMENT;
+        gameModel.updateGameViewsTurnState(state);
+    }
+
+    public void endCommand() {
+        state = State.REINFORCEMENT;
+        gameModel.nextPlayer();
+        if (gameModel.getCurrentPlayer() != null) {
+            gameModel.showCurrentPlayer();
+            gameModel.updateGameViewsTurnState(state);
+        }
+    }
+
+    public void historyCommand() {
+        JTextArea textArea = new JTextArea(gameModel.getHistory(), 50, 70);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
+        JOptionPane.showMessageDialog(null, scrollPane);
+    }
+
+    public void setEmpty() {
+        from = EMPTY;
+        to = EMPTY;
+    }
+
+    public Boolean checkCountry(String clickedCountry) {
+        if (clickedCountry.equals(EMPTY)) {
+            return false;
+        }
+        else if (!gameModel.playerOwns(clickedCountry) && state != State.ATTACK) {
+            JOptionPane.showMessageDialog(null, "Current player does not own " + clickedCountry);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public void checkSuccessfulMove() {
+        if (gameModel.moveTroops(from, to)) {
+            gameModel.updateState();
+            state = State.REINFORCEMENT;
+            gameModel.nextPlayer();
+            gameModel.showCurrentPlayer();
+            gameModel.updateGameViewsTurnState(state);
+        }
+    }
+
+    public void checkReinforcements() {
+        if (gameModel.getCurrentPlayerReinforcements() <= 0) {
+            toAttackPhase();
+        }
+    }
+    
+    private void loadCommand() {
+        GameModel model= XML.loadGame("save.xml");
+        GameFrame gameFrame= new GameFrame("test", model);
+        model.addGameView(gameFrame);
+        model.loadGame();
     }
 }
