@@ -3,7 +3,7 @@
     <continent>
         <continentName>Maritimes</continentName>
         <continentReinforcements>6</continentReinforcements>
-        <continentColor>#000000</continentColor>
+        <continentColor>#ff9000</continentColor>
         <country>
             <countryName>Newfoundland</countryName>
             <X>0</X>
@@ -64,7 +64,7 @@
     <continent>
         <continentName>West Coast</continentName>
         <continentReinforcements>6</continentReinforcements>
-        <continentColor>#000000</continentColor>
+        <continentColor>#ffd000</continentColor>
         <country>
             <countryName>Yukon</countryName>
             <X>0</X>
@@ -141,7 +141,7 @@
     <continent>
         <continentName>Prairies</continentName>
         <continentReinforcements>5</continentReinforcements>
-        <continentColor>#000000</continentColor>
+        <continentColor>#ffa500</continentColor>
         <country>
             <countryName>Northern Saskatchewan</countryName>
             <X>0</X>
@@ -195,7 +195,7 @@
     <continent>
         <continentName>Territories</continentName>
         <continentReinforcements>4</continentReinforcements>
-        <continentColor>#000000</continentColor>
+        <continentColor>#ffba00</continentColor>
         <country>
             <countryName>Northern Nunavut</countryName>
             <X>0</X>
@@ -248,7 +248,7 @@
     <continent>
         <continentName>Eastern Canada</continentName>
         <continentReinforcements>7</continentReinforcements>
-        <continentColor>#000000</continentColor>
+        <continentColor>#ff7b00</continentColor>
         <country>
             <countryName>Montreal</countryName>
             <X>0</X>
