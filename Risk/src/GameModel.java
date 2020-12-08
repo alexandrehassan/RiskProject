@@ -40,6 +40,7 @@ public class GameModel {
         gameStarted = false;
     }
 
+
     /**
      * Constructor used for playing the game without the GUI/Users.
      *
@@ -60,6 +61,26 @@ public class GameModel {
 
     }
 
+
+    /**
+     * Constructor used for playing the game without the GUI/Users.
+     *
+     * @throws IllegalArgumentException if number of players is not in [2,6]
+     */
+    public GameModel(ArrayList<Player> players, Player currentPlayer, Map map, String history) {
+        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
+        this.currentPlayer = currentPlayer;
+        this.players = players;
+        if (currentPlayer == null)
+            currentPlayer = players.get(0);
+        this.map = map;
+        this.gameViews = new ArrayList<>();
+        this.history = new StringBuilder(history);
+        resetView();
+        updateGameViewsStart();
+        updateState();
+    }
+
     public void resetModel() {
         players.clear();
         currentPlayer = null;
@@ -69,6 +90,14 @@ public class GameModel {
             v.reset();
         }
         gameStarted = false;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public Map getMap() {
+        return map;
     }
 
     //================================================================================
@@ -170,7 +199,21 @@ public class GameModel {
         updateState();
         return true;
     }
-
+    /**
+     * User can add between 2 and 6 players (inclusive) to a game. They can
+     * then generate a full game and begin playing immediately
+     */
+    public boolean loadGame() {
+        if (players.size() < 2) {
+            showErrorPopUp(new IllegalArgumentException("Cannot have less than 2 players"));
+            return false;
+        }
+        resetView();
+        generateGame();
+        updateGameViewsStart();
+        updateState();
+        return true;
+    }
     /**
      * Generates a game as long as two players are present. Assign countries, picks
      * a starting players, assigns troops.
@@ -186,7 +229,7 @@ public class GameModel {
         currentPlayer = players.get(ThreadLocalRandom.current().nextInt(0, players.size()));
 
         //Assign countries to players (shuffle order)
-        this.map = new Map();
+        this.map = XML.mapFromXML("newMap.xml");
 
         //Assign countries randomly
         ArrayList<String> countryKeysArrayList = map.getShuffledKeys();

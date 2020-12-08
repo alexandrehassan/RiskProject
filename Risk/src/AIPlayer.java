@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class AIPlayer extends Player {
 
-    private final GameModel model;
+    private GameModel model;
 
     /**
      * Default constructor for the class Player.
@@ -20,6 +20,16 @@ public class AIPlayer extends Player {
     public AIPlayer(String name, GameModel gameModel) {
         super(name);
         this.model = gameModel;
+    }
+
+    public AIPlayer(String name){
+        super(name);
+        model= null;
+    }
+
+    public void setModel(GameModel model){
+        this.model=model;
+
     }
 
     @Override

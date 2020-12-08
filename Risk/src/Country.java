@@ -23,6 +23,12 @@ public class Country {
         neighbors = new ArrayList<>();
     }
 
+    public Country(String name, int troops) {
+        this.name = name;
+        this.troops = troops;
+        neighbors = new ArrayList<>();
+    }
+
     /**
      * Gives the name of the country.
      *
