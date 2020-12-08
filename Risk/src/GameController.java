@@ -2,10 +2,12 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 
@@ -264,7 +266,17 @@ public class GameController implements ActionListener {
     }
     
     private void loadCommand() {
-        GameModel model= XML.loadGame("save.xml");
+        File selectedFile = null;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "XML"));
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile();
+        }
+        if(selectedFile==null)
+            return;
+        GameModel model= XML.loadGame(selectedFile);
         GameFrame gameFrame= new GameFrame("test", model);
         model.addGameView(gameFrame);
         model.loadGame();

@@ -3,6 +3,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -159,7 +161,6 @@ public class XML {
             e.printStackTrace();
         }
     }
-
     /**
      * Creates a map from an XML file.
      * @param filename the filename of the MAP
@@ -173,6 +174,84 @@ public class XML {
 
         try {
             File inputFile = new File(filename);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+
+            NodeList continentNodes = doc.getElementsByTagName(CONTINENT_TAG);
+            for (int temp = 0; temp < continentNodes.getLength(); temp++) {
+                Node continentNode = continentNodes.item(temp);
+
+                if (continentNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element continentElem = (Element) continentNode;
+                    String continentName =continentElem.getElementsByTagName(CONTINENT_NAME_TAG).item(0).getTextContent();
+
+                    Continent newContinent = new Continent(
+                            continentName,
+                            Integer.parseInt(continentElem.getElementsByTagName(CONTINENT_REINFORCEMENTS_TAG).item(0).getTextContent()),
+                            continentElem.getElementsByTagName(CONTINENT_COLOR_TAG).item(0).getTextContent());
+
+                    continents.put(newContinent.getName(), newContinent);
+
+                    NodeList countryNodes = continentElem.getElementsByTagName(COUNTRY_TAG);
+
+                    for(int countryIndex = 0; countryIndex<countryNodes.getLength();countryIndex++){
+
+                        Node countryNode = countryNodes.item(countryIndex);
+
+                        if(countryNode.getNodeType() == Node.ELEMENT_NODE){
+                            Element countryElem = (Element) countryNode;
+
+                            Country newCountry = new Country(countryElem.getElementsByTagName(COUNTRY_NAME_TAG).item(0).getTextContent(),
+                                    Integer.parseInt(countryElem.getElementsByTagName(TROOPS_TAG).item(0).getTextContent()));
+                            newContinent.addCountry(newCountry);
+                            countries.put(newCountry.getName(), newCountry);
+                            positionsCountries.put(newCountry, new Point(Integer.parseInt(countryElem.getElementsByTagName(X_TAG).item(0).getTextContent()),
+                                    Integer.parseInt(countryElem.getElementsByTagName(Y_TAG).item(0).getTextContent())));
+                            NodeList neighborsNodes = countryElem.getElementsByTagName(NEIGHBORS_TAG);
+                            ArrayList<String> neighborList = new ArrayList<>();
+                            for(int neighborIndex = 0; neighborIndex<neighborsNodes.getLength(); neighborIndex++){
+                                Node neighborNode = neighborsNodes.item(neighborIndex);
+                                if(neighborNode.getNodeType() == Node.ELEMENT_NODE){
+                                    Element neighborElem = (Element) neighborNode;
+                                    NodeList neighbors = neighborElem.getElementsByTagName(NEIGHBOR_TAG);
+                                    for(int i = 0; i< neighbors.getLength(); i++){
+                                        neighborList.add(neighbors.item(i).getTextContent());
+                                    }
+                                }
+                            }
+                            countryNeighborMap.put(newCountry,neighborList);
+                        }
+
+                    }
+
+                }
+
+            }
+            for (Country country : countryNeighborMap.keySet()) {
+                for (String neighbor : countryNeighborMap.get(country)) {
+                    country.addNeighbor(countries.get(neighbor));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Map(countries, continents, positionsCountries);
+    }
+    /**
+     * Creates a map from an XML file.
+     * @param inputFile the file
+     * @return a map object
+     */
+    public static Map mapFromXML2(File inputFile){
+        HashMap<String, Country> countries=  new HashMap<>();
+        HashMap<String, Continent> continents = new HashMap<>();
+        HashMap<Country, ArrayList<String>> countryNeighborMap = new HashMap<>();
+        HashMap<Country, Point> positionsCountries = new HashMap<>();
+
+        try {
+//            File inputFile = new File(filename);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
@@ -310,9 +389,8 @@ public class XML {
         return new Map(countries,continents, positionsCountries);
     }
 
-    public static GameModel loadGame(String filename) {
+    public static GameModel loadGame(File inputFile) {
         try {
-            File inputFile = new File(filename);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
@@ -387,12 +465,23 @@ public class XML {
         return null;
     }
 
+    public static Map fileChooser(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "XML"));
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            return mapFromXML2(selectedFile);
+        }
+        return null;
+    }
 
 
     public static void main(String[] args) {
         //mapToXML(new Map());
         //mapFromXML("newMap.xml");
-        GameModel model= loadGame("save.xml");
+        Map map = fileChooser();
         System.out.println("this worked");
 
     }
