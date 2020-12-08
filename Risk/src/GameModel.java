@@ -14,12 +14,12 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 
 public class GameModel {
-    private final ArrayList<Player> players;
+    private ArrayList<Player> players;
     private Player currentPlayer;
     private int currentPlayerReinforcements;
     private Map map;
-    private final ArrayList<GameView> gameViews;
-    private final StringBuilder history;
+    private final  ArrayList<GameView> gameViews;
+    private StringBuilder history;
     private boolean gameStarted;
 
     public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
@@ -740,5 +740,25 @@ public class GameModel {
                 To manually update the charts on the right, select the 'state' button
                 To get help, select the 'help' button
                 The current player is shown in the top left corner""";
+    }
+
+    public void setMap(Map map) {
+        if(!gameStarted)
+            this.map = map;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        if(!gameStarted)
+            this.players = players;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        if(!gameStarted && players.contains(currentPlayer))
+            this.currentPlayer = currentPlayer;
+    }
+
+    public void setHistory(StringBuilder history) {
+        if(!gameStarted)
+            this.history = history;
     }
 }
