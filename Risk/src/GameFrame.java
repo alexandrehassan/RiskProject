@@ -40,6 +40,7 @@ public class GameFrame extends JFrame implements GameView {
     private final JPanel boardPanel;
     private mxGraph graph;
     private JMenuItem showHistory;
+    private JMenuItem saveGame;
     private JMenu gameMenu;
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
@@ -155,6 +156,7 @@ public class GameFrame extends JFrame implements GameView {
             b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
         }
         showHistory.setEnabled(false);
+        saveGame.setEnabled(false);
     }
 
     /**
@@ -169,9 +171,10 @@ public class GameFrame extends JFrame implements GameView {
         startGame.setActionCommand("new");
         gameMenu.add(startGame);
 
-        JMenuItem saveGame = new JMenuItem("Save Game");
+        saveGame = new JMenuItem("Save Game");
         saveGame.addActionListener(gameController);
         saveGame.setActionCommand(gameController.SAVE_COMMAND);
+        saveGame.setEnabled(false);
         gameMenu.add(saveGame);
 
         menuBar.add(gameMenu);
@@ -310,6 +313,7 @@ public class GameFrame extends JFrame implements GameView {
         updateColors(gameModel.getPlayers());
 
         showHistory.setEnabled(true);
+        saveGame.setEnabled(true);
     }
 
     /**
