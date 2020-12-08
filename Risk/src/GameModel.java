@@ -14,12 +14,12 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 
 public class GameModel {
-    private final ArrayList<Player> players;
+    private ArrayList<Player> players;
     private Player currentPlayer;
     private int currentPlayerReinforcements;
     private Map map;
-    private final ArrayList<GameView> gameViews;
-    private final StringBuilder history;
+    private final  ArrayList<GameView> gameViews;
+    private StringBuilder history;
     private boolean gameStarted;
 
     public static final int[] BEGINNING_TROOPS = {50, 35, 30, 25, 20};
@@ -47,7 +47,7 @@ public class GameModel {
      * @throws IllegalArgumentException if number of players is not in [2,6]
      */
     public GameModel(ArrayList<Player> players) {
-        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
+        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players too big.");
         this.currentPlayer = players.get(0);
         this.players = players;
         this.map = null;
@@ -61,25 +61,6 @@ public class GameModel {
 
     }
 
-
-    /**
-     * Constructor used for playing the game without the GUI/Users.
-     *
-     * @throws IllegalArgumentException if number of players is not in [2,6]
-     */
-    public GameModel(ArrayList<Player> players, Player currentPlayer, Map map, String history) {
-        if (players.size() < 2 || players.size() > 6) throw new IllegalArgumentException("Number of players to big.");
-        this.currentPlayer = currentPlayer;
-        this.players = players;
-        if (currentPlayer == null)
-            currentPlayer = players.get(0);
-        this.map = map;
-        this.gameViews = new ArrayList<>();
-        this.history = new StringBuilder(history);
-        resetView();
-        updateGameViewsStart();
-        updateState();
-    }
 
     public void resetModel() {
         players.clear();
@@ -759,5 +740,25 @@ public class GameModel {
                 To manually update the charts on the right, select the 'state' button
                 To get help, select the 'help' button
                 The current player is shown in the top left corner""";
+    }
+
+    public void setMap(Map map) {
+        if(!gameStarted)
+            this.map = map;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        if(!gameStarted)
+            this.players = players;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        if(!gameStarted && players.contains(currentPlayer))
+            this.currentPlayer = currentPlayer;
+    }
+
+    public void setHistory(StringBuilder history) {
+        if(!gameStarted)
+            this.history = history;
     }
 }
