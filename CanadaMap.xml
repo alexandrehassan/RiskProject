@@ -6,8 +6,8 @@
         <continentColor>#ff9000</continentColor>
         <country>
             <countryName>Newfoundland</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>950</X>
+            <Y>325</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Chicoutimi</neighbor>
@@ -17,8 +17,8 @@
         </country>
         <country>
             <countryName>Labrador</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>850</X>
+            <Y>275</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Chicoutimi</neighbor>
@@ -28,8 +28,8 @@
         </country>
         <country>
             <countryName>Nova Scotia</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>900</X>
+            <Y>450</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Prince Edward Island</neighbor>
@@ -39,8 +39,8 @@
         </country>
         <country>
             <countryName>New Brunswick</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>850</X>
+            <Y>450</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Prince Edward Island</neighbor>
@@ -50,8 +50,8 @@
         </country>
         <country>
             <countryName>Prince Edward Island</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>900</X>
+            <Y>450</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Nova Scotia</neighbor>
@@ -67,8 +67,8 @@
         <continentColor>#ffd000</continentColor>
         <country>
             <countryName>Yukon</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>100</X>
+            <Y>150</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Northwest Territories</neighbor>
@@ -79,8 +79,8 @@
         </country>
         <country>
             <countryName>Vancouver Island</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>50</X>
+            <Y>350</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Yukon</neighbor>
@@ -89,8 +89,8 @@
         </country>
         <country>
             <countryName>British Columbia</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>150</X>
+            <Y>400</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Vancouver Island</neighbor>
@@ -101,8 +101,8 @@
         </country>
         <country>
             <countryName>Rockies</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>200</X>
+            <Y>350</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Yukon</neighbor>
@@ -114,8 +114,8 @@
         </country>
         <country>
             <countryName>Calgary</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>300</X>
+            <Y>300</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Oil Sands</neighbor>
@@ -126,8 +126,8 @@
         </country>
         <country>
             <countryName>Edmonton</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>325</X>
+            <Y>400</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Calgary</neighbor>
@@ -144,8 +144,8 @@
         <continentColor>#ffa500</continentColor>
         <country>
             <countryName>Northern Saskatchewan</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>350</X>
+            <Y>300</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Calgary</neighbor>
@@ -156,8 +156,8 @@
         </country>
         <country>
             <countryName>Regina</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>350</X>
+            <Y>400</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Northern Saskatchewan</neighbor>
@@ -168,8 +168,8 @@
         </country>
         <country>
             <countryName>Winnipeg</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>450</X>
+            <Y>400</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Hudson's Bay</neighbor>
@@ -181,8 +181,8 @@
         </country>
         <country>
             <countryName>Hudson's Bay</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>500</X>
+            <Y>350</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Winnipeg</neighbor>
@@ -198,8 +198,8 @@
         <continentColor>#ffba00</continentColor>
         <country>
             <countryName>Northern Nunavut</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>500</X>
+            <Y>100</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Northwest Territories</neighbor>
@@ -209,8 +209,8 @@
         </country>
         <country>
             <countryName>Northwest Territories</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>300</X>
+            <Y>250</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Yukon</neighbor>
@@ -220,8 +220,8 @@
         </country>
         <country>
             <countryName>Eastern Nunavut</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>700</X>
+            <Y>250</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Oil Sands</neighbor>
@@ -231,8 +231,8 @@
         </country>
         <country>
             <countryName>Oil Sands</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>450</X>
+            <Y>250</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Northwest Territories</neighbor>
@@ -251,8 +251,8 @@
         <continentColor>#ff7b00</continentColor>
         <country>
             <countryName>Montreal</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>800</X>
+            <Y>400</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Chicoutimi</neighbor>
@@ -262,8 +262,8 @@
         </country>
         <country>
             <countryName>Chicoutimi</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>750</X>
+            <Y>300</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Labrador</neighbor>
@@ -273,8 +273,8 @@
         </country>
         <country>
             <countryName>Ottawa</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>800</X>
+            <Y>500</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Montreal</neighbor>
@@ -284,8 +284,8 @@
         </country>
         <country>
             <countryName>Toronto</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>750</X>
+            <Y>550</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Ottawa</neighbor>
@@ -294,8 +294,8 @@
         </country>
         <country>
             <countryName>Sudbury</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>600</X>
+            <Y>350</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Chicoutimi</neighbor>
@@ -306,8 +306,8 @@
         </country>
         <country>
             <countryName>Thunder Bay</countryName>
-            <X>0</X>
-            <Y>0</Y>
+            <X>550</X>
+            <Y>400</Y>
             <troops>1</troops>
             <neighbors>
                 <neighbor>Sudbury</neighbor>
