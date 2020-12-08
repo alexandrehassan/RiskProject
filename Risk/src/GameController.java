@@ -25,7 +25,7 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
  * @version 27-10-2020
  */
 public class GameController implements ActionListener {
-    private enum State {UNDECLARED, REINFORCEMENT, ATTACK, MOVEMENT}
+    public enum State {UNDECLARED, REINFORCEMENT, ATTACK, MOVEMENT}
 
     public static final String HELP_COMMAND = "help";
     public static final String NEW_COMMAND = "new";
@@ -36,6 +36,7 @@ public class GameController implements ActionListener {
     public static final String HISTORY_COMMAND = "history";
     public static final String SAVE_COMMAND = "save";
     public static final String LOAD_COMMAND= "load";
+
 
     private final GameModel gameModel;
 
@@ -128,9 +129,9 @@ public class GameController implements ActionListener {
                             if (successfulMove) {
                                 gameModel.updateState();
                                 state = State.REINFORCEMENT;
-                                gameModel.nextPlayer(true);
+                                gameModel.nextPlayer();
                                 gameModel.showCurrentPlayer();
-                                gameModel.updateGameViewsTurnState("reinforcement");
+                                gameModel.updateGameViewsTurnState(state);
                             }
                             from = EMPTY;
                             to = EMPTY;
@@ -148,7 +149,7 @@ public class GameController implements ActionListener {
         state = State.ATTACK;
         JOptionPane.showMessageDialog(null,
                 "Done placing reinforcements (none left)");
-        gameModel.updateGameViewsTurnState("attack");
+        gameModel.updateGameViewsTurnState(state);
     }
 
     /**
@@ -168,35 +169,31 @@ public class GameController implements ActionListener {
             case HELP_COMMAND -> JOptionPane.showMessageDialog(null, gameModel.getHelp());
 
             case NEW_COMMAND -> {
-                if (gameModel.userCreateGame()) {
-                    from = EMPTY;
-                    to = EMPTY;
-                    System.out.println(gameModel.getCurrentPlayer().getName());
-                    if (gameModel.getCurrentPlayer() instanceof AIPlayer) {
-                        this.state = State.UNDECLARED;
-                        gameModel.nextPlayer(true);
-                    } else {
-                        this.state = State.REINFORCEMENT;
-                        gameModel.updateGameViewsTurnState("reinforcement");
-                    }
+                if(gameModel.getCurrentPlayer() == null){
+                    createNewGame();
+                }
+                else if(JOptionPane.showConfirmDialog(null,"You are about to start a new game",
+                        "Confirm",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                    gameModel.resetModel();
+                    createNewGame();
                 }
             }
             case ATTACK_COMMAND -> {
                 state = State.ATTACK;
                 JOptionPane.showMessageDialog(null,
                         "Select a country to attack with, then a country to attack");
-                gameModel.updateGameViewsTurnState("attack");
+                gameModel.updateGameViewsTurnState(state);
             }
             case MOVE_COMMAND -> {
                 state = State.MOVEMENT;
-                gameModel.updateGameViewsTurnState("move");
+                gameModel.updateGameViewsTurnState(state);
             }
             case END_COMMAND -> {
                 state = State.REINFORCEMENT;
-                gameModel.nextPlayer(true);
+                gameModel.nextPlayer();
                 if (gameModel.getCurrentPlayer() != null) {
                     gameModel.showCurrentPlayer();
-                    gameModel.updateGameViewsTurnState("reinforcement");
+                    gameModel.updateGameViewsTurnState(state);
                 }
             }
             case HISTORY_COMMAND -> {
@@ -218,6 +215,16 @@ public class GameController implements ActionListener {
 
 
             }
+        }
+    }
+
+    private void createNewGame() {
+        if (gameModel.userCreateGame()) {
+            from = EMPTY;
+            to = EMPTY;
+            System.out.println(gameModel.getCurrentPlayer().getName());
+            gameModel.nextPlayer();
+            this.state = State.REINFORCEMENT;
         }
     }
 
