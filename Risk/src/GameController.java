@@ -116,6 +116,7 @@ public class GameController implements ActionListener {
             case MOVE_COMMAND -> moveCommand();
             case END_COMMAND -> endCommand();
             case HISTORY_COMMAND -> historyCommand();
+            case LOAD_COMMAND -> loadCommand();
         }
     }
 
@@ -258,5 +259,12 @@ public class GameController implements ActionListener {
         if (gameModel.getCurrentPlayerReinforcements() <= 0) {
             toAttackPhase();
         }
+    }
+    
+    private void loadCommand() {
+        GameModel model= XML.loadGame("save.xml");
+        GameFrame gameFrame= new GameFrame("test", model);
+        model.addGameView(gameFrame);
+        model.loadGame();
     }
 }
