@@ -7,5 +7,16 @@ Saving a Game of Risk:
 Loading a Game of Risk: 
 -If you want to load a previously-saved game of Risk, you can select "Load Game" from the drop-down menu
 - A game will be read from our saved file 
-- we retrive all the info (players, player-owned countries) by using their tag names tag names 
+- we retrieve all the info (players, player-owned countries) by using their tag names tag names
 - 
+
+XML:
+    Creation of methods to translate a game to XML and to allow the creation of a game from an XML file
+        saveGame takes in a gamemodel and creates a save named save.xml this xml file represents everything needed to
+            continue the game.
+        mapFromXML takes in a file and creates a map that can be played (the game is always created from an xml file)
+        loadGame creates a gameModel from a fileName (basically the oposite of savegame)
+    We decided to go with static methods for everything in the XML file because it uses less memory and prevents us from having
+        create useless objects.
+
+
