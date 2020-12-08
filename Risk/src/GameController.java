@@ -68,12 +68,7 @@ public class GameController implements ActionListener {
 
                 String clickedCountry = (String) ((mxCell) cell).getValue();
 
-                if (clickedCountry.equals(EMPTY)) {
-                    return;
-                }
-
-                if (!gameModel.playerOwns(clickedCountry) && state != State.ATTACK) {
-                    JOptionPane.showMessageDialog(null, "Current player does not own " + clickedCountry);
+                if (!checkCountry(clickedCountry)) {
                     return;
                 }
 
@@ -104,8 +99,9 @@ public class GameController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == null)
+        if (e.getActionCommand() == null) {
             return;
+        }
 
         String command = e.getActionCommand();
         switch (command) {
@@ -120,8 +116,7 @@ public class GameController implements ActionListener {
 
     private void createNewGame() {
         if (gameModel.userCreateGame()) {
-            from = EMPTY;
-            to = EMPTY;
+            setEmpty();
             System.out.println(gameModel.getCurrentPlayer().getName());
             gameModel.nextPlayer();
             this.state = State.REINFORCEMENT;
@@ -140,18 +135,13 @@ public class GameController implements ActionListener {
     public void reinforcementState(String clickedCountry) {
         state = State.REINFORCEMENT;
         try {
-            int reinforcements = gameModel.getCurrentPlayerReinforcements();
+            checkReinforcements();
 
-            if (reinforcements <= 0) {
-                toAttackPhase();
-            }
-
-            int toPut = gameModel.troopSelect(1, reinforcements);
+            int toPut = gameModel.troopSelect(1, gameModel.getCurrentPlayerReinforcements());
             gameModel.placeCurrentPlayerReinforcements(clickedCountry, toPut);
 
-            if (gameModel.getCurrentPlayerReinforcements() == 0) {
-                toAttackPhase();
-            }
+            checkReinforcements();
+
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
@@ -168,8 +158,7 @@ public class GameController implements ActionListener {
                     "Attacking " + to + " with " + from + ". Blitz attack?",
                     "Select attack type", JOptionPane.YES_NO_OPTION);
             gameModel.playAttack(from, to, reply == JOptionPane.YES_OPTION);
-            from = EMPTY;
-            to = EMPTY;
+            setEmpty();
         }
     }
 
@@ -181,21 +170,12 @@ public class GameController implements ActionListener {
             to = clickedCountry;
             if (to.equals(from)) {
                 JOptionPane.showMessageDialog(null, "Cannot move to the same country. Input cleared");
-                to = EMPTY;
-                from = EMPTY;
+                setEmpty();
                 return;
             }
             JOptionPane.showMessageDialog(null, "Moving troops from  " + from + " to " + to);
-            boolean successfulMove = gameModel.moveTroops(from, to);
-            if (successfulMove) {
-                gameModel.updateState();
-                state = State.REINFORCEMENT;
-                gameModel.nextPlayer();
-                gameModel.showCurrentPlayer();
-                gameModel.updateGameViewsTurnState(state);
-            }
-            from = EMPTY;
-            to = EMPTY;
+            checkSuccessfulMove();
+            setEmpty();
         }
     }
 
@@ -242,5 +222,37 @@ public class GameController implements ActionListener {
         JOptionPane.showMessageDialog(null, scrollPane);
     }
 
+    public void setEmpty() {
+        from = EMPTY;
+        to = EMPTY;
+    }
 
+    public Boolean checkCountry(String clickedCountry) {
+        if (clickedCountry.equals(EMPTY)) {
+            return false;
+        }
+        else if (!gameModel.playerOwns(clickedCountry) && state != State.ATTACK) {
+            JOptionPane.showMessageDialog(null, "Current player does not own " + clickedCountry);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public void checkSuccessfulMove() {
+        if (gameModel.moveTroops(from, to)) {
+            gameModel.updateState();
+            state = State.REINFORCEMENT;
+            gameModel.nextPlayer();
+            gameModel.showCurrentPlayer();
+            gameModel.updateGameViewsTurnState(state);
+        }
+    }
+
+    public void checkReinforcements() {
+        if (gameModel.getCurrentPlayerReinforcements() <= 0) {
+            toAttackPhase();
+        }
+    }
 }
