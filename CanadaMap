@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<continents>
+    <continent>
+        <continentName>Maritimes</continentName>
+        <continentReinforcements>6</continentReinforcements>
+        <continentColor>#000000</continentColor>
+        <countryName>Newfoundland</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Chicoutimi</neighbor>
+            <neighbor>PEI</neighbor>
+            <neighbor>Nova Scotia</neighbor>
+        </neighbors>
+        <countryName>Labrador</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Chicoutimi</neighbor>
+            <neighbor>Newfoundland</neighbor>
+            <neighbor>Eastern Nunavut</neighbor>
+        </neighbors>
+        <countryName>Nova Scotia</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>PEI</neighbor>
+            <neighbor>Newfoundland</neighbor>
+            <neighbor>New Brunswick</neighbor>
+        </neighbors>
+        <countryName>New Brunswick</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>PEI</neighbor>
+            <neighbor>Nova Scotia</neighbor>
+            <neighbor>Montreal</neighbor>
+        </neighbors>
+        <countryName>PEI</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Nova Scotia</neighbor>
+            <neighbor>Newfoundland</neighbor>
+            <neighbor>New Brunswick</neighbor>
+            <neighbor>Chicoutimi</neighbor>
+        </neighbors>
+    </continent>
+    <continent>
+        <continentName>West Coast</continentName>
+        <continentReinforcements>6</continentReinforcements>
+        <continentColor>#000000</continentColor>
+        <countryName>Yukon</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Northwest Territories</neighbor>
+            <neighbor>Oil Sands</neighbor>
+            <neighbor>British Columbia</neighbor>
+            <neighbor>Rockies</neighbor>
+        </neighbors>
+        <countryName>Vancouver Island</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Yukon</neighbor>
+            <neighbor>British Columbia</neighbor>
+        </neighbors>
+        <countryName>British Columbia</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Vancouver Island</neighbor>
+            <neighbor>Rockies</neighbor>
+            <neighbor>Edmonton</neighbor>
+            <neighbor>Yukon</neighbor>
+        </neighbors>
+        <countryName>Rockies</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Yukon</neighbor>
+            <neighbor>Oil Sands</neighbor>
+            <neighbor>British Columbia</neighbor>
+            <neighbor>Calgary</neighbor>
+            <neighbor>Edmonton</neighbor>
+        </neighbors>
+        <countryName>Calgary</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Oil Sands</neighbor>
+            <neighbor>Edmonton</neighbor>
+            <neighbor>Rockies</neighbor>
+            <neighbor>Northern Saskatchewan</neighbor>
+        </neighbors>
+        <countryName>Edmonton</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Calgary</neighbor>
+            <neighbor>British Columbia</neighbor>
+            <neighbor>Rockies</neighbor>
+            <neighbor>Regina</neighbor>
+            <neighbor>Northern Saskatchewan</neighbor>
+        </neighbors>
+    </continent>
+    <continent>
+        <continentName>Prairies</continentName>
+        <continentReinforcements>5</continentReinforcements>
+        <continentColor>#000000</continentColor>
+        <countryName>Northern Saskatchewan</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Calgary</neighbor>
+            <neighbor>Edmonton</neighbor>
+            <neighbor>Oil Sands</neighbor>
+            <neighbor>Regina</neighbor>
+        </neighbors>
+        <countryName>Regina</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Northern Saskatchewan</neighbor>
+            <neighbor>Edmonton</neighbor>
+            <neighbor>Winnipeg</neighbor>
+            <neighbor>Hudson's Bay</neighbor>
+        </neighbors>
+        <countryName>Winnipeg</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Hudson's Bay</neighbor>
+            <neighbor>Winnipeg</neighbor>
+            <neighbor>Regina</neighbor>
+            <neighbor>Thunder Bay</neighbor>
+            <neighbor>Sudbury</neighbor>
+        </neighbors>
+        <countryName>Hudson's Bay</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Winnipeg</neighbor>
+            <neighbor>Eastern Nunavut</neighbor>
+            <neighbor>Northern Saskatchewan</neighbor>
+            <neighbor>Sudbury</neighbor>
+        </neighbors>
+    </continent>
+    <continent>
+        <continentName>Territories</continentName>
+        <continentReinforcements>4</continentReinforcements>
+        <continentColor>#000000</continentColor>
+        <countryName>Northern Nunavut</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Northwest Territories</neighbor>
+            <neighbor>Eastern Nunavut</neighbor>
+            <neighbor>Oil Sands</neighbor>
+        </neighbors>
+        <countryName>Northwest Territories</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Yukon</neighbor>
+            <neighbor>Oil Sands</neighbor>
+            <neighbor>Northern Nunavut</neighbor>
+        </neighbors>
+        <countryName>Eastern Nunavut</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Oil Sands</neighbor>
+            <neighbor>Northern Nunavut</neighbor>
+            <neighbor>Labrador</neighbor>
+        </neighbors>
+        <countryName>Oil Sands</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Northwest Territories</neighbor>
+            <neighbor>Northern Nunavut</neighbor>
+            <neighbor>Eastern Nunavut</neighbor>
+            <neighbor>Yukon</neighbor>
+            <neighbor>Rockies</neighbor>
+            <neighbor>Calgary</neighbor>
+            <neighbor>Northern Saskatchewan</neighbor>
+        </neighbors>
+    </continent>
+    <continent>
+        <continentName>Eastern Canada</continentName>
+        <continentReinforcements>7</continentReinforcements>
+        <continentColor>#000000</continentColor>
+        <countryName>Montreal</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Chicoutimi</neighbor>
+            <neighbor>New Brunswick</neighbor>
+            <neighbor>Ottawa</neighbor>
+        </neighbors>
+        <countryName>Chicoutimi</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Labrador</neighbor>
+            <neighbor>Montreal</neighbor>
+            <neighbor>Sudbury</neighbor>
+        </neighbors>
+        <countryName>Ottawa</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Montreal</neighbor>
+            <neighbor>Chicoutimi</neighbor>
+            <neighbor>Thunder Bay</neighbor>
+        </neighbors>
+        <countryName>Toronto</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Ottawa</neighbor>
+            <neighbor>Thunder Bay</neighbor>
+        </neighbors>
+        <countryName>Sudbury</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Chicoutimi</neighbor>
+            <neighbor>Thunder Bay</neighbor>
+            <neighbor>Hudson's Bay</neighbor>
+            <neighbor>Winnipeg</neighbor>
+        </neighbors>
+        <countryName>Thunder Bay</countryName>
+        <X>0</X>
+        <Y>0</Y>
+        <troops>1</troops>
+        <neighbors>
+            <neighbor>Sudbury</neighbor>
+            <neighbor>Winnipeg</neighbor>
+            <neighbor>Ottawa</neighbor>
+        </neighbors>
+    </continent>
+</continents>
