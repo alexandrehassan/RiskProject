@@ -123,7 +123,7 @@ class GameModelTest {
             assertTrue(model.playerOwns(outsideCountry.getName()),
                     "Returned false to a country the player owns");
         }
-        model.nextPlayer(true);
+        model.nextPlayer();
         for (Country outsideCountry : p1OutsideCountries) {
             assertFalse(model.playerOwns(outsideCountry.getName()),
                     "Returned true to a country the player doesn't owns");
@@ -133,7 +133,7 @@ class GameModelTest {
     @Test
     void nextPlayer() {
         int startingIndex = PLAYERS.indexOf(model.getCurrentPlayer());
-        model.nextPlayer(true);
+        model.nextPlayer();
         assertNotEquals(startingIndex, PLAYERS.indexOf(model.getCurrentPlayer()));
     }
 
@@ -158,7 +158,7 @@ class GameModelTest {
         assertNotEquals(playerReinforcements, model.getCurrentPlayerReinforcements(),
                 "Did not modify the number of reinforcements left");
 
-        model.nextPlayer(true);
+        model.nextPlayer();
         playerReinforcements = model.getCurrentPlayerReinforcements();
         assertThrows(IllegalArgumentException.class,
                 () -> model.placeCurrentPlayerReinforcements(p1OutsideCountries.get(0).getName(), 1),

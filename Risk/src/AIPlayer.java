@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class AIPlayer extends Player {
 
-    private final GameModel model;
+    private GameModel model;
 
     /**
      * Default constructor for the class Player.
@@ -20,6 +20,16 @@ public class AIPlayer extends Player {
     public AIPlayer(String name, GameModel gameModel) {
         super(name);
         this.model = gameModel;
+    }
+
+    public AIPlayer(String name){
+        super(name);
+        model= null;
+    }
+
+    public void setModel(GameModel model){
+        this.model=model;
+
     }
 
     @Override
@@ -33,14 +43,15 @@ public class AIPlayer extends Player {
 
     /**
      * Goes through all three phases of a turn.
-     *
-     * @param currentPlayerReinforcements the number of reinforcements this player can place.
      */
-    public void playTurn(int currentPlayerReinforcements) {
+    @Override
+    public void playTurn() {
+        int currentPlayerReinforcements = model.getCurrentPlayerReinforcements();
         autoPutReinforcements(currentPlayerReinforcements);
         autoAttack();
         autoMove();
         model.updateState();
+        model.nextPlayer();
     }
 
     /**
@@ -86,8 +97,6 @@ public class AIPlayer extends Player {
             }
         }
     }
-
-
 
     /**
      * Method that moves troops from deep inside Ally territory to the front line.

@@ -31,10 +31,13 @@ public class GameController implements ActionListener {
     public static final String NEW_COMMAND = "new";
     public static final String ATTACK_COMMAND = "attack";
     public static final String MOVE_COMMAND = "move";
+    public static final String REINFORCEMENT_COMMAND = "reinforce";
     public static final String END_COMMAND = "end";
-    public static final String REINFORCEMENT_COMMAND = "reinforcement";
     public static final String EMPTY = "";
     public static final String HISTORY_COMMAND = "history";
+    public static final String SAVE_COMMAND = "save";
+    public static final String LOAD_COMMAND= "load";
+
 
     private final GameModel gameModel;
 
@@ -73,9 +76,11 @@ public class GameController implements ActionListener {
                 }
 
                 switch (state) {
+
                     case UNDECLARED, REINFORCEMENT -> reinforcementState(clickedCountry);
                     case ATTACK -> attackState(clickedCountry);
                     case MOVEMENT -> movementState(clickedCountry);
+
                 }
             }
         });
@@ -131,7 +136,6 @@ public class GameController implements ActionListener {
     public int getCurrentReinforcements() {
         return gameModel.getCurrentPlayerReinforcements();
     }
-
     public void reinforcementState(String clickedCountry) {
         state = State.REINFORCEMENT;
         try {
