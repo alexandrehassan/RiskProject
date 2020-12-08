@@ -25,8 +25,6 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
  * @version 27-10-2020
  */
 public class GameController implements ActionListener {
-    public static final String REINFORCEMENT_COMMAND = "reinforcements" ;
-
     public enum State {UNDECLARED, REINFORCEMENT, ATTACK, MOVEMENT}
 
     public static final String HELP_COMMAND = "help";
