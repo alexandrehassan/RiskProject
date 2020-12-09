@@ -39,7 +39,6 @@ public class GameController implements ActionListener {
     public static final String HISTORY_COMMAND = "history";
     public static final String SAVE_COMMAND = "save";
     public static final String LOAD_GAME_COMMAND = "load";
-    public static final String LOAD_MAP_COMMAND= "loadMap";
 
 
     private final GameModel gameModel;
@@ -68,7 +67,7 @@ public class GameController implements ActionListener {
             public void mousePressed(MouseEvent e) {
                 Object cell = gameBoard.getCellAt(e.getX(), e.getY());
                 if (!(cell instanceof mxCell)) {
-                    System.out.println("Not a cell");
+                    //System.out.println("Not a cell");
                     return;
                 }
 
@@ -121,16 +120,6 @@ public class GameController implements ActionListener {
             case HISTORY_COMMAND -> historyCommand();
             case LOAD_GAME_COMMAND -> loadCommand();
             case SAVE_COMMAND -> saveCommand();
-            case LOAD_MAP_COMMAND -> loadMapCommand();
-        }
-    }
-
-    private void createNewGame() {
-        if (gameModel.userCreateGame()) {
-            setEmpty();
-            System.out.println(gameModel.getCurrentPlayer().getName());
-            gameModel.nextPlayer();
-            this.state = State.REINFORCEMENT;
         }
     }
 
@@ -201,6 +190,33 @@ public class GameController implements ActionListener {
                 "Confirm",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             gameModel.resetModel();
             createNewGame();
+        }
+    }
+
+    private void createNewGame() {
+        Object[] choices = {"Default Map", "Custom Map", "Cancel"};
+        int option = JOptionPane.showOptionDialog(null,
+                "Choose your map",
+                "New Game",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                choices,
+                choices[2]);
+        
+        if (option == 1) 
+            loadMap();
+         else if (option == 2) 
+            return;
+        
+        if (gameModel.userCreateGame()) {
+            try {
+                setEmpty();
+                gameModel.nextPlayer();
+                this.state = State.REINFORCEMENT;
+            }catch (Exception e){
+
+            }
         }
     }
 
@@ -278,16 +294,20 @@ public class GameController implements ActionListener {
         if(selectedFile==null)
             return;
         GameModel model= XML.loadGame(selectedFile);
+        if(model ==null){
+            JOptionPane.showMessageDialog(null, "file doesn't represent a valid save file");
+            return;
+        }
         GameFrame gameFrame= new GameFrame("test", model);
         model.addGameView(gameFrame);
         model.loadGame();
     }
     private void saveCommand() {
         String filename = JOptionPane.showInputDialog("Name of Save File");
-        XML.saveGame(gameModel);
+        XML.saveGame(filename, gameModel);
     }
 
-    private void loadMapCommand() {
+    private void loadMap() {
         File selectedFile = null;
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
@@ -298,7 +318,13 @@ public class GameController implements ActionListener {
         }
         if(selectedFile==null)
             return;
-        gameModel.setMap(XML.mapFromXML2(selectedFile));
+        Map map = XML.mapFromXML(selectedFile);
+        if (map ==null){
+            JOptionPane.showMessageDialog(null, "file doesn't represent a valid map file");
+            return;
+        }
+        gameModel.setMap(map);
+//        createNewGame();
     }
 
 

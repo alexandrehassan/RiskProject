@@ -42,8 +42,6 @@ public class GameFrame extends JFrame implements GameView {
     private mxGraph graph;
     private JMenuItem showHistory;
     private JMenuItem saveGame;
-    private JMenu gameMenu;
-    private JMenuItem loadMap;
 
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
@@ -239,7 +237,6 @@ public class GameFrame extends JFrame implements GameView {
         }
         showHistory.setEnabled(false);
         saveGame.setEnabled(true);
-        loadMap.setEnabled(true);
 
     }
 
@@ -257,18 +254,12 @@ public class GameFrame extends JFrame implements GameView {
 
         JMenuItem loadGame = new JMenuItem("Load Game");
         loadGame.addActionListener(gameController);
-        loadGame.setActionCommand(gameController.LOAD_GAME_COMMAND);
+        loadGame.setActionCommand(GameController.LOAD_GAME_COMMAND);
         gameMenu.add(loadGame);
-
-        loadMap = new JMenuItem("Load map");
-        loadMap.addActionListener(gameController);
-        loadMap.setActionCommand(gameController.LOAD_MAP_COMMAND);
-        loadMap.setEnabled(true);
-        gameMenu.add(loadMap);
 
         saveGame = new JMenuItem("Save Game");
         saveGame.addActionListener(gameController);
-        saveGame.setActionCommand(gameController.SAVE_COMMAND);
+        saveGame.setActionCommand(GameController.SAVE_COMMAND);
         saveGame.setEnabled(true);
         gameMenu.add(saveGame);
 
@@ -292,7 +283,7 @@ public class GameFrame extends JFrame implements GameView {
     /**
      * Should return the board (just voided now so no errors), created
      * in this method:
-     * @param map
+     * @param map the map to be displayed
      */
     private mxGraphComponent createBoard(Map map) {
         this.graph = new mxGraph();
@@ -408,7 +399,6 @@ public class GameFrame extends JFrame implements GameView {
 
         showHistory.setEnabled(true);
         saveGame.setEnabled(false);
-        loadMap.setEnabled(false);
     }
 
     /**
@@ -571,8 +561,6 @@ public class GameFrame extends JFrame implements GameView {
 
 
     public static void main(String[] args) {
-        File f = new File("Risk/images/images.jpg");
-        System.out.println(f.exists());
         new GameFrame("The game of RISK");
     }
 }
