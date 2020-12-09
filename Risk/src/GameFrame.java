@@ -159,7 +159,7 @@ public class GameFrame extends JFrame implements GameView {
             b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
         }
         showHistory.setEnabled(false);
-        saveGame.setEnabled(true);
+        saveGame.setEnabled(false);
 
     }
 
@@ -183,7 +183,7 @@ public class GameFrame extends JFrame implements GameView {
         saveGame = new JMenuItem("Save Game");
         saveGame.addActionListener(gameController);
         saveGame.setActionCommand(GameController.SAVE_COMMAND);
-        saveGame.setEnabled(true);
+        saveGame.setEnabled(false);
         gameMenu.add(saveGame);
 
         menuBar.add(gameMenu);
@@ -321,7 +321,7 @@ public class GameFrame extends JFrame implements GameView {
         updateColors(gameModel.getPlayers());
 
         showHistory.setEnabled(true);
-        saveGame.setEnabled(false);
+        saveGame.setEnabled(true);
     }
 
     /**

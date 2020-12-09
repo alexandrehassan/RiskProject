@@ -283,14 +283,7 @@ public class GameController implements ActionListener {
     }
     
     private void loadCommand() {
-        File selectedFile = null;
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "XML"));
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-        }
+        File selectedFile = selectFile();
         if(selectedFile==null)
             return;
         GameModel model= XML.loadGame(selectedFile);
@@ -308,14 +301,7 @@ public class GameController implements ActionListener {
     }
 
     private void loadMap() {
-        File selectedFile = null;
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "XML"));
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-        }
+        File selectedFile = selectFile();
         if(selectedFile==null)
             return;
         Map map = XML.mapFromXML(selectedFile);
@@ -324,8 +310,23 @@ public class GameController implements ActionListener {
             return;
         }
         gameModel.setMap(map);
-//        createNewGame();
     }
 
+    /**
+     * Method that prompts the user to select a XML file
+     * @return the file the user selected.
+     */
+    private File selectFile(){
+        File selectedFile = null;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "XML"));
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile();
+        }
+
+        return selectedFile;
+    }
 
 }
