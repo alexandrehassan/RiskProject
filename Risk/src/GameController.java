@@ -271,7 +271,7 @@ public class GameController implements ActionListener {
     }
     private void saveCommand() {
         String filename = JOptionPane.showInputDialog("Name of Save File");
-        XML.saveGame(filename, gameModel);
+        XML.saveGame(gameModel);
     }
 
 }
