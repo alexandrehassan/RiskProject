@@ -25,7 +25,7 @@ import java.util.HashMap;
 public class XML {
 
     private static final String MAP_TAG = "map";
-    private static final String CONTINENT_TAG = "Continent";
+    private static final String CONTINENT_TAG = "continent";
     private static final String CONTINENT_NAME_TAG = "continentName";
     private static final String CONTINENT_REINFORCEMENTS_TAG = "continentReinforcements";
     private static final String COUNTRY_TAG = "country";
@@ -479,7 +479,7 @@ public class XML {
 
     public static void main(String[] args) {
         //mapToXML(new Map());
-        //mapFromXML("newMap.xml");
+        //mapFromXML("defaultMap.xml");
         Map map = fileChooser();
         System.out.println("this worked");
 

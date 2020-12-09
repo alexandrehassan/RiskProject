@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <continents>
-    <Continent>
+    <continent>
         <continentName>Hobbiton</continentName>
         <continentReinforcements>4</continentReinforcements>
-        <continentColor>#ff9000</continentColor>
+        <continentColor>#0E884D</continentColor>
         <country>
             <countryName>The Shire</countryName>
             <X>70</X>
@@ -46,11 +46,11 @@
                 <neighbor>The Shire</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Gondor</continentName>
         <continentReinforcements>3</continentReinforcements>
-        <continentColor>#ffd000</continentColor>
+        <continentColor>#4D88C5</continentColor>
         <country>
             <countryName>Gondor</countryName>
             <X>480</X>
@@ -83,11 +83,11 @@
                 <neighbor>Minas Tirith</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Rohan</continentName>
         <continentReinforcements>3</continentReinforcements>
-        <continentColor>#ffa500</continentColor>
+        <continentColor>#ECF3AA</continentColor>
         <country>
             <countryName>Rohan</countryName>
             <X>230</X>
@@ -120,11 +120,11 @@
                 <neighbor>Rohan</neighbor>,
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Mordor</continentName>
         <continentReinforcements>4</continentReinforcements>
-        <continentColor>#ffba00</continentColor>
+        <continentColor>#0C0D02</continentColor>
         <country>
             <countryName>Mordor</countryName>
             <X>770</X>
@@ -169,11 +169,11 @@
                 <neighbor>Mordor</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Mirkwood</continentName>
         <continentReinforcements>5</continentReinforcements>
-        <continentColor>#ff7b00</continentColor>
+        <continentColor>#4B0686</continentColor>
         <country>
             <countryName>Lorien</countryName>
             <X>380</X>
@@ -227,11 +227,11 @@
                 <neighbor>Mirkwood</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Erebor</continentName>
         <continentReinforcements>3</continentReinforcements>
-        <continentColor>#ff6500</continentColor>
+        <continentColor>#BCB9BB</continentColor>
         <country>
             <countryName>Erebor</countryName>
             <X>580</X>
@@ -264,5 +264,5 @@
                 <neighbor>Dark Tower</neighbor>
             </neighbors>
         </country>
-    </Continent>
+    </continent>
 </continents>
