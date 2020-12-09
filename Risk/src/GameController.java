@@ -38,7 +38,8 @@ public class GameController implements ActionListener {
     public static final String EMPTY = "";
     public static final String HISTORY_COMMAND = "history";
     public static final String SAVE_COMMAND = "save";
-    public static final String LOAD_COMMAND= "load";
+    public static final String LOAD_GAME_COMMAND = "load";
+    public static final String LOAD_MAP_COMMAND= "loadMap";
 
 
     private final GameModel gameModel;
@@ -118,11 +119,11 @@ public class GameController implements ActionListener {
             case MOVE_COMMAND -> moveCommand();
             case END_COMMAND -> endCommand();
             case HISTORY_COMMAND -> historyCommand();
-            case LOAD_COMMAND -> loadCommand();
+            case LOAD_GAME_COMMAND -> loadCommand();
             case SAVE_COMMAND -> saveCommand();
+            case LOAD_MAP_COMMAND -> loadMapCommand();
         }
     }
-
 
     private void createNewGame() {
         if (gameModel.userCreateGame()) {
@@ -285,5 +286,20 @@ public class GameController implements ActionListener {
         String filename = JOptionPane.showInputDialog("Name of Save File");
         XML.saveGame(gameModel);
     }
+
+    private void loadMapCommand() {
+        File selectedFile = null;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "XML"));
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile();
+        }
+        if(selectedFile==null)
+            return;
+        gameModel.setMap(XML.mapFromXML2(selectedFile));
+    }
+
 
 }

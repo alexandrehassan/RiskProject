@@ -161,6 +161,7 @@ public class XML {
             e.printStackTrace();
         }
     }
+
     /**
      * Creates a map from an XML file.
      * @param filename the filename of the MAP
@@ -239,6 +240,7 @@ public class XML {
         }
         return new Map(countries, continents, positionsCountries);
     }
+
     /**
      * Creates a map from an XML file.
      * @param inputFile the file
@@ -260,7 +262,6 @@ public class XML {
             NodeList continentNodes = doc.getElementsByTagName(CONTINENT_TAG);
             for (int temp = 0; temp < continentNodes.getLength(); temp++) {
                 Node continentNode = continentNodes.item(temp);
-
                 if (continentNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element continentElem = (Element) continentNode;
                     String continentName =continentElem.getElementsByTagName(CONTINENT_NAME_TAG).item(0).getTextContent();
