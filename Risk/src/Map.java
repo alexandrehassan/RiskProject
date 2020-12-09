@@ -121,11 +121,4 @@ public class Map {
         }
     }
 
-//    public static void main(String[] args) {
-//        Map myMap = XML.mapFromXML(new File("CanadaMap.xml"));
-//        if (myMap.checkMapValidity())
-//            System.out.println("All are accessible");
-//        else
-//            System.out.println("Not all are accessible");
-//    }
 }

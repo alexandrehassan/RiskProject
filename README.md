@@ -4,9 +4,9 @@
 **THE JAR FILE IS COMPILED AND MUST BE RUN IN JAVA 15**
 
 The deliverables for Milestone 3 include an executable JAR file with source files included, JUnit tests for game scenarios, 4 sample XML maps, 2 sample saved games, a UML class diagram, 
-6 UML sequence diagrams,and a document that describes the data structures that were used in this implementation, as well as the changes made from the last Milestone, 
+5 UML sequence diagrams,and a document that describes the data structures that were used in this implementation, as well as the changes made from the last Milestone, 
 and this READMe. The UML class diagram shows the relationships between the classes, while the sequence diagrams demonstrate
-important events such as; saving a game, loading a game, loading a custom map, an AI Player turn, AI reinforcements, and an AI Player attack
+important events such as; saving a game, loading a game, an AI Player turn, AI reinforcements, and an AI Player attack
 
 #### User Manual
 - To start game click game menu bar item and click start game 
