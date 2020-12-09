@@ -190,7 +190,7 @@ public class GameModel {
             return false;
         }
         resetView();
-        generateGame();
+        gameStarted=true;
         updateGameViewsStart();
         updateState();
         return true;
@@ -211,7 +211,7 @@ public class GameModel {
 
         //Assign countries to players (shuffle order)
         if(map==null)
-            map = this.map = XML.mapFromXML("newMap.xml");
+             this.map = XML.mapFromXML("newMap.xml");
 
         //Assign countries randomly
         ArrayList<String> countryKeysArrayList = map.getShuffledKeys();

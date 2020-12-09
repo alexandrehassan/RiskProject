@@ -343,7 +343,6 @@ public class XML {
                 for(int countryIndex = 0; countryIndex<countryNodes.getLength();countryIndex++){
 
                     Node countryNode = countryNodes.item(countryIndex);
-//                        System.out.println("countryNode NodeName " + countryNode.getNodeName());
 
                     if(countryNode.getNodeType() == Node.ELEMENT_NODE){
                         Element countryElem = (Element) countryNode;
@@ -354,24 +353,17 @@ public class XML {
                         countries.put(newCountry.getName(), newCountry);
                         positionsCountries.put(newCountry, new Point(Integer.parseInt(countryElem.getElementsByTagName(X_TAG).item(0).getTextContent()),
                                 Integer.parseInt(countryElem.getElementsByTagName(Y_TAG).item(0).getTextContent())));
-
-//                            System.out.println(countryElem.getElementsByTagName(COUNTRY_NAME_TAG).item(0).getTextContent());
-//                            System.out.println("troops " + countryElem.getElementsByTagName(TROOPS_TAG).item(0).getTextContent());
                         NodeList neighborsNodes = countryElem.getElementsByTagName(NEIGHBORS_TAG);
                         ArrayList<String> neighborList = new ArrayList<>();
                         for(int neighborIndex = 0; neighborIndex<neighborsNodes.getLength(); neighborIndex++){
                             Node neighborNode = neighborsNodes.item(neighborIndex);
-//                                System.out.println("neighborNode NodeName"+ neighborNode.getNodeName());
                             if(neighborNode.getNodeType() == Node.ELEMENT_NODE){
                                 Element neighborElem = (Element) neighborNode;
                                 NodeList neighbors = neighborElem.getElementsByTagName(NEIGHBOR_TAG);
                                 for(int i = 0; i< neighbors.getLength(); i++){
-//                                         System.out.println("\t"+neighbors.item(i).getTextContent());
                                     neighborList.add(neighbors.item(i).getTextContent());
                                 }
-
                             }
-
                         }
                         countryNeighborMap.put(newCountry,neighborList);
                     }
@@ -386,7 +378,7 @@ public class XML {
                 country.addNeighbor(countries.get(neighbor));
             }
         }
-        return new Map(countries,continents, positionsCountries);
+        return new Map(countries, continents, positionsCountries);
     }
 
     public static GameModel loadGame(File inputFile) {
@@ -396,20 +388,20 @@ public class XML {
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
             //gives a map object back
-            Map map = mapMaker(doc.getElementsByTagName(MAP_TAG));
+            Map map = mapMaker(doc.getElementsByTagName(CONTINENT_TAG));
 
             ArrayList<Player> players = new ArrayList<>();
             HashMap<String, ArrayList<Country>> AiPlayers = new HashMap<>();
 
-            NodeList playerNodes = doc.getElementsByTagName("player");
+            NodeList playerNodes = doc.getElementsByTagName(PLAYER_TAG);
             for (int playerIndex = 0; playerIndex < playerNodes.getLength(); playerIndex++) {
                 Node playerNode = playerNodes.item(playerIndex);
 
                 if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element playerElem = (Element) playerNode;
-                    Player player = new Player(playerElem.getElementsByTagName("playerName").item(0).getTextContent());
+                    Player player = new Player(playerElem.getElementsByTagName(PLAYER_NAME_TAG).item(0).getTextContent());
 
-                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
+                    NodeList playerOwnedCountries = playerElem.getElementsByTagName(PLAYER_OWNED_TAG);
                     for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
                         player.addCountry(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
                     }
@@ -417,16 +409,16 @@ public class XML {
                 }
             }
 
-            NodeList AINodes = doc.getElementsByTagName("AIplayer");
+            NodeList AINodes = doc.getElementsByTagName(AIPLAYER_TAG);
             ArrayList<Country> AiCountries;
             for (int AIIndex = 0; AIIndex < AINodes.getLength(); AIIndex++) {
                 Node playerNode = AINodes.item(AIIndex);
 
                 if (playerNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element playerElem = (Element) playerNode;
-                    String playerName = playerElem.getElementsByTagName("playerName").item(0).getTextContent();
+                    String playerName = playerElem.getElementsByTagName(PLAYER_NAME_TAG).item(0).getTextContent();
 
-                    NodeList playerOwnedCountries = playerElem.getElementsByTagName("playerOwned");
+                    NodeList playerOwnedCountries = playerElem.getElementsByTagName(PLAYER_OWNED_TAG);
                     AiCountries = new ArrayList<>();
                     for (int countryIndex = 0; countryIndex < playerOwnedCountries.getLength(); countryIndex++) {
                         AiCountries.add(map.getCountry(playerOwnedCountries.item(countryIndex).getTextContent()));
@@ -435,8 +427,8 @@ public class XML {
                 }
             }
 
-            String history = doc.getElementsByTagName("history").item(0).getTextContent();
-            String currentPlayerName = doc.getElementsByTagName("currentPlayer").item(0).getTextContent();
+            String history = doc.getElementsByTagName(HISTORY_TAG).item(0).getTextContent();
+            String currentPlayerName = doc.getElementsByTagName(CURRENT_PLAYER_TAG).item(0).getTextContent();
             System.out.println(currentPlayerName);
             Player currentPlayer = null;
 
