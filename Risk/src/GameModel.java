@@ -193,6 +193,8 @@ public class GameModel {
         gameStarted=true;
         updateGameViewsStart();
         updateState();
+        updatePlayerTurn(currentPlayer.getName());
+        updateGameViewsTurnState(GameController.State.REINFORCEMENT);
         return true;
     }
     /**
@@ -762,4 +764,6 @@ public class GameModel {
         if(!gameStarted)
             this.history = history;
     }
+
+
 }

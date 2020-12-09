@@ -42,7 +42,7 @@ public class XML {
     private static final String CURRENT_PLAYER_TAG = "currentPlayer";
     private static final String HISTORY_TAG = "history";
     private static final String CONTINENT_COLOR_TAG = "continentColor";
-    private static final String DEFAULT_MAP_FILENAME = "defaultMap.xml";
+    private static final String DEFAULT_MAP_FILENAME = "maps/defaultMap.xml";
 
     /**
      * Returns the default map.
@@ -125,7 +125,7 @@ public class XML {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(filename+ ".xml"));
+            StreamResult result = new StreamResult(new File("Saves/"+filename+ ".xml"));
             transformer.transform(source, result);
 
         } catch (Exception e) {
