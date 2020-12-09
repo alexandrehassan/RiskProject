@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,21 +31,6 @@ public class Map {
         this.positionsCountries = positionsCountries;
     }
 
-
-    /**
-     * Gets the country objects for all the countries with the given names.
-     *
-     * @param toGet an Array containing the names of every country to return
-     * @return an array of country objects.
-     */
-    private ArrayList<Country> getCountries(String[] toGet) {
-        ArrayList<Country> found = new ArrayList<>();
-        for (String countryString : toGet) {
-            found.add(countries.get(countryString));
-        }
-        return found;
-    }
-
     /**
      * Gives the country object of the country with the given name.
      *
@@ -73,18 +57,6 @@ public class Map {
         return continentArrayList;
     }
 
-    /**
-     * Gives the continent object of the country with the given name.
-     *
-     * @param name the name of the continent
-     * @return the continent object with the correct name.
-     * @throws IllegalArgumentException if there is no continent with name name.
-     */
-    public Continent getContinent(String name) {
-        Continent continent = continents.get(name);
-        if (continent != null) return continent;
-        throw new IllegalArgumentException(name + " is not a valid continent");
-    }
 
     /**
      * Shuffles the keys of the countries and returns them as an array.

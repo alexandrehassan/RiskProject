@@ -77,7 +77,7 @@ public class XML {
 
     /**
      * Makes a XML file representing the Gamemodel.
-     * @param filename
+     * @param filename the name of the save file.
      * @param model the model to be translated into XML
      */
     public static void saveGame(String filename, GameModel model) {
@@ -350,7 +350,11 @@ public class XML {
                 country.addNeighbor(countries.get(neighbor));
             }
         }
-        return new Map(countries, continents, positionsCountries);
+        Map map = new Map(countries, continents, positionsCountries);
+        if(!map.checkMapValidity()){
+            map  =null;
+        }
+        return  map;
     }
 
 }
