@@ -215,7 +215,6 @@ public class Player {
      * Actions to be done automatically for a turn.
      */
     public void playTurn() {
-
     }
 
     /**

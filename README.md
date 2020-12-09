@@ -1,15 +1,17 @@
-# SYSC 3110 FALL 2020: RiskProject Milestone 3
+# SYSC 3110 FALL 2020: RiskProject Milestone 4
 ### Team: Group
 ###### Author: Baillie Noell
 **THE JAR FILE IS COMPILED AND MUST BE RUN IN JAVA 15**
 
-The deliverables for Milestone 3 include an executable JAR file with source files included, JUnit tests for game scenarios, a UML class diagram, 
-7 UML sequence diagrams,and a document that describes the data structures that were used in this implementation, as well as the changes made from the last Milestone, 
+The deliverables for Milestone 3 include an executable JAR file with source files included, JUnit tests for game scenarios, 4 sample XML maps, 2 sample saved games, a UML class diagram, 
+5 UML sequence diagrams,and a document that describes the data structures that were used in this implementation, as well as the changes made from the last Milestone, 
 and this READMe. The UML class diagram shows the relationships between the classes, while the sequence diagrams demonstrate
-important events such as; troop movement, placing reinforcements, attacking, and scenarios for the AI player such as; an AI turn, AI troop movement, AI reinforcements, and an AI attack.
+important events such as; saving a game, loading a game, an AI Player turn, AI reinforcements, and an AI Player attack
 
 #### User Manual
 - To start game click game menu bar item and click start game 
+- To play with the standard Risk map, click "Default Map"
+- To play with a custom map, click "Custom Map" and select the map from the file selector. Our sample custom maps are under "Maps" directory
 - Add all the player names and click okay
 - An AI Player can be set by clicking the computer player check box under the name field 
 - A list of countries owned by each player can be seen in the player boxes at the side along with the number of troops in each
@@ -25,15 +27,20 @@ important events such as; troop movement, placing reinforcements, attacking, and
 - When it is an AI Players turn, their turn will be completed automatically, and the turn will pass to the next human player
 - To view past turns, including moves made by an AI player, select the view history menu option
 
+- At any point a game can be saved by clicking "Save Game" under the "Game" menu
+- Enter the name of the saved game. The game will be saved under the "Saves" directory
+- To load a saved game click "Load Game" under the "Game" menu
+- Select the saved game to load in the file picker. We have provided 2 saved games to test.
+
 #### Improvements to be implemented  
-- The graph creation will become more streamlined, in preparation for the automation of custom board creation for Milestone 4
-- Trying to attack with a country that does not have enough troops will alert the player when clicked instead of when the attack happens forcing the player to restart the attack
+- Nothing, the project is done!
 
 ### Known Bugs
-- At the beginning of a game, for a currently unknown reason, a null player will begin the game. The current solution is to place the reinforcements on any country, and then end turn to move to the next real player.
+- None that are currently known
 
 #### Roadmap Ahead:
-For Milestone 4 we will be implementing the save/load feature as well as the option to import a custom map. 
+- Nothing!
+- Thank you for a great semester Michael and Dr. Esfandiari!
 
 
 
