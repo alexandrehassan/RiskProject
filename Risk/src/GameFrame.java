@@ -1,4 +1,3 @@
-import com.mxgraph.layout.mxFastOrganicLayout;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
@@ -44,6 +43,7 @@ public class GameFrame extends JFrame implements GameView {
     private JMenuItem showHistory;
     private JMenuItem saveGame;
     private JMenu gameMenu;
+    private JMenuItem loadMap;
 
 
     public static final String VERTEX_STYLE = "shape=ellipse;whiteSpace=wrap;strokeWidth=4";
@@ -238,7 +238,8 @@ public class GameFrame extends JFrame implements GameView {
             b.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
         }
         showHistory.setEnabled(false);
-        saveGame.setEnabled(false);
+        saveGame.setEnabled(true);
+        loadMap.setEnabled(true);
 
     }
 
@@ -256,13 +257,19 @@ public class GameFrame extends JFrame implements GameView {
 
         JMenuItem loadGame = new JMenuItem("Load Game");
         loadGame.addActionListener(gameController);
-        loadGame.setActionCommand(gameController.LOAD_COMMAND);
+        loadGame.setActionCommand(gameController.LOAD_GAME_COMMAND);
         gameMenu.add(loadGame);
+
+        loadMap = new JMenuItem("Load map");
+        loadMap.addActionListener(gameController);
+        loadMap.setActionCommand(gameController.LOAD_MAP_COMMAND);
+        loadMap.setEnabled(true);
+        gameMenu.add(loadMap);
 
         saveGame = new JMenuItem("Save Game");
         saveGame.addActionListener(gameController);
         saveGame.setActionCommand(gameController.SAVE_COMMAND);
-        saveGame.setEnabled(false);
+        saveGame.setEnabled(true);
         gameMenu.add(saveGame);
 
         menuBar.add(gameMenu);
@@ -400,7 +407,8 @@ public class GameFrame extends JFrame implements GameView {
         updateColors(gameModel.getPlayers());
 
         showHistory.setEnabled(true);
-        saveGame.setEnabled(true);
+        saveGame.setEnabled(false);
+        loadMap.setEnabled(false);
     }
 
     /**

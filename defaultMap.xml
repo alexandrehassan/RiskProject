@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <continents>
-    <Continent>
+    <continent>
         <continentName>North America</continentName>
         <continentReinforcements>5</continentReinforcements>
         <continentColor>#ff9000</continentColor>
@@ -110,8 +110,8 @@
                 <neighbor>Eastern United States</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>South America</continentName>
         <continentReinforcements>2</continentReinforcements>
         <continentColor>#ffd000</continentColor>
@@ -159,8 +159,8 @@
                 <neighbor>Peru</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Africa</continentName>
         <continentReinforcements>3</continentReinforcements>
         <continentColor>#ffa500</continentColor>
@@ -235,8 +235,8 @@
                 <neighbor>East Africa</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Asia</continentName>
         <continentReinforcements>7</continentReinforcements>
         <continentColor>#ffba00</continentColor>
@@ -387,8 +387,8 @@
                 <neighbor>Siberia</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Australia</continentName>
         <continentReinforcements>2</continentReinforcements>
         <continentColor>#ff7b00</continentColor>
@@ -435,8 +435,8 @@
                 <neighbor>New Guinea</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Europe</continentName>
         <continentReinforcements>5</continentReinforcements>
         <continentColor>#ff6500</continentColor>
@@ -529,5 +529,5 @@
                 <neighbor>North Africa</neighbor>
             </neighbors>
         </country>
-    </Continent>
+    </continent>
 </continents>
