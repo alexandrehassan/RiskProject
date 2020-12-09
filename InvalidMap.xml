@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<continents>
+    <continent>
+        <continentName>Unnecessary</continentName>
+        <continentReinforcements>5</continentReinforcements>
+        <continentColor>#FA8072</continentColor>
+        <country>
+            <countryName>Newfoundland</countryName>
+            <X>950</X>
+            <Y>325</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Labrador</neighbor>
+                <neighbor>Nova Scotia</neighbor>
+                <neighbor>New Brunswick</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Labrador</countryName>
+            <X>825</X>
+            <Y>275</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Newfoundland</neighbor>
+                <neighbor>Nova Scotia</neighbor>
+                <neighbor>New Brunswick</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Nova Scotia</countryName>
+            <X>900</X>
+            <Y>525</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Newfoundland</neighbor>
+                <neighbor>Labrador</neighbor>
+                <neighbor>New Brunswick</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>New Brunswick</countryName>
+            <X>825</X>
+            <Y>475</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Newfoundland</neighbor>
+                <neighbor>Labrador</neighbor>
+                <neighbor>Nova Scotia</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Prince Edward Island</countryName>
+            <X>875</X>
+            <Y>400</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Prince Edward Island</neighbor>
+            </neighbors>
+        </country>
+    </continent>
+</continents>
