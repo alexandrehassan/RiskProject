@@ -434,8 +434,14 @@ public class XML {
 
             GameModel model = new GameModel();
 
+            AIPlayer aiPlayer;
             for (String playerName : AiPlayers.keySet()) {
-                players.add(new AIPlayer(playerName, model));
+                aiPlayer = new AIPlayer(playerName, model);
+                for(Country c : AiPlayers.get(playerName)){
+                    aiPlayer.addCountry(c);
+                }
+                players.add(aiPlayer);
+
             }
 
             for (Player player : players) {
