@@ -22,11 +22,6 @@ public class AIPlayer extends Player {
         this.model = gameModel;
     }
 
-    public void setModel(GameModel model){
-        this.model=model;
-
-    }
-
     @Override
     public void handleError(Exception e) {
         //TODO
