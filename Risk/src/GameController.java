@@ -54,6 +54,9 @@ public class GameController implements ActionListener {
      */
     public GameController(GameModel gm) {
         this.gameModel = gm;
+        this.state = State.REINFORCEMENT;
+        from = "";
+        to = "";
     }
 
     /**
