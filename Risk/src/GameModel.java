@@ -193,6 +193,7 @@ public class GameModel {
         gameStarted=true;
         updateGameViewsStart();
         updateState();
+        updatePlayerTurn(currentPlayer.getName());
         updateGameViewsTurnState(GameController.State.REINFORCEMENT);
         return true;
     }
