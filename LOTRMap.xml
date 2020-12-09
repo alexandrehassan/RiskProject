@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<continents>
+    <Continent>
+        <continentName>Hobbiton</continentName>
+        <continentReinforcements>4</continentReinforcements>
+        <continentColor>#ff9000</continentColor>
+        <country>
+            <countryName>The Shire</countryName>
+            <X>70</X>
+            <Y>175</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Old Forest</neighbor>
+                <neighbor>Hobbiton</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Old Forest</countryName>
+            <X>120</X>
+            <Y>110</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Hobbiton</neighbor>
+                <neighbor>The Shire</neighbor>
+                <neighbor>Bree</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Bree</countryName>
+            <X>180</X>
+            <Y>170</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Old Forest</neighbor>
+                <neighbor>Moria</neighbor>
+                <neighbor>Misty Mountains</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Hobbiton</countryName>
+            <X>30</X>
+            <Y>90</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Old Forest</neighbor>
+                <neighbor>The Shire</neighbor>
+            </neighbors>
+        </country>
+    </Continent>
+    <Continent>
+        <continentName>Gondor</continentName>
+        <continentReinforcements>3</continentReinforcements>
+        <continentColor>#ffd000</continentColor>
+        <country>
+            <countryName>Gondor</countryName>
+            <X>480</X>
+            <Y>500</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Rohan</neighbor>
+                <neighbor>Endoras</neighbor>
+                <neighbor>Minas Tirith</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Minas Tirith</countryName>
+            <X>560</X>
+            <Y>420</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Endoras</neighbor>
+                <neighbor>Gondor</neighbor>
+                <neighbor>Minas Morgul</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Endoras</countryName>
+            <X>460</X>
+            <Y>410</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Gondor</neighbor>
+                <neighbor>Minas Tirith</neighbor>
+            </neighbors>
+        </country>
+    </Continent>
+    <Continent>
+        <continentName>Rohan</continentName>
+        <continentReinforcements>3</continentReinforcements>
+        <continentColor>#ffa500</continentColor>
+        <country>
+            <countryName>Rohan</countryName>
+            <X>230</X>
+            <Y>410</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Gondor</neighbor>
+                <neighbor>Fangorn Forest</neighbor>
+                <neighbor>Helms Deep</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Helms Deep</countryName>
+            <X>130</X>
+            <Y>340</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Fangorn Forest</neighbor>
+                <neighbor>Rohan</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Fangorn Forest</countryName>
+            <X>220</X>
+            <Y>320</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>The Shire</neighbor>
+                <neighbor>Helms Deep</neighbor>
+                <neighbor>Rohan</neighbor>,
+            </neighbors>
+        </country>
+    </Continent>
+    <Continent>
+        <continentName>Mordor</continentName>
+        <continentReinforcements>4</continentReinforcements>
+        <continentColor>#ffba00</continentColor>
+        <country>
+            <countryName>Mordor</countryName>
+            <X>770</X>
+            <Y>360</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Minas Morgul</neighbor>
+                <neighbor>Mount Doom</neighbor>
+                <neighbor>Dark Tower</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Mount Doom</countryName>
+            <X>670</X>
+            <Y>360</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Dark Tower</neighbor>
+                <neighbor>Mordor</neighbor>
+                <neighbor>Minas Morgul</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Dark Tower</countryName>
+            <X>720</X>
+            <Y>300</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Mount Doom</neighbor>
+                <neighbor>Mordor</neighbor>
+                <neighbor>Iron Hills</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Minas Morgul</countryName>
+            <X>720</X>
+            <Y>420</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Minas Tirith</neighbor>
+                <neighbor>Mount Doom</neighbor>
+                <neighbor>Mordor</neighbor>
+            </neighbors>
+        </country>
+    </Continent>
+    <Continent>
+        <continentName>Mirkwood</continentName>
+        <continentReinforcements>5</continentReinforcements>
+        <continentColor>#ff7b00</continentColor>
+        <country>
+            <countryName>Lorien</countryName>
+            <X>380</X>
+            <Y>220</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Mirkwood</neighbor>
+                <neighbor>Moria</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Mirkwood</countryName>
+            <X>380</X>
+            <Y>140</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Misty Mountains</neighbor>
+                <neighbor>Lorien</neighbor>
+                <neighbor>Elvenking Halls</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Elvenking Halls</countryName>
+            <X>470</X>
+            <Y>90</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Mirkwood</neighbor>
+                <neighbor>Erebor</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Moria</countryName>
+            <X>300</X>
+            <Y>200</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Bree</neighbor>
+                <neighbor>Misty Mountains</neighbor>
+                <neighbor>Lorien</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Misty Mountains</countryName>
+            <X>300</X>
+            <Y>120</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Bree</neighbor>
+                <neighbor>Moria</neighbor>
+                <neighbor>Mirkwood</neighbor>
+            </neighbors>
+        </country>
+    </Continent>
+    <Continent>
+        <continentName>Erebor</continentName>
+        <continentReinforcements>3</continentReinforcements>
+        <continentColor>#ff6500</continentColor>
+        <country>
+            <countryName>Erebor</countryName>
+            <X>580</X>
+            <Y>80</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Elvenking Halls</neighbor>
+                <neighbor>Grey Mountains</neighbor>
+                <neighbor>Iron Hills</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Grey Mountains</countryName>
+            <X>660</X>
+            <Y>50</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Erebor</neighbor>
+                <neighbor>Iron Hills</neighbor>
+            </neighbors>
+        </country>
+        <country>
+            <countryName>Iron Hills</countryName>
+            <X>660</X>
+            <Y>130</Y>
+            <troops>1</troops>
+            <neighbors>
+                <neighbor>Erebor</neighbor>
+                <neighbor>Grey Mountains</neighbor>
+                <neighbor>Dark Tower</neighbor>
+            </neighbors>
+        </country>
+    </Continent>
+</continents>
