@@ -476,14 +476,4 @@ public class XML {
         return null;
     }
 
-
-    public static void main(String[] args) {
-        //mapToXML(new Map());
-        //mapFromXML("defaultMap.xml");
-        Map map = fileChooser();
-        System.out.println("this worked");
-
-    }
-
-
 }
