@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <continents>
-    <Continent>
+    <continent>
         <continentName>Maritimes</continentName>
         <continentReinforcements>6</continentReinforcements>
         <continentColor>#FA8072</continentColor>
@@ -60,8 +60,8 @@
                 <neighbor>Chicoutimi</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>West Coast</continentName>
         <continentReinforcements>6</continentReinforcements>
         <continentColor>#0B7441</continentColor>
@@ -135,8 +135,8 @@
                 <neighbor>Northern Saskatchewan</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Prairies</continentName>
         <continentReinforcements>5</continentReinforcements>
         <continentColor>#A3E4D7</continentColor>
@@ -188,8 +188,8 @@
                 <neighbor>Sudbury</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Territories</continentName>
         <continentReinforcements>4</continentReinforcements>
         <continentColor>#85C1E9</continentColor>
@@ -239,8 +239,8 @@
                 <neighbor>Northern Saskatchewan</neighbor>
             </neighbors>
         </country>
-    </Continent>
-    <Continent>
+    </continent>
+    <continent>
         <continentName>Eastern Canada</continentName>
         <continentReinforcements>7</continentReinforcements>
         <continentColor>#5B2C6F</continentColor>
@@ -310,5 +310,5 @@
                 <neighbor>Ottawa</neighbor>
             </neighbors>
         </country>
-    </Continent>
+    </continent>
 </continents>
