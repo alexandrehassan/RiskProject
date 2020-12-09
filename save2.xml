@@ -32,7 +32,7 @@
     </players>
     <currentPlayer>S</currentPlayer>
     <map>
-        <Continent>
+        <continent>
             <continentName>Mordor</continentName>
             <continentReinforcements>4</continentReinforcements>
             <continentColor>#ffba00</continentColor>
@@ -86,8 +86,8 @@
                     <neighbor>Mordor</neighbor>
                 </neighbors>
             </country>
-        </Continent>
-        <Continent>
+        </continent>
+        <continent>
             <continentName>Gondor</continentName>
             <continentReinforcements>3</continentReinforcements>
             <continentColor>#ffd000</continentColor>
@@ -128,8 +128,8 @@
                     <neighbor>Minas Tirith</neighbor>
                 </neighbors>
             </country>
-        </Continent>
-        <Continent>
+        </continent>
+        <continent>
             <continentName>Hobbiton</continentName>
             <continentReinforcements>4</continentReinforcements>
             <continentColor>#cc66ff</continentColor>
@@ -181,8 +181,8 @@
                     <neighbor>The Shire</neighbor>
                 </neighbors>
             </country>
-        </Continent>
-        <Continent>
+        </continent>
+        <continent>
             <continentName>Erebor</continentName>
             <continentReinforcements>3</continentReinforcements>
             <continentColor>#ff6500</continentColor>
@@ -221,8 +221,8 @@
                     <neighbor>Dark Tower</neighbor>
                 </neighbors>
             </country>
-        </Continent>
-        <Continent>
+        </continent>
+        <continent>
             <continentName>Mirkwood</continentName>
             <continentReinforcements>5</continentReinforcements>
             <continentColor>#ff7b00</continentColor>
@@ -286,8 +286,8 @@
                     <neighbor>Mirkwood</neighbor>
                 </neighbors>
             </country>
-        </Continent>
-        <Continent>
+        </continent>
+        <continent>
             <continentName>Rohan</continentName>
             <continentReinforcements>3</continentReinforcements>
             <continentColor>#ffa500</continentColor>
@@ -326,7 +326,7 @@
                     <neighbor>Rohan</neighbor>
                 </neighbors>
             </country>
-        </Continent>
+        </continent>
     </map>
     <history>
 
