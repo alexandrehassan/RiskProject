@@ -3,7 +3,7 @@
     <continent>
         <continentName>Hobbiton</continentName>
         <continentReinforcements>4</continentReinforcements>
-        <continentColor>#ff9000</continentColor>
+        <continentColor>#0E884D</continentColor>
         <country>
             <countryName>The Shire</countryName>
             <X>70</X>
@@ -50,7 +50,7 @@
     <continent>
         <continentName>Gondor</continentName>
         <continentReinforcements>3</continentReinforcements>
-        <continentColor>#ffd000</continentColor>
+        <continentColor>#4D88C5</continentColor>
         <country>
             <countryName>Gondor</countryName>
             <X>480</X>
@@ -87,7 +87,7 @@
     <continent>
         <continentName>Rohan</continentName>
         <continentReinforcements>3</continentReinforcements>
-        <continentColor>#ffa500</continentColor>
+        <continentColor>#ECF3AA</continentColor>
         <country>
             <countryName>Rohan</countryName>
             <X>230</X>
@@ -124,7 +124,7 @@
     <continent>
         <continentName>Mordor</continentName>
         <continentReinforcements>4</continentReinforcements>
-        <continentColor>#ffba00</continentColor>
+        <continentColor>#0C0D02</continentColor>
         <country>
             <countryName>Mordor</countryName>
             <X>770</X>
@@ -173,7 +173,7 @@
     <continent>
         <continentName>Mirkwood</continentName>
         <continentReinforcements>5</continentReinforcements>
-        <continentColor>#ff7b00</continentColor>
+        <continentColor>#4B0686</continentColor>
         <country>
             <countryName>Lorien</countryName>
             <X>380</X>
@@ -231,7 +231,7 @@
     <continent>
         <continentName>Erebor</continentName>
         <continentReinforcements>3</continentReinforcements>
-        <continentColor>#ff6500</continentColor>
+        <continentColor>#BCB9BB</continentColor>
         <country>
             <countryName>Erebor</countryName>
             <X>580</X>

@@ -211,7 +211,7 @@ public class GameModel {
 
         //Assign countries to players (shuffle order)
         if(map==null)
-             this.map = XML.mapFromXML("defaultMap.xml");
+             this.map = XML.mapFromXML("LOTRMap.xml");
 
         //Assign countries randomly
         ArrayList<String> countryKeysArrayList = map.getShuffledKeys();
