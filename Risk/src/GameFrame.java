@@ -144,6 +144,7 @@ public class GameFrame extends JFrame implements GameView {
 
     public void reset() {
         updateLine.setText("RISK: a multi-player game of world domination");
+        boardPanel.removeAll();
         setPlaceholder();
 
         for (int i = 0; i < playersInfo.size(); i++) {
