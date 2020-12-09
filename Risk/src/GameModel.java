@@ -210,7 +210,8 @@ public class GameModel {
         currentPlayer = players.get(ThreadLocalRandom.current().nextInt(0, players.size()));
 
         //Assign countries to players (shuffle order)
-        this.map = XML.mapFromXML("CanadaMap.xml");
+        if(map==null)
+            map = this.map = XML.mapFromXML("newMap.xml");
 
         //Assign countries randomly
         ArrayList<String> countryKeysArrayList = map.getShuffledKeys();
