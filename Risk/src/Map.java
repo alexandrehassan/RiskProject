@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -107,4 +108,52 @@ public class Map {
     public Point getPosition(Country country){
         return positionsCountries.get(country);
     }
+
+    /**
+     * Checks if the map is valid by ensuring that there exists a path between all countries
+     * @return true the map is valid, false if not
+     */
+    public boolean checkMapValidity () {
+        HashMap<String, Boolean> accessibleCountries = new HashMap<>();
+        String firstCountry = null;
+        for (String key: countries.keySet()) {
+            if (firstCountry == null)
+                firstCountry = key;
+            accessibleCountries.put(key, false);
+        }
+        accessibleCountries.put(firstCountry, true);
+        getAccessibleCountries(accessibleCountries, firstCountry);
+
+        for (String key: accessibleCountries.keySet()) {
+            if (!accessibleCountries.get(key))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Helper method that iteratively gets all countries that can be accessed by the current
+     * country without checking countries that have already been accessed
+     *
+     * @param accessibleCountries hashmap of countries with whether they have been accessed
+     *                              (true/false)
+     * @param currentCountry      the current country
+     */
+    public void getAccessibleCountries (HashMap<String, Boolean> accessibleCountries, String currentCountry) {
+        Country country = getCountry(currentCountry);
+        for (Country neighbor : country.getNeighbors()) {
+            if (!accessibleCountries.get(neighbor.getName())) {
+                accessibleCountries.put(neighbor.getName(), true);
+                getAccessibleCountries(accessibleCountries, neighbor.getName());
+            }
+        }
+    }
+
+//    public static void main(String[] args) {
+//        Map myMap = XML.mapFromXML(new File("CanadaMap.xml"));
+//        if (myMap.checkMapValidity())
+//            System.out.println("All are accessible");
+//        else
+//            System.out.println("Not all are accessible");
+//    }
 }
