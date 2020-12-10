@@ -42,7 +42,7 @@ public class XML {
     private static final String CURRENT_PLAYER_TAG = "currentPlayer";
     private static final String HISTORY_TAG = "history";
     private static final String CONTINENT_COLOR_TAG = "continentColor";
-    private static final String DEFAULT_MAP_FILENAME = "maps/defaultMap.xml";
+    private static final String DEFAULT_MAP_FILENAME = "Maps/defaultMap.xml";
 
     /**
      * Returns the default map.

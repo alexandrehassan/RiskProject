@@ -191,6 +191,7 @@ public class GameModel {
         }
         resetView();
         gameStarted=true;
+        currentPlayerReinforcements = getReinforcements();
         updateGameViewsStart();
         updateState();
         updatePlayerTurn(currentPlayer.getName());

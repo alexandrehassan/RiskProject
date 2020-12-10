@@ -135,7 +135,7 @@ public class GameFrame extends JFrame implements GameView {
 
     private void setPlaceholder(){
         JLabel placeholderBoard = new JLabel();
-        ImageIcon image = new ImageIcon("Risk/images/riskmap.jpg");
+        ImageIcon image = new ImageIcon("images/riskmap.jpg");
         Image newImage = image.getImage().getScaledInstance(1000, 650, java.awt.Image.SCALE_SMOOTH);
         placeholderBoard.setIcon(new ImageIcon(newImage));
         placeholderBoard.setBounds(0, 0, 1100, 650);
