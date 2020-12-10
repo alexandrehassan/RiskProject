@@ -3,6 +3,8 @@
 ###### Author: Baillie Noell
 **THE JAR FILE IS COMPILED AND MUST BE RUN IN JAVA 15**
 
+**THE JAR MUST BE STORED AND RUN IN THE SAME DIRECTORY AS THE MAPS, IMAGES, AND SAVES** 
+
 The deliverables for Milestone 4 include an executable JAR file with source files included, JUnit tests for game scenarios, 4 sample XML maps, 2 sample saved games, a UML class diagram, 
 5 UML sequence diagrams,and a document that describes the data structures that were used in this implementation, as well as the changes made from the last Milestone, 
 and this READMe. The UML class diagram shows the relationships between the classes, while the sequence diagrams demonstrate
@@ -31,6 +33,7 @@ important events such as; saving a game, loading a game, how the game checks for
 - Enter the name of the saved game. The game will be saved under the "Saves" directory
 - To load a saved game click "Load Game" under the "Game" menu
 - Select the saved game to load in the file picker. We have provided 2 saved games to test.
+
 
 #### Improvements to be implemented  
 - Nothing, the project is done!
