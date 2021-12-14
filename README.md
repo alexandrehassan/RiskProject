@@ -1,9 +1,16 @@
 # SYSC 3110 FALL 2020: RiskProject Milestone 4
+This project was done as an educational project for the SYSC 3110 course at Carleton University. This was done for educational purposes only and is not intended to be used in a production environment. We do not claim to be the creators of Risk.
+---
 ### Team: Group
-###### Author: Baillie Noell
+#### Author: Baillie Noell, Alexandre Hassan, Jonah Gaudet and Sarah Abdallah
+----
+## Dependencies
 **THE JAR FILE IS COMPILED AND MUST BE RUN IN JAVA 15**
 
 **THE JAR MUST BE STORED AND RUN IN THE SAME DIRECTORY AS THE MAPS, IMAGES, AND SAVES** 
+
+----
+## Description of deliverable
 
 The deliverables for Milestone 4 include an executable JAR file with source files included, JUnit tests for game scenarios, 4 sample XML maps, 2 sample saved games, a UML class diagram, 
 5 UML sequence diagrams,and a document that describes the data structures that were used in this implementation, as well as the changes made from the last Milestone, 
